@@ -51,19 +51,16 @@ export function initBucky(opts = {}) {
     <form id="bucky-form"><input aria-label="Ask anything about the Expo" placeholder="Ask anything about the Expo…" autocomplete="off"><button type="submit">ASK →</button></form>
     <footer>Demo assistant · answers use sample Expo data</footer>`;
   const mount = () => { document.body.appendChild(bot); document.body.appendChild(panel); };
-  // A snapshot from an earlier visit shows Bucky at once while the 3D scene loads.
-  let poster = null;
-  try {
-    const saved = localStorage.getItem(POSTER_KEY);
-    if (saved) {
-      poster = document.createElement('div'); poster.id = 'bucky-poster';
-      poster.style.backgroundImage = `url("${saved}")`;
-      bot.querySelector('#bucky-crop').appendChild(poster);
-    }
-  } catch (e) {}
+  // A still of Bucky shows at once while the 3D scene loads: the snapshot remembered from an
+  // earlier visit, or the bundled poster on a first visit.
+  let saved = null;
+  try { saved = localStorage.getItem(POSTER_KEY); } catch (e) {}
+  const poster = document.createElement('div'); poster.id = 'bucky-poster';
+  poster.style.backgroundImage = `url("${saved || withBase('/assets/bucky-poster.png')}")`;
+  bot.querySelector('#bucky-crop').appendChild(poster);
   addEventListener('message', e => {
     if (!e.data) return;
-    if (e.data.bucky === 'ready' && poster) setTimeout(() => { poster.style.opacity = '0'; }, 500);
+    if (e.data.bucky === 'ready') setTimeout(() => { poster.style.opacity = '0'; }, 500);
     if (typeof e.data.buckyPoster === 'string' && e.data.buckyPoster.startsWith('data:image/')) {
       try { localStorage.setItem(POSTER_KEY, e.data.buckyPoster); } catch (err) {}
     }

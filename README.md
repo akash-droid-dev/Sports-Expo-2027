@@ -51,7 +51,7 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 - **Back button** on every page (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
   - The hero shows a still (`public/assets/hero-poster.jpg`) at once; the live scene fades in over it and pauses while scrolled out of view.
-  - Bucky's scene is copied into the site at build time when the build machine can reach Spline (`public/assets/bucky.splinecode`), and a snapshot remembered from the first visit shows him instantly on later pages.
+  - Bucky's scene is served by the site (`public/assets/bucky.splinecode`; delete it and run `npm install` to pull a new version from Spline). A bundled poster shows him at once on a first visit, and a snapshot from that visit is reused on later pages.
   - The Spline runtime, its Draco mesh decoder (`vendor/draco`) and the scenes are served by the site, preloaded and cached.
   - The hero scene takes no pointer input, so wheel and touch scrolling go straight to the page.
 
@@ -83,7 +83,6 @@ This overwrites `src/screens/`. `Home.jsx` has been edited by hand since (journe
 - **Demo data:** names, figures, dates and stall IDs in `src/data/ise.js` and in the screens are samples (marked SAMPLE, DEMO or PROVISIONAL in the UI).
 - **Photos and videos:** each `<image-slot>` has an id. Map ids to image URLs in `public/image-slots.state.json`, for example `{ "home-yasho-foyer": "/images/foyer.jpg" }`.
 - **QR codes** are decorative and encode nothing. Generate real ones server-side.
-- **The Bucky robot scene** loads from `prod.spline.design`. Re-export it from Spline into `public/assets/` to self-host it, as the hero scene already is.
 
 ## Known gaps carried over from the design
 

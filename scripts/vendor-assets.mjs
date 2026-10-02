@@ -28,16 +28,18 @@ for (const f of ['draco_wasm_wrapper.js', 'draco_decoder.wasm']) {
 vendor('maplibre', join('node_modules', 'maplibre-gl', 'dist'),
   (f) => f === 'maplibre-gl-worker.mjs' || f === 'maplibre-gl-shared.mjs');
 
-// Bucky's robot scene lives on Spline's servers. Copy it into the site when the build machine
-// can reach it (GitHub Actions, Netlify), so it loads from the same origin and can be preloaded.
-// public/bucky-scene.html falls back to Spline when the copy is missing.
+// Bucky's robot scene comes from Spline. A copy is committed at public/assets/bucky.splinecode;
+// it is downloaded only when missing (delete it to pick up changes made in Spline).
+// public/bucky-scene.html falls back to Spline when no copy exists.
 const BUCKY_SCENE = 'https://prod.spline.design/clZpIOGef0TGq99W/scene.splinecode';
 const buckyDest = join('public', 'assets', 'bucky.splinecode');
-try {
-  const res = await fetch(BUCKY_SCENE, { signal: AbortSignal.timeout(20000) });
-  if (!res.ok) throw new Error('HTTP ' + res.status);
-  writeFileSync(buckyDest, Buffer.from(await res.arrayBuffer()));
-  console.log('[vendor] bucky scene → ' + buckyDest);
-} catch (err) {
-  console.warn('[vendor] could not download the Bucky scene (' + err.message + '); it will load from Spline');
+if (!existsSync(buckyDest)) {
+  try {
+    const res = await fetch(BUCKY_SCENE, { signal: AbortSignal.timeout(20000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    writeFileSync(buckyDest, Buffer.from(await res.arrayBuffer()));
+    console.log('[vendor] bucky scene → ' + buckyDest);
+  } catch (err) {
+    console.warn('[vendor] could not download the Bucky scene (' + err.message + '); it will load from Spline');
+  }
 }
