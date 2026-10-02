@@ -73,9 +73,18 @@ class Component extends DCLogic {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._onScroll = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = null; this.tick(); }); };
     window.addEventListener('scroll', this._onScroll, { passive: true });
-    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this.initMap(); this.journeyStore.notify(); } }, 100);
+    // Phones and tablets create the globe only near the journey and free it once scrolled well
+    // away (see liteMap), so its WebGL memory isn't held for the whole page.
+    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this._mapReady = true; if (!isLite()) this.initMap(); else this.liteMap(); this.journeyStore.notify(); } }, 100);
   }
   componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
+  liteMap() {
+    const el = this.journeyRef.current; if (!el || !this._mapReady || this.reduced) return;
+    const r = el.getBoundingClientRect(), vh = window.innerHeight;
+    const near = r.top < vh * 2 && r.bottom > -vh;
+    if (near && !this.map) this.initMap();
+    else if (!near && this.map) { cancelAnimationFrame(this._camRaf); this._camRaf = null; try { this.map.remove(); } catch (e) {} this.map = null; this._cam = undefined; }
+  }
   initMap() {
     if (this.reduced) return;
     try {
@@ -84,7 +93,7 @@ class Component extends DCLogic {
         // Smoother globe while scrolling: keep loading tiles mid-zoom, keep more of them,
         // cap the render resolution on high-density screens and skip wrapped world copies.
         // Phones and tablets: default tile cache and a lower render resolution, to stay well inside mobile GPU memory.
-        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: isLite() ? null : 300, pixelRatio: Math.min(window.devicePixelRatio || 1, isLite() ? 1.25 : 1.5),
+        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: isLite() ? 60 : 300, pixelRatio: isLite() ? 1 : Math.min(window.devicePixelRatio || 1, 1.5),
         renderWorldCopies: false, fadeDuration: 0,
         style: { version: 8, projection: { type: 'globe' },
           sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 19, attribution: 'Esri, Maxar, Earthstar Geographics' } },
@@ -114,6 +123,7 @@ class Component extends DCLogic {
     };
   })();
   tick() {
+    if (isLite()) this.liteMap();
     const p = this.progress();
     this._target = p;
     if (this.map && !this._camRaf) this._camRaf = requestAnimationFrame(this.camStep);
@@ -318,9 +328,14 @@ function render(v) {
           <div aria-hidden="true" style={{ position: "absolute", top: "0", bottom: "0", right: "0", width: "min(66%,1100px)", pointerEvents: "none", zIndex: "0", overflow: "hidden" }}>
             {/* A still of the scene shows at once; the live scene fades in over it (src/lib/hero-fit.js).
                 The scene takes no pointer input so wheel and touch scrolling reach the page. */}
-            <img data-hero-poster="1" src={withBase("/assets/hero-poster.jpg")} alt="" decoding="async" fetchPriority="high" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .5s" }} />
-            {isLite() ? null : (
-              <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "transparent", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s", pointerEvents: "none" }} />
+            {isLite() ? (
+              // Phones and tablets: a small still of the hand and globe (src/lib/device.js).
+              <img className="hero-still" src={withBase("/assets/hero-poster-mobile.webp")} alt="" decoding="async" fetchPriority="high" />
+            ) : (
+              <>
+                <img data-hero-poster="1" src={withBase("/assets/hero-poster.jpg")} alt="" decoding="async" fetchPriority="high" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .5s" }} />
+                <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "transparent", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s", pointerEvents: "none" }} />
+              </>
             )}
             <span style={{ position: "absolute", inset: "0 auto 0 0", width: "18%", background: "linear-gradient(90deg,#0E0E0F,rgba(14,14,15,0))", pointerEvents: "none" }} />
           </div>

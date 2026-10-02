@@ -111,7 +111,7 @@
   .mm-panel .mm-item.is-current {
     color: #f07c12;
   }
-  .mm-panel .mm-item:last-child {
+  .mm-panel .mm-item.is-cta {
     margin-top: 20px;
     border: 0;
     background: #f07c12;
@@ -122,6 +122,13 @@
     font-size: 14px;
     font-stretch: normal;
     letter-spacing: 0.12em;
+  }
+  .mm-build {
+    order: 99;
+    margin-top: 28px;
+    font: 500 10px 'JetBrains Mono', monospace;
+    letter-spacing: 0.14em;
+    color: #6b6a66;
   }
   @keyframes mmIn {
     from {

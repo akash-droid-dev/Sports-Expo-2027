@@ -4,8 +4,8 @@
 import ReactDOM from 'react-dom';
 import { withBase } from '@/lib/base';
 
-export default function PreloadScenes({ hero = false }: { hero?: boolean }) {
+// The hero still is preloaded by the same inline script, sized for the device.
+export default function PreloadScenes(_props: { hero?: boolean }) {
   ReactDOM.preload(withBase('/assets/bucky-poster.png'), { as: 'image' });
-  if (hero) ReactDOM.preload(withBase('/assets/hero-poster.jpg'), { as: 'image', fetchPriority: 'high' });
   return null;
 }

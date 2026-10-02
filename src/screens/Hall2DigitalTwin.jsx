@@ -16,7 +16,8 @@ class Component extends DCLogic {
   componentDidMount() {
     this._rs = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._rs);
     this._l = setInterval(() => this.setState(s => { if (s.load >= 5) { clearInterval(this._l); return null; } return { load: s.load + 1 }; }), 450);
-    this._m = setInterval(() => { if (window.maplibregl && this.cityMapRef.current) { clearInterval(this._m); this.initCity(); } }, 150);
+    // On phones the route schematic map is created only when asked for (src/components/GettingThereMap.jsx sets data-want).
+    this._m = setInterval(() => { const el = this.cityMapRef.current; if (window.maplibregl && el && el.dataset.want) { clearInterval(this._m); this.initCity(); } }, 150);
     const h = (location.hash || '').toLowerCase(); if (h.startsWith('#zone-')) this.setState({ zone: h.slice(6).toUpperCase() });
   }
   componentWillUnmount() { clearInterval(this._l); clearInterval(this._m); this.city && this.city.remove(); }
