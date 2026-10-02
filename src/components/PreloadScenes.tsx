@@ -8,6 +8,7 @@ export default function PreloadScenes({ hero = false, bucky = false }: { hero?: 
   ReactDOM.preconnect('https://prod.spline.design', { crossOrigin: 'anonymous' });
   ReactDOM.preconnect('https://www.gstatic.com', { crossOrigin: 'anonymous' });
   ReactDOM.preloadModule(withBase('/vendor/spline/runtime.js'));
+  ReactDOM.preload(withBase('/assets/bucky-poster.png'), { as: 'image' });
   if (bucky) ReactDOM.preload(withBase('/assets/bucky.splinecode'), { as: 'fetch', crossOrigin: 'anonymous' });
   if (hero) {
     ReactDOM.preload(withBase('/assets/hero-poster.jpg'), { as: 'image', fetchPriority: 'high' });

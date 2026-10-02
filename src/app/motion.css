@@ -126,10 +126,11 @@ html.m-on .m-r.m-in {
 html.m-on .m-h:not(.m-in) {
   opacity: 0;
   translate: 0 0.35em;
-  clip-path: inset(0 0 100% 0);
+  /* Wipe from the top; the sides reach far out so wide headlines are never cut. */
+  clip-path: inset(0 -100vw 100% -100vw);
 }
 html.m-on .m-h.m-in {
-  clip-path: inset(0 0 -10% 0);
+  clip-path: inset(-50% -100vw -50% -100vw);
   transition:
     opacity 0.6s var(--ease) var(--m-d, 0ms),
     translate 1s var(--ease) var(--m-d, 0ms),

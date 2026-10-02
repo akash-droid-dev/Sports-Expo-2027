@@ -7,4 +7,3 @@ next-env.d.ts
 .env
 public/vendor/
 .vercel
-public/assets/bucky.splinecode
