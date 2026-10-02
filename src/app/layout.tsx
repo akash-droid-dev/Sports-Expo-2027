@@ -11,6 +11,7 @@ import './dc-pseudo.css';
 import './motion.css';
 import './mobile.css';
 import './anim.css';
+import './sporty.css';
 import BackButton from '@/components/BackButton';
 import MobileMenu from '@/components/MobileMenu';
 
