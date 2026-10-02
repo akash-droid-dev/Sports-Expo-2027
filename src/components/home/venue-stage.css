@@ -33,6 +33,12 @@
     background-position: calc(-2 * (100vh - 60px)) 50%;
   }
 }
+.vs-photo {
+  position: absolute;
+  inset: -4%;
+  background: center / cover no-repeat;
+  animation: vsDrift 48s ease-in-out infinite alternate;
+}
 .vs-tour {
   position: absolute;
   left: -6%;
@@ -247,6 +253,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .vs-pano,
+  .vs-photo,
   .vs-tour {
     animation: none;
   }

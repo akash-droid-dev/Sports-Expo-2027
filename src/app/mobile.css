@@ -1,0 +1,151 @@
+/* Phone and tablet layout fixes for the design's pages (below 900px).
+   The design's header holds the logo, six links, search and two buttons in one row, which
+   is wider than a phone: here it keeps the logo, and the rest moves into the ☰ menu
+   (src/components/MobileMenu.tsx). */
+
+.mm-btn {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  #dc-root header[style*='position: sticky'] {
+    gap: 12px !important;
+    padding-right: 64px !important;
+  }
+  #dc-root header[style*='position: sticky'] > :not(:first-child) {
+    display: none !important;
+  }
+  #dc-root header[style*='position: sticky'] > a:first-child {
+    min-width: 0;
+  }
+  #dc-root header[style*='position: sticky'] > a:first-child > span:last-child {
+    font-size: 19px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  html.has-header .mm-btn {
+    position: fixed;
+    top: 10px;
+    right: 12px;
+    z-index: 9001;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0e0e0f;
+    border: 1px solid #3a3a3e;
+    cursor: pointer;
+    padding: 0;
+  }
+  .mm-icon {
+    position: relative;
+    width: 18px;
+    height: 12px;
+    display: block;
+  }
+  .mm-icon i {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transition:
+      transform 0.3s ease,
+      opacity 0.2s ease,
+      top 0.3s ease;
+  }
+  .mm-icon i:nth-child(1) {
+    top: 0;
+  }
+  .mm-icon i:nth-child(2) {
+    top: 5px;
+    background: #f07c12;
+  }
+  .mm-icon i:nth-child(3) {
+    top: 10px;
+  }
+  .mm-icon.is-open i:nth-child(1) {
+    top: 5px;
+    transform: rotate(45deg);
+  }
+  .mm-icon.is-open i:nth-child(2) {
+    opacity: 0;
+  }
+  .mm-icon.is-open i:nth-child(3) {
+    top: 5px;
+    transform: rotate(-45deg);
+  }
+
+  .mm-panel {
+    position: fixed;
+    inset: 60px 0 0 0;
+    z-index: 9000;
+    background: #0e0e0f;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px 40px;
+    overflow-y: auto;
+    animation: mmIn 0.28s ease both;
+  }
+  .mm-panel .mm-item {
+    display: block;
+    text-align: left;
+    padding: 16px 0;
+    border: 0;
+    border-bottom: 1px solid #2a2a2d;
+    background: none;
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Archivo', sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 1;
+    font-stretch: 62%;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    cursor: pointer;
+    animation: mmItem 0.4s ease both;
+  }
+  .mm-panel .mm-item.is-current {
+    color: #f07c12;
+  }
+  .mm-panel .mm-item:last-child {
+    margin-top: 20px;
+    border: 0;
+    background: #f07c12;
+    color: #0e0e0f;
+    text-align: center;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    font-stretch: normal;
+    letter-spacing: 0.12em;
+  }
+  @keyframes mmIn {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes mmItem {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  /* Safety net: nothing may widen the page past the screen (src/lib/mobile-fit.js reflows
+     the layouts that would). */
+  #dc-root {
+    overflow-x: clip;
+  }
+  /* Portal and admin: the full-height side rail becomes a short scrollable block on top. */
+  #dc-root aside[style*='height: 100vh'] {
+    position: relative !important;
+    height: auto !important;
+    max-height: 300px;
+  }
+}

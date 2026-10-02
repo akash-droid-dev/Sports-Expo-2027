@@ -6,6 +6,7 @@ import '@/data/ise';
 import { initBucky } from '@/lib/bucky-guide';
 import { withBase } from '@/lib/base';
 import { initMotion } from '@/lib/motion';
+import { initMobileFit } from '@/lib/mobile-fit';
 
 declare global {
   interface Window {
@@ -29,6 +30,7 @@ export default function ClientInit({ localBucky = false }: { localBucky?: boolea
       },
     };
     initMotion();
+    initMobileFit();
     initBucky({ localScene: localBucky });
   }, [localBucky]);
   return null;

@@ -41,7 +41,7 @@ export default function HomeJourney({ store, vals }) {
           <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.8", marginBottom: "10px" }}>
             {txt(v.stageKicker)}
           </div>
-          <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,8vw,128px)", lineHeight: "0.84" }}>
+          <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(38px,8vw,128px)", lineHeight: "0.84" }}>
             {txt(v.stageTitle)}
           </div>
           <div style={{ fontSize: "17px", lineHeight: "1.45", marginTop: "14px", maxWidth: "520px", opacity: "0.9" }}>{txt(v.stageText)}</div>

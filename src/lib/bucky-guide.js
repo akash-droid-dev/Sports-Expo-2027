@@ -1,6 +1,7 @@
 'use client';
 // Bucky (named R-4X in the design), the Expo guide robot. Ported from design/site/r4x-guide.js; mounted once by the root layout.
 import { withBase } from './base';
+import { isLite } from './device';
 import { isMuted, playClick, playHover, setMuted, unlockOnFirstGesture } from './bucky-sounds';
 
 const POSTER_KEY = 'bucky-poster-v1';
@@ -8,13 +9,17 @@ const POSTER_KEY = 'bucky-poster-v1';
 /** @param {{ localScene?: boolean }} [opts] localScene: the robot scene is served by this site. */
 export function initBucky(opts = {}) {
   if (window.__bucky) return; window.__bucky = true;
-  const SIZE = 150, PAD = 16, TOP_SAFE = 72;
+  // Smaller on phones, where he would otherwise cover a third of the screen width.
+  const SIZE = isLite() && innerWidth < 600 ? 104 : 150, PAD = 16, TOP_SAFE = 72;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const css = `
   #bucky-bot{position:fixed;left:0;top:0;width:${SIZE}px;height:${SIZE}px;z-index:9000;will-change:transform;}
   #bucky-crop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
   #bucky-poster{position:absolute;inset:0;background:center/cover no-repeat;transition:opacity .5s}
   #bucky-crop{transform-origin:50% 90%}
+  html.lite #bucky-poster{animation:buckyIdle 3.2s ease-in-out infinite}
+  @keyframes buckyIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @media (prefers-reduced-motion:reduce){html.lite #bucky-poster{animation:none}}
   #bucky-bot.bucky-wiggle #bucky-crop{animation:buckyWiggle .7s cubic-bezier(.36,.07,.19,.97)}
   #bucky-bot.bucky-hop #bucky-crop{animation:buckyHop .62s cubic-bezier(.3,.7,.4,1)}
   @keyframes buckyWiggle{0%,100%{transform:none}20%{transform:translateX(-7px) rotate(-5deg)}40%{transform:translateX(6px) rotate(4deg)}60%{transform:translateX(-4px) rotate(-3deg)}80%{transform:translateX(2px) rotate(1deg)}}
@@ -74,7 +79,8 @@ export function initBucky(opts = {}) {
   });
   const loadScene = () => { const f = document.createElement('iframe'); f.src = (window.__resources && window.__resources.buckyScene) || withBase('/bucky-scene.html') + (opts.localScene ? '?scene=local' : ''); f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#bucky-crop').appendChild(f); };
   // Start loading the robot straight away (it used to wait for the whole page plus 800 ms).
-  requestAnimationFrame(loadScene);
+  // Phones and tablets keep the still of Bucky (gently animated in CSS) instead of a second live 3D scene.
+  if (!isLite()) requestAnimationFrame(loadScene);
   document.body ? mount() : addEventListener('DOMContentLoaded', mount);
 
   const log = panel.querySelector('#bucky-log'), input = panel.querySelector('input'), hit = bot.querySelector('.bucky-hit');

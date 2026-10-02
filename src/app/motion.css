@@ -250,6 +250,21 @@ html.has-back-rail #dc-root aside > a:first-child {
   }
 }
 
+/* ---------- Lite devices (phones and tablets, src/lib/device.js) ---------- */
+/* The hero still floats gently in place of the live 3D scene. */
+html.lite img[data-hero-poster] {
+  animation: heroFloat 7s ease-in-out infinite;
+}
+@keyframes heroFloat {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   #page-curtain {
@@ -257,6 +272,9 @@ html.has-back-rail #dc-root aside > a:first-child {
     animation: none;
   }
   .back-btn {
+    animation: none;
+  }
+  html.lite img[data-hero-poster] {
     animation: none;
   }
 }

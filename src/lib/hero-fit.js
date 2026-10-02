@@ -57,6 +57,7 @@ if (typeof window !== 'undefined') (function () {
     }), 500);
   }
   // Fit as soon as the hero renders, then keep checking until the scene has measured itself.
-  const iv = setInterval(() => { if (frames().length) { fit(); if (box) clearInterval(iv); } }, 50);
+  // Phones and tablets have no live scene (src/lib/device.js): fit the still once it renders.
+  const iv = setInterval(() => { if (frames().length || posters().length) { fit(); if (box || !frames().length) clearInterval(iv); } }, 50);
   window.__heroFit = () => ({ box, ready, t: [...frames()].map(f => f.style.transform) });
 })();

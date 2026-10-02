@@ -61,6 +61,11 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 - **Bucky's sounds and moves** (`src/lib/bucky-sounds.js`): hovering Bucky makes him wiggle or now and then hop, with a soft "boop-bip"; clicking him plays a chirp. Sounds are synthesised in the browser (no audio files) and start after the visitor's first click or tap, as browsers require. SOUND ON/OFF in his panel mutes them.
 - **Google Maps:** Home's "Getting to Yashobhoomi" shows the venue on Google Maps. Explore → Getting there shows the Google Maps route for the selected tab (metro, airport, car, shuttle, parking), with the design's route schematic one click away. Both use Google's keyless embed and load only when scrolled near.
 - **Demo media** (`public/media`): every photo slot, logo, portrait and video player is filled. See "Demo media" below.
+- **Phones and tablets** (`src/lib/device.js`, `src/lib/mobile-fit.js`, `src/app/mobile.css`, `src/components/MobileMenu.tsx`):
+  - They get still versions of the 3D views: the hero hand and globe float in place, Bucky bobs, and the venue finale shows a drifting venue photo instead of the live tour. The 3D runtime and scenes are not even downloaded. Only the Earth globe stays live, at a lower render resolution. This keeps the page within mobile memory limits; with all four 3D views, phones could close the page.
+  - The header keeps the logo; its links and buttons move into a ☰ menu.
+  - Layouts that are too wide for the screen are reflowed: wide grids get fewer columns, rows wrap, oversized headlines shrink. No page scrolls sideways.
+  - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.
 - **Back button** at the top left of every page, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
   - The hero shows a still (`public/assets/hero-poster.jpg`) at once; the live scene fades in over it and pauses while scrolled out of view.
@@ -116,5 +121,5 @@ This overwrites `src/screens/`. `Home.jsx` has been edited by hand since (journe
 
 ## Known gaps carried over from the design
 
-- Portal, Admin and My Expo are desktop layouts. Several public pages also scroll sideways on narrow phones.
+- Portal, Admin and My Expo are desktop layouts; on phones they are reflowed to fit but are best used on a larger screen.
 - The Earth journey's satellite imagery still sharpens a moment after a fast zoom.
