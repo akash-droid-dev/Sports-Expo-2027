@@ -14,6 +14,7 @@ import LockKeyLink from '@/components/anim/LockKeyLink';
 import IntentBoxes from '@/components/home/IntentBoxes';
 import BoothStrip from '@/components/home/BoothStrip';
 import WatchShuffle from '@/components/home/WatchShuffle';
+import ProductShuffle from '@/components/home/ProductShuffle';
 import HallBook from '@/components/home/HallBook';
 import '@/data/ise';
 import '@/lib/maplibre';
@@ -83,13 +84,36 @@ class Component extends DCLogic {
     // away (see liteMap), so its WebGL memory isn't held for the whole page.
     this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this._mapReady = true; if (!isLite()) this.initMap(); else this.liteMap(); this.journeyStore.notify(); } }, 100);
   }
-  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); clearTimeout(this._freeT); clearTimeout(this._makeT); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
   liteMap() {
     const el = this.journeyRef.current; if (!el || !this._mapReady || this.reduced) return;
     const r = el.getBoundingClientRect(), vh = window.innerHeight;
-    const near = r.top < vh * 2 && r.bottom > -vh;
-    if (near && !this.map) this.initMap();
-    else if (!near && this.map) { cancelAnimationFrame(this._camRaf); this._camRaf = null; try { this.map.remove(); } catch (e) {} this.map = null; this._cam = undefined; }
+    // Creating or freeing the map stalls the page for a moment, so both wait for a pause in
+    // scrolling; the map is only built mid-scroll when the journey is about to come on screen.
+    const soon = r.top < vh * 3 && r.bottom > -vh * 2;
+    const near = r.top < vh * 1.2 && r.bottom > -vh * 0.3;
+    const far = !soon;
+    if (soon && !this.map) {
+      clearTimeout(this._freeT);
+      if (near) this.initMap();
+      else {
+        clearTimeout(this._makeT);
+        this._makeT = setTimeout(() => this.liteMapNow(), 250);
+      }
+    }
+    else if (far && this.map) {
+      clearTimeout(this._freeT);
+      this._freeT = setTimeout(() => {
+        const q = el.getBoundingClientRect();
+        if (!this.map || (q.top < vh * 3 && q.bottom > -vh * 2)) return;
+        cancelAnimationFrame(this._camRaf); this._camRaf = null; try { this.map.remove(); } catch (e) {} this.map = null; this._cam = undefined;
+      }, 700);
+    }
+  }
+  liteMapNow() {
+    const el = this.journeyRef.current; if (!el || this.map || !this._mapReady || this.reduced) return;
+    const r = el.getBoundingClientRect(), vh = window.innerHeight;
+    if (r.top < vh * 3 && r.bottom > -vh * 2) this.initMap();
   }
   initMap() {
     // Browsers older than iOS 16.4 can't run the map's worker code (src/app/layout.tsx marks them).
@@ -108,7 +132,7 @@ class Component extends DCLogic {
           sky: { 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 5, 1, 8, 0] } },
         center: [55, 18], zoom: 0.9
       });
-      this.map.on('load', () => { this._cam = this.progress(); this.tick(); });
+      this.map.on('load', () => { this._cam = undefined; this.tick(); });
     } catch (e) { this.map = null; }
   }
   progress() {
@@ -133,7 +157,9 @@ class Component extends DCLogic {
     if (isLite()) this.liteMap();
     const p = this.progress();
     this._target = p;
-    if (this.map && !this._camRaf) this._camRaf = requestAnimationFrame(this.camStep);
+    // Only move the camera when the journey position changed: above or below the journey every
+    // scroll frame would otherwise redraw the globe for nothing.
+    if (this.map && !this._camRaf && this._cam !== p) this._camRaf = requestAnimationFrame(this.camStep);
     this.journeyStore.set(p);
   }
   // The globe camera eases toward the scroll position instead of jumping with every
@@ -145,6 +171,7 @@ class Component extends DCLogic {
     const cur = this._cam ?? target;
     const d = target - cur;
     const next = Math.abs(d) < 0.0004 ? target : cur + d * 0.18;
+    if (next === this._cam) return;
     this._cam = next;
     this.placeCamera(next);
     if (next !== target) this._camRaf = requestAnimationFrame(this.camStep);
@@ -246,7 +273,7 @@ class Component extends DCLogic {
       worlds: D.zones.map(z => ({ ...z, href: zoneHref[z.id], items: D.clusters.filter(c => c.zone === z.id).slice(0, 6).map(c => ({ name: c.name, meta: c.meta })) })),
       arch: this.ARCH.map(a => ({ ...a })),
       featured: D.exhibitors.slice(0, 1).concat(D.exhibitors.filter(e => ['turf', 'motion', 'velocity', 'hayate'].includes(e.id))).map(e => ({ ...e, zc: zc(e.zone) })),
-      prods: D.products.slice(0, 4).map((x, i) => ({ ...x, slot: 'home-prod-' + i })),
+      prods: D.products.map((x, i) => ({ ...x, slot: i < 4 ? 'home-prod-' + i : 'prod-detail-' + i })),
       matchPreview: D.matches.slice(0, 3),
       stake: [{ t: 'ATHLETE', d: 'AI coaching · wearables · performance analytics' }, { t: 'COACH', d: 'Video analysis · tactical systems · data' }, { t: 'VENUE', d: 'IoT · smart stadium · security · operations' }, { t: 'EVENT', d: 'Registration · accreditation · workforce' }, { t: 'BROADCAST', d: 'AI production · streaming · graphics' }, { t: 'FAN', d: 'AR / VR · gamification · engagement' }],
       dayTabs: [1, 2, 3].map(d => ({ label: 'DAY ' + d, bg: this.state.day === d ? '#0E0E0F' : 'transparent', fg: this.state.day === d ? '#fff' : '#0E0E0F', pick: () => this.setState({ day: d }) })),
@@ -581,20 +608,7 @@ function render(v) {
         </section>
         <section data-screen-label="08 Featured products" style={{ padding: "0 28px 96px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "24px" }}>08 — FEATURED PRODUCTS</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(240px,1fr))", gap: "24px" }}>
-            {list(v.prods).map((p, $index) => (
-              <Fragment key={$index}>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <div style={{ aspectRatio: "4/3", position: "relative", background: "#F6F4EF" }}>
-                    <image-slot id={p?.slot} shape="rect" placeholder="Product photograph" />
-                  </div>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(p?.cat)}{" · "}{txt(p?.stall)}</span>
-                  <span style={{ fontSize: "18px", fontWeight: "600", lineHeight: "1.2" }}>{txt(p?.name)}</span>
-                  <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(p?.by)}{" · "}{txt(p?.moq)}</span>
-                </div>
-              </Fragment>
-            ))}
-          </div>
+          <ProductShuffle items={list(v.prods)} />
         </section>
         <section data-screen-label="09 Business exchange" style={{ background: "#141416", color: "#fff", padding: "96px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))", gap: "56px", alignItems: "center" }}>

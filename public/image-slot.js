@@ -378,6 +378,9 @@
     '.ctl:popover-open{position:fixed;inset:auto;transform:translateX(-100%)}' +
     ':host([data-filled][data-editable]:hover) .ctl,:host([data-reframe]) .ctl' +
     '  {opacity:1;pointer-events:auto}' +
+    // Visitors can't edit: drop the invisible controls entirely (their blurred buttons were
+    // GPU layers on every photo, even at opacity 0).
+    ':host(:not([data-editable])) .ctl{display:none}' +
     '.ctl button{appearance:none;border:0;border-radius:6px;padding:5px 10px;cursor:pointer;' +
     '  background:rgba(0,0,0,.65);color:#fff;font:11px/1 system-ui,-apple-system,sans-serif;' +
     '  backdrop-filter:blur(6px)}' +
@@ -399,10 +402,12 @@
     '@keyframes om-slot-spin{to{transform:rotate(360deg)}}' +
     // Reduced motion: the static two-tone ring still reads as "working".
     '@media (prefers-reduced-motion:reduce){.loading::after{animation:none}}' +
+    // No backdrop blur on the chip: on a page full of photos each blurred chip is a GPU layer
+    // redrawn while scrolling (tablets stuttered); a slightly darker fill reads the same.
     '.credit{position:absolute;left:6px;bottom:6px;max-width:calc(100% - 12px);display:none;' +
-    '  padding:3px 7px;border-radius:5px;background:rgba(0,0,0,.55);color:#fff;' +
+    '  padding:3px 7px;border-radius:5px;background:rgba(0,0,0,.62);color:#fff;' +
     '  font:10px/1.2 system-ui,-apple-system,sans-serif;text-decoration:none;' +
-    '  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;backdrop-filter:blur(6px)}' +
+    '  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}' +
     // The credit is a SPAN holding one or two <a>s (Unsplash's prescribed
     // form links the photographer AND Unsplash) — anchors style inline so
     // the overlay reads as one line of text.

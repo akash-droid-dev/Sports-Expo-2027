@@ -1,6 +1,7 @@
 'use client';
 // A strip that scrolls continuously, left to right (`dir="right"`) or right to left. Items are
 // repeated so the loop is seamless; the copies are hidden from screen readers and keyboard.
+// `render(item, index, isCopy, { half, pos })`: `pos` is the place within its half (0, 1, 2…).
 // Hovering or focusing pauses it, and so does being off screen (saves phone battery and frames).
 // Without motion it becomes a plain sideways-scrolling row.
 import { Fragment, useEffect, useRef } from 'react';
@@ -22,7 +23,7 @@ export default function Marquee({ items, render, dir = 'left', seconds = 40, rep
         {[0, 1].map((h) => (
           <Fragment key={h}>
             {half.map(({ it, i, copy }, k) => (
-              <Fragment key={h + '-' + k}>{render(it, i, copy || h > 0)}</Fragment>
+              <Fragment key={h + '-' + k}>{render(it, i, copy || h > 0, { half: h, pos: k })}</Fragment>
             ))}
           </Fragment>
         ))}
