@@ -7,10 +7,14 @@ import { withBase } from '@/lib/base';
 import { isLite } from '@/lib/device';
 import DemoVideo from '@/components/DemoVideo';
 import { VenueMap } from '@/components/GettingThereMap';
+import FoldWord from '@/components/anim/FoldWord';
+import LockKeyLink from '@/components/anim/LockKeyLink';
+import IntentBoxes from '@/components/home/IntentBoxes';
+import BoothStrip from '@/components/home/BoothStrip';
+import WatchShuffle from '@/components/home/WatchShuffle';
+import HallBook from '@/components/home/HallBook';
 import '@/data/ise';
 import '@/lib/maplibre';
-import '@/lib/hero-fit';
-import HallPlan from './HallPlan';
 import HomeJourney from '@/components/home/HomeJourney';
 
 /* global maplibregl */
@@ -198,8 +202,7 @@ class Component extends DCLogic {
       guideLogRef: this.guideLogRef, guideQ: this.state.gq, guideSetQ: e => this.setState({ gq: e.target.value }), guideBusy: this.state.gbusy,
       guideSubmit: e => { e.preventDefault(); this.guideAsk(this.state.gq); },
       guideSuggest: ['Where is Apex Sports?', 'What is live now?', 'How do I book a stall?', 'How do I get there by metro?', 'Find me buyers'].map(t => ({ t, ask: () => this.guideAsk(t) })),
-      guideMsgs: this.state.gmsgs.map(m => ({ ...m, who: m.me ? 'YOU' : 'BUCKY', who_c: m.me ? '#8A877F' : '#F07C12', align: m.me ? 'flex-end' : 'flex-start', bg: m.me ? '#fff' : 'transparent', fg: m.me ? '#0E0E0F' : '#fff', pad: m.me ? '10px 14px' : '0', links: m.links || [], hasLinks: !!(m.links && m.links.length) })),
-      archSvg: this.arch()
+      guideMsgs: this.state.gmsgs.map(m => ({ ...m, who: m.me ? 'YOU' : 'BUCKY', who_c: m.me ? '#8A877F' : '#F07C12', align: m.me ? 'flex-end' : 'flex-start', bg: m.me ? '#fff' : 'transparent', fg: m.me ? '#0E0E0F' : '#fff', pad: m.me ? '10px 14px' : '0', links: m.links || [], hasLinks: !!(m.links && m.links.length) }))
     };
     if (!D) return { ...base, intents: [], metrics: [], worlds: [], arch: [], featured: [], prods: [], matchPreview: [], stake: [], dayTabs: [], daySessions: [], videos: [], travel: [], zoneTabs: [], panel: { rows: [] }, upNext: [], results: [] };
     const zc = id => D.Z[id].color;
@@ -239,7 +242,7 @@ class Component extends DCLogic {
       panel: selC ? { color: panelZ.color, kicker: `ZONE ${panelZ.id} · ${selC.zone}-${selC.id}`, title: selC.name, text: selC.meta + '. ' + panelZ.blurb, rows: D.exhibitors.filter(e => e.cluster === selC.id).map(e => ({ name: e.name, meta: e.stall, pick: () => {} })) }
         : { color: panelZ.color, kicker: `ZONE ${panelZ.id}`, title: panelZ.name, text: panelZ.blurb, rows: D.clusters.filter(c => c.zone === panelZ.id).map(c => ({ name: c.name, meta: c.meta, pick: () => this.setState({ sel: c.id }) })) },
       worlds: D.zones.map(z => ({ ...z, href: zoneHref[z.id], items: D.clusters.filter(c => c.zone === z.id).slice(0, 6).map(c => ({ name: c.name, meta: c.meta })) })),
-      arch: this.ARCH.map(a => ({ name: a.name, size: a.size })),
+      arch: this.ARCH.map(a => ({ ...a })),
       featured: D.exhibitors.slice(0, 1).concat(D.exhibitors.filter(e => ['turf', 'motion', 'velocity', 'hayate'].includes(e.id))).map(e => ({ ...e, zc: zc(e.zone) })),
       prods: D.products.slice(0, 4).map((x, i) => ({ ...x, slot: 'home-prod-' + i })),
       matchPreview: D.matches.slice(0, 3),
@@ -247,7 +250,7 @@ class Component extends DCLogic {
       dayTabs: [1, 2, 3].map(d => ({ label: 'DAY ' + d, bg: this.state.day === d ? '#0E0E0F' : 'transparent', fg: this.state.day === d ? '#fff' : '#0E0E0F', pick: () => this.setState({ day: d }) })),
       daySessions: D.sessions.filter(s => s.day === this.state.day).map(s => ({ ...s, spk: spk(s), zc: zc(s.zone) })),
       upNext: D.sessions.filter(s => s.day === 2 && s.status === 'upcoming').slice(0, 4),
-      videos: [D.sessions[4], D.sessions[0], D.sessions[1]].map(s => ({ ...s, spk: spk(s), badge: s.status === 'live' ? '● LIVE' : 'ON DEMAND', badgeBg: s.status === 'live' ? '#9E1B22' : '#0E0E0F' })),
+      videos: D.sessions.filter(s => s.status !== 'upcoming').sort((a, b) => (b.status === 'live') - (a.status === 'live')).map(s => ({ ...s, spk: spk(s), badge: s.status === 'live' ? '● LIVE' : 'ON DEMAND', badgeBg: s.status === 'live' ? '#9E1B22' : '#0E0E0F' })),
       travel: [
         { mode: 'Metro', how: 'Airport Express Line to Yashobhoomi Dwarka Sector 25 — an underground station inside the venue perimeter.', time: '~21 MIN', src: 'FROM NEW DELHI STN · PMO' },
         { mode: 'Airport', how: 'IGI Terminal 3 → Airport Express Line, southbound to Sector 25.', time: '15 MIN', src: 'SAMPLE · UNVERIFIED' },
@@ -286,13 +289,7 @@ function render(v) {
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px", borderBottom: "1px solid #2A2A2D" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
-            <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
-              <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
-            </span>
-            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "24px", letterSpacing: "0.01em", whiteSpace: "nowrap" }}>
-              {"INDIA SPORTS EXPO "}
-              <span style={{ color: "#F07C12" }}>2027</span>
-            </span>
+            <img className="site-logo" src={withBase("/brand/logo-on-dark.png")} srcSet={withBase("/brand/logo-on-dark@2x.png") + " 2x"} alt="India Sports Expo 2027" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
             <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
@@ -326,29 +323,20 @@ function render(v) {
           </>
         ) : null}
         <section data-screen-label="01 Entry" style={{ height: "calc(100vh - 60px)", minHeight: "560px", background: "#0E0E0F", color: "#fff", display: "grid", gridTemplateRows: "1fr auto", padding: "48px 28px 32px", boxSizing: "border-box", position: "relative", overflow: "hidden" }}>
-          <div aria-hidden="true" style={{ position: "absolute", top: "0", bottom: "0", right: "0", width: "min(66%,1100px)", pointerEvents: "none", zIndex: "0", overflow: "hidden" }}>
-            {/* A still of the scene shows at once; the live scene fades in over it (src/lib/hero-fit.js).
-                The scene takes no pointer input so wheel and touch scrolling reach the page. */}
-            {isLite() ? (
-              // Phones and tablets: a small still of the hand and globe (src/lib/device.js).
-              <img className="hero-still" src={withBase("/assets/hero-poster-mobile.webp")} alt="" decoding="async" fetchPriority="high" />
-            ) : (
-              <>
-                <img data-hero-poster="1" src={withBase("/assets/hero-poster.jpg")} alt="" decoding="async" fetchPriority="high" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .5s" }} />
-                <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "transparent", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s", pointerEvents: "none" }} />
-              </>
-            )}
-            <span style={{ position: "absolute", inset: "0 auto 0 0", width: "18%", background: "linear-gradient(90deg,#0E0E0F,rgba(14,14,15,0))", pointerEvents: "none" }} />
+          {/* Stadium photo behind the headline (public/assets/hero-stadium*.webp). */}
+          <div className="hero-photo" aria-hidden="true">
+            <img src={withBase(isLite() ? "/assets/hero-stadium-sm.webp" : "/assets/hero-stadium.webp")} alt="" decoding="async" fetchPriority="high" />
           </div>
           <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
             <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.22em", color: "#BDB9B0" }}>
               YASHOBHOOMI · NEW DELHI · DATES PROVISIONAL
             </span>
             <h1 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(72px,13vw,220px)", lineHeight: "0.82", letterSpacing: "-0.01em" }}>
-              INDIA SPORTS
+              {"INDIA "}
+              <FoldWord text="SPORTS" when="load" delay={550} />
               <br />
               {"EXPO "}
-              <span style={{ color: "#F07C12" }}>2027</span>
+              <FoldWord text="2027" when="load" delay={1050} step={110} style={{ color: "#F07C12" }} />
             </h1>
             <div style={{ display: "flex", gap: "28px", flexWrap: "wrap", fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "700", fontSize: "clamp(20px,2.2vw,32px)", letterSpacing: "0.02em" }}>
               <span>PLAY INDIA.</span>
@@ -376,12 +364,16 @@ function render(v) {
             <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "24px" }}>
               EXHIBITION HALL 2 · YASHOBHOOMI · NEW DELHI
             </div>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(64px,9vw,148px)", lineHeight: "0.84" }}>
-              THE GLOBAL
+            <h2 data-anim="" style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(64px,9vw,148px)", lineHeight: "0.84" }}>
+              {"THE "}
+              <FoldWord text="GLOBAL" delay={100} />
               <br />
               SPORTS ECONOMY
               <br />
-              <span style={{ color: "#C2610B" }}>MEETS INDIA.</span>
+              <span style={{ color: "#C2610B" }}>
+                {"MEETS "}
+                <FoldWord text="INDIA" delay={650} step={90} />.
+              </span>
             </h2>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "24px", maxWidth: "520px" }}>
@@ -389,32 +381,17 @@ function render(v) {
               Three days of exhibition, business matchmaking and programme across four event zones inside Exhibition Hall 2 — from India's sporting heritage to the manufacturers, technologists and investors building what comes next.
             </p>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <a href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
+              <LockKeyLink href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px 0 16px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 BOOK A STALL
-              </a>
+              </LockKeyLink>
               <a href={withBase("/attend")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 REGISTER TO VISIT
               </a>
             </div>
           </div>
         </section>
-        <section data-screen-label="Intentions" style={{ borderTop: "1px solid #0E0E0F", borderBottom: "1px solid #0E0E0F", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))" }}>
-          {list(v.intents).map((it, $index) => (
-            <Fragment key={$index}>
-              <a className="scp-12697256" href={it?.href} style={{ textDecoration: "none", color: "#0E0E0F", padding: "36px 28px 32px", borderRight: "1px solid #0E0E0F", display: "flex", flexDirection: "column", gap: "56px", minHeight: "260px", boxSizing: "border-box", background: "#fff", transition: "background .25s" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66" }}>{txt(it?.n)}</span>
-                <span style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "auto" }}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,5vw,76px)", lineHeight: "0.85" }}>
-                    {txt(it?.t)}
-                  </span>
-                  <span style={{ fontSize: "16px", color: "#3A3A3E", display: "flex", justifyContent: "space-between" }}>
-                    {txt(it?.s)}
-                    <span style={{ color: "#C2610B" }}>→</span>
-                  </span>
-                </span>
-              </a>
-            </Fragment>
-          ))}
+        <section data-screen-label="Intentions" style={{ borderTop: "1px solid #0E0E0F", borderBottom: "1px solid #0E0E0F", background: "#F6F4EF" }}>
+          <IntentBoxes items={v.intents} />
         </section>
         {v.live ? (
           <>
@@ -476,46 +453,28 @@ function render(v) {
             ))}
           </div>
         </section>
-        <section data-screen-label="04 Explore Hall 2" style={{ background: "#F6F4EF", padding: "96px 28px" }}>
-          <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) 340px", gap: "40px", alignItems: "start" }}>
+        <section data-screen-label="04 Explore Hall 2" style={{ background: "#F6F4EF", padding: "96px 28px", overflow: "hidden" }}>
+          <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px", alignItems: "center" }}>
             <div>
               <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "16px" }}>04 — EXPLORE HALL 2</div>
-              <h2 style={{ margin: "0 0 40px", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
+              <h2 style={{ margin: "0 0 28px", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
                 ONE HALL.
                 <br />
                 FOUR EVENT ZONES.
               </h2>
-              <HallPlan activeZone={v.hoverZone} selectedCluster={v.selCluster} onCluster={v.pickCluster} />
+              <p style={{ margin: "0 0 28px", fontSize: "18px", lineHeight: "1.5", color: "#3A3A3E", maxWidth: "520px" }}>
+                Open the zone guide: one spread for each zone, with its plan, every area, its stalls and the exhibitors already allocated. Turn the pages with Next; after Zone D the book closes itself.
+              </p>
+              <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+                <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 22px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
+                  OPEN 3D DIGITAL TWIN →
+                </a>
+                <a href={withBase("/zones")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 22px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
+                  ZONE EXPERIENCES →
+                </a>
+              </div>
             </div>
-            <aside style={{ position: "sticky", top: "90px", background: "#fff", border: "1px solid #0E0E0F", padding: "24px", display: "flex", flexDirection: "column", gap: "16px" }}>
-              <div style={{ display: "flex", gap: "6px" }}>
-                {list(v.zoneTabs).map((z, $index) => (
-                  <Fragment key={$index}>
-                    <button onClick={z?.pick} style={sx(`flex:1;height:40px;border:1px solid ${z?.color ?? ""};background:${z?.bg ?? ""};color:${z?.fg ?? ""};font:800 18px 'Archivo';font-stretch:62%;cursor:pointer;`)}>
-                      {txt(z?.id)}
-                    </button>
-                  </Fragment>
-                ))}
-              </div>
-              <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:${v.panel?.color ?? ""};`)}>{txt(v.panel?.kicker)}</span>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "40px", lineHeight: "0.9", textTransform: "uppercase" }}>
-                {txt(v.panel?.title)}
-              </span>
-              <span style={{ fontSize: "15px", lineHeight: "1.5", color: "#3A3A3E" }}>{txt(v.panel?.text)}</span>
-              <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #E3E0D8" }}>
-                {list(v.panel?.rows).map((r, $index) => (
-                  <Fragment key={$index}>
-                    <button onClick={r?.pick} style={{ display: "flex", justifyContent: "space-between", gap: "12px", padding: "10px 0", border: "0", borderBottom: "1px solid #E3E0D8", background: "none", cursor: "pointer", textAlign: "left", font: "500 14px 'Instrument Sans'", color: "#0E0E0F" }}>
-                      <span>{txt(r?.name)}</span>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66", whiteSpace: "nowrap" }}>{txt(r?.meta)}</span>
-                    </button>
-                  </Fragment>
-                ))}
-              </div>
-              <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
-                OPEN 3D DIGITAL TWIN →
-              </a>
-            </aside>
+            <HallBook />
           </div>
         </section>
         <section data-screen-label="05 Four worlds" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto" }}>
@@ -562,19 +521,7 @@ function render(v) {
                 DEMO / SAMPLE CONFIGURATION
               </span>
             </div>
-            <div style={{ width: "100%" }}>{txt(v.archSvg)}</div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(7,minmax(0,1fr))", gap: "8px", marginTop: "12px" }}>
-              {list(v.arch).map((a, $index) => (
-                <Fragment key={$index}>
-                  <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none", display: "flex", flexDirection: "column", gap: "4px" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "clamp(16px,1.8vw,26px)", lineHeight: "0.95", textTransform: "uppercase" }}>
-                      {txt(a?.name)}
-                    </span>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#BDB9B0" }}>{txt(a?.size)}</span>
-                  </a>
-                </Fragment>
-              ))}
-            </div>
+            <BoothStrip items={v.arch} />
             <div style={{ display: "flex", alignItems: "center", gap: "16px", marginTop: "32px", color: "#BDB9B0", fontSize: "15px" }}>
               <span style={{ flex: "1", height: "1px", background: "#55555A" }} />
               Increasing scale, visibility and brand expression
@@ -756,31 +703,7 @@ function render(v) {
             </h2>
             <a href={withBase("/programme")} style={{ fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>WATCH LIBRARY →</a>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: "24px" }}>
-            {list(v.videos).map((_v, $index) => (
-              <Fragment key={$index}>
-                <a href={withBase("/programme")} style={{ textDecoration: "none", color: "#0E0E0F", display: "flex", flexDirection: "column", gap: "12px" }}>
-                  <span style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative", display: "block" }}>
-                    <DemoVideo id={_v?.id} thumb />
-                    <span style={sx(`position:absolute;left:12px;top:12px;background:${_v?.badgeBg ?? ""};color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;padding:4px 8px;`)}>
-                      {txt(_v?.badge)}
-                    </span>
-                    {" "}
-                    <span style={{ position: "absolute", right: "12px", bottom: "12px", color: "#fff", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>
-                      {txt(_v?.dur)}
-                    </span>
-                    <span style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <span style={{ width: "56px", height: "56px", border: "1.5px solid #fff", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "18px" }}>
-                        ▶
-                      </span>
-                    </span>
-                  </span>
-                  <span style={{ fontSize: "18px", fontWeight: "600", lineHeight: "1.25" }}>{txt(_v?.title)}</span>
-                  <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(_v?.spk)}{" · Day "}{txt(_v?.day)}</span>
-                </a>
-              </Fragment>
-            ))}
-          </div>
+          <WatchShuffle items={v.videos} />
         </section>
         <section data-screen-label="13 Plan your visit" style={{ borderTop: "1px solid #0E0E0F", padding: "96px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))", gap: "48px" }}>

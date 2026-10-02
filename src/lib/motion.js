@@ -58,6 +58,8 @@ const SKIP = [
   'image-slot',
   '[role="dialog"]',
   '#bucky-panel',
+  // Pieces with their own animation (src/components/anim).
+  '[data-anim]',
 ].join(',');
 
 const seen = new WeakSet();
@@ -161,15 +163,17 @@ function startReveals() {
 
 /* ---------- Count-ups ---------- */
 
-const COUNT_ROOTS = '[data-screen-label="Metrics"]';
+// Big figures count up: the Home metrics, and the dashboards and exchange pages.
+const COUNT_ROOTS = '[data-screen-label="Metrics"], .pg-admin #dc-root, .pg-portal #dc-root, .pg-connect #dc-root, .pg-zones #dc-root';
 
 function countUp(el) {
   if (!el.closest(COUNT_ROOTS)) return;
+  const big = (n) => n.parentElement && parseFloat(getComputedStyle(n.parentElement).fontSize) >= 28;
   const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const text = n.nodeValue.trim();
     const m = /^(\d{1,3}(?:,\d{3})*|\d+)(\+?)$/.exec(text);
-    if (!m) continue;
+    if (!m || (!el.closest('[data-screen-label="Metrics"]') && !big(n))) continue;
     const target = Number(m[1].replace(/,/g, ''));
     if (target < 10) continue;
     const node = n, suffix = m[2], comma = m[1].includes(','), t0 = performance.now(), dur = 1400;
@@ -230,7 +234,7 @@ function startHeroParallax() {
   let moved = null;
   const parts = (hero) => {
     const title = hero.querySelector('h1');
-    const scene = hero.querySelector('iframe[data-hero-scene]')?.parentElement;
+    const scene = hero.querySelector('.hero-photo');
     [title, scene].forEach((el) => el && !el.hasAttribute('data-parallax') && el.setAttribute('data-parallax', ''));
     return { title, scene };
   };

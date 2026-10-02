@@ -8,6 +8,7 @@ import '@/data/ise';
 import '@/lib/maplibre';
 import HallPlan from './HallPlan';
 import GettingThereMap from '@/components/GettingThereMap';
+import LockKeyLink from '@/components/anim/LockKeyLink';
 
 /* global maplibregl */
 class Component extends DCLogic {
@@ -133,13 +134,7 @@ function render(v) {
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
-            <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
-              <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
-            </span>
-            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "24px", whiteSpace: "nowrap" }}>
-              {"INDIA SPORTS EXPO "}
-              <span style={{ color: "#F07C12" }}>2027</span>
-            </span>
+            <img className="site-logo" src={withBase("/brand/logo-on-dark.png")} srcSet={withBase("/brand/logo-on-dark@2x.png") + " 2x"} alt="India Sports Expo 2027" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
             <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
@@ -423,9 +418,9 @@ function render(v) {
                     <button onClick={v.navHere} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "44px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
                       NAVIGATE
                     </button>
-                    <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
+                    <LockKeyLink href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
                       BOOK A STALL
-                    </a>
+                    </LockKeyLink>
                   </div>
                 </div>
               </>

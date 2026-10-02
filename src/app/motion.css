@@ -59,46 +59,34 @@
   letter-spacing: 0.01em;
   white-space: nowrap;
 }
-.curtain-mark {
-  width: 34px;
-  height: 34px;
-  background: #fff;
-  position: relative;
-  overflow: hidden;
-  flex: none;
+.curtain-logo {
+  height: clamp(84px, 14vw, 132px);
+  width: auto;
+  display: block;
+  opacity: 0;
+  transform: perspective(700px) rotateX(-70deg) translateY(12px);
+  transform-origin: 50% 0;
+  animation: curtainLogo 0.8s var(--ease) 0.12s forwards;
 }
-.curtain-mark::after {
-  content: '';
-  position: absolute;
-  left: -10px;
-  top: 12px;
-  width: 56px;
-  height: 9px;
-  background: #f07c12;
-  transform: rotate(-28deg) translateX(-110%);
-  animation: curtainBar 0.7s var(--ease) 0.15s forwards;
-}
-@keyframes curtainBar {
+@keyframes curtainLogo {
   to {
-    transform: rotate(-28deg) translateX(0);
+    opacity: 1;
+    transform: none;
   }
 }
-.curtain-word {
-  overflow: hidden;
-  display: inline-flex;
+/* The site logo in headers and side rails (public/brand). */
+.site-logo {
+  height: 44px;
+  width: auto;
+  display: block;
+  flex: none;
 }
-.curtain-word span {
-  display: inline-block;
-  transform: translateY(105%);
-  animation: curtainWord 0.7s var(--ease) 0.25s forwards;
+aside .site-logo {
+  height: 52px;
 }
-.curtain-word b {
-  color: #f07c12;
-  font-weight: 900;
-}
-@keyframes curtainWord {
-  to {
-    transform: translateY(0);
+@media (max-width: 900px) {
+  .site-logo {
+    height: 38px;
   }
 }
 .curtain-line {
@@ -255,28 +243,6 @@ html.has-back-rail #dc-root aside > a:first-child {
   }
 }
 
-/* ---------- Lite devices (phones and tablets, src/lib/device.js) ---------- */
-/* A small still of the hand and globe floats gently in place of the live 3D scene. */
-.hero-still {
-  position: absolute;
-  right: 4%;
-  top: 50%;
-  height: min(70%, 520px);
-  width: auto;
-  margin-top: calc(min(70%, 520px) / -2);
-  display: block;
-  animation: heroFloat 7s ease-in-out infinite;
-}
-@keyframes heroFloat {
-  0%,
-  100% {
-    translate: 0 0;
-  }
-  50% {
-    translate: 0 -10px;
-  }
-}
-
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   #page-curtain {
@@ -284,9 +250,6 @@ html.has-back-rail #dc-root aside > a:first-child {
     animation: none;
   }
   .back-btn {
-    animation: none;
-  }
-  .hero-still {
     animation: none;
   }
 }

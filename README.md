@@ -55,6 +55,14 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 
 ## Beyond the design
 
+- **Brand:** the India Sports Expo 2027 logo (`public/brand`) in every header, side rail and the loading screen; `logo-on-dark` is the same logo with white lettering for the dark bars.
+- **Home hero:** a stadium photo (`public/assets/hero-stadium*.webp`) behind the headline; SPORTS and 2027 fold open letter by letter when the page opens (`src/components/anim/FoldWord.jsx`), as do GLOBAL and INDIA in "The global sports economy meets India".
+- **Home animations** (`src/components/home/`, `src/components/anim/`, `src/app/anim.css`):
+  - Zone cards at the end of the Earth journey are dealt like playing cards, sport photo up, then turn over to a see-through zone side as you scroll.
+  - "Book a stall" is a padlock and key: the key turns, the lock opens, then the Exhibit page opens.
+  - Explore, Exhibit, Attend, Connect and Watch are 3D boxes travelling left to right; the stall products are 3D booths travelling left to right (hover pauses and turns them); live and on-demand sessions are dealt from a deck, then roll right to left.
+  - "One hall. Four event zones." is a zone guide book: it opens large, one spread per zone (plan, areas, stalls, exhibitors), turns its pages, and closes itself after Zone D.
+- **Inner pages** each animate in their own way as you scroll (`src/lib/page-anim.js` and the `pg-…` rules in `src/app/anim.css`): Explore unfolds, Zones deals cards and spins its giant zone letters, Exhibit builds up from the floor, Attend flips like a departures board, Connect slides in, Programme runs like a ticker, and the Portal and Admin dashboards pop their tiles. Bars grow into place and big figures count up.
 - **Home journey finale** (`src/components/home/`): when the globe reaches Yashobhoomi, the venue scene takes over (the official virtual tour, embedded live). It keeps moving behind four clickable zone cards (A–D), pinned until the journey ends. The journey is its own component (`HomeJourney.jsx`), so scrolling re-renders only the journey. To show a still of the tour's opening scene instead, rotating continuously, add a 360° image and set `VENUE_PANORAMA` in `src/lib/venue.js`.
 - **Motion** (`src/lib/motion.js`, `src/app/motion.css`): a brand curtain while pages load and change, scroll reveals with staggered items, heading wipes, number count-ups, a scroll progress bar and hover lifts. All of it is off for visitors who prefer reduced motion.
 - **Hover and click feedback** (`src/app/motion.css`, `src/lib/motion.js`): buttons and cards lift, saffron buttons get a light sweep, nav and footer links draw an underline, every click sends a small pulse, and the Home banner drifts gently with the mouse.
@@ -62,7 +70,7 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 - **Google Maps:** Home's "Getting to Yashobhoomi" shows the venue on Google Maps. Explore → Getting there shows the Google Maps route for the selected tab (metro, airport, car, shuttle, parking), with the design's route schematic one click away. Both use Google's keyless embed and load only when scrolled near.
 - **Demo media** (`public/media`): every photo slot, logo, portrait and video player is filled. See "Demo media" below.
 - **Phones and tablets** (`src/lib/device.js`, `src/lib/mobile-fit.js`, `src/app/mobile.css`, `src/components/MobileMenu.tsx`):
-  - They get still versions of the 3D views: a small still of the hand and globe floats in the hero, Bucky bobs, and the venue finale shows a drifting venue photo instead of the live tour. The 3D runtime and scenes are not even downloaded.
+  - They get still versions of the 3D views: Bucky bobs, and the venue finale shows a drifting venue photo instead of the live tour. The 3D runtime and Bucky's scene are not even downloaded; the hero photo is a smaller file.
   - The Earth globe stays live, at a lower resolution, and only exists while you are near the journey; it is freed once you scroll well past.
   - Google maps load on a tap, watch cards show still images, and the live player waits for a tap.
   - All of this keeps the page within mobile memory limits. Phones close a page that uses too much, and after repeated crashes Safari refuses to load it.
@@ -77,10 +85,8 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
   - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.
 - **Back button** at the top left of every page, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
-  - The hero shows a still (`public/assets/hero-poster.jpg`) at once; the live scene fades in over it and pauses while scrolled out of view.
   - Bucky's scene is served by the site (`public/assets/bucky.splinecode`; delete it and run `npm install` to pull a new version from Spline). A bundled poster shows him at once on a first visit, and a snapshot from that visit is reused on later pages.
   - The Spline runtime, its Draco mesh decoder (`vendor/draco`) and the scenes are served by the site, preloaded and cached.
-  - The hero scene takes no pointer input, so wheel and touch scrolling go straight to the page, and the hand, globe and ring can't be dragged out of their pose.
   - The Earth journey's camera eases toward the scroll position each frame instead of jumping with every scroll event, keeps loading imagery while zooming and caps its render resolution on high-density screens.
 
 ## Admin
@@ -108,7 +114,6 @@ The handoff's pages are "Design Components": an HTML template plus a logic class
 - `src/dc/runtime.js`: the small component wrapper the screens use (`defineDC`, `DCLogic`).
 - `src/data/ise.js`: demo data, available as `window.ISE`.
 - `src/lib/bucky-guide.js`: the Bucky robot and its Ask panel, mounted once in the root layout.
-- `src/lib/hero-fit.js`, `public/hero-scene.html`: the Home hero 3D scene.
 - `public/bucky-scene.html`: the robot's Spline scene.
 - `public/image-slot.js`: the `<image-slot>` media placeholders.
 
@@ -120,7 +125,7 @@ To pull in a newer export from Claude Design, replace the files in `design/site/
 node scripts/dc-to-jsx.mjs
 ```
 
-This overwrites `src/screens/`. `Home.jsx` has been edited by hand since (journey finale), so re-apply those edits after regenerating.
+This overwrites `src/screens/`. The screens have been edited by hand since (logo, Home sections, maps, media, video), so re-apply those edits after regenerating.
 
 ## Content to replace before launch
 

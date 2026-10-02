@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next';
+import { PHASE_PRODUCTION_BUILD } from 'next/constants';
 
 // GitHub Pages: STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/Sports-Expo-2027 builds a static site into out/.
 // Netlify (and `npm run build` locally) build the full app, including the /api/bucky route.
@@ -8,11 +9,12 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 // Shown at the bottom of the phone menu (src/components/MobileMenu.tsx), to check which build is live.
 const BUILD = new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
 
-const nextConfig: NextConfig = {
+const config = (phase: string): NextConfig => ({
   env: { NEXT_PUBLIC_BUILD: BUILD },
-  // Ship code that older phones can run (see "browserslist" in package.json); MapLibre comes
-  // pre-built for new browsers only, so compile it too.
-  transpilePackages: ['maplibre-gl'],
+  // Production builds (webpack, see package.json) ship code that older phones can run
+  // ("browserslist" in package.json); MapLibre comes pre-built for new browsers only, so it is
+  // compiled too. The dev server (Turbopack) can't compile MapLibre and doesn't need to.
+  transpilePackages: phase === PHASE_PRODUCTION_BUILD ? ['maplibre-gl'] : [],
   // The design logic runs effects once per mount (maps, scroll listeners), as in the prototype.
   reactStrictMode: false,
   basePath: basePath || undefined,
@@ -29,6 +31,6 @@ const nextConfig: NextConfig = {
           ];
         },
       }),
-};
+});
 
-export default nextConfig;
+export default config;

@@ -2,7 +2,7 @@
 // serves them itself instead of a CDN. Runs on `npm install` and before `npm run build`.
 //   public/vendor/spline    @splinetool/runtime build plus the Draco decoder (vendor/draco),
 //                           imported by the 3D scene iframes
-//                           (public/hero-scene.html, public/bucky-scene.html)
+//                           (public/bucky-scene.html)
 //   public/vendor/maplibre  MapLibre worker modules (see src/lib/maplibre.js)
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
