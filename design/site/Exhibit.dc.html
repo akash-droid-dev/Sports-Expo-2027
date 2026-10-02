@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Exhibit · India Sports Expo 2027</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<script src="ise-data.js"></script>
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}</style>
+<script src="r4x-guide.js"></script>
+</helmet>
+<div style="min-height:100vh;">
+  <header style="position:sticky;top:0;z-index:60;background:#0E0E0F;color:#fff;display:flex;align-items:center;gap:28px;padding:0 28px;height:60px;">
+    <a href="Home.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;"><span style="width:22px;height:22px;background:#fff;display:inline-block;position:relative;overflow:hidden;"><span style="position:absolute;left:-6px;top:8px;width:36px;height:6px;background:#F07C12;transform:rotate(-28deg);"></span></span><span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:24px;white-space:nowrap;">INDIA SPORTS EXPO <span style="color:#F07C12;">2027</span></span></a>
+    <nav aria-label="Primary" style="display:flex;gap:22px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;white-space:nowrap;font-size:13px;font-weight:600;letter-spacing:0.08em;">
+      <a href="Hall%202%20Digital%20Twin.dc.html" style="color:#fff;text-decoration:none;">EXPLORE</a>
+      <a href="Exhibit.dc.html" style="color:#F07C12;text-decoration:none;">EXHIBIT</a>
+      <a href="Attend%20and%20My%20Expo.dc.html" style="color:#fff;text-decoration:none;">ATTEND</a>
+      <a href="Connect.dc.html" style="color:#fff;text-decoration:none;">CONNECT</a>
+      <a href="Programme%20and%20Watch.dc.html" style="color:#fff;text-decoration:none;">PROGRAMME</a>
+      <a href="Programme%20and%20Watch.dc.html" style="color:#fff;text-decoration:none;">WATCH</a>
+    </nav>
+    <a href="Exhibitor%20Portal.dc.html" style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.08em;white-space:nowrap;">EXHIBITOR LOGIN</a>
+    <a href="#register" style="background:#F07C12;color:#0E0E0F;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:0.08em;height:36px;display:flex;align-items:center;padding:0 16px;white-space:nowrap;">APPLY</a>
+  </header>
+  <nav aria-label="Exhibit sections" style="position:sticky;top:60px;z-index:50;background:#fff;border-bottom:1px solid #0E0E0F;display:flex;gap:0;overflow-x:auto;">
+    <sc-for list="{{ steps }}" as="s" hint-placeholder-count="5">
+      <a href="{{ s.href }}" style="text-decoration:none;color:{{ s.fg }};padding:14px 22px;border-right:1px solid #E3E0D8;font-size:13px;font-weight:700;letter-spacing:0.08em;white-space:nowrap;display:flex;gap:8px;align-items:center;background:{{ s.bg }};"><span style="font-family:'JetBrains Mono',monospace;font-weight:500;">{{ s.n }}</span>{{ s.t }}</a>
+    </sc-for>
+  </nav>
+
+  <section data-screen-label="Why exhibit" style="padding:80px 28px 56px;max-width:1440px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:end;">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.2em;color:#6B6A66;margin-bottom:20px;">EXHIBIT · HALL 2 · 213 STALLS · 25 PAVILIONS</div>
+      <h1 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(64px,9vw,148px);line-height:0.84;">BUILD YOUR<br>PRESENCE.</h1>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;border-top:2px solid #0E0E0F;">
+      <sc-for list="{{ why }}" as="w" hint-placeholder-count="4"><div style="padding:18px 16px 18px 0;border-bottom:1px solid #E3E0D8;"><b style="display:block;font-size:17px;margin-bottom:4px;">{{ w.t }}</b><span style="font-size:14px;color:#3A3A3E;">{{ w.d }}</span></div></sc-for>
+    </div>
+  </section>
+
+  <section id="products" data-screen-label="Product architecture" style="scroll-margin-top:110px;background:#F6F4EF;padding:72px 28px;">
+    <div style="max-width:1440px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+        <h2 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(44px,5vw,80px);line-height:0.88;">01 — EXHIBITION PRODUCT ARCHITECTURE</h2>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;background:#fff;border:1px solid #0E0E0F;padding:6px 10px;">DEMO / SAMPLE CONFIGURATION · NOT CONFIRMED COMMERCIAL SPECIFICATIONS</span>
+      </div>
+      <div role="tablist" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid #0E0E0F;background:#fff;">
+        <sc-for list="{{ prodTabs }}" as="p" hint-placeholder-count="7">
+          <button role="tab" onClick="{{ p.pick }}" style="border:0;border-right:1px solid #0E0E0F;background:{{ p.bg }};color:{{ p.fg }};padding:16px 14px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;min-height:150px;">
+            <span style="display:block;width:{{ p.bw }};height:{{ p.bh }};border:1.5px solid {{ p.fg }};background:{{ p.fill }};box-shadow:5px -5px 0 -1.5px {{ p.bgc }}, 5px -5px 0 0 {{ p.fg }};"></span>
+            <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:800;font-size:22px;line-height:0.95;text-transform:uppercase;margin-top:8px;">{{ p.name }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;">{{ p.size }}</span>
+          </button>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);border:1px solid #0E0E0F;border-top:0;background:#fff;">
+        <div style="position:relative;background:#FBFAF7;border-right:1px solid #E3E0D8;min-height:520px;display:flex;flex-direction:column;">
+          <div role="tablist" style="display:flex;gap:0;border-bottom:1px solid #E3E0D8;">
+            <sc-for list="{{ viewTabs }}" as="v" hint-placeholder-count="4"><button role="tab" onClick="{{ v.pick }}" style="flex:1;height:42px;border:0;border-right:1px solid #E3E0D8;background:{{ v.bg }};color:{{ v.fg }};font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">{{ v.t }}</button></sc-for>
+          </div>
+          <div style="flex:1;display:flex;align-items:center;justify-content:center;perspective:1400px;overflow:hidden;">
+            <div style="position:relative;width:{{ booth.fw }};height:{{ booth.fd }};transform-style:preserve-3d;transform:{{ booth.cam }};transition:transform 1s cubic-bezier(.2,.7,.2,1);">
+              <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,#E3E0D8 0 1px,transparent 1px {{ booth.grid }}),repeating-linear-gradient(90deg,#E3E0D8 0 1px,#fff 1px {{ booth.grid }});border:2px solid #0E0E0F;"></div>
+              <div style="position:absolute;left:0;top:0;width:100%;height:{{ booth.wh }};background:#fff;border:1.5px solid #0E0E0F;transform-origin:top;transform:rotateX(-90deg);display:flex;align-items:flex-end;justify-content:center;box-sizing:border-box;">
+                <span style="margin-bottom:30%;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#6B6A66;">BACK WALL · BRANDING</span>
+                <div style="position:absolute;left:-1px;right:-1px;bottom:-1px;height:24px;background:#0E0E0F;color:#fff;display:flex;align-items:center;justify-content:center;font:800 12px 'Archivo';font-stretch:75%;letter-spacing:0.12em;">{{ booth.fascia }}</div>
+              </div>
+              <div style="position:absolute;left:0;top:0;width:{{ booth.wh }};height:100%;background:#F1EFEA;border:1.5px solid #0E0E0F;transform-origin:left;transform:rotateY(90deg);box-sizing:border-box;"></div>
+              <sc-for list="{{ booth.furn }}" as="f" hint-placeholder-count="2">
+                <div style="position:absolute;left:{{ f.x }};top:{{ f.y }};width:{{ f.w }};height:{{ f.d }};background:{{ f.c }};border:1.5px solid #0E0E0F;transform:translateZ({{ f.z }});box-sizing:border-box;"></div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:12px 18px;border-top:1px solid #E3E0D8;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#6B6A66;"><span>{{ prod.dims }}</span><span>{{ prod.scaleNote }}</span></div>
+        </div>
+        <div style="padding:32px;display:flex;flex-direction:column;gap:16px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#C2610B;">PRODUCT {{ prod.n }} OF 7 · CUSTOMISATION {{ prod.custom }}</span>
+          <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:72px;line-height:0.85;text-transform:uppercase;">{{ prod.name }}</span>
+          <span style="font-family:'Archivo',sans-serif;font-stretch:75%;font-weight:700;font-size:28px;">{{ prod.dims }}</span>
+          <span style="font-size:16px;line-height:1.45;"><b>Suitable for:</b> {{ prod.suit }}</span>
+          <dl style="margin:0;display:grid;grid-template-columns:150px 1fr;font-size:14px;border-top:1px solid #E3E0D8;">
+            <sc-for list="{{ prod.rows }}" as="r" hint-placeholder-count="5"><dt style="padding:9px 0;border-bottom:1px solid #E3E0D8;color:#6B6A66;">{{ r.k }}</dt><dd style="margin:0;padding:9px 0;border-bottom:1px solid #E3E0D8;">{{ r.v }}</dd></sc-for>
+          </dl>
+          <div style="display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#6B6A66;">INCLUDES</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ prod.inc }}" as="i" hint-placeholder-count="5"><span style="border:1px solid #0E0E0F;padding:6px 10px;font-size:13px;">{{ i }}</span></sc-for></div>
+          </div>
+          <button onClick="{{ selectProduct }}" style="margin-top:auto;height:54px;border:0;background:#F07C12;color:#0E0E0F;font:700 14px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">{{ selectLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="inventory" data-screen-label="Stall inventory" style="scroll-margin-top:110px;padding:72px 28px;max-width:1440px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+      <h2 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(44px,5vw,80px);line-height:0.88;">02 — AVAILABLE LOCATIONS</h2>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;">SELECTED PRODUCT · <b>{{ chosenName }}</b> · LIVE INVENTORY (DEMO) · UPDATED 2 MIN AGO</span>
+    </div>
+    <div style="display:grid;grid-template-columns:auto auto 1fr;gap:24px;align-items:end;margin-bottom:20px;">
+      <div style="display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;">SELECT ZONE</span>
+        <div style="display:flex;border:1px solid #0E0E0F;"><sc-for list="{{ invZones }}" as="z" hint-placeholder-count="4"><button onClick="{{ z.pick }}" style="height:42px;width:56px;border:0;border-right:1px solid #0E0E0F;background:{{ z.bg }};color:{{ z.fg }};font:800 18px 'Archivo';font-stretch:62%;cursor:pointer;">{{ z.id }}</button></sc-for></div></div>
+      <label style="display:flex;flex-direction:column;gap:6px;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;">SELECT CLUSTER</span>
+        <select onChange="{{ pickCluster }}" value="{{ invCluster }}" style="height:44px;min-width:300px;border:1px solid #0E0E0F;background:#fff;font:500 15px 'Instrument Sans';padding:0 10px;"><sc-for list="{{ invClusters }}" as="c" hint-placeholder-count="5"><option value="{{ c.id }}">{{ c.label }}</option></sc-for></select></label>
+      <div style="display:flex;gap:18px;justify-content:flex-end;flex-wrap:wrap;font-size:13px;">
+        <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:#fff;border:1px solid #0B6E4F;"></span>Available</span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:repeating-linear-gradient(45deg,#F07C12 0 2px,#FFF3E6 2px 5px);border:1px solid #C2610B;"></span>Reserved</span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:#3A3A3E;"></span>Allocated</span>
+        <span style="display:flex;align-items:center;gap:6px;"><span style="width:16px;height:16px;background:repeating-linear-gradient(-45deg,#BDB9B0 0 1px,#E9E6DF 1px 4px);border:1px solid #BDB9B0;"></span>Blocked</span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:0;border:1px solid #0E0E0F;">
+      <div style="padding:24px;background:#F6F4EF;">
+        <dc-import name="Hall Plan" mode="inventory" active-zone="{{ invZone }}" selected-cluster="{{ invCluster }}" selected-stall="{{ stallId }}" on-stall="{{ pickStall }}" on-cluster="{{ clusterClick }}" force-avail="{{ forceAvail }}" hint-size="100%,520px"></dc-import>
+        <div style="display:flex;gap:24px;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:8px;flex-wrap:wrap;"><sc-for list="{{ invStats }}" as="s" hint-placeholder-count="4"><span><b>{{ s.v }}</b> {{ s.k }}</span></sc-for></div>
+      </div>
+      <aside style="padding:24px;border-left:1px solid #0E0E0F;display:flex;flex-direction:column;gap:14px;">
+        <sc-if value="{{ hasStall }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:{{ stallStatusColor }};">● {{ stallStatus }}</span>
+            <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:56px;line-height:0.85;">{{ stallId }}</span>
+            <dl style="margin:0;display:grid;grid-template-columns:130px 1fr;font-size:14px;border-top:1px solid #E3E0D8;">
+              <sc-for list="{{ stallRows }}" as="r" hint-placeholder-count="7"><dt style="padding:9px 0;border-bottom:1px solid #E3E0D8;color:#6B6A66;">{{ r.k }}</dt><dd style="margin:0;padding:9px 0;border-bottom:1px solid #E3E0D8;">{{ r.v }}</dd></sc-for>
+            </dl>
+            <button onClick="{{ preferStall }}" disabled="{{ stallUnavailable }}" style="height:52px;border:0;background:{{ preferBg }};color:#0E0E0F;font:700 13px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">{{ preferLabel }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ noStall }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:12px;color:#3A3A3E;">
+            <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:40px;line-height:0.9;color:#0E0E0F;">SELECT A STALL</span>
+            <span style="font-size:15px;line-height:1.5;">{{ invHint }}</span>
+            <span style="font-size:14px;">Tip: <b>B-SGM-017</b> is available in Sports Goods Manufacturing, row 2 — close to the Sports Boulevard.</span>
+          </div>
+        </sc-if>
+      </aside>
+    </div>
+  </section>
+
+  <section id="directory" data-screen-label="Exhibitor directory" style="scroll-margin-top:110px;background:#F6F4EF;padding:72px 28px;">
+    <div style="max-width:1440px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+        <h2 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(44px,5vw,80px);line-height:0.88;">03 — EXHIBITORS &amp; PRODUCTS</h2>
+        <div role="tablist" style="display:flex;border:1px solid #0E0E0F;background:#fff;"><sc-for list="{{ dirTabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.pick }}" style="height:42px;padding:0 18px;border:0;border-right:1px solid #0E0E0F;background:{{ t.bg }};color:{{ t.fg }};font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">{{ t.t }}</button></sc-for></div>
+      </div>
+      <sc-if value="{{ dirEx }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);border:1px solid #0E0E0F;background:#fff;">
+          <div style="border-right:1px solid #0E0E0F;max-height:760px;overflow:auto;">
+            <sc-for list="{{ exList }}" as="e" hint-placeholder-count="8">
+              <button onClick="{{ e.pick }}" style="width:100%;display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px 20px;border:0;border-bottom:1px solid #E3E0D8;background:{{ e.bg }};text-align:left;cursor:pointer;">
+                <span style="width:10px;height:10px;background:{{ e.zc }};"></span>
+                <span><span style="display:block;font-weight:700;font-size:16px;color:#0E0E0F;">{{ e.name }}</span><span style="font-size:13px;color:#6B6A66;">{{ e.city }} · {{ e.sector }}</span></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#0E0E0F;">{{ e.stall }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="padding:32px;display:flex;flex-direction:column;gap:18px;">
+            <div style="display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;">
+              <div style="width:120px;height:120px;position:relative;"><image-slot id="{{ ex.logo }}" shape="rect" placeholder="Logo"></image-slot></div>
+              <div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;">{{ ex.stall }} · {{ ex.booth }} · ZONE {{ ex.zone }}</span><div style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:56px;line-height:0.86;text-transform:uppercase;">{{ ex.name }}</div><span style="color:#6B6A66;">{{ ex.city }} · {{ ex.type }}</span></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid #E3E0D8;padding-top:16px;font-size:15px;">
+              <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#6B6A66;display:block;">SECTOR</span>{{ ex.sector }}</div>
+              <div><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#6B6A66;display:block;">LOOKING FOR</span>{{ ex.seeking }}</div>
+            </div>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#6B6A66;">PRODUCTS</span>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;">
+              <sc-for list="{{ ex.prods }}" as="p" hint-placeholder-count="4">
+                <button onClick="{{ p.open }}" style="border:1px solid #E3E0D8;background:#fff;padding:0;text-align:left;cursor:pointer;display:flex;flex-direction:column;">
+                  <span style="aspect-ratio:1;background:repeating-linear-gradient(135deg,#F1EFEA 0 8px,#F6F4EF 8px 16px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#6B6A66;">PRODUCT IMAGE</span>
+                  <span style="padding:10px;font-weight:600;font-size:14px;color:#0E0E0F;">{{ p.name }}</span>
+                </button>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:auto;">
+              <a href="Connect.dc.html" style="background:#0E0E0F;color:#fff;text-decoration:none;height:46px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;letter-spacing:0.08em;">BOOK MEETING</a>
+              <a href="Hall%202%20Digital%20Twin.dc.html" style="border:1px solid #0E0E0F;color:#0E0E0F;text-decoration:none;height:46px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;letter-spacing:0.08em;box-sizing:border-box;">VIEW ON MAP</a>
+              <a href="Hall%202%20Digital%20Twin.dc.html" style="border:1px solid #0E0E0F;color:#0E0E0F;text-decoration:none;height:46px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;letter-spacing:0.08em;box-sizing:border-box;">NAVIGATE</a>
+              <button onClick="{{ ex.save }}" style="border:0;background:{{ ex.saveBg }};height:46px;font:700 11px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;">{{ ex.saveLabel }}</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ dirProd }}" hint-placeholder-val="{{ false }}">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;border-top:1px solid #0E0E0F;border-left:1px solid #0E0E0F;background:#fff;">
+          <sc-for list="{{ prodList }}" as="p" hint-placeholder-count="8">
+            <button onClick="{{ p.open }}" style="border:0;border-right:1px solid #0E0E0F;border-bottom:1px solid #0E0E0F;background:#fff;padding:20px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;">
+              <span style="aspect-ratio:4/3;background:repeating-linear-gradient(135deg,#F1EFEA 0 8px,#F6F4EF 8px 16px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#6B6A66;">PRODUCT IMAGE</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#6B6A66;">{{ p.cat }} · {{ p.type }}</span>
+              <span style="font-weight:700;font-size:17px;color:#0E0E0F;">{{ p.name }}</span>
+              <span style="font-size:13px;color:#6B6A66;">{{ p.by }} · {{ p.stall }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section id="register" data-screen-label="Exhibitor registration" style="scroll-margin-top:110px;padding:72px 28px;max-width:1440px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+      <h2 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(44px,5vw,80px);line-height:0.88;">04 — EXHIBITOR REGISTRATION</h2>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.1em;">APPLICATION ISE27-EXH-0418 · AUTOSAVED</span>
+    </div>
+    <div style="display:grid;grid-template-columns:280px minmax(0,1fr);border:1px solid #0E0E0F;min-height:640px;">
+      <ol style="margin:0;padding:0;list-style:none;border-right:1px solid #0E0E0F;background:#FBFAF7;">
+        <sc-for list="{{ wiz }}" as="w" hint-placeholder-count="11">
+          <li><button onClick="{{ w.go }}" style="width:100%;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:12px 18px;border:0;border-bottom:1px solid #E3E0D8;background:{{ w.bg }};text-align:left;cursor:pointer;font:{{ w.weight }} 14px 'Instrument Sans';color:{{ w.fg }};">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;">{{ w.n }}</span><span>{{ w.t }}</span><span style="font-size:13px;color:#0B6E4F;">{{ w.mark }}</span></button></li>
+        </sc-for>
+      </ol>
+      <div style="padding:36px;display:flex;flex-direction:column;gap:22px;">
+        <sc-if value="{{ inWizard }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#6B6A66;">STEP {{ cur.n }} OF 11</span><div style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:56px;line-height:0.88;text-transform:uppercase;margin-top:6px;">{{ cur.t }}</div><div style="font-size:15px;color:#3A3A3E;margin-top:8px;max-width:640px;">{{ cur.d }}</div></div>
+            <div style="height:4px;background:#E3E0D8;"><div style="height:4px;background:#F07C12;width:{{ wizPct }};transition:width .4s;"></div></div>
+            <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 24px;">
+              <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+                <label style="display:flex;flex-direction:column;gap:6px;grid-column:{{ f.span }};">
+                  <span style="font-size:13px;font-weight:600;">{{ f.label }}</span>
+                  <sc-if value="{{ f.isText }}" hint-placeholder-val="{{ true }}"><input value="{{ f.value }}" onChange="{{ f.set }}" placeholder="{{ f.ph }}" style="height:46px;border:1px solid #0E0E0F;padding:0 12px;font-size:15px;background:#fff;"></sc-if>
+                  <sc-if value="{{ f.isSelect }}" hint-placeholder-val="{{ false }}"><select value="{{ f.value }}" onChange="{{ f.set }}" style="height:46px;border:1px solid #0E0E0F;padding:0 10px;font-size:15px;background:#fff;"><sc-for list="{{ f.opts }}" as="o" hint-placeholder-count="3"><option>{{ o }}</option></sc-for></select></sc-if>
+                  <sc-if value="{{ f.isChips }}" hint-placeholder-val="{{ false }}"><span style="display:flex;flex-wrap:wrap;gap:6px;"><sc-for list="{{ f.chips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.pick }}" style="height:36px;padding:0 12px;border:1px solid #0E0E0F;background:{{ c.bg }};color:{{ c.fg }};font:600 13px 'Instrument Sans';cursor:pointer;">{{ c.t }}</button></sc-for></span></sc-if>
+                  <sc-if value="{{ f.isFile }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px dashed #0E0E0F;padding:12px;font-size:14px;"><span>{{ f.value }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ f.stColor }};">{{ f.st }}</span></span></sc-if>
+                  <sc-if value="{{ f.isInfo }}" hint-placeholder-val="{{ false }}"><span style="background:#F6F4EF;padding:14px;font-size:15px;line-height:1.5;">{{ f.value }}</span></sc-if>
+                </label>
+              </sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px;border-top:1px solid #E3E0D8;padding-top:20px;">
+              <button onClick="{{ back }}" style="height:50px;padding:0 22px;border:1px solid #0E0E0F;background:#fff;font:700 13px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">← BACK</button>
+              <button onClick="{{ next }}" style="height:50px;padding:0 28px;border:0;background:#F07C12;color:#0E0E0F;font:700 13px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">{{ nextLabel }}</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:22px;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#6B6A66;">APPLICATION ISE27-EXH-0418 · APEX SPORTS INDIA · PREVIEW STATUS</span>
+            <div role="tablist" style="display:flex;border:1px solid #0E0E0F;align-self:flex-start;"><sc-for list="{{ statusTabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.pick }}" style="height:38px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:{{ t.bg }};color:{{ t.fg }};font:700 11px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">{{ t.t }}</button></sc-for></div>
+            <div style="border-left:8px solid {{ status.color }};padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:10px;">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:{{ status.color }};">{{ status.icon }} {{ status.k }}</span>
+              <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:64px;line-height:0.86;">{{ status.t }}</span>
+              <span style="font-size:16px;line-height:1.5;max-width:640px;color:#3A3A3E;">{{ status.d }}</span>
+            </div>
+            <ol style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid #E3E0D8;">
+              <sc-for list="{{ track }}" as="t" hint-placeholder-count="5"><li style="padding:14px 10px 0 0;display:flex;flex-direction:column;gap:6px;border-top:4px solid {{ t.c }};margin-top:-1px;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;">{{ t.date }}</span><b style="font-size:14px;">{{ t.t }}</b></li></sc-for>
+            </ol>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="{{ status.ctaHref }}" style="background:#0E0E0F;color:#fff;text-decoration:none;height:50px;display:flex;align-items:center;padding:0 22px;font-weight:700;font-size:13px;letter-spacing:0.1em;">{{ status.cta }}</a>
+              <button onClick="{{ restart }}" style="height:50px;padding:0 22px;border:1px solid #0E0E0F;background:#fff;font:700 13px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">EDIT APPLICATION</button>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ prodOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="Product detail" onClick="{{ closeProd }}" style="position:fixed;inset:0;z-index:100;background:rgba(14,14,15,0.55);display:flex;justify-content:flex-end;">
+      <div onClick="{{ stop }}" style="width:min(560px,94vw);height:100%;background:#fff;overflow:auto;padding:32px;box-sizing:border-box;display:flex;flex-direction:column;gap:16px;">
+        <button onClick="{{ closeProd }}" style="align-self:flex-end;border:1px solid #0E0E0F;background:none;height:34px;padding:0 12px;font:700 11px 'Instrument Sans';cursor:pointer;">CLOSE ✕</button>
+        <div style="aspect-ratio:4/3;position:relative;"><image-slot id="{{ pd.slot }}" shape="rect" placeholder="Product hero image"></image-slot></div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;">{{ pd.cat }} · {{ pd.type }} · {{ pd.tag }}</span>
+        <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:52px;line-height:0.88;text-transform:uppercase;">{{ pd.name }}</span>
+        <dl style="margin:0;display:grid;grid-template-columns:130px 1fr;font-size:14px;border-top:1px solid #E3E0D8;">
+          <dt style="padding:9px 0;border-bottom:1px solid #E3E0D8;color:#6B6A66;">Exhibitor</dt><dd style="margin:0;padding:9px 0;border-bottom:1px solid #E3E0D8;">{{ pd.by }}</dd>
+          <dt style="padding:9px 0;border-bottom:1px solid #E3E0D8;color:#6B6A66;">Stall</dt><dd style="margin:0;padding:9px 0;border-bottom:1px solid #E3E0D8;font-family:'JetBrains Mono',monospace;">{{ pd.stall }}</dd>
+          <dt style="padding:9px 0;border-bottom:1px solid #E3E0D8;color:#6B6A66;">Order terms</dt><dd style="margin:0;padding:9px 0;border-bottom:1px solid #E3E0D8;">{{ pd.moq }} · FOB Mundra (sample)</dd>
+          <dt style="padding:9px 0;border-bottom:1px solid #E3E0D8;color:#6B6A66;">Live demo</dt><dd style="margin:0;padding:9px 0;border-bottom:1px solid #E3E0D8;">At stall, daily 11:00 and 15:00 (sample)</dd>
+        </dl>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:auto;">
+          <a href="Connect.dc.html" style="background:#0E0E0F;color:#fff;text-decoration:none;height:48px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;letter-spacing:0.1em;">REQUEST QUOTE / MEETING</a>
+          <button style="border:1px solid #0E0E0F;background:#fff;height:48px;font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;">SAVE PRODUCT</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { prod: 1, view: '3d', chosen: null, invZone: 'B', invCluster: 'SGM', stall: null, preferred: null, dir: 'ex', ex: 'apex', saved: {}, prodOpen: null, step: 0, submitted: false, status: 'PENDING', form: {}, chips: { industry: ['Sports goods manufacturing'], reps: [] } };
+  P = [
+    { name: 'Standard Booth', size: '3 × 3 m · 9 m²', w: 3, d: 3, h: 2.5, custom: 'LOW', suit: 'First-time exhibitors, startups and SMEs', cap: '4 people', brand: 'Fascia name board + 3 wall panels', util: '1 × 5A socket · 3 spotlights', inc: ['Fascia', 'Table', '3 chairs', 'Info counter', 'Spotlights', 'Wastebasket'], zones: ['B', 'C'], furn: [{ x: .1, y: .55, w: .35, d: .25, z: 18, c: '#0E0E0F' }] },
+    { name: 'Premium Booth', size: '6 × 3 m · 18 m²', w: 6, d: 3, h: 2.5, custom: 'MEDIUM', suit: 'Growing brands / premium product showcase', cap: '8 people', brand: 'Fascia, full back-wall graphic, counter wrap', util: '2 × 15A sockets · track lighting · Wi-Fi', inc: ['Reception counter', 'Display wall', 'Lighting', 'Furniture', 'Storage', 'Power'], zones: ['B', 'C'], furn: [{ x: .06, y: .6, w: .22, d: .25, z: 18, c: '#F07C12' }, { x: .6, y: .1, w: .3, d: .18, z: 30, c: '#fff' }, { x: .78, y: .55, w: .14, d: .35, z: 22, c: '#3A3A3E' }] },
+    { name: 'Raw Space', size: 'from 36 m²', w: 6, d: 6, h: 4, custom: 'HIGH', suit: 'Established brands with their own stand builder', cap: '15+ people', brand: 'Fully custom build, up to 4 m height (sample)', util: '3-phase power on request · water point', inc: ['Floor space only', 'Power point on request', 'Build-up window'], zones: ['B', 'C', 'D'], furn: [] },
+    { name: 'Sector Pavilion', size: '100–300+ m²', w: 12, d: 12, h: 4, custom: 'HIGH', suit: 'Industry associations, sector groupings and clusters', cap: '60+ people', brand: 'Pavilion identity, pod graphics, entrance arch', util: 'Distributed power, shared storage, meeting pod', inc: ['Shared lounge', 'Exhibitor pods', 'Meeting pod', 'Storage'], zones: ['B', 'C'], furn: [{ x: .08, y: .08, w: .25, d: .25, z: 14, c: '#fff' }, { x: .4, y: .08, w: .25, d: .25, z: 14, c: '#fff' }, { x: .08, y: .5, w: .25, d: .25, z: 14, c: '#fff' }, { x: .6, y: .55, w: .3, d: .3, z: 8, c: '#F07C12' }] },
+    { name: 'State Pavilion', size: '200–500+ m²', w: 16, d: 16, h: 5, custom: 'HIGH', suit: 'State governments and Union Territories', cap: '120+ people', brand: 'State identity, immersive media walls', util: 'AV, stage power, hospitality', inc: ['Hero installation', 'Stage', 'Partner pods', 'Hospitality'], zones: ['A'], furn: [{ x: .3, y: .3, w: .4, d: .4, z: 30, c: '#9E1B22' }, { x: .05, y: .7, w: .2, d: .2, z: 10, c: '#fff' }] },
+    { name: 'Country Pavilion', size: '250–600+ m²', w: 20, d: 16, h: 5, custom: 'HIGH', suit: 'National delegations and trade agencies', cap: '150+ people', brand: 'National identity, delegation lounge', util: 'AV, hospitality, private meeting rooms', inc: ['Delegation lounge', 'Company pods', 'Meeting rooms', 'Hospitality'], zones: ['D'], furn: [{ x: .05, y: .05, w: .3, d: .3, z: 24, c: '#0E0E0F' }, { x: .45, y: .55, w: .2, d: .2, z: 12, c: '#fff' }, { x: .7, y: .55, w: .2, d: .2, z: 12, c: '#fff' }] },
+    { name: 'Hero Experience', size: '500+ m²', w: 24, d: 22, h: 6, custom: 'BESPOKE', suit: 'Title partners and flagship brands', cap: '250+ people', brand: 'Architectural build, rigging, content programme', util: 'Rigging points, broadcast power, dedicated crew', inc: ['Signature structure', 'Content stage', 'Try-zone', 'VIP lounge'], zones: ['A', 'C'], furn: [{ x: .2, y: .2, w: .6, d: .6, z: 50, c: '#F07C12' }] }
+  ];
+  renderVals() {
+    const D = window.ISE; const s = this.state; const P = this.P[s.prod];
+    const sel = (on, c = '#0E0E0F') => ({ bg: on ? c : '#fff', fg: on ? '#fff' : '#0E0E0F' });
+    const scale = Math.min(380 / P.w, 300 / P.d, 64);
+    const fw = P.w * scale, fd = P.d * scale, wh = Math.min(P.h * scale, 170);
+    const cams = { '3d': 'rotateX(58deg) rotateZ(-34deg)', top: 'rotateX(0deg)', front: 'rotateX(80deg) translateY(-30px)', interior: 'rotateX(64deg) rotateZ(-14deg) scale(1.5) translateY(20px)' };
+    const chosenP = s.chosen != null ? this.P[s.chosen] : null;
+    const ro = { why: [], steps: [], prodTabs: [], viewTabs: [], booth: { furn: [] }, prod: { rows: [], inc: [] }, invZones: [], invClusters: [], invStats: [], stallRows: [], dirTabs: [], exList: [], ex: { prods: [] }, prodList: [], wiz: [], cur: {}, fields: [], statusTabs: [], status: {}, track: [], pd: {} };
+    if (!D) return ro;
+    const cl = D.cl(s.invCluster);
+    const stallInfo = s.stall;
+    const exs = D.exhibitors; const E = exs.find(e => e.id === s.ex);
+    const allProds = D.products;
+    const pd = s.prodOpen != null ? { ...allProds[s.prodOpen], slot: 'prod-detail-' + s.prodOpen } : {};
+    // stall stats
+    const statusOf = st => ({ available: ['AVAILABLE', '#0B6E4F'], reserved: ['RESERVED', '#C2610B'], allocated: ['ALLOCATED', '#3A3A3E'], blocked: ['BLOCKED', '#6B6A66'] })[st];
+    const zoneClusters = D.clusters.filter(c => c.zone === s.invZone);
+    const stallRows = stallInfo ? (() => { const c = stallInfo.cluster; const row = Math.floor(stallInfo.index / (c.cols || 1)) + 1; const dist = Math.round((250 + Math.abs(c.x + c.w / 2 - 500) + Math.abs(250 - (c.y < 250 ? c.y + c.h : c.y))) * 0.62);
+      return [{ k: 'Location', v: `Zone ${c.zone} · ${c.name} · row ${row}` }, { k: 'Size', v: chosenP && chosenP.w <= 6 ? chosenP.size : '3 × 3 m · 9 m² (combinable)' }, { k: 'Type', v: row === 1 || row === Math.ceil(c.n / c.cols) ? 'Corner / aisle-facing' : 'Inline' }, { k: 'Neighbours', v: D.clusters.filter(x => x.zone === c.zone && x.id !== c.id).slice(0, 3).map(x => x.name).join(', ') }, { k: 'From entrance', v: dist + ' m · ' + Math.max(1, Math.round(dist / 80)) + ' min walk' }, { k: 'Nearby', v: 'Food court 40 m · WC 60 m · Info 120 m (approx.)' }, { k: 'Boulevard', v: c.y < 250 ? 'Faces Sports Boulevard (south)' : 'Faces Sports Boulevard (north)' }]; })() : [];
+    // wizard
+    const W = [
+      { t: 'Create account', d: 'One account for your company. Representatives are invited later.', f: [['email', 'Work email', 'rahul@apexsports.in'], ['pw', 'Password', '••••••••••'], ['name', 'Your name', 'Rahul Bhandari'], ['phone', 'Mobile (OTP)', '+91 98 7654 3210']] },
+      { t: 'Company profile', d: 'This becomes your public exhibitor profile.', f: [['co', 'Company name', 'Apex Sports India Pvt. Ltd.'], ['city', 'City / country', 'Jalandhar, India'], ['web', 'Website', 'apexsports.example'], ['size', 'Company size', null, 'select', ['1–50', '51–250', '251–1,000', '1,000+']], ['about', 'About the company', 'Football equipment manufacturer and exporter since 1987 (demo).', 'text', null, '1 / -1']] },
+      { t: 'Company verification', d: 'We verify every exhibitor before allocation.', f: [['gst', 'GSTIN', '03AABCA1234F1Z5'], ['iec', 'Import Export Code', '0301234567'], ['coi', 'Certificate of incorporation', 'COI_ApexSports.pdf', 'file'], ['ver', 'Status', 'Automatic GST check passed. Manual review in 1–2 working days.', 'info']] },
+      { t: 'Select industry', d: 'Used for buyer matchmaking.', f: [['industry', 'Industries', null, 'chips', ['Sports goods manufacturing', 'Apparel & footwear', 'Infrastructure', 'SportsTech', 'Surfaces', 'Services'], '1 / -1']] },
+      { t: 'Exhibition category', d: 'Choose the zone and cluster you belong in.', f: [['zone', 'Zone', null, 'select', ['B — Sports Goods & Infrastructure', 'A — India Sports & Heritage', 'C — Sports Tech & Experience', 'D — Sports Business & Investment']], ['cluster', 'Cluster', null, 'select', ['Sports Goods Manufacturing', 'OEM / ODM & Supply Chain', 'Apparel & Footwear']]] },
+      { t: 'Stall product', d: 'Selected from the Exhibition Product Architecture.', f: [['p', 'Product', (chosenP || this.P[1]).name + ' · ' + (chosenP || this.P[1]).size + ' (sample configuration)', 'info', null, '1 / -1']] },
+      { t: 'Available locations', d: 'Live inventory for your cluster.', f: [['loc', 'Inventory', `${cl.name}: ${Math.round(cl.n * 0.35)} available of ${cl.n} (demo). Open the map above to choose.`, 'info', null, '1 / -1']] },
+      { t: 'Preferred location', d: 'Allocation is confirmed by the organiser after approval.', f: [['pref', 'First preference', s.preferred || 'B-SGM-017'], ['alt1', 'Second preference', 'B-SGM-019'], ['alt2', 'Third preference', 'B-SGM-024'], ['note', 'Note to organiser', 'Prefer boulevard-facing for demo footfall.']] },
+      { t: 'Add representatives', d: 'Each gets an exhibitor accreditation.', f: [['r1', 'Representative 1', 'Rahul Bhandari — Managing Director'], ['r2', 'Representative 2', 'Simran Kaur — Export Manager'], ['r3', 'Representative 3', 'Arvind Gill — Production Head'], ['r4', 'Representative 4', '']] },
+      { t: 'Upload documents', d: 'PDF or JPG, 10 MB max each.', f: [['d1', 'Company brochure', 'Apex_Brochure_2027.pdf', 'file'], ['d2', 'Product catalogue', 'Apex_Catalogue.pdf', 'file'], ['d3', 'Logo (vector)', 'apex-logo.svg', 'file'], ['d4', 'Stand design (raw space only)', 'Not required for Premium Booth', 'file']] },
+      { t: 'Review & submit', d: 'Check your application. You can edit until approval.', f: [['sum', 'Summary', `Apex Sports India · Zone B · Sports Goods Manufacturing · ${(chosenP || this.P[1]).name} · Preferred ${s.preferred || 'B-SGM-017'} · 3 representatives · 3 documents`, 'info', null, '1 / -1'], ['tc', 'Declaration', 'I confirm the information is accurate and accept the exhibitor terms (demo).', 'info', null, '1 / -1']] }
+    ];
+    const cur = W[s.step];
+    const docState = ['UPLOADED ✓', 'UPLOADED ✓', 'UPLOADED ✓', 'OPTIONAL'];
+    const fields = cur.f.map(([key, label, def, type = 'text', opts, span = 'auto'], i) => {
+      const value = s.form[key] ?? def ?? '';
+      const set = e => this.setState({ form: { ...s.form, [key]: e.target.value } });
+      const chipsOn = s.chips[key] || [];
+      return { label, value, set, span, ph: '', opts: opts || [], isText: type === 'text', isSelect: type === 'select', isChips: type === 'chips', isFile: type === 'file', isInfo: type === 'info',
+        st: type === 'file' ? (key === 'coi' ? 'VERIFIED ✓' : docState[i] || 'UPLOADED ✓') : '', stColor: '#0B6E4F',
+        chips: (opts || []).map(t => { const on = chipsOn.includes(t); return { t, ...sel(on), pick: e => { e.preventDefault(); this.setState({ chips: { ...s.chips, [key]: on ? chipsOn.filter(x => x !== t) : [...chipsOn, t] } }); } }; }) };
+    });
+    const ST = {
+      PENDING: { k: 'PENDING REVIEW', icon: '◷', color: '#C2610B', t: 'APPLICATION RECEIVED', d: 'Our team is verifying your company documents. Typical review time is 2 working days (sample).', cta: 'GO TO EXHIBITOR DASHBOARD', ctaHref: 'Exhibitor%20Portal.dc.html' },
+      QUERY: { k: 'QUERY RAISED', icon: '?', color: '#1F4E9E', t: 'WE NEED ONE MORE DOCUMENT', d: 'Please upload a recent export certificate (RCMC). Reply within 5 days to keep your preferred location on hold.', cta: 'RESPOND TO QUERY', ctaHref: 'Exhibitor%20Portal.dc.html' },
+      APPROVED: { k: 'APPROVED', icon: '✓', color: '#0B6E4F', t: 'YOU’RE APPROVED', d: 'Your application is approved. Pay the participation invoice to confirm allocation.', cta: 'VIEW INVOICE', ctaHref: 'Exhibitor%20Portal.dc.html' },
+      REJECTED: { k: 'NOT APPROVED', icon: '✕', color: '#9E1B22', t: 'APPLICATION NOT APPROVED', d: 'Your category is at capacity. You have been placed on the waitlist for OEM / ODM & Supply Chain.', cta: 'CONTACT HELPDESK', ctaHref: 'Admin%20Console.dc.html' },
+      ALLOCATED: { k: 'ALLOCATED', icon: '■', color: '#0E0E0F', t: 'STALL B-SGM-017 IS YOURS', d: 'Premium Booth, Zone B, Sports Goods Manufacturing. Build-up: Day −2, 08:00–20:00 (sample).', cta: 'OPEN EXHIBITOR CONTROL CENTRE', ctaHref: 'Exhibitor%20Portal.dc.html' }
+    };
+    const order = ['PENDING', 'QUERY', 'APPROVED', 'ALLOCATED'];
+    const idx = s.status === 'REJECTED' ? 1 : order.indexOf(s.status);
+    return {
+      why: [{ t: 'Hosted international buyers', d: 'Pre-qualified buyers from 40+ countries (demo target).' }, { t: 'Matchmaking built in', d: 'Meetings booked before you arrive.' }, { t: 'Your stall on the digital twin', d: 'Visitors find and route to you.' }, { t: 'Leads and recordings after', d: 'Every scan and meeting in one place.' }],
+      steps: [['01', 'PRODUCTS', '#products'], ['02', 'LOCATIONS', '#inventory'], ['03', 'DIRECTORY', '#directory'], ['04', 'REGISTER', '#register']].map(([n, t, href]) => ({ n, t, href, bg: '#fff', fg: '#0E0E0F' })),
+      prodTabs: this.P.map((p, i) => { const on = i === s.prod; return { name: p.name, size: p.size, bg: on ? '#0E0E0F' : '#fff', fg: on ? '#fff' : '#0E0E0F', bgc: on ? '#0E0E0F' : '#fff', fill: on ? '#F07C12' : 'transparent', bw: 26 + i * 8 + 'px', bh: [6, 16, 28, 40, 52, 62, 76][i] + 'px', pick: () => this.setState({ prod: i }) }; }),
+      viewTabs: [['3d', '3D VIEW'], ['top', 'TOP VIEW'], ['front', 'FRONT VIEW'], ['interior', 'INTERIOR']].map(([id, t]) => ({ t, ...sel(id === s.view), pick: () => this.setState({ view: id }) })),
+      booth: { fw: fw + 'px', fd: fd + 'px', wh: wh + 'px', grid: scale + 'px', cam: cams[s.view], fascia: s.prod < 2 ? 'APEX SPORTS · B-SGM-017' : P.name.toUpperCase(), fasciaTop: '0px',
+        furn: P.furn.map(f => ({ x: f.x * fw + 'px', y: f.y * fd + 'px', w: f.w * fw + 'px', d: f.d * fd + 'px', z: f.z + 'px', c: f.c })) },
+      prod: { ...P, n: s.prod + 1, dims: P.size, scaleNote: 'GRID = 1 M · ' + (s.prod > 2 ? 'SAMPLE FOOTPRINT ' + P.w + ' × ' + P.d + ' M' : 'TO SCALE'), rows: [{ k: 'Capacity', v: P.cap }, { k: 'Branding surfaces', v: P.brand }, { k: 'Utilities', v: P.util }, { k: 'Available in', v: P.zones.map(z => 'Zone ' + z).join(', ') }, { k: 'Customisation', v: P.custom }] },
+      selectLabel: s.chosen === s.prod ? '✓ SELECTED — CHOOSE LOCATION ↓' : 'SELECT THIS PRODUCT',
+      selectProduct: () => { this.setState({ chosen: s.prod, invZone: P.zones[0], invCluster: D.clusters.find(c => c.zone === P.zones[0]).id }); setTimeout(() => { const el = document.getElementById('inventory'); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 110, behavior: 'smooth' }); }, 80); },
+      chosenName: chosenP ? chosenP.name.toUpperCase() : 'NONE YET',
+      invZones: D.zones.map(z => ({ id: z.id, bg: s.invZone === z.id ? z.color : '#fff', fg: s.invZone === z.id ? '#fff' : z.color, pick: () => this.setState({ invZone: z.id, invCluster: D.clusters.find(c => c.zone === z.id).id, stall: null }) })),
+      invClusters: zoneClusters.map(c => ({ id: c.id, label: c.name + ' — ' + c.meta })), invCluster: s.invCluster, invZone: s.invZone,
+      pickCluster: e => this.setState({ invCluster: e.target.value, stall: null }),
+      clusterClick: c => this.setState({ invCluster: c.id, invZone: c.zone }),
+      pickStall: st => this.setState({ stall: st, invCluster: st.cluster.id }),
+      forceAvail: ['SGM-017'],
+      invStats: [{ v: cl.n, k: 'STALLS IN CLUSTER' }, { v: Math.round(cl.n * .35), k: 'AVAILABLE' }, { v: Math.round(cl.n * .2), k: 'RESERVED' }, { v: Math.round(cl.n * .45), k: 'ALLOCATED' }],
+      invHint: cl.kind === 'stalls' ? 'Click any available (white) stall in ' + cl.name + '. Reserved stalls are held for 48 hours for applicants in review.' : cl.name + ' is a pavilion / organiser-managed space. Submit a preference and our team will configure the footprint with you.',
+      hasStall: !!stallInfo, noStall: !stallInfo, stallId: stallInfo ? stallInfo.id : '',
+      stallStatus: stallInfo ? statusOf(stallInfo.status)[0] : '', stallStatusColor: stallInfo ? statusOf(stallInfo.status)[1] : '',
+      stallRows, stallUnavailable: stallInfo ? stallInfo.status !== 'available' : true,
+      preferBg: stallInfo && stallInfo.status === 'available' ? '#F07C12' : '#E3E0D8',
+      preferLabel: !stallInfo ? '' : stallInfo.status !== 'available' ? 'NOT AVAILABLE' : s.preferred === stallInfo.id ? '✓ PREFERRED — CONTINUE TO REGISTER ↓' : 'SELECT PREFERRED LOCATION',
+      preferStall: () => { if (stallInfo.status !== 'available') return; this.setState({ preferred: stallInfo.id, step: Math.max(s.step, 7) }); setTimeout(() => { const el = document.getElementById('register'); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 110, behavior: 'smooth' }); }, 80); },
+      dirTabs: [['ex', 'EXHIBITORS'], ['prod', 'PRODUCTS']].map(([id, t]) => ({ t, ...sel(id === s.dir), pick: () => this.setState({ dir: id }) })),
+      dirEx: s.dir === 'ex', dirProd: s.dir === 'prod',
+      exList: exs.map(e => ({ ...e, zc: D.Z[e.zone].color, bg: e.id === s.ex ? '#F6F4EF' : '#fff', pick: () => this.setState({ ex: e.id }) })),
+      ex: { ...E, logo: 'logo-' + E.id, saveLabel: s.saved[E.id] ? '✓ SAVED' : 'ADD TO MY EXPO', saveBg: s.saved[E.id] ? '#E3F1EB' : '#F6F4EF', save: () => this.setState(p => ({ saved: { ...p.saved, [E.id]: !p.saved[E.id] } })),
+        prods: E.products.map(name => { const i = allProds.findIndex(p => p.name.includes(name.split(' ')[0]) && p.by === E.name); return { name, open: () => this.setState({ prodOpen: i >= 0 ? i : allProds.findIndex(p => p.by === E.name) >= 0 ? allProds.findIndex(p => p.by === E.name) : 0 }) }; }) },
+      prodList: allProds.map((p, i) => ({ ...p, open: () => this.setState({ prodOpen: i }) })),
+      prodOpen: s.prodOpen != null, pd, closeProd: () => this.setState({ prodOpen: null }), stop: e => e.stopPropagation(),
+      wiz: W.map((w, i) => ({ n: String(i + 1).padStart(2, '0'), t: w.t, mark: i < s.step || s.submitted ? '✓' : '', bg: i === s.step && !s.submitted ? '#fff' : 'transparent', fg: i <= s.step || s.submitted ? '#0E0E0F' : '#6B6A66', weight: i === s.step && !s.submitted ? 700 : 500, go: () => this.setState({ step: i, submitted: false }) })),
+      inWizard: !s.submitted, submitted: s.submitted, cur: { ...cur, n: s.step + 1 }, fields, wizPct: ((s.step + 1) / 11 * 100) + '%',
+      back: () => this.setState({ step: Math.max(0, s.step - 1) }), next: () => s.step === 10 ? this.setState({ submitted: true, status: 'PENDING' }) : this.setState({ step: s.step + 1 }),
+      nextLabel: s.step === 10 ? 'SUBMIT APPLICATION' : 'CONTINUE →',
+      statusTabs: ['PENDING', 'QUERY', 'APPROVED', 'REJECTED', 'ALLOCATED'].map(t => ({ t, ...sel(t === s.status), pick: () => this.setState({ status: t }) })),
+      status: ST[s.status], restart: () => this.setState({ submitted: false, step: 0 }),
+      track: [['SUBMITTED', '12 MAR'], ['VERIFICATION', '13 MAR'], ['APPROVAL', '15 MAR'], ['PAYMENT', '18 MAR'], ['ALLOCATION', '22 MAR']].map(([t, date], i) => ({ t, date: i <= idx + (s.status === 'ALLOCATED' ? 1 : 0) ? date + ' (demo)' : '—', c: s.status === 'REJECTED' && i === 2 ? '#9E1B22' : i <= idx + (s.status === 'ALLOCATED' ? 1 : 0) ? '#0B6E4F' : '#E3E0D8' }))
+    };
+  }
+}
+</script>
+</body>
+</html>
