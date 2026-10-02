@@ -1,12 +1,14 @@
 'use client';
-// Sticky back button on every page. Goes back when the visitor came from another page of
+// Back button on every page, fixed at the top left inside the header bar. Goes back when the visitor came from another page of
 // this site, otherwise to Home. Hidden on Home unless there is a page to go back to.
 import { useEffect, useState } from 'react';
 import { BASE, withBase } from '@/lib/base';
 import { leavePage } from '@/lib/motion';
 
-// Pages with a fixed left rail: keep the button clear of it.
-const RAIL_WIDTH: Record<string, number> = { '/portal': 240, '/admin': 232 };
+// Pages with a left rail instead of the top header: the button sits at the top of the rail.
+const RAIL_PAGES = ['/portal', '/admin'];
+// Pages with neither: content moves down to make room.
+const BARE_PAGES = ['/mobile'];
 
 function cameFromThisSite() {
   try {
@@ -17,14 +19,23 @@ function cameFromThisSite() {
 }
 
 export default function BackButton() {
-  const [state, setState] = useState<{ show: boolean; back: boolean; left: number } | null>(null);
+  const [state, setState] = useState<{ show: boolean; back: boolean; rail: boolean } | null>(null);
 
   useEffect(() => {
     const path = location.pathname.replace(/\/$/, '');
     const isHome = path === BASE || path === '';
     const back = cameFromThisSite();
     const route = path.slice(BASE.length) || '/';
-    setState({ show: !isHome || back, back, left: RAIL_WIDTH[route] ?? 0 });
+    const rail = RAIL_PAGES.includes(route);
+    const show = !isHome || back;
+    setState({ show, back, rail });
+    // Lets the page header (or rail) make room for the button: src/app/motion.css.
+    const root = document.documentElement;
+    const bare = show && BARE_PAGES.includes(route);
+    root.classList.toggle('has-back', show && !rail);
+    root.classList.toggle('has-back-rail', show && rail);
+    root.classList.toggle('has-back-bare', bare);
+    return () => root.classList.remove('has-back', 'has-back-rail', 'has-back-bare');
   }, []);
 
   if (!state || !state.show) return null;
@@ -35,8 +46,7 @@ export default function BackButton() {
   return (
     <button
       type="button"
-      className="back-btn"
-      style={state.left ? { left: state.left + 18 } : undefined}
+      className={state.rail ? 'back-btn on-rail' : 'back-btn'}
       onClick={go}
       aria-label={state.back ? 'Go back to the previous page' : 'Go to the home page'}
     >

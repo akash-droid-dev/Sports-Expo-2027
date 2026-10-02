@@ -1,6 +1,6 @@
 # Publishes the site to GitHub Pages (gh-pages branch) on every push to main.
-# Pages only serves static files, so the /api/r4x route is left out of this build;
-# R-4X answers from its built-in topics there. The Netlify deploy keeps the API.
+# Pages only serves static files, so the /api/bucky route is left out of this build;
+# Bucky answers from his built-in topics there. The Netlify deploy keeps the API.
 name: GitHub Pages
 
 on:
