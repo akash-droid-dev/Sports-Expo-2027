@@ -16,7 +16,7 @@ window.addEventListener('unhandledrejection', function (e) { e.preventDefault();
 <body>
 <canvas id="c"></canvas>
 <script type="module">
-import { Application } from '/vendor/spline/runtime.js';
+import { Application } from './vendor/spline/runtime.js';
 const c = document.getElementById('c');
 const app = new Application(c);
 await app.load('https://prod.spline.design/clZpIOGef0TGq99W/scene.splinecode');

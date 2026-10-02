@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import HallPlan from './HallPlan';
 
@@ -62,11 +63,11 @@ class Component extends DCLogic {
         chips: (opts || []).map(t => { const on = chipsOn.includes(t); return { t, ...sel(on), pick: e => { e.preventDefault(); this.setState({ chips: { ...s.chips, [key]: on ? chipsOn.filter(x => x !== t) : [...chipsOn, t] } }); } }; }) };
     });
     const ST = {
-      PENDING: { k: 'PENDING REVIEW', icon: '◷', color: '#C2610B', t: 'APPLICATION RECEIVED', d: 'Our team is verifying your company documents. Typical review time is 2 working days (sample).', cta: 'GO TO EXHIBITOR DASHBOARD', ctaHref: '/portal' },
-      QUERY: { k: 'QUERY RAISED', icon: '?', color: '#1F4E9E', t: 'WE NEED ONE MORE DOCUMENT', d: 'Please upload a recent export certificate (RCMC). Reply within 5 days to keep your preferred location on hold.', cta: 'RESPOND TO QUERY', ctaHref: '/portal' },
-      APPROVED: { k: 'APPROVED', icon: '✓', color: '#0B6E4F', t: 'YOU’RE APPROVED', d: 'Your application is approved. Pay the participation invoice to confirm allocation.', cta: 'VIEW INVOICE', ctaHref: '/portal' },
-      REJECTED: { k: 'NOT APPROVED', icon: '✕', color: '#9E1B22', t: 'APPLICATION NOT APPROVED', d: 'Your category is at capacity. You have been placed on the waitlist for OEM / ODM & Supply Chain.', cta: 'CONTACT HELPDESK', ctaHref: '/admin' },
-      ALLOCATED: { k: 'ALLOCATED', icon: '■', color: '#0E0E0F', t: 'STALL B-SGM-017 IS YOURS', d: 'Premium Booth, Zone B, Sports Goods Manufacturing. Build-up: Day −2, 08:00–20:00 (sample).', cta: 'OPEN EXHIBITOR CONTROL CENTRE', ctaHref: '/portal' }
+      PENDING: { k: 'PENDING REVIEW', icon: '◷', color: '#C2610B', t: 'APPLICATION RECEIVED', d: 'Our team is verifying your company documents. Typical review time is 2 working days (sample).', cta: 'GO TO EXHIBITOR DASHBOARD', ctaHref: withBase('/portal') },
+      QUERY: { k: 'QUERY RAISED', icon: '?', color: '#1F4E9E', t: 'WE NEED ONE MORE DOCUMENT', d: 'Please upload a recent export certificate (RCMC). Reply within 5 days to keep your preferred location on hold.', cta: 'RESPOND TO QUERY', ctaHref: withBase('/portal') },
+      APPROVED: { k: 'APPROVED', icon: '✓', color: '#0B6E4F', t: 'YOU’RE APPROVED', d: 'Your application is approved. Pay the participation invoice to confirm allocation.', cta: 'VIEW INVOICE', ctaHref: withBase('/portal') },
+      REJECTED: { k: 'NOT APPROVED', icon: '✕', color: '#9E1B22', t: 'APPLICATION NOT APPROVED', d: 'Your category is at capacity. You have been placed on the waitlist for OEM / ODM & Supply Chain.', cta: 'CONTACT HELPDESK', ctaHref: withBase('/admin') },
+      ALLOCATED: { k: 'ALLOCATED', icon: '■', color: '#0E0E0F', t: 'STALL B-SGM-017 IS YOURS', d: 'Premium Booth, Zone B, Sports Goods Manufacturing. Build-up: Day −2, 08:00–20:00 (sample).', cta: 'OPEN EXHIBITOR CONTROL CENTRE', ctaHref: withBase('/portal') }
     };
     const order = ['PENDING', 'QUERY', 'APPROVED', 'ALLOCATED'];
     const idx = s.status === 'REJECTED' ? 1 : order.indexOf(s.status);
@@ -118,7 +119,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -128,14 +129,14 @@ function render(v) {
             </span>
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href="/explore" style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href="/exhibit" style={{ color: "#F07C12", textDecoration: "none" }}>EXHIBIT</a>
-            <a href="/attend" style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href="/connect" style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
+            <a href={withBase("/exhibit")} style={{ color: "#F07C12", textDecoration: "none" }}>EXHIBIT</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
           </nav>
-          <a href="/portal" style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+          <a href={withBase("/portal")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
             EXHIBITOR LOGIN
           </a>
           <a href="#register" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px", whiteSpace: "nowrap" }}>
@@ -446,13 +447,13 @@ function render(v) {
                       ))}
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "8px", marginTop: "auto" }}>
-                      <a href="/connect" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
+                      <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
                         BOOK MEETING
                       </a>
-                      <a href="/explore" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                      <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                         VIEW ON MAP
                       </a>
-                      <a href="/explore" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                      <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                         NAVIGATE
                       </a>
                       <button onClick={v.ex?.save} style={sx(`border:0;background:${v.ex?.saveBg ?? ""};height:46px;font:700 11px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
@@ -654,7 +655,7 @@ function render(v) {
                   <dd style={{ margin: "0", padding: "9px 0", borderBottom: "1px solid #E3E0D8" }}>At stall, daily 11:00 and 15:00 (sample)</dd>
                 </dl>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginTop: "auto" }}>
-                  <a href="/connect" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
+                  <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
                     REQUEST QUOTE / MEETING
                   </a>
                   <button style={{ border: "1px solid #0E0E0F", background: "#fff", height: "48px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>

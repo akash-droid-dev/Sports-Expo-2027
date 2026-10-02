@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import '@/lib/maplibre';
 import '@/lib/hero-fit';
@@ -15,14 +16,14 @@ class Component extends DCLogic {
   guideLocal(q) {
     const D = window.ISE; const t = q.toLowerCase(); if (!D) return null;
     const ex = D.exhibitors.find(e => t.includes(e.name.toLowerCase().split(' ')[0]) || t.includes(e.stall.toLowerCase()));
-    if (ex) return { text: `${ex.name} is at stall ${ex.stall}, Zone ${ex.zone} (${D.cl(ex.cluster).name}). From the Main Entrance, follow the Sports Boulevard into Zone ${ex.zone}. About 4 minutes on foot. They make ${ex.products.slice(0, 3).join(', ')} and are looking for ${ex.seeking}.`, links: [{ t: 'NAVIGATE', href: '/explore' }, { t: 'BOOK MEETING', href: '/connect#meetings' }] };
-    if (/live|now|watch|stream/.test(t)) { const s = D.sessions.find(x => x.status === 'live'); return { text: `Live now in the ${s.stage}: “${s.title}”, ${s.time}–${s.end}. Up next: ${D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 2).map(x => x.time + ' ' + x.title).join('; ')}.`, links: [{ t: 'WATCH LIVE', href: '/programme#watch' }] }; }
-    if (/register|pass|ticket|badge|accredit/.test(t)) return { text: 'Register once as a visitor, buyer, investor, media or another participant type. After verification and approval you receive accreditation and a digital pass with a QR code, on the web and in the app.', links: [{ t: 'REGISTER', href: '/attend#register' }] };
-    if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'Seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Choose a product, then pick an available stall on the live Hall 2 inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: '/exhibit#products' }, { t: 'AVAILABLE STALLS', href: '/exhibit#inventory' }] };
-    if (/metro|airport|get there|reach|parking|hotel|travel/.test(t)) return { text: 'Yashobhoomi is in Dwarka Sector 25, New Delhi. The Airport Express metro line serves the venue; by car from IGI Airport is roughly 20–30 minutes (sample estimate). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: '/explore#getting-there' }] };
-    if (/buyer|match|meet|distribut|invest/.test(t)) return { text: 'The India Sports Business Exchange in Zone D matches exhibitors, buyers, investors and distributors, then books a table, a time and a reminder. Top sample match: Global Sports Retail GmbH, 94%.', links: [{ t: 'FIND MATCHES', href: '/connect' }] };
+    if (ex) return { text: `${ex.name} is at stall ${ex.stall}, Zone ${ex.zone} (${D.cl(ex.cluster).name}). From the Main Entrance, follow the Sports Boulevard into Zone ${ex.zone}. About 4 minutes on foot. They make ${ex.products.slice(0, 3).join(', ')} and are looking for ${ex.seeking}.`, links: [{ t: 'NAVIGATE', href: withBase('/explore') }, { t: 'BOOK MEETING', href: withBase('/connect#meetings') }] };
+    if (/live|now|watch|stream/.test(t)) { const s = D.sessions.find(x => x.status === 'live'); return { text: `Live now in the ${s.stage}: “${s.title}”, ${s.time}–${s.end}. Up next: ${D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 2).map(x => x.time + ' ' + x.title).join('; ')}.`, links: [{ t: 'WATCH LIVE', href: withBase('/programme#watch') }] }; }
+    if (/register|pass|ticket|badge|accredit/.test(t)) return { text: 'Register once as a visitor, buyer, investor, media or another participant type. After verification and approval you receive accreditation and a digital pass with a QR code, on the web and in the app.', links: [{ t: 'REGISTER', href: withBase('/attend#register') }] };
+    if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'Seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Choose a product, then pick an available stall on the live Hall 2 inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: withBase('/exhibit#products') }, { t: 'AVAILABLE STALLS', href: withBase('/exhibit#inventory') }] };
+    if (/metro|airport|get there|reach|parking|hotel|travel/.test(t)) return { text: 'Yashobhoomi is in Dwarka Sector 25, New Delhi. The Airport Express metro line serves the venue; by car from IGI Airport is roughly 20–30 minutes (sample estimate). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: withBase('/explore#getting-there') }] };
+    if (/buyer|match|meet|distribut|invest/.test(t)) return { text: 'The India Sports Business Exchange in Zone D matches exhibitors, buyers, investors and distributors, then books a table, a time and a reminder. Top sample match: Global Sports Retail GmbH, 94%.', links: [{ t: 'FIND MATCHES', href: withBase('/connect') }] };
     const z = D.zones.find(z => t.includes(z.short.toLowerCase()) || t.includes('zone ' + z.id.toLowerCase()));
-    if (z) return { text: `Zone ${z.id} · ${z.name}: ${z.blurb} Clusters: ${D.clusters.filter(c => c.zone === z.id).map(c => c.name).join(', ')}.`, links: [{ t: 'EXPLORE ZONE ' + z.id, href: '/zones' }] };
+    if (z) return { text: `Zone ${z.id} · ${z.name}: ${z.blurb} Clusters: ${D.clusters.filter(c => c.zone === z.id).map(c => c.name).join(', ')}.`, links: [{ t: 'EXPLORE ZONE ' + z.id, href: withBase('/zones') }] };
     return null;
   }
   async guideAsk(q) {
@@ -147,7 +148,7 @@ class Component extends DCLogic {
     };
     if (!D) return { ...base, intents: [], metrics: [], worlds: [], arch: [], featured: [], prods: [], matchPreview: [], stake: [], dayTabs: [], daySessions: [], videos: [], travel: [], zoneTabs: [], panel: { rows: [] }, upNext: [], results: [] };
     const zc = id => D.Z[id].color;
-    const zoneHref = { A: '/zones#zone-a', B: '/zones#zone-b', C: '/zones#zone-c', D: '/zones#zone-d' };
+    const zoneHref = { A: withBase('/zones#zone-a'), B: withBase('/zones#zone-b'), C: withBase('/zones#zone-c'), D: withBase('/zones#zone-d') };
     const selZone = this.state.zone || 'B';
     const selC = this.state.sel ? D.cl(this.state.sel) : null;
     const panelZ = D.Z[selC ? selC.zone : selZone];
@@ -155,22 +156,22 @@ class Component extends DCLogic {
     const q = this.state.q.trim().toLowerCase();
     const m = t => t && t.toLowerCase().includes(q);
     const groups = q.length < 2 ? [] : [
-      { label: 'EXHIBITORS', items: D.exhibitors.filter(e => m(e.name) || m(e.sector) || m(e.sport) || m(e.stall) || m(e.country)).map(e => ({ t: e.name, s: e.city, m: e.stall, href: '/exhibit' })) },
-      { label: 'PRODUCTS', items: D.products.filter(x => m(x.name) || m(x.cat) || m(x.by)).map(x => ({ t: x.name, s: x.by, m: x.stall, href: '/exhibit' })) },
-      { label: 'SESSIONS', items: D.sessions.filter(s => m(s.title) || m(s.topic) || m(spk(s))).map(s => ({ t: s.title, s: s.stage, m: 'DAY ' + s.day + ' · ' + s.time, href: '/programme' })) },
-      { label: 'EXPERIENCES', items: [{ t: 'Football Reaction Challenge', s: 'Try Sport Arena', m: 'C-TSA' }, { t: 'Sprint Timing Experience', s: 'Try Sport Arena', m: 'C-TSA' }, { t: 'Archery Experience', s: 'Try Sport Arena', m: 'C-TSA' }].filter(x => m(x.t)).map(x => ({ ...x, href: '/zones#zone-c' })) },
-      { label: 'FEDERATIONS', items: ['Football', 'Hockey', 'Athletics', 'Archery', 'Badminton', 'Boxing'].filter(x => m(x)).map(x => ({ t: x + ' Federation (sample)', s: 'Federations & Institutions', m: 'A-FED', href: '/zones#zone-a' })) },
-      { label: 'STARTUPS', items: D.startups.filter(s => m(s.name) || m(s.sport) || m(s.tech)).map(s => ({ t: s.name, s: s.tech + ' · ' + s.sport, m: s.stall, href: '/zones#zone-c' })) }
+      { label: 'EXHIBITORS', items: D.exhibitors.filter(e => m(e.name) || m(e.sector) || m(e.sport) || m(e.stall) || m(e.country)).map(e => ({ t: e.name, s: e.city, m: e.stall, href: withBase('/exhibit') })) },
+      { label: 'PRODUCTS', items: D.products.filter(x => m(x.name) || m(x.cat) || m(x.by)).map(x => ({ t: x.name, s: x.by, m: x.stall, href: withBase('/exhibit') })) },
+      { label: 'SESSIONS', items: D.sessions.filter(s => m(s.title) || m(s.topic) || m(spk(s))).map(s => ({ t: s.title, s: s.stage, m: 'DAY ' + s.day + ' · ' + s.time, href: withBase('/programme') })) },
+      { label: 'EXPERIENCES', items: [{ t: 'Football Reaction Challenge', s: 'Try Sport Arena', m: 'C-TSA' }, { t: 'Sprint Timing Experience', s: 'Try Sport Arena', m: 'C-TSA' }, { t: 'Archery Experience', s: 'Try Sport Arena', m: 'C-TSA' }].filter(x => m(x.t)).map(x => ({ ...x, href: withBase('/zones#zone-c') })) },
+      { label: 'FEDERATIONS', items: ['Football', 'Hockey', 'Athletics', 'Archery', 'Badminton', 'Boxing'].filter(x => m(x)).map(x => ({ t: x + ' Federation (sample)', s: 'Federations & Institutions', m: 'A-FED', href: withBase('/zones#zone-a') })) },
+      { label: 'STARTUPS', items: D.startups.filter(s => m(s.name) || m(s.sport) || m(s.tech)).map(s => ({ t: s.name, s: s.tech + ' · ' + s.sport, m: s.stall, href: withBase('/zones#zone-c') })) }
     ].filter(g => g.items.length).map(g => ({ ...g, count: g.items.length }));
     return {
       ...base,
       results: groups, noResults: q.length >= 2 && !groups.length,
       intents: [
-        { n: '01', t: 'EXPLORE', s: 'Discover the venue', href: '/explore' },
-        { n: '02', t: 'EXHIBIT', s: 'Build your presence', href: '/exhibit' },
-        { n: '03', t: 'ATTEND', s: 'Experience the Expo', href: '/attend' },
-        { n: '04', t: 'CONNECT', s: 'Do business', href: '/connect' },
-        { n: '05', t: 'WATCH', s: 'Live & on demand', href: '/programme' }
+        { n: '01', t: 'EXPLORE', s: 'Discover the venue', href: withBase('/explore') },
+        { n: '02', t: 'EXHIBIT', s: 'Build your presence', href: withBase('/exhibit') },
+        { n: '03', t: 'ATTEND', s: 'Experience the Expo', href: withBase('/attend') },
+        { n: '04', t: 'CONNECT', s: 'Do business', href: withBase('/connect') },
+        { n: '05', t: 'WATCH', s: 'Live & on demand', href: withBase('/programme') }
       ],
       metrics: [
         { v: '4', l: 'Event zones in Hall 2', src: 'HALL 2 LAYOUT' }, { v: '213', l: 'Exhibition stalls', src: 'HALL 2 LAYOUT LEGEND' },
@@ -229,7 +230,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px", borderBottom: "1px solid #2A2A2D" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -239,19 +240,21 @@ function render(v) {
             </span>
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href="/explore" style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href="/exhibit" style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href="/attend" style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href="/connect" style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
           </nav>
           <button onClick={v.openSearch} aria-label="Search" style={{ background: "transparent", border: "1px solid #3A3A3E", color: "#BDB9B0", height: "36px", padding: "0 14px", font: "500 13px 'Instrument Sans'", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", whiteSpace: "nowrap" }}>
             ⌕
             <span>Search</span>
           </button>
-          <a href="/attend" style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>MY EXPO</a>
-          <a href="/attend" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
+          <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+            MY EXPO
+          </a>
+          <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
             REGISTER
           </a>
         </header>
@@ -263,13 +266,13 @@ function render(v) {
                 DAY 2 — LIVE
               </span>
               <span style={{ opacity: "0.85" }}>Innovation Arena · The Future of AI Coaching</span>
-              <a href="/programme" style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.08em" }}>WATCH →</a>
+              <a href={withBase("/programme")} style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.08em" }}>WATCH →</a>
             </div>
           </>
         ) : null}
         <section data-screen-label="01 Entry" style={{ height: "calc(100vh - 60px)", minHeight: "560px", background: "#0E0E0F", color: "#fff", display: "grid", gridTemplateRows: "1fr auto", padding: "48px 28px 32px", boxSizing: "border-box", position: "relative", overflow: "hidden" }}>
           <div aria-hidden="true" style={{ position: "absolute", top: "0", bottom: "0", right: "0", width: "min(66%,1100px)", pointerEvents: "auto", zIndex: "0", overflow: "hidden" }}>
-            <iframe data-hero-scene="1" src="hero-scene.html" title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "#0E0E0F", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s" }} />
+            <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "#0E0E0F", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s" }} />
             <span style={{ position: "absolute", inset: "0 auto 0 0", width: "18%", background: "linear-gradient(90deg,#0E0E0F,rgba(14,14,15,0))", pointerEvents: "none" }} />
           </div>
           <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
@@ -374,10 +377,10 @@ function render(v) {
               Three days of exhibition, business matchmaking and programme across four event zones inside Exhibition Hall 2 — from India's sporting heritage to the manufacturers, technologists and investors building what comes next.
             </p>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
-              <a href="/exhibit" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
+              <a href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 BOOK A STALL
               </a>
-              <a href="/attend" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
+              <a href={withBase("/attend")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 REGISTER TO VISIT
               </a>
             </div>
@@ -429,7 +432,7 @@ function render(v) {
                           <span style={{ display: "block", fontSize: "17px", fontWeight: "600" }}>{txt(s?.title)}</span>
                           <span style={{ fontSize: "13px", color: "#8A877F" }}>{txt(s?.stage)}</span>
                         </span>
-                        <a href="/programme" style={{ color: "#fff", fontSize: "12px", letterSpacing: "0.1em", fontWeight: "700" }}>SAVE</a>
+                        <a href={withBase("/programme")} style={{ color: "#fff", fontSize: "12px", letterSpacing: "0.1em", fontWeight: "700" }}>SAVE</a>
                       </div>
                     </Fragment>
                   ))}
@@ -497,7 +500,7 @@ function render(v) {
                   </Fragment>
                 ))}
               </div>
-              <a href="/explore" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
+              <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
                 OPEN 3D DIGITAL TWIN →
               </a>
             </aside>
@@ -551,7 +554,7 @@ function render(v) {
             <div style={{ display: "grid", gridTemplateColumns: "repeat(7,minmax(0,1fr))", gap: "8px", marginTop: "12px" }}>
               {list(v.arch).map((a, $index) => (
                 <Fragment key={$index}>
-                  <a href="/exhibit" style={{ color: "#fff", textDecoration: "none", display: "flex", flexDirection: "column", gap: "4px" }}>
+                  <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none", display: "flex", flexDirection: "column", gap: "4px" }}>
                     <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "clamp(16px,1.8vw,26px)", lineHeight: "0.95", textTransform: "uppercase" }}>
                       {txt(a?.name)}
                     </span>
@@ -565,7 +568,7 @@ function render(v) {
               Increasing scale, visibility and brand expression
               <span style={{ color: "#F07C12" }}>→</span>
             </div>
-            <a href="/exhibit" style={{ marginTop: "40px", display: "inline-flex", background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
+            <a href={withBase("/exhibit")} style={{ marginTop: "40px", display: "inline-flex", background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
               COMPARE STALL PRODUCTS →
             </a>
           </div>
@@ -602,10 +605,10 @@ function render(v) {
                     {txt(e?.seeking)}
                   </span>
                   <span style={{ display: "flex", gap: "8px" }}>
-                    <a href="/exhibit" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", padding: "0 14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
+                    <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", padding: "0 14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
                       VIEW
                     </a>
-                    <a href="/connect" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", padding: "0 14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
+                    <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", padding: "0 14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
                       BOOK MEETING
                     </a>
                   </span>
@@ -645,7 +648,7 @@ function render(v) {
               <p style={{ margin: "0", fontSize: "18px", lineHeight: "1.5", color: "#BDB9B0", maxWidth: "480px" }}>
                 Tell us who you are and what you need. The Exchange matches exhibitors, buyers, investors, distributors and government delegations, then books the table.
               </p>
-              <a href="/connect" style={{ alignSelf: "flex-start", background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
+              <a href={withBase("/connect")} style={{ alignSelf: "flex-start", background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 FIND MATCHES →
               </a>
             </div>
@@ -681,7 +684,7 @@ function render(v) {
               <br />
               STAKEHOLDER.
             </h2>
-            <a href="/zones" style={{ alignSelf: "flex-start", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 20px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.08em" }}>
+            <a href={withBase("/zones")} style={{ alignSelf: "flex-start", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 20px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.08em" }}>
               EXPLORE ZONE C →
             </a>
           </div>
@@ -727,7 +730,7 @@ function render(v) {
                       <span style={sx(`width:8px;height:8px;background:${s?.zc ?? ""};`)} />
                       {txt(s?.stage)}·{txt(s?.topic)}
                     </span>
-                    <a href="/programme" style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", color: "#0E0E0F" }}>ADD TO MY EXPO</a>
+                    <a href={withBase("/programme")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", color: "#0E0E0F" }}>ADD TO MY EXPO</a>
                   </div>
                 </Fragment>
               ))}
@@ -739,12 +742,12 @@ function render(v) {
             <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
               {"12 — LIVE & ON DEMAND"}
             </h2>
-            <a href="/programme" style={{ fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>WATCH LIBRARY →</a>
+            <a href={withBase("/programme")} style={{ fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>WATCH LIBRARY →</a>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(300px,1fr))", gap: "24px" }}>
             {list(v.videos).map((_v, $index) => (
               <Fragment key={$index}>
-                <a href="/programme" style={{ textDecoration: "none", color: "#0E0E0F", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <a href={withBase("/programme")} style={{ textDecoration: "none", color: "#0E0E0F", display: "flex", flexDirection: "column", gap: "12px" }}>
                   <span style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative", display: "block" }}>
                     {" "}
                     <span style={sx(`position:absolute;left:12px;top:12px;background:${_v?.badgeBg ?? ""};color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;padding:4px 8px;`)}>
@@ -796,24 +799,26 @@ function render(v) {
                   </div>
                 </Fragment>
               ))}
-              <a href="/explore#getting-there" style={{ marginTop: "24px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>{"FULL VISITOR GUIDE & ROUTES →"}</a>
+              <a href={withBase("/explore#getting-there")} style={{ marginTop: "24px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
+                {"FULL VISITOR GUIDE & ROUTES →"}
+              </a>
             </div>
           </div>
         </section>
         <section data-screen-label="14 CTA" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))" }}>
-          <a href="/exhibit" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box" }}>
+          <a href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box" }}>
             <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>{"FOR BRANDS & MANUFACTURERS"}</span>
             <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "96px", lineHeight: "0.85" }}>
               EXHIBIT →
             </span>
           </a>
-          <a href="/attend" style={{ background: "#fff", color: "#0E0E0F", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box", borderTop: "1px solid #0E0E0F" }}>
+          <a href={withBase("/attend")} style={{ background: "#fff", color: "#0E0E0F", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box", borderTop: "1px solid #0E0E0F" }}>
             <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>{"FOR VISITORS & DELEGATES"}</span>
             <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "96px", lineHeight: "0.85" }}>
               ATTEND →
             </span>
           </a>
-          <a href="/connect" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box" }}>
+          <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box" }}>
             <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>{"FOR BUYERS & INVESTORS"}</span>
             <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "96px", lineHeight: "0.85" }}>
               CONNECT →
@@ -834,22 +839,22 @@ function render(v) {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>PROTOTYPE MAP</span>
-              <a href="/design-system" style={{ color: "#BDB9B0" }}>Design system</a>
-              <a href="/explore" style={{ color: "#BDB9B0" }}>{"Hall 2 digital twin & map"}</a>
-              <a href="/zones" style={{ color: "#BDB9B0" }}>Zone experiences A–D</a>
-              <a href="/exhibit" style={{ color: "#BDB9B0" }}>{"Exhibit & stall booking"}</a>
+              <a href={withBase("/design-system")} style={{ color: "#BDB9B0" }}>Design system</a>
+              <a href={withBase("/explore")} style={{ color: "#BDB9B0" }}>{"Hall 2 digital twin & map"}</a>
+              <a href={withBase("/zones")} style={{ color: "#BDB9B0" }}>Zone experiences A–D</a>
+              <a href={withBase("/exhibit")} style={{ color: "#BDB9B0" }}>{"Exhibit & stall booking"}</a>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }} />
-              <a href="/attend" style={{ color: "#BDB9B0" }}>{"Attend, pass & My Expo"}</a>
-              <a href="/connect" style={{ color: "#BDB9B0" }}>{"Business Exchange & meetings"}</a>
-              <a href="/programme" style={{ color: "#BDB9B0" }}>{"Programme & Watch"}</a>
-              <a href="/portal" style={{ color: "#BDB9B0" }}>Exhibitor control centre</a>
+              <a href={withBase("/attend")} style={{ color: "#BDB9B0" }}>{"Attend, pass & My Expo"}</a>
+              <a href={withBase("/connect")} style={{ color: "#BDB9B0" }}>{"Business Exchange & meetings"}</a>
+              <a href={withBase("/programme")} style={{ color: "#BDB9B0" }}>{"Programme & Watch"}</a>
+              <a href={withBase("/portal")} style={{ color: "#BDB9B0" }}>Exhibitor control centre</a>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }} />
-              <a href="/mobile" style={{ color: "#BDB9B0" }}>Mobile app</a>
-              <a href="/admin" style={{ color: "#BDB9B0" }}>{"Admin, CMS & command"}</a>
+              <a href={withBase("/mobile")} style={{ color: "#BDB9B0" }}>Mobile app</a>
+              <a href={withBase("/admin")} style={{ color: "#BDB9B0" }}>{"Admin, CMS & command"}</a>
             </div>
           </div>
         </footer>

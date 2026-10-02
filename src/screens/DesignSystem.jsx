@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 
 class Component extends DCLogic {}
@@ -12,7 +13,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -38,52 +39,52 @@ function render(v) {
             00 — PROTOTYPE MAP
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(260px,1fr))", borderTop: "2px solid #0E0E0F", borderLeft: "1px solid #E3E0D8" }}>
-            <a href="/" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>01 · PUBLIC</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>HOME</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Earth → Yashobhoomi journey, 14 sections, live mode banner, search</span>
             </a>
-            <a href="/explore" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/explore")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>02 · EXPLORE</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>HALL 2 DIGITAL TWIN</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Roof removal, zones, map modes, indoor routing, getting there</span>
             </a>
-            <a href="/zones" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/zones")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>03 · EXPLORE</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>ZONE EXPERIENCES A–D</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>States map, theme pavilion, federations, marketplace, athlete body</span>
             </a>
-            <a href="/exhibit" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/exhibit")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>04 · EXHIBIT</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>EXHIBIT</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Product architecture, 3D booths, live inventory, directory, registration</span>
             </a>
-            <a href="/attend" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/attend")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>05 · ATTEND</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>{"ATTEND & MY EXPO"}</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Visitor registration, accreditation, pass, dashboards, Plan My Day</span>
             </a>
-            <a href="/connect" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/connect")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>06 · CONNECT</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>BUSINESS EXCHANGE</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Matching, results, 10-step meeting flow, country pavilions</span>
             </a>
-            <a href="/programme" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/programme")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>07 · PROGRAMME</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>{"PROGRAMME & WATCH"}</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>5 agenda views, session pages, live mode, library, universal search</span>
             </a>
-            <a href="/portal" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/portal")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>08 · PORTAL</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>EXHIBITOR CONTROL CENTRE</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>13 modules, pre / live / post states, leads and legacy</span>
             </a>
-            <a href="/mobile" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/mobile")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>09 · MOBILE</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>COMPANION APP</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Pass, map and route, My Expo, check-in, push states</span>
             </a>
-            <a href="/admin" style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a href={withBase("/admin")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B" }}>10 · ADMIN</span>
               <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px" }}>{"ADMIN & COMMAND"}</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Command dashboard, queues, venue, CMS editor, helpdesk board</span>

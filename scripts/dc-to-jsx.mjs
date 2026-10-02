@@ -41,6 +41,14 @@ export const ROUTES = {
 };
 const compName = (dcName) => dcName.replace(/[^A-Za-z0-9]+/g, ' ').trim().split(' ').map((w) => w[0].toUpperCase() + w.slice(1)).join('');
 
+// In logic code, a quoted link like 'Exhibit.dc.html#products' becomes withBase('/exhibit#products').
+function rewriteLogicLinks(code) {
+  return code.replace(/'([A-Za-z0-9%]+)\.dc\.html([^']*)'/g, (m, enc, rest) => {
+    const route = ROUTES[decodeURIComponent(enc)];
+    return route === undefined ? m : "withBase('" + route + rest + "')";
+  });
+}
+
 function rewriteLinks(text) {
   return text.replace(/([A-Za-z0-9%]+?(?:%20[A-Za-z0-9]+)*)\.dc\.html/g, (m, enc) => {
     const name = decodeURIComponent(enc);
@@ -337,6 +345,11 @@ class Emitter {
         continue;
       }
       const e = attrExpr(value, scope);
+      if ((key === 'href' || key === 'src') && !e.dyn && !/^([a-z][a-z0-9+.-]*:|#|\/\/)/i.test(e.value)) {
+        // Site paths get the deployment's base path (GitHub Pages serves the site under /<repo>).
+        props.push(key + '={withBase(' + JSON.stringify(e.value.startsWith('/') ? e.value : '/' + e.value) + ')}');
+        continue;
+      }
       if (key === 'autoFocus') { props.push(e.dyn ? 'autoFocus={' + e.code + '}' : 'autoFocus'); continue; }
       if ((key === 'value' || key === 'checked') && !e.dyn && !controlled) {
         props.push((key === 'value' ? 'defaultValue' : 'defaultChecked') + '={' + e.code + '}');
@@ -389,7 +402,7 @@ function convert(file) {
   const template = rewriteLinks(src.slice(openMatch.index + openMatch[0].length, close));
   const doc = parse(src);
   const script = findAll(doc, (n) => n.tagName === 'script' && n.attrs.some((a) => a.name === 'data-dc-script'))[0];
-  const logic = script ? rewriteLinks(textOf(script)).trim() : '';
+  const logic = script ? rewriteLogicLinks(textOf(script)).trim() : '';
   const propsRaw = script ? (script.attrs.find((a) => a.name === 'data-props') || {}).value : null;
   let defaults = {};
   if (propsRaw) {
@@ -421,6 +434,7 @@ function convert(file) {
   lines.push(`// Logic class and template are carried over from the design unchanged; links point at app routes.`);
   lines.push(`import React, { Fragment } from 'react';`);
   lines.push(`import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';`);
+  lines.push(`import { withBase } from '@/lib/base';`);
   lines.push(`import '@/data/ise';`);
   if (usesMap) lines.push(`import '@/lib/maplibre';`);
   if (usesHeroFit) lines.push(`import '@/lib/hero-fit';`);

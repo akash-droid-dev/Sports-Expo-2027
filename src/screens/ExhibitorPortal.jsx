@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import HallPlan from './HallPlan';
 
@@ -68,7 +69,7 @@ class Component extends DCLogic {
       leads: [['Lukas Brandt', 'Global Sports Retail GmbH', 'Match balls, goals', 'MEETING', 'HOT · LOI', '#9E1B22', 'D2 11:00'], ['Hannah Cole', 'Northline Distribution', 'Training range', 'MEETING', 'HOT', '#9E1B22', 'D2 14:30'], ['Omar Haddad', 'Gulf Arena Supplies', 'Goal systems', 'BADGE SCAN', 'WARM', '#C2610B', 'D2 16:12'], ['Meenakshi Rao', 'Sample State Sports Dept.', 'Community kits', 'BADGE SCAN', 'WARM', '#C2610B', 'D1 12:40'], ['Tom Price', 'Independent retailer', 'Futsal balls', 'APP SAVE', 'COLD', '#6B6A66', 'D1 15:05']].map(([name, org, interest, src, temp, c, when]) => ({ name, org, interest, src, temp, c, when })).slice(0, ph === 'pre' ? 0 : 5),
       exportLeads: () => this.flash(ph === 'pre' ? 'No leads yet — capture starts on Day 1' : 'leads_apex_ise27.csv downloaded (demo)'),
       isPost: ph === 'post',
-      legacy: [{ t: 'Made in India: Scaling Sports Goods Exports', d: 'Recording · 44 min · Rahul Bhandari on stage', href: '/programme#watch' }, { t: '21 meetings · 2 LoIs · 1 sample order', d: 'Outcome report for your board', href: '/connect#meetings' }, { t: 'Rebook for 2028', d: 'Priority window for returning exhibitors', href: '/exhibit' }],
+      legacy: [{ t: 'Made in India: Scaling Sports Goods Exports', d: 'Recording · 44 min · Rahul Bhandari on stage', href: withBase('/programme#watch') }, { t: '21 meetings · 2 LoIs · 1 sample order', d: 'Outcome report for your board', href: withBase('/connect#meetings') }, { t: 'Rebook for 2028', d: 'Priority window for returning exhibitors', href: withBase('/exhibit') }],
       table: tbl ? { ...tbl, grid: tbl.cols.map((_, i) => i === 0 || (tbl.cols.length > 3 && i === 2) ? 'minmax(0,1.4fr)' : 'minmax(0,1fr)').join(' ') } : { cols: [], rows: [] }, hasAction: !!(tbl && tbl.action), tableAction,
       hasTimeline: !!(tbl && tbl.timeline), timeline: tbl && tbl.timeline ? tbl.timeline.map(([d, t, sub, c]) => ({ d, t, s: sub, c })) : [],
       toast: !!s.toast, toastText: s.toast || ''
@@ -81,7 +82,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "240px minmax(0,1fr)" }}>
         <aside style={{ background: "#0E0E0F", color: "#fff", display: "flex", flexDirection: "column", position: "sticky", top: "0", height: "100vh", overflow: "auto" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff", padding: "20px", borderBottom: "1px solid #2A2A2D" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff", padding: "20px", borderBottom: "1px solid #2A2A2D" }}>
             <span style={{ width: "20px", height: "20px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "7px", width: "34px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -104,7 +105,7 @@ function render(v) {
           <div style={{ marginTop: "auto", padding: "20px", borderTop: "1px solid #2A2A2D", display: "flex", flexDirection: "column", gap: "4px", fontSize: "12px", color: "#8A877F" }}>
             <span style={{ color: "#fff", fontWeight: "600" }}>Rahul Bhandari</span>
             <span>Managing Director · Admin</span>
-            <a href="/exhibit" style={{ color: "#BDB9B0", marginTop: "6px" }}>← Public site</a>
+            <a href={withBase("/exhibit")} style={{ color: "#BDB9B0", marginTop: "6px" }}>← Public site</a>
           </div>
         </aside>
         <main style={{ minWidth: "0", display: "flex", flexDirection: "column" }}>
@@ -285,7 +286,7 @@ function render(v) {
                         </Fragment>
                       ))}
                     </dl>
-                    <a href="/exhibit#products" style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>VIEW BOOTH IN 3D →</a>
+                    <a href={withBase("/exhibit#products")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>VIEW BOOTH IN 3D →</a>
                   </div>
                 </div>
               </>
