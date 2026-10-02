@@ -64,7 +64,7 @@ export default function GettingThereMap({ travel, cityMapRef }) {
         href={openUrl(travel)}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ ...mono, position: 'absolute', right: '16px', top: '16px', zIndex: 3, background: '#F07C12', color: '#0E0E0F', border: '1px solid #0E0E0F', padding: '8px 10px', textDecoration: 'none', fontWeight: 700 }}
+        style={{ ...mono, position: 'absolute', right: '16px', bottom: '16px', zIndex: 3, background: '#F07C12', color: '#0E0E0F', border: '1px solid #0E0E0F', padding: '8px 10px', textDecoration: 'none', fontWeight: 700 }}
       >
         OPEN DIRECTIONS ↗
       </a>

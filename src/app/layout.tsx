@@ -4,11 +4,14 @@ import { join } from 'node:path';
 import Script from 'next/script';
 import ClientInit from '@/components/ClientInit';
 import PreloadScenes from '@/components/PreloadScenes';
-import { withBase } from '@/lib/base';
+import { BASE, withBase } from '@/lib/base';
+import { LITE_QUERY } from '@/lib/device';
 import './globals.css';
 import './dc-pseudo.css';
 import './motion.css';
+import './mobile.css';
 import BackButton from '@/components/BackButton';
+import MobileMenu from '@/components/MobileMenu';
 
 export const metadata: Metadata = {
   title: 'India Sports Expo 2027 · Yashobhoomi',
@@ -21,20 +24,36 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1 };
 // True when the build copied Bucky's scene into the site (scripts/vendor-assets.mjs).
 const LOCAL_BUCKY = existsSync(join(process.cwd(), 'public', 'assets', 'bucky.splinecode'));
 
+// Runs before the page renders: marks phones and tablets as "lite" (src/lib/device.js), and on
+// other devices starts downloading the 3D runtime and scenes right away.
+function deviceScript(localBucky: boolean) {
+  const base = JSON.stringify(BASE);
+  return `(function(){var d=document.documentElement,q=location.search,lite=false;
+try{lite=matchMedia(${JSON.stringify(LITE_QUERY)}).matches}catch(e){}
+if(/[?&]lite=1/.test(q))lite=true;if(/[?&]lite=0/.test(q))lite=false;
+if(lite){d.classList.add('lite');return}
+var b=${base},h=document.head,add=function(rel,href,as){var l=document.createElement('link');l.rel=rel;l.href=b+href;if(as){l.as=as;l.crossOrigin='anonymous'}h.appendChild(l)};
+add('modulepreload','/vendor/spline/runtime.js');
+${localBucky ? "add('preload','/assets/bucky.splinecode','fetch');" : ''}
+var p=location.pathname.slice(b.length).replace(/[/]$/,'');if(!p)add('preload','/assets/hero-scene.splinecode','fetch');
+})();`;
+}
+
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: deviceScript(LOCAL_BUCKY) }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link rel="stylesheet" href={FONTS} />
       </head>
       <body>
-        <PreloadScenes bucky={LOCAL_BUCKY} />
+        <PreloadScenes />
         {/* Covers the page while it loads and during page changes (src/lib/motion.js). */}
         <div id="page-curtain" aria-hidden="true">
           <div className="curtain-brand">
@@ -49,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         {children}
         <BackButton />
+        <MobileMenu />
         <ClientInit localBucky={LOCAL_BUCKY} />
         {/* <image-slot> media placeholders. Fill slots by id in public/image-slots.state.json. */}
         <Script src={withBase('/image-slot.js')} strategy="afterInteractive" />

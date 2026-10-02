@@ -4,6 +4,7 @@
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
+import { isLite } from '@/lib/device';
 import DemoVideo from '@/components/DemoVideo';
 import { VenueMap } from '@/components/GettingThereMap';
 import '@/data/ise';
@@ -82,7 +83,8 @@ class Component extends DCLogic {
         container: this.mapRef.current, interactive: false, attributionControl: { compact: true },
         // Smoother globe while scrolling: keep loading tiles mid-zoom, keep more of them,
         // cap the render resolution on high-density screens and skip wrapped world copies.
-        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: 600, pixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
+        // Phones and tablets: default tile cache and a lower render resolution, to stay well inside mobile GPU memory.
+        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: isLite() ? null : 300, pixelRatio: Math.min(window.devicePixelRatio || 1, isLite() ? 1.25 : 1.5),
         renderWorldCopies: false, fadeDuration: 0,
         style: { version: 8, projection: { type: 'globe' },
           sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 19, attribution: 'Esri, Maxar, Earthstar Geographics' } },
@@ -317,7 +319,9 @@ function render(v) {
             {/* A still of the scene shows at once; the live scene fades in over it (src/lib/hero-fit.js).
                 The scene takes no pointer input so wheel and touch scrolling reach the page. */}
             <img data-hero-poster="1" src={withBase("/assets/hero-poster.jpg")} alt="" decoding="async" fetchPriority="high" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .5s" }} />
-            <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "transparent", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s", pointerEvents: "none" }} />
+            {isLite() ? null : (
+              <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "transparent", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s", pointerEvents: "none" }} />
+            )}
             <span style={{ position: "absolute", inset: "0 auto 0 0", width: "18%", background: "linear-gradient(90deg,#0E0E0F,rgba(14,14,15,0))", pointerEvents: "none" }} />
           </div>
           <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
