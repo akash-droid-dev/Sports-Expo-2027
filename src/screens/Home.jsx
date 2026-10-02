@@ -8,6 +8,7 @@ import { isLite } from '@/lib/device';
 import DemoVideo from '@/components/DemoVideo';
 import { VenueMap } from '@/components/GettingThereMap';
 import FoldWord from '@/components/anim/FoldWord';
+import SportsTicker from '@/components/anim/SportsTicker';
 import LockKeyLink from '@/components/anim/LockKeyLink';
 import IntentBoxes from '@/components/home/IntentBoxes';
 import BoothStrip from '@/components/home/BoothStrip';
@@ -357,6 +358,7 @@ function render(v) {
             <span>28.5549° N · 77.0446° E</span>
           </div>
         </section>
+        <SportsTicker />
         <HomeJourney store={v.journeyStore} vals={v.journeyVals} />
         <div ref={v.afterRef} />
         <section data-screen-label="03 Intro" style={{ padding: "120px 28px 80px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "60px", alignItems: "end" }}>

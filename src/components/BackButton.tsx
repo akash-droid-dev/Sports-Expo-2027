@@ -1,6 +1,6 @@
 'use client';
-// Back button on every page, fixed at the top left inside the header bar. Goes back when the visitor came from another page of
-// this site, otherwise to Home. Hidden on Home unless there is a page to go back to.
+// Back button at the top left of every page except Home, inside the header bar. Goes back when
+// the visitor came from another page of this site, otherwise to Home.
 import { useEffect, useState } from 'react';
 import { BASE, withBase } from '@/lib/base';
 import { leavePage } from '@/lib/motion';
@@ -27,7 +27,8 @@ export default function BackButton() {
     const back = cameFromThisSite();
     const route = path.slice(BASE.length) || '/';
     const rail = RAIL_PAGES.includes(route);
-    const show = !isHome || back;
+    // Never on the Home page itself; every other page gets it.
+    const show = !isHome;
     setState({ show, back, rail });
     // Lets the page header (or rail) make room for the button: src/app/motion.css.
     const root = document.documentElement;

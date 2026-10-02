@@ -57,6 +57,7 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 
 - **Brand:** the India Sports Expo 2027 logo (`public/brand`) in every header, side rail and the loading screen; `logo-on-dark` is the same logo with white lettering for the dark bars.
 - **Home hero:** a stadium photo (`public/assets/hero-stadium*.webp`) behind the headline; SPORTS and 2027 fold open letter by letter when the page opens (`src/components/anim/FoldWord.jsx`), as do GLOBAL and INDIA in "The global sports economy meets India".
+- **Sporty finish** (`src/app/sporty.css`, `src/components/anim/SportsTicker.jsx`), in the logo's colours: display type slants forward like the wordmark, primary buttons are angled, a running-track stripe moves along the bottom of every header, dark sections carry speed lines and feature sections pitch markings, Home has a stadium LED ticker with sport icons, and footers open with "Be a sport. Shape the future."
 - **Home animations** (`src/components/home/`, `src/components/anim/`, `src/app/anim.css`):
   - Zone cards at the end of the Earth journey are dealt like playing cards, sport photo up, then turn over to a see-through zone side as you scroll.
   - "Book a stall" is a padlock and key: the key turns, the lock opens, then the Exhibit page opens.
@@ -83,7 +84,7 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
   - The header keeps the logo; its links and buttons move into a ☰ menu.
   - Layouts that are too wide for the screen are reflowed: wide grids get fewer columns, rows wrap, oversized headlines shrink. No page scrolls sideways.
   - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.
-- **Back button** at the top left of every page, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
+- **Back button** at the top left of every page except Home, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
   - Bucky's scene is served by the site (`public/assets/bucky.splinecode`; delete it and run `npm install` to pull a new version from Spline). A bundled poster shows him at once on a first visit, and a snapshot from that visit is reused on later pages.
   - The Spline runtime, its Draco mesh decoder (`vendor/draco`) and the scenes are served by the site, preloaded and cached.
