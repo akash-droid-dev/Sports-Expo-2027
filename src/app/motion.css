@@ -240,3 +240,106 @@ html.m-on #dc-root a[style*='padding']:active {
     animation: none;
   }
 }
+
+/* ---------- Click pulse (src/lib/motion.js) ---------- */
+.tap-pulse {
+  position: fixed;
+  z-index: 9700;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 2px solid #f07c12;
+  pointer-events: none;
+  animation: tapPulse 0.55s var(--ease) forwards;
+}
+@keyframes tapPulse {
+  from {
+    opacity: 0.9;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(4.2);
+  }
+}
+
+@media (hover: hover) {
+  /* Saffron call-to-action buttons: a light sweep on hover. */
+  html.m-on #dc-root a[style*='background: rgb(240, 124, 18)'],
+  html.m-on #dc-root button[style*='background: rgb(240, 124, 18)'] {
+    position: relative;
+    overflow: hidden;
+  }
+  html.m-on #dc-root a[style*='background: rgb(240, 124, 18)']::after,
+  html.m-on #dc-root button[style*='background: rgb(240, 124, 18)']::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 45%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: skewX(-18deg);
+    pointer-events: none;
+    transition: left 0.6s var(--ease);
+  }
+  html.m-on #dc-root a[style*='background: rgb(240, 124, 18)']:hover::after,
+  html.m-on #dc-root button[style*='background: rgb(240, 124, 18)']:hover::after {
+    left: 120%;
+  }
+
+  /* Header and footer text links: an underline that draws in. */
+  html.m-on #dc-root header nav a,
+  html.m-on #dc-root footer a {
+    background-image: linear-gradient(#f07c12, #f07c12);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 2px;
+    padding-bottom: 3px;
+    transition:
+      background-size 0.35s var(--ease),
+      color 0.2s ease;
+  }
+  html.m-on #dc-root header nav a:hover,
+  html.m-on #dc-root footer a:hover {
+    background-size: 100% 2px;
+    color: #f07c12 !important;
+  }
+
+  /* Card-like links and buttons lift; full-width list rows tint instead. */
+  html.m-on #dc-root a[style*='display: flex']:hover,
+  html.m-on #dc-root a[style*='display: grid']:hover,
+  html.m-on #dc-root a[style*='display: block']:hover {
+    translate: 0 -3px;
+    box-shadow: 0 18px 36px -22px rgba(14, 14, 15, 0.55);
+  }
+  html.m-on #dc-root header a:hover,
+  html.m-on #dc-root nav a:hover,
+  html.m-on #dc-root footer a:hover {
+    translate: none;
+    box-shadow: none;
+  }
+  html.m-on #dc-root button[style*='width: 100%']:hover:not(:disabled) {
+    translate: none;
+    box-shadow: none;
+    filter: brightness(0.96);
+  }
+  /* Clickable blocks in the Hall 2 plan brighten instead of moving. */
+  html.m-on [data-sc-name='Hall Plan'] [style*='cursor: pointer']:hover {
+    filter: brightness(1.08) saturate(1.15);
+    outline: 2px solid #f07c12;
+    outline-offset: -2px;
+  }
+}
+
+/* Hero banner parallax layers (src/lib/motion.js) */
+html.m-on [data-parallax] {
+  transition: translate 0.6s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tap-pulse {
+    display: none;
+  }
+}

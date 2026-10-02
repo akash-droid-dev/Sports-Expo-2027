@@ -170,6 +170,24 @@
   let loaded = false;
   let loadP = null;
 
+  // Site media (public/media/media.json): slot id → { src, credit, href }. It supplies a slot's
+  // image when the page gives none, so demo photos and artwork fill every slot. Paths in the
+  // map are relative to the map file, which keeps them right under any base path.
+  const MEDIA_FILE = new URL('media/media.json', STATE_FILE).href;
+  let media = {};
+  const mediaP = fetch(MEDIA_FILE)
+    .then((r) => (r.ok ? r.json() : null))
+    .then((j) => {
+      if (!j || typeof j !== 'object') return;
+      for (const k in j) {
+        const m = j[k];
+        if (m && typeof m.src === 'string') media[k] = { ...m, src: new URL(m.src, MEDIA_FILE).href };
+      }
+    })
+    .catch(() => {})
+    .then(() => subs.forEach((fn) => fn()));
+  const mediaFor = (id) => (id && media[id]) || null;
+
   function load() {
     if (loadP) return loadP;
     loadP = fetch(STATE_FILE)
@@ -502,7 +520,7 @@
       root.innerHTML =
         '<style>' + stylesheet + '</style>' +
         '<div class="frame" part="frame">' +
-        '  <img part="image" alt="" draggable="false" style="display:none">' +
+        '  <img part="image" alt="" draggable="false" loading="lazy" decoding="async" style="display:none">' +
         '  <div class="empty" part="empty">' + icon +
         '    <div class="cap"></div>' +
         '    <div class="sub">or <u>browse files</u></div></div>' +
@@ -517,7 +535,7 @@
         // (photographer + Unsplash), built per-render in _render().
         '<span class="credit" part="credit"></span>' +
         '<div class="spill" popover="manual" data-dc-edit-transparent>' +
-        '  <img class="ghost" alt="" draggable="false">' +
+        '  <img class="ghost" alt="" draggable="false" loading="lazy" decoding="async">' +
         '  <div class="handle" data-c="nw"></div><div class="handle" data-c="ne"></div>' +
         '  <div class="handle" data-c="sw"></div><div class="handle" data-c="se"></div>' +
         '</div>' +
@@ -1096,7 +1114,8 @@
       // (Claude wrote it into the HTML) so it passes through unchanged.
       let stored = this.id ? getSlot(this.id) : this._local;
       if (stored && stored.u && !/^data:image\//i.test(stored.u)) stored = null;
-      const srcAttr = this.getAttribute('src') || '';
+      const site = mediaFor(this.id);
+      const srcAttr = this.getAttribute('src') || (site && site.src) || '';
       this._userUrl = (stored && stored.u) || null;
       const url = this._userUrl || srcAttr;
       // Don't clobber an in-flight reframe with a store-triggered re-render.
@@ -1118,7 +1137,7 @@
       // only value must count as missing — otherwise it would suppress the
       // error tile AND render an empty credit box (no text, no links),
       // exactly the unattributed state this gate exists to prevent.
-      const credit = (this.getAttribute('credit') || '').trim();
+      const credit = (this.getAttribute('credit') || (!this.getAttribute('src') && site && site.credit) || '').trim();
       const attrError = !!(
         !credit && !this._userUrl && srcAttr && isUnsplashHost(srcAttr)
       );
@@ -1181,7 +1200,7 @@
         // then append the terms-required utm referral params to links
         // that point back at unsplash.com.
         let href = '';
-        const rawHref = this.getAttribute('credit-href') || '';
+        const rawHref = this.getAttribute('credit-href') || (!this.getAttribute('src') && site && site.href) || '';
         if (rawHref) {
           try {
             const u = new URL(rawHref, document.baseURI);

@@ -203,6 +203,60 @@ function startProgress() {
   update();
 }
 
+/* ---------- Click pulse and hero parallax ---------- */
+
+const CLICKABLE = 'a[href], button, [role="button"], [role="tab"], label, select, summary, [style*="cursor: pointer"]';
+
+function startTapPulse() {
+  addEventListener(
+    'pointerdown',
+    (e) => {
+      if (e.button !== 0 || !(e.target instanceof Element) || !e.target.closest(CLICKABLE)) return;
+      const dot = document.createElement('span');
+      dot.className = 'tap-pulse';
+      dot.style.left = e.clientX + 'px';
+      dot.style.top = e.clientY + 'px';
+      document.body.appendChild(dot);
+      dot.addEventListener('animationend', () => dot.remove());
+    },
+    { capture: true, passive: true },
+  );
+}
+
+// The Home banner drifts gently with the mouse: the headline one way, the 3D scene the other.
+function startHeroParallax() {
+  if (!matchMedia('(hover: hover)').matches) return;
+  // Delegated, so it keeps working when Home is left and visited again.
+  let moved = null;
+  const parts = (hero) => {
+    const title = hero.querySelector('h1');
+    const scene = hero.querySelector('iframe[data-hero-scene]')?.parentElement;
+    [title, scene].forEach((el) => el && !el.hasAttribute('data-parallax') && el.setAttribute('data-parallax', ''));
+    return { title, scene };
+  };
+  const reset = () => {
+    if (!moved) return;
+    const { title, scene } = moved;
+    if (title) title.style.translate = '';
+    if (scene) scene.style.translate = '';
+    moved = null;
+  };
+  addEventListener(
+    'pointermove',
+    (e) => {
+      const hero = e.target instanceof Element && e.target.closest('section[data-screen-label="01 Entry"]');
+      if (!hero) return reset();
+      const r = hero.getBoundingClientRect();
+      const dx = (e.clientX - r.left) / r.width - 0.5, dy = (e.clientY - r.top) / r.height - 0.5;
+      const { title, scene } = (moved = parts(hero));
+      if (title) title.style.translate = `${dx * -10}px ${dy * -6}px`;
+      if (scene) scene.style.translate = `${dx * 18}px ${dy * 12}px`;
+    },
+    { passive: true },
+  );
+  document.addEventListener('pointerleave', reset);
+}
+
 /* ---------- Boot ---------- */
 
 let started = false;
@@ -219,6 +273,8 @@ export function initMotion() {
   document.documentElement.classList.add('m-on');
   interceptLinks();
   startProgress();
+  startTapPulse();
+  startHeroParallax();
 
   // Lift the curtain once the screen has rendered (or after a short cap on slow loads).
   // The brand curtain lingers on the first page of a visit, and only briefly after that.
