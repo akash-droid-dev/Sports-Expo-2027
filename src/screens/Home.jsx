@@ -8,10 +8,11 @@ import '@/data/ise';
 import '@/lib/maplibre';
 import '@/lib/hero-fit';
 import HallPlan from './HallPlan';
+import VenueStage from '@/components/home/VenueStage';
 
 /* global maplibregl */
 class Component extends DCLogic {
-  state = { p: 0, day: 2, zone: null, sel: null, searchOpen: false, q: 'football', gq: '', gmsgs: [{ me: false, text: 'Namaste. I am R-4X, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. What are you looking for?' }], gbusy: false };
+  state = { p: 0, day: 2, zone: null, sel: null, searchOpen: false, q: 'football', gq: '', gmsgs: [{ me: false, text: 'Namaste. I am Bucky, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. What are you looking for?' }], gbusy: false };
   guideLogRef = React.createRef();
   guideLocal(q) {
     const D = window.ISE; const t = q.toLowerCase(); if (!D) return null;
@@ -36,7 +37,7 @@ class Component extends DCLogic {
       try {
         const D = window.ISE;
         const ctx = JSON.stringify({ zones: D.zones.map(z => ({ id: z.id, name: z.name })), clusters: D.clusters.map(c => c.id + ' ' + c.name + ' (Zone ' + c.zone + ')'), exhibitors: D.exhibitors.map(e => e.name + ' · ' + e.stall + ' · ' + e.sector), sessions: D.sessions.map(s => 'Day ' + s.day + ' ' + s.time + ' ' + s.title + ' @ ' + s.stage) });
-        const text = await window.claude.complete(`You are R-4X, the concise expo guide for India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi, New Delhi. Answer in at most 3 short sentences, plain text, no markdown. Only use this demo data; if unsure, say so and suggest the helpdesk. Data: ${ctx}\n\nVisitor: ${q}`);
+        const text = await window.claude.complete(`You are Bucky, the concise expo guide for India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi, New Delhi. Answer in at most 3 short sentences, plain text, no markdown. Only use this demo data; if unsure, say so and suggest the helpdesk. Data: ${ctx}\n\nVisitor: ${q}`);
         reply = { text: text.trim(), links: [] };
       } catch (e) { reply = null; }
     }
@@ -62,8 +63,8 @@ class Component extends DCLogic {
     { at: 0.34, label: 'NEW DELHI', k: '04 / 08', t: 'NEW DELHI', d: 'The capital. Host city of India Sports Expo 2027.' },
     { at: 0.45, label: 'DWARKA', k: '05 / 08', t: 'DWARKA', d: 'Sector 25, minutes from Indira Gandhi International Airport.' },
     { at: 0.55, label: 'YASHOBHOOMI', k: '06 / 08', t: 'YASHOBHOOMI', d: 'India International Convention & Expo Centre. Home of India Sports Expo 2027.' },
-    { at: 0.74, label: 'HALL 2', k: '07 / 08', t: 'EXHIBITION HALL 2', d: 'The roof lifts. One continuous exhibition floor, tied together by the Sports Boulevard.' },
-    { at: 0.86, label: 'FOUR ZONES', k: '08 / 08', t: 'FOUR EVENT ZONES', d: '' }
+    { at: 0.62, label: 'HALL 2', k: '07 / 08', t: 'EXHIBITION HALL 2', d: 'Step inside the venue. One continuous exhibition floor, tied together by the Sports Boulevard.' },
+    { at: 0.74, label: 'FOUR ZONES', k: '08 / 08', t: 'FOUR EVENT ZONES', d: '' }
   ];
   componentDidMount() {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -111,14 +112,14 @@ class Component extends DCLogic {
     const reduced = this.reduced || this.props.journey === 'reduced';
     const ramp = (a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
     const stage = [...this.STAGES].reverse().find(s => p >= s.at) || this.STAGES[0];
-    const zoneOrder = ['A', 'B', 'C', 'D']; const zoneAt = [0.87, 0.9, 0.93, 0.96];
+    const zoneOrder = ['A', 'B', 'C', 'D']; const zoneAt = [0.8, 0.84, 0.88, 0.92];
     const lit = reduced ? zoneOrder : zoneOrder.filter((z, i) => p >= zoneAt[i]);
     const lastLit = lit.length ? lit[lit.length - 1] : null;
     let stageText = stage.d, stageTitle = stage.t;
     if (stage.label === 'FOUR ZONES' && D && lastLit && !reduced) { stageTitle = 'ZONE ' + lastLit; stageText = D.Z[lastLit].name; }
-    const planOpacity = reduced ? 1 : ramp(0.72, 0.78);
-    const roof = reduced ? 0 : 1 - ramp(0.79, 0.85);
-    const photoOpacity = reduced ? 0 : Math.min(ramp(0.6, 0.64), 1 - ramp(0.69, 0.73));
+    // The venue scene and the zone finale sit on a dark background, so captions stay light.
+    const planOpacity = 0;
+    const captionOpacity = reduced ? 0 : 1 - ramp(0.7, 0.74);
     const curCenter = this.map ? this.map.getCenter() : { lat: 18, lng: 55 };
     const z = this.map ? this.map.getZoom() : 1;
     const alt = Math.round(40000000 / Math.pow(2, z));
@@ -129,11 +130,10 @@ class Component extends DCLogic {
     const base = {
       journeyRef: this.journeyRef, mapRef: this.mapRef, afterRef: this.afterRef, live,
       journeyHeight: reduced ? '100vh' : '900vh',
-      mapOpacity: reduced ? 0 : 1 - ramp(0.73, 0.77),
-      arrivalScrim: reduced ? 0 : Math.min(0.35, ramp(0.58, 0.64) * 0.35),
-      photoOpacity, photoPE: photoOpacity > 0.5 ? 'auto' : 'none',
-      showPin: !reduced && p > 0.5 && p < 0.74, pinOpacity: Math.min(ramp(0.5, 0.55), 1 - ramp(0.6, 0.63)),
-      planOpacity, planPE: planOpacity > 0.5 ? 'auto' : 'none', roof, lit, planLabels: p > 0.84 || reduced,
+      mapOpacity: reduced ? 0 : 1 - ramp(0.6, 0.66),
+      arrivalScrim: reduced ? 0 : Math.min(0.35, ramp(0.56, 0.6) * 0.35),
+      showPin: !reduced && p > 0.5 && p < 0.62, pinOpacity: Math.min(ramp(0.5, 0.55), 1 - ramp(0.58, 0.61)),
+      journeyP: p, journeyReduced: reduced, lit, captionOpacity, readoutOpacity: reduced ? 0 : 1 - ramp(0.58, 0.62),
       crumbs, stageKicker: stage.k + (stage.label === 'YASHOBHOOMI' ? ' · NEW DELHI' : ''), stageTitle, stageText,
       captionColor: planOpacity > 0.5 ? '#0E0E0F' : '#fff',
       coordText: `${curCenter.lat.toFixed(4)}° N · ${curCenter.lng.toFixed(4)}° E`, altText: alt > 1000 ? Math.round(alt / 1000).toLocaleString() + ' KM' : alt + ' M',
@@ -143,7 +143,7 @@ class Component extends DCLogic {
       guideLogRef: this.guideLogRef, guideQ: this.state.gq, guideSetQ: e => this.setState({ gq: e.target.value }), guideBusy: this.state.gbusy,
       guideSubmit: e => { e.preventDefault(); this.guideAsk(this.state.gq); },
       guideSuggest: ['Where is Apex Sports?', 'What is live now?', 'How do I book a stall?', 'How do I get there by metro?', 'Find me buyers'].map(t => ({ t, ask: () => this.guideAsk(t) })),
-      guideMsgs: this.state.gmsgs.map(m => ({ ...m, who: m.me ? 'YOU' : 'R-4X', who_c: m.me ? '#8A877F' : '#F07C12', align: m.me ? 'flex-end' : 'flex-start', bg: m.me ? '#fff' : 'transparent', fg: m.me ? '#0E0E0F' : '#fff', pad: m.me ? '10px 14px' : '0', links: m.links || [], hasLinks: !!(m.links && m.links.length) })),
+      guideMsgs: this.state.gmsgs.map(m => ({ ...m, who: m.me ? 'YOU' : 'BUCKY', who_c: m.me ? '#8A877F' : '#F07C12', align: m.me ? 'flex-end' : 'flex-start', bg: m.me ? '#fff' : 'transparent', fg: m.me ? '#0E0E0F' : '#fff', pad: m.me ? '10px 14px' : '0', links: m.links || [], hasLinks: !!(m.links && m.links.length) })),
       archSvg: this.arch()
     };
     if (!D) return { ...base, intents: [], metrics: [], worlds: [], arch: [], featured: [], prods: [], matchPreview: [], stake: [], dayTabs: [], daySessions: [], videos: [], travel: [], zoneTabs: [], panel: { rows: [] }, upNext: [], results: [] };
@@ -309,9 +309,6 @@ function render(v) {
             <div ref={v.mapRef} style={sx(`position:absolute;inset:0;opacity:${v.mapOpacity ?? ""};transition:opacity .3s;`)} />
             <div style={{ position: "absolute", inset: "0", pointerEvents: "none", background: "radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.55) 100%)" }} />
             <div style={sx(`position:absolute;inset:0;background:#000;opacity:${v.arrivalScrim ?? ""};pointer-events:none;`)} />
-            <div style={sx(`position:absolute;inset:0;opacity:${v.photoOpacity ?? ""};pointer-events:${v.photoPE ?? ""};`)}>
-              <image-slot id="home-yasho-exterior" shape="rect" placeholder="Official photograph — Yashobhoomi exterior / Grand Arrival" />
-            </div>
             {v.showPin ? (
               <>
                 <div style={sx(`position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:${v.pinOpacity ?? ""};`)}>
@@ -323,12 +320,7 @@ function render(v) {
                 </div>
               </>
             ) : null}
-            <div style={sx(`position:absolute;inset:0;background:#F6F4EF;opacity:${v.planOpacity ?? ""};pointer-events:none;`)} />
-            <div style={sx(`position:absolute;inset:6% 4% 4% 26%;opacity:${v.planOpacity ?? ""};display:flex;align-items:center;pointer-events:${v.planPE ?? ""};`)}>
-              <div style={{ width: "100%" }}>
-                <HallPlan iso={true} roof={v.roof} lit={v.lit} labels={v.planLabels} />
-              </div>
-            </div>
+            <VenueStage p={v.journeyP} reduced={v.journeyReduced} lit={v.lit} />
             <nav aria-label="Journey" style={{ position: "absolute", left: "28px", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: "12px" }}>
               {list(v.crumbs).map((c, $index) => (
                 <Fragment key={$index}>
@@ -339,7 +331,7 @@ function render(v) {
                 </Fragment>
               ))}
             </nav>
-            <div style={sx(`position:absolute;left:28px;bottom:32px;max-width:640px;color:${v.captionColor ?? ""};pointer-events:none;`)}>
+            <div style={sx(`position:absolute;left:28px;bottom:32px;max-width:640px;color:${v.captionColor ?? ""};pointer-events:none;opacity:${v.captionOpacity ?? ""};`)}>
               <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.8", marginBottom: "10px" }}>
                 {txt(v.stageKicker)}
               </div>
@@ -348,7 +340,7 @@ function render(v) {
               </div>
               <div style={{ fontSize: "17px", lineHeight: "1.45", marginTop: "14px", maxWidth: "520px", opacity: "0.9" }}>{txt(v.stageText)}</div>
             </div>
-            <div style={sx(`position:absolute;right:28px;bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;color:${v.captionColor ?? ""};opacity:0.7;text-align:right;line-height:1.7;pointer-events:none;`)}>
+            <div style={sx(`position:absolute;right:28px;bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;color:${v.captionColor ?? ""};opacity:${(v.readoutOpacity ?? 1) * 0.7};text-align:right;line-height:1.7;pointer-events:none;`)}>
               <div>{txt(v.coordText)}</div>
               <div>{"ALT "}{txt(v.altText)}</div>
               <div>IMAGERY: ESRI WORLD IMAGERY</div>

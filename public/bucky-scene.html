@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>R-4X</title>
+<title>Bucky</title>
 <style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:transparent}#c{position:absolute;inset:0;width:100%;height:100%;outline:none;opacity:0;transition:opacity .5s}</style>
 <script>
 // Spline's physics step throws on every frame for this export. Run animation callbacks inside try/catch so nothing escapes to the console.
@@ -40,7 +40,7 @@ const blink = () => {
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setTimeout(blink, 1500);
 window.__app = app;
 c.style.opacity = 1;
-parent.postMessage({ r4x: 'ready' }, '*');
+parent.postMessage({ bucky: 'ready' }, '*');
 </script>
 </body>
 </html>

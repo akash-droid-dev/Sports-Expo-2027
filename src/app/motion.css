@@ -1,0 +1,247 @@
+/* Site-wide motion (driven by src/lib/motion.js). Reduced motion turns all of it off. */
+
+:root {
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ---------- Page curtain ---------- */
+#page-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: #0e0e0f;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform: translateY(0);
+  transition: transform 0.75s var(--ease-io);
+  /* Safety net if scripts never run. */
+  animation: curtainSafety 0.6s var(--ease-io) 4s forwards;
+}
+#page-curtain.is-gone {
+  transform: translateY(-101%);
+  animation: none;
+}
+#page-curtain.is-leaving {
+  transform: translateY(0);
+  transition: none;
+  animation: curtainIn 0.52s var(--ease-io) both;
+}
+@keyframes curtainIn {
+  from {
+    transform: translateY(101%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes curtainSafety {
+  to {
+    transform: translateY(-101%);
+  }
+}
+.curtain-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.curtain-mark {
+  width: 34px;
+  height: 34px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  flex: none;
+}
+.curtain-mark::after {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 12px;
+  width: 56px;
+  height: 9px;
+  background: #f07c12;
+  transform: rotate(-28deg) translateX(-110%);
+  animation: curtainBar 0.7s var(--ease) 0.15s forwards;
+}
+@keyframes curtainBar {
+  to {
+    transform: rotate(-28deg) translateX(0);
+  }
+}
+.curtain-word {
+  overflow: hidden;
+  display: inline-flex;
+}
+.curtain-word span {
+  display: inline-block;
+  transform: translateY(105%);
+  animation: curtainWord 0.7s var(--ease) 0.25s forwards;
+}
+.curtain-word b {
+  color: #f07c12;
+  font-weight: 900;
+}
+@keyframes curtainWord {
+  to {
+    transform: translateY(0);
+  }
+}
+.curtain-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: 100%;
+  background: #f07c12;
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: curtainLine 1.1s var(--ease) 0.1s forwards;
+}
+@keyframes curtainLine {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- Scroll reveals ---------- */
+html.m-on .m-r:not(.m-in) {
+  opacity: 0;
+  translate: 0 28px;
+}
+html.m-on .m-r.m-in {
+  transition:
+    opacity 0.8s var(--ease) var(--m-d, 0ms),
+    translate 0.9s var(--ease) var(--m-d, 0ms);
+}
+html.m-on .m-h:not(.m-in) {
+  opacity: 0;
+  translate: 0 0.35em;
+  clip-path: inset(0 0 100% 0);
+}
+html.m-on .m-h.m-in {
+  clip-path: inset(0 0 -10% 0);
+  transition:
+    opacity 0.6s var(--ease) var(--m-d, 0ms),
+    translate 1s var(--ease) var(--m-d, 0ms),
+    clip-path 1.1s var(--ease) var(--m-d, 0ms);
+}
+
+/* ---------- Scroll progress ---------- */
+.scroll-progress {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 3px;
+  z-index: 9500;
+  background: linear-gradient(90deg, #f07c12, #ffb067);
+  transform-origin: left;
+  transform: scaleX(0);
+  pointer-events: none;
+}
+
+/* ---------- Hover and press ---------- */
+@media (hover: hover) {
+  html.m-on #dc-root a,
+  html.m-on #dc-root button {
+    transition:
+      translate 0.3s var(--ease),
+      box-shadow 0.3s var(--ease),
+      background-color 0.2s ease,
+      color 0.2s ease,
+      border-color 0.2s ease,
+      opacity 0.2s ease;
+  }
+  html.m-on #dc-root a[style*='padding']:hover,
+  html.m-on #dc-root button[style*='padding']:hover:not(:disabled) {
+    translate: 0 -2px;
+    box-shadow: 0 12px 26px -16px rgba(14, 14, 15, 0.55);
+  }
+}
+html.m-on #dc-root button:active:not(:disabled),
+html.m-on #dc-root a[style*='padding']:active {
+  translate: 0 1px;
+  box-shadow: none;
+}
+:focus-visible {
+  outline: 2px solid #f07c12;
+  outline-offset: 2px;
+}
+html.m-on {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Back button ---------- */
+.back-btn {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  z-index: 8999;
+  height: 46px;
+  padding: 0 18px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #0e0e0f;
+  color: #fff;
+  border: 1px solid #3a3a3e;
+  border-left: 3px solid #f07c12;
+  font: 700 12px 'Instrument Sans', sans-serif;
+  letter-spacing: 0.14em;
+  cursor: pointer;
+  box-shadow: 0 18px 40px -20px rgba(14, 14, 15, 0.7);
+  animation: backIn 0.7s var(--ease) 0.4s both;
+  transition:
+    background-color 0.2s ease,
+    translate 0.3s var(--ease);
+}
+.back-btn:hover {
+  background: #1a1a1c;
+  translate: 0 -2px;
+}
+.back-btn-arrow {
+  color: #f07c12;
+  font-size: 16px;
+  transition: transform 0.3s var(--ease);
+}
+.back-btn:hover .back-btn-arrow {
+  transform: translateX(-4px);
+}
+@keyframes backIn {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+@media (max-width: 600px) {
+  .back-btn {
+    left: 12px;
+    bottom: 12px;
+    height: 40px;
+    padding: 0 14px 0 10px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  #page-curtain {
+    transition: none;
+    animation: none;
+  }
+  .back-btn {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,4 +1,4 @@
-// R-4X answers for questions the built-in topics don't cover.
+// Bucky answers for questions the built-in topics don't cover.
 // The browser calls this through window.claude.complete (see src/components/ClientInit.tsx).
 // Set ANTHROPIC_API_KEY on the server to enable it; without credentials it returns 503
 // and the guide falls back to its built-in reply.
@@ -8,7 +8,7 @@ export const runtime = 'nodejs';
 
 const MAX_PROMPT_CHARS = 12000;
 const SYSTEM =
-  'You are R-4X, the expo guide for India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi (IICC), Dwarka, New Delhi. ' +
+  'You are Bucky, the expo guide for India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi (IICC), Dwarka, New Delhi. ' +
   'Only answer questions about the Expo, its venue, exhibitors, programme and travel. ' +
   'Reply in at most 3 short sentences of plain text, no markdown.';
 
@@ -57,10 +57,10 @@ export async function POST(req: Request) {
       return Response.json({ error: 'Busy, try again shortly' }, { status: 429 });
     }
     if (error instanceof Anthropic.APIError) {
-      console.error('[r4x] Claude API error', error.status, error.message);
+      console.error('[bucky] Claude API error', error.status, error.message);
       return Response.json({ error: 'AI answer failed' }, { status: 502 });
     }
-    console.error('[r4x] unexpected error', error);
+    console.error('[bucky] unexpected error', error);
     return Response.json({ error: 'AI answer failed' }, { status: 500 });
   }
 }
