@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Programme &amp; Watch · India Sports Expo 2027</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&amp;family=Instrument+Sans:wght@400..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<script src="ise-data.js"></script>
+<script src="./image-slot.js"></script>
+<style>body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input{font-family:'Instrument Sans',sans-serif}@keyframes iseBlink{50%{opacity:.25}}</style>
+<script src="r4x-guide.js"></script>
+</helmet>
+<div style="min-height:100vh;">
+  <header style="position:sticky;top:0;z-index:60;background:#0E0E0F;color:#fff;display:flex;align-items:center;gap:28px;padding:0 28px;height:60px;">
+    <a href="Home.dc.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;"><span style="width:22px;height:22px;background:#fff;display:inline-block;position:relative;overflow:hidden;"><span style="position:absolute;left:-6px;top:8px;width:36px;height:6px;background:#F07C12;transform:rotate(-28deg);"></span></span><span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:24px;white-space:nowrap;">INDIA SPORTS EXPO <span style="color:#F07C12;">2027</span></span></a>
+    <nav aria-label="Primary" style="display:flex;gap:22px;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;white-space:nowrap;font-size:13px;font-weight:600;letter-spacing:0.08em;">
+      <a href="Hall%202%20Digital%20Twin.dc.html" style="color:#fff;text-decoration:none;">EXPLORE</a>
+      <a href="Exhibit.dc.html" style="color:#fff;text-decoration:none;">EXHIBIT</a>
+      <a href="Attend%20and%20My%20Expo.dc.html" style="color:#fff;text-decoration:none;">ATTEND</a>
+      <a href="Connect.dc.html" style="color:#fff;text-decoration:none;">CONNECT</a>
+      <a href="#programme" style="color:#F07C12;text-decoration:none;">PROGRAMME</a>
+      <a href="#watch" style="color:#F07C12;text-decoration:none;">WATCH</a>
+    </nav>
+    <button onClick="{{ openSearch }}" aria-label="Search" style="background:transparent;border:1px solid #3A3A3E;color:#BDB9B0;height:36px;padding:0 14px;font-size:13px;display:flex;align-items:center;gap:10px;cursor:pointer;white-space:nowrap;">⌕ Search the Expo</button>
+    <a href="Attend%20and%20My%20Expo.dc.html#myexpo" style="color:#fff;text-decoration:none;font-size:13px;font-weight:600;letter-spacing:0.08em;white-space:nowrap;">MY EXPO</a>
+  </header>
+  <div style="background:#F6F4EF;border-bottom:1px solid #0E0E0F;display:flex;align-items:center;gap:16px;padding:10px 28px;flex-wrap:wrap;">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;">PROTOTYPE · EVENT PHASE</span>
+    <div role="tablist" style="display:flex;border:1px solid #0E0E0F;background:#fff;"><sc-for list="{{ phases }}" as="p" hint-placeholder-count="3"><button role="tab" onClick="{{ p.pick }}" style="height:32px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:{{ p.bg }};color:{{ p.fg }};font-size:11px;font-weight:700;letter-spacing:0.1em;cursor:pointer;">{{ p.t }}</button></sc-for></div>
+    <span style="font-size:13px;color:#3A3A3E;">{{ phaseNote }}</span>
+  </div>
+
+  <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="Live mode" style="background:#0E0E0F;color:#fff;padding:40px 28px 56px;">
+      <div style="max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:24px;">
+        <div style="display:flex;align-items:baseline;gap:20px;flex-wrap:wrap;"><h1 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(56px,7vw,112px);line-height:0.85;">DAY 2 — <span style="color:#F07C12;">LIVE</span></h1><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.14em;color:#BDB9B0;">10:18 IST · HALL 2 OPEN · 14,820 ON SITE (DEMO)</span></div>
+        <div style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;">
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="aspect-ratio:16/9;background:#1A1A1C;position:relative;border:1px solid #2A2A2D;">
+              <image-slot id="live-player" shape="rect" placeholder="Live stream embed (YouTube / platform player)"></image-slot>
+              <span style="position:absolute;left:16px;top:16px;background:#9E1B22;color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;padding:5px 10px;display:flex;gap:8px;align-items:center;pointer-events:none;"><span style="width:8px;height:8px;border-radius:50%;background:#fff;animation:iseBlink 1.4s infinite;"></span>LIVE · INNOVATION ARENA</span>
+              <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 16px;background:linear-gradient(transparent,rgba(14,14,15,0.9));display:flex;justify-content:space-between;align-items:center;pointer-events:none;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;">00:18:42 · CC ENGLISH · हिन्दी</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;">2,412 WATCHING</span></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;">
+              <div><span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:40px;line-height:0.9;">THE FUTURE OF AI COACHING</span><div style="font-size:14px;color:#BDB9B0;margin-top:6px;">Arjun Mehta · Dr. Meera Raghavan · 10:00–10:45</div></div>
+              <div style="display:flex;gap:8px;"><button onClick="{{ openLive }}" style="height:44px;padding:0 16px;border:1px solid #fff;background:none;color:#fff;font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">SESSION PAGE</button><button onClick="{{ toggleTranscript }}" style="height:44px;padding:0 16px;border:1px solid #3A3A3E;background:none;color:#fff;font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ transcriptLabel }}</button></div>
+            </div>
+            <sc-if value="{{ showTranscript }}" hint-placeholder-val="{{ false }}"><div style="border:1px solid #3A3A3E;padding:16px;font-size:14px;line-height:1.6;color:#BDB9B0;max-height:140px;overflow:auto;"><b style="color:#fff;">ARJUN MEHTA</b> 00:17:58 — The question for coaches is not whether the model sees more than they do. It is whether it explains what it sees in a way a fifteen-year-old can act on in the next over.<br><b style="color:#fff;">DR. MEERA RAGHAVAN</b> 00:18:31 — And we have to be honest about load. More data on recovery means fewer injuries only if someone changes the plan. (Sample transcript.)</div></sc-if>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid #3A3A3E;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#BDB9B0;padding:12px 0;">WHAT'S HAPPENING</span>
+            <sc-for list="{{ happening }}" as="h" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:10px 1fr auto;gap:12px;padding:12px 0;border-top:1px solid #2A2A2D;align-items:center;"><span style="width:10px;height:10px;background:{{ h.c }};"></span><span><b style="display:block;font-size:15px;">{{ h.t }}</b><span style="font-size:12px;color:#8A877F;">{{ h.where }}</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:{{ h.c }};">{{ h.st }}</span></div></sc-for>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#BDB9B0;padding:20px 0 12px;">UP NEXT</span>
+            <sc-for list="{{ upNext }}" as="u" hint-placeholder-count="3"><button onClick="{{ u.open }}" style="display:grid;grid-template-columns:52px 1fr;gap:12px;padding:12px 0;border:0;border-top:1px solid #2A2A2D;background:none;color:#fff;text-align:left;cursor:pointer;"><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#F07C12;">{{ u.time }}</span><span><b style="display:block;font-size:15px;">{{ u.title }}</b><span style="font-size:12px;color:#8A877F;">{{ u.stage }}</span></span></button></sc-for>
+            <div style="margin-top:20px;background:#F07C12;color:#0E0E0F;padding:14px 16px;display:flex;flex-direction:column;gap:4px;"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.16em;">ANNOUNCEMENT · 10:05</span><b style="font-size:15px;">Startup Pitch Final moved to 11:45 on Day 3. Saved sessions updated automatically.</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <section id="programme" data-screen-label="Programme" style="scroll-margin-top:60px;padding:64px 28px;max-width:1440px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:24px;">
+      <div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:#6B6A66;">PROGRAMME · 3 STAGES · 12 SESSIONS SHOWN (SAMPLE)</span><h2 style="margin:8px 0 0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(56px,6vw,104px);line-height:0.85;">PROGRAMME</h2></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div role="tablist" aria-label="Day" style="display:flex;border:1px solid #0E0E0F;"><sc-for list="{{ days }}" as="d" hint-placeholder-count="3"><button role="tab" onClick="{{ d.pick }}" style="height:44px;padding:0 18px;border:0;border-right:1px solid #0E0E0F;background:{{ d.bg }};color:{{ d.fg }};font-size:12px;font-weight:700;letter-spacing:0.1em;cursor:pointer;">{{ d.t }}</button></sc-for></div>
+        <div role="tablist" aria-label="View" style="display:flex;border:1px solid #0E0E0F;"><sc-for list="{{ views }}" as="v" hint-placeholder-count="5"><button role="tab" onClick="{{ v.pick }}" style="height:44px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:{{ v.bg }};color:{{ v.fg }};font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ v.t }}</button></sc-for></div>
+      </div>
+    </div>
+
+    <sc-if value="{{ vAgenda }}" hint-placeholder-val="{{ true }}">
+      <div style="border-top:2px solid #0E0E0F;">
+        <sc-for list="{{ daySessions }}" as="s" hint-placeholder-count="4">
+          <div style="display:grid;grid-template-columns:120px 4px minmax(0,1fr) 200px auto;gap:20px;padding:20px 0;border-bottom:1px solid #E3E0D8;align-items:center;">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:15px;">{{ s.time }}<span style="color:#8A877F;">–{{ s.end }}</span></span>
+            <span style="align-self:stretch;background:{{ s.zc }};"></span>
+            <button onClick="{{ s.open }}" style="border:0;background:none;padding:0;text-align:left;cursor:pointer;color:#0E0E0F;"><span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:{{ s.stc }};">{{ s.badge }}</span><b style="display:block;font-size:20px;line-height:1.2;">{{ s.title }}</b><span style="font-size:13px;color:#6B6A66;">{{ s.spk }}</span></button>
+            <span style="font-size:13px;line-height:1.4;">{{ s.stage }}<br><span style="color:#6B6A66;">{{ s.topic }} · {{ s.cap }} seats</span></span>
+            <span style="display:flex;gap:6px;"><button onClick="{{ s.save }}" style="height:38px;padding:0 12px;border:1px solid #0E0E0F;background:{{ s.saveBg }};font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ s.saveLabel }}</button><button onClick="{{ s.open }}" style="height:38px;padding:0 12px;border:0;background:#0E0E0F;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ s.cta }}</button></span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ vTimeline }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid #0E0E0F;overflow-x:auto;">
+        <div style="display:grid;grid-template-columns:200px repeat(16,minmax(56px,1fr));min-width:1100px;">
+          <span style="border-bottom:1px solid #0E0E0F;"></span>
+          <sc-for list="{{ hours }}" as="h" hint-placeholder-count="16"><span style="grid-column:span 2;border-left:1px solid #E3E0D8;border-bottom:1px solid #0E0E0F;padding:8px;font-family:'JetBrains Mono',monospace;font-size:11px;">{{ h }}</span></sc-for>
+          <sc-for list="{{ tlRows }}" as="r" hint-placeholder-count="3">
+            <span style="grid-column:1;padding:14px;border-bottom:1px solid #E3E0D8;font-weight:700;font-size:14px;">{{ r.stage }}</span>
+            <div style="grid-column:2 / -1;position:relative;height:86px;border-bottom:1px solid #E3E0D8;background:repeating-linear-gradient(90deg,transparent 0 calc(12.5% - 1px),#F1EFEA calc(12.5% - 1px) 12.5%);">
+              <sc-for list="{{ r.items }}" as="i" hint-placeholder-count="2"><button onClick="{{ i.open }}" style="position:absolute;top:10px;bottom:10px;left:{{ i.l }};width:{{ i.w }};border:0;border-left:4px solid {{ i.zc }};background:{{ i.bg }};color:{{ i.fg }};text-align:left;padding:6px 8px;cursor:pointer;overflow:hidden;font-size:12px;font-weight:600;line-height:1.25;">{{ i.title }}</button></sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ vStage }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid #0E0E0F;">
+        <sc-for list="{{ tlRows }}" as="r" hint-placeholder-count="3">
+          <div style="border-right:1px solid #E3E0D8;padding:16px 16px 16px 0;display:flex;flex-direction:column;gap:10px;">
+            <b style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:30px;text-transform:uppercase;">{{ r.stage }}</b>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B6A66;">{{ r.meta }}</span>
+            <sc-for list="{{ r.items }}" as="i" hint-placeholder-count="2"><button onClick="{{ i.open }}" style="border:1px solid #E3E0D8;border-left:4px solid {{ i.zc }};background:#fff;padding:12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;">{{ i.time }}–{{ i.end }}</span><b style="font-size:15px;color:#0E0E0F;">{{ i.title }}</b></button></sc-for>
+            <sc-if value="{{ r.empty }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#8A877F;">No sessions on this stage today.</span></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ vSector }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;">
+        <sc-for list="{{ sectors }}" as="g" hint-placeholder-count="4">
+          <div style="border-top:4px solid {{ g.c }};padding-top:12px;display:flex;flex-direction:column;gap:6px;"><b style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:30px;text-transform:uppercase;">{{ g.t }}</b><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B6A66;">{{ g.n }} SESSIONS · ALL DAYS</span>
+            <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="2"><button onClick="{{ i.open }}" style="border:0;border-bottom:1px solid #E3E0D8;background:none;padding:10px 0;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B6A66;">DAY {{ i.day }} · {{ i.time }} · {{ i.stage }}</span><b style="font-size:15px;color:#0E0E0F;">{{ i.title }}</b></button></sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+    <sc-if value="{{ vSpeaker }}" hint-placeholder-val="{{ false }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:0;border-top:1px solid #0E0E0F;border-left:1px solid #0E0E0F;">
+        <sc-for list="{{ speakers }}" as="p" hint-placeholder-count="8">
+          <button onClick="{{ p.open }}" style="border:0;border-right:1px solid #0E0E0F;border-bottom:1px solid #0E0E0F;background:{{ p.bg }};padding:18px;text-align:left;cursor:pointer;display:grid;grid-template-columns:72px 1fr;gap:14px;align-items:start;">
+            <span style="width:72px;height:88px;position:relative;display:block;"><image-slot id="{{ p.slot }}" shape="rect" placeholder="Portrait"></image-slot></span>
+            <span style="display:flex;flex-direction:column;gap:4px;"><b style="font-size:17px;color:#0E0E0F;">{{ p.name }}</b><span style="font-size:13px;color:#3A3A3E;">{{ p.role }}</span><span style="font-size:12px;color:#6B6A66;">{{ p.org }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#C2610B;margin-top:4px;">{{ p.count }} SESSIONS</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </sc-if>
+  </section>
+
+  <section id="arena" data-screen-label="Innovation Arena" style="background:#E3F1EB;padding:64px 28px;">
+    <div style="max-width:1440px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:48px;align-items:start;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:#0B6E4F;">ZONE C · C-IAS · 324 SEATS</span>
+        <h2 style="margin:0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(48px,5vw,88px);line-height:0.86;">INNOVATION<br>ARENA</h2>
+        <span style="font-size:16px;line-height:1.5;max-width:440px;">{{ arena.d }}</span>
+        <a href="Zone%20Experiences.dc.html" style="font-size:12px;font-weight:700;letter-spacing:0.08em;">ZONE C EXPERIENCES →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;">
+        <sc-for list="{{ arena.cols }}" as="c" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;"><b style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:800;font-size:24px;border-bottom:1px solid #0E0E0F;padding-bottom:8px;text-transform:uppercase;">{{ c.t }}</b>
+            <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="3"><div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;padding:10px 0;border-bottom:1px solid rgba(11,110,79,0.25);font-size:14px;"><span>{{ r.a }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#0B6E4F;">{{ r.b }}</span></div></sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="watch" data-screen-label="Watch library" style="scroll-margin-top:60px;padding:64px 28px;max-width:1440px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:16px;margin-bottom:20px;">
+      <div><span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:#6B6A66;">WATCH · UPCOMING · LIVE · ON DEMAND</span><h2 style="margin:8px 0 0;font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:clamp(56px,6vw,104px);line-height:0.85;">WATCH</h2></div>
+      <span style="font-size:13px;color:#6B6A66;">{{ libCount }} videos · captions and transcripts on every recording</span>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;"><sc-for list="{{ libFilters }}" as="f" hint-placeholder-count="10"><button onClick="{{ f.pick }}" aria-pressed="{{ f.on }}" style="height:36px;padding:0 14px;border:1px solid #0E0E0F;background:{{ f.bg }};color:{{ f.fg }};font-size:12px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ f.t }}</button></sc-for></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px;">
+      <sc-for list="{{ library }}" as="v" hint-placeholder-count="6">
+        <button onClick="{{ v.open }}" style="border:0;background:none;padding:0;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;color:#0E0E0F;">
+          <span style="aspect-ratio:16/9;background:#1A1A1C;position:relative;display:block;width:100%;">
+            <span style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,#1A1A1C 0 10px,#202023 10px 20px);"></span>
+            <span style="position:absolute;left:0;top:0;bottom:0;width:6px;background:{{ v.zc }};"></span>
+            <span style="position:absolute;left:16px;top:12px;background:{{ v.badgeBg }};color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;padding:4px 8px;">{{ v.badge }}</span>
+            <span style="position:absolute;right:12px;bottom:12px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;background:rgba(14,14,15,0.8);padding:3px 6px;">{{ v.dur }}</span>
+            <span style="position:absolute;left:16px;bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#8A877F;">THUMBNAIL</span>
+          </span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:#6B6A66;">DAY {{ v.day }} · {{ v.topicU }} · ZONE {{ v.zone }}</span>
+          <b style="font-size:18px;line-height:1.25;">{{ v.title }}</b>
+          <span style="font-size:13px;color:#6B6A66;">{{ v.spk }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ libEmpty }}" hint-placeholder-val="{{ false }}"><div style="border:1px dashed #BDB9B0;padding:40px;display:flex;flex-direction:column;gap:8px;"><b style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:800;font-size:30px;">NO VIDEOS MATCH THESE FILTERS</b><span style="color:#6B6A66;">Recordings are published within 2 hours of each session ending.</span></div></sc-if>
+  </section>
+
+  <sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="Session detail" onClick="{{ close }}" style="position:fixed;inset:0;z-index:100;background:rgba(14,14,15,0.6);display:flex;justify-content:flex-end;">
+      <div onClick="{{ stop }}" style="width:min(760px,96vw);height:100%;background:#fff;overflow:auto;box-sizing:border-box;display:flex;flex-direction:column;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 28px;border-bottom:1px solid #E3E0D8;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:{{ d.stc }};">{{ d.badge }} · SESSION PAGE</span><button onClick="{{ close }}" style="border:1px solid #0E0E0F;background:none;height:34px;padding:0 12px;font-size:11px;font-weight:700;cursor:pointer;">CLOSE ✕</button></div>
+        <sc-if value="{{ d.hasPlayer }}" hint-placeholder-val="{{ false }}">
+          <div style="aspect-ratio:16/9;background:#1A1A1C;position:relative;"><image-slot id="{{ d.slot }}" shape="rect" placeholder="{{ d.playerPh }}"></image-slot></div>
+        </sc-if>
+        <div style="padding:28px;display:flex;flex-direction:column;gap:18px;">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;">DAY {{ d.day }} · {{ d.time }}–{{ d.end }} · {{ d.stage }} · ZONE {{ d.zone }}</span>
+          <span style="font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:52px;line-height:0.88;text-transform:uppercase;">{{ d.title }}</span>
+          <span style="font-size:16px;line-height:1.55;color:#3A3A3E;">{{ d.desc }}</span>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+            <button onClick="{{ d.save }}" style="height:46px;border:0;background:{{ d.saveBg }};font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ d.saveLabel }}</button>
+            <button onClick="{{ d.cal }}" style="height:46px;border:1px solid #0E0E0F;background:#fff;font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">ADD TO CALENDAR</button>
+            <a href="Hall%202%20Digital%20Twin.dc.html" style="height:46px;border:1px solid #0E0E0F;color:#0E0E0F;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:0.08em;box-sizing:border-box;">NAVIGATE</a>
+            <button onClick="{{ d.watch }}" style="height:46px;border:0;background:#0E0E0F;color:#fff;font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;">{{ d.watchLabel }}</button>
+          </div>
+          <sc-if value="{{ d.isAfter }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;padding-bottom:8px;border-bottom:1px solid #0E0E0F;">HIGHLIGHTS · CHAPTERS</span>
+              <sc-for list="{{ d.chapters }}" as="c" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #E3E0D8;font-size:14px;"><span style="font-family:'JetBrains Mono',monospace;color:#C2610B;">{{ c.t }}</span><span>{{ c.d }}</span></div></sc-for>
+              <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;"><span style="border:1px solid #0E0E0F;padding:8px 12px;font-size:13px;">⤓ Slides (PDF)</span><span style="border:1px solid #0E0E0F;padding:8px 12px;font-size:13px;">⤓ Transcript</span><span style="border:1px solid #0E0E0F;padding:8px 12px;font-size:13px;">CC English · हिन्दी</span></div>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-direction:column;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;padding-bottom:8px;border-bottom:1px solid #0E0E0F;">SPEAKERS</span>
+            <sc-for list="{{ d.spks }}" as="p" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:48px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #E3E0D8;align-items:center;"><span style="width:48px;height:48px;position:relative;display:block;"><image-slot id="{{ p.slot }}" shape="rect" placeholder="P"></image-slot></span><span><b style="display:block;font-size:15px;">{{ p.name }}</b><span style="font-size:13px;color:#6B6A66;">{{ p.role }} · {{ p.org }}</span></span></div></sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+            <div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;">RELATED SESSIONS</span><sc-for list="{{ d.related }}" as="r" hint-placeholder-count="2"><button onClick="{{ r.open }}" style="display:block;width:100%;border:0;border-bottom:1px solid #E3E0D8;background:none;padding:10px 0;text-align:left;cursor:pointer;font-size:14px;font-weight:600;color:#0E0E0F;">{{ r.title }}</button></sc-for></div>
+            <div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:#6B6A66;">RELATED COMPANIES</span><sc-for list="{{ d.companies }}" as="c" hint-placeholder-count="2"><a href="Exhibit.dc.html#directory" style="display:block;border-bottom:1px solid #E3E0D8;padding:10px 0;font-size:14px;font-weight:600;text-decoration:none;">{{ c.name }} <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6B6A66;font-weight:400;">{{ c.stall }}</span></a></sc-for></div>
+          </div>
+          <span style="font-size:13px;color:#6B6A66;">Capacity {{ d.cap }} · Topic {{ d.topic }} · Seats are first come, first served (sample policy).</span>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="Search" onClick="{{ closeSearch }}" style="position:fixed;inset:0;z-index:110;background:rgba(14,14,15,0.7);display:flex;justify-content:center;align-items:flex-start;padding-top:80px;">
+      <div onClick="{{ stop }}" style="width:min(860px,94vw);max-height:80vh;overflow:auto;background:#fff;">
+        <div style="display:flex;align-items:center;gap:12px;padding:0 20px;border-bottom:2px solid #0E0E0F;"><span style="font-size:22px;">⌕</span><input autofocus value="{{ q }}" onChange="{{ setQ }}" placeholder="Search exhibitors, products, sports, countries, sessions, speakers or stalls..." style="flex:1;height:64px;border:0;outline:none;font-size:20px;"><button onClick="{{ closeSearch }}" style="border:1px solid #0E0E0F;background:none;height:32px;padding:0 10px;font-size:11px;font-weight:700;cursor:pointer;">ESC</button></div>
+        <div style="padding:8px 20px 20px;display:flex;flex-direction:column;">
+          <sc-for list="{{ results }}" as="g" hint-placeholder-count="3">
+            <div style="padding-top:14px;"><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#6B6A66;">{{ g.t }} · {{ g.n }}</span>
+              <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="2"><a href="{{ i.href }}" style="display:grid;grid-template-columns:10px minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px solid #E3E0D8;text-decoration:none;align-items:center;"><span style="width:10px;height:10px;background:{{ i.zc }};"></span><span><b style="display:block;font-size:15px;">{{ i.a }}</b><span style="font-size:12px;color:#6B6A66;">{{ i.b }}</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:11px;">{{ i.c }}</span></a></sc-for>
+            </div>
+          </sc-for>
+          <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="padding:32px 0;color:#6B6A66;">No results for “{{ q }}”. Try a sport, a country or a stall ID like B-SGM-017.</div></sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div role="status" style="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:120;background:#0E0E0F;color:#fff;padding:14px 20px;font-size:14px;display:flex;gap:12px;align-items:center;"><span style="color:#F07C12;">●</span>{{ toastText }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { phase: 'live', day: 2, view: 'agenda', saved: { x5: true, x8: true }, open: null, lib: [], transcript: false, search: false, q: 'football', toast: null };
+  componentDidMount() { if (!window.ISE) this._t = setInterval(() => { if (window.ISE) { clearInterval(this._t); this.forceUpdate(); } }, 60); this._k = e => { if (e.key === 'Escape') this.setState({ search: false, open: null }); if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); this.setState({ search: true }); } }; window.addEventListener('keydown', this._k); }
+  componentWillUnmount() { clearInterval(this._t); window.removeEventListener('keydown', this._k); clearTimeout(this._toast); }
+  flash(t) { clearTimeout(this._toast); this.setState({ toast: t }); this._toast = setTimeout(() => this.setState({ toast: null }), 2400); }
+  renderVals() {
+    const D = window.ISE; const s = this.state;
+    const sel = on => ({ bg: on ? '#0E0E0F' : '#fff', fg: on ? '#fff' : '#0E0E0F' });
+    if (!D) return { phases: [], days: [], views: [], daySessions: [], hours: [], tlRows: [], sectors: [], speakers: [], arena: { cols: [] }, libFilters: [], library: [], happening: [], upNext: [], d: { spks: [], related: [], companies: [], chapters: [] }, results: [] };
+    const zc = z => D.Z[z].color;
+    const phase = s.phase;
+    const statusFor = x => phase === 'pre' ? 'upcoming' : phase === 'post' ? 'ondemand' : x.status;
+    const BADGE = { live: ['● LIVE NOW', '#9E1B22'], upcoming: ['UPCOMING', '#6B6A66'], ondemand: ['ON DEMAND', '#0B6E4F'] };
+    const open = id => () => this.setState({ open: id });
+    const toggle = id => () => { this.setState({ saved: { ...s.saved, [id]: !s.saved[id] } }); if (!s.saved[id]) this.flash('Added to My Expo · reminder 15 min before'); };
+    const spk = x => x.speakers.map(id => D.sp(id).name).join(', ');
+    const decorate = x => { const st = statusFor(x); return { ...x, zc: zc(x.zone), spk: spk(x), badge: BADGE[st][0], stc: BADGE[st][1], st, saveLabel: s.saved[x.id] ? '✓ IN MY EXPO' : 'ADD TO MY EXPO', saveBg: s.saved[x.id] ? '#E3F1EB' : '#fff', save: toggle(x.id), open: open(x.id), cta: st === 'live' ? 'WATCH LIVE' : st === 'ondemand' ? 'WATCH' : 'DETAILS' }; };
+    const daySes = D.sessions.filter(x => x.day === s.day).map(decorate);
+    const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
+    const tlRows = D.stages.map(st => { const items = daySes.filter(x => x.stage === st); return { stage: st, meta: st === 'Plenary Hall' ? '1,200 seats' : st === 'Innovation Arena' ? '324 seats · Zone C' : '220 seats · Zone D', empty: items.length === 0, items: items.map(x => ({ ...x, l: ((toMin(x.time) - 540) / 480 * 100) + '%', w: ((toMin(x.end) - toMin(x.time)) / 480 * 100) + '%', bg: x.st === 'live' ? '#0E0E0F' : '#F6F4EF', fg: x.st === 'live' ? '#fff' : '#0E0E0F' })) }; });
+    const topics = [...new Set(D.sessions.map(x => x.topic))];
+    const TC = { Investment: '#141416', Manufacturing: '#3F4A56', Infrastructure: '#3F4A56', Startups: '#0B6E4F', SportsTech: '#0B6E4F', 'Sports Science': '#0B6E4F', Federations: '#9E1B22' };
+    const LIBF = ['LIVE', 'DAY 1', 'DAY 2', 'DAY 3', 'SPORTSTECH', 'MANUFACTURING', 'INVESTMENT', 'INFRASTRUCTURE', 'STARTUPS', 'SPORTS SCIENCE'];
+    const lib = D.sessions.map(decorate).filter(x => phase === 'pre' ? false : x.st !== 'upcoming').filter(x => s.lib.every(f => f === 'LIVE' ? x.st === 'live' : f.startsWith('DAY') ? x.day === +f.slice(4) : x.topic.toUpperCase() === f));
+    const det = s.open ? decorate(D.sessions.find(x => x.id === s.open)) : null;
+    const DESC = { SportsTech: 'How computer vision, wearables and AI models are changing coaching, from academies to national teams, and what coaches need from the tools.', Manufacturing: 'Indian manufacturers and international buyers on quality, compliance, lead times and building export relationships that last.', Investment: 'Where capital is flowing in the sports economy, what investors look for, and how India fits into global portfolios.', Infrastructure: 'Designing venues that earn revenue beyond match days, from multi-use surfaces to smart operations.', Startups: 'Founders pitch to a jury of investors, buyers and federations. Audience vote in the app.', 'Sports Science': 'Evidence, load management and recovery for the next Olympic and Paralympic cycle.', Federations: 'National federations on talent identification, grassroots participation and partnerships.' };
+    const q = (s.q || '').trim().toLowerCase();
+    const m = t => t.toLowerCase().includes(q);
+    const groups = !q ? [] : [
+      { t: 'EXHIBITORS', items: D.exhibitors.filter(e => m(e.name + e.sector + e.sport + e.stall + e.country + e.products.join(' '))).map(e => ({ a: e.name, b: e.sector + ' · ' + e.city, c: e.stall, zc: zc(e.zone), href: 'Exhibit.dc.html#directory' })) },
+      { t: 'PRODUCTS', items: D.products.filter(p => m(p.name + p.cat + p.type + p.by)).map(p => ({ a: p.name, b: p.by, c: p.stall, zc: zc(p.stall[0]), href: 'Exhibit.dc.html#directory' })) },
+      { t: 'SESSIONS', items: D.sessions.filter(x => m(x.title + x.topic + x.stage + spk(x))).map(x => ({ a: x.title, b: 'Day ' + x.day + ' · ' + x.time + ' · ' + x.stage, c: x.topic.toUpperCase(), zc: zc(x.zone), href: '#programme' })) },
+      { t: 'EXPERIENCES', items: [['Football Reaction Challenge', 'Try Sport Arena'], ['Archery Experience', 'Try Sport Arena'], ['Wheelchair Basketball', 'Try Sport Arena'], ['VR Training', 'Interactive Experiences']].filter(([a, b]) => m(a + b)).map(([a, b]) => ({ a, b, c: 'ZONE C', zc: zc('C'), href: 'Zone%20Experiences.dc.html' })) },
+      { t: 'FEDERATIONS', items: ['Football', 'Hockey', 'Athletics', 'Archery', 'Badminton', 'Boxing'].filter(x => m(x)).map(x => ({ a: x + ' federation (sample)', b: 'Federations & Institutions · A-FED', c: 'ZONE A', zc: zc('A'), href: 'Zone%20Experiences.dc.html' })) },
+      { t: 'STARTUPS', items: D.startups.filter(x => m(x.name + x.sport + x.tech + x.country)).map(x => ({ a: x.name, b: x.tech + ' · ' + x.sport + ' · ' + x.stage, c: x.stall, zc: zc('C'), href: 'Zone%20Experiences.dc.html' })) },
+      { t: 'SPEAKERS', items: D.speakers.filter(x => m(x.name + x.org)).map(x => ({ a: x.name, b: x.role + ' · ' + x.org, c: '', zc: '#0E0E0F', href: '#programme' })) },
+      { t: 'COUNTRIES & STATES', items: [...D.countries.map(c => ({ a: c.name, b: 'Country pavilion ' + c.pav, c: c.pav })), ...D.states.map(c => ({ a: c.name, b: c.identity, c: c.pav }))].filter(x => m(x.a + x.b)).map(x => ({ ...x, zc: x.c[0] === 'A' ? zc('A') : zc('D'), href: x.c[0] === 'A' ? 'Zone%20Experiences.dc.html' : 'Connect.dc.html#countries' })) }
+    ].filter(g => g.items.length).map(g => ({ ...g, n: g.items.length }));
+    const arenaBy = {
+      pre: { d: 'Programme, pitch schedule, speakers and demos for the three days. Save sessions to get reminders.', cols: [['Programme', D.sessions.filter(x => x.stage === 'Innovation Arena').slice(0, 4).map(x => [x.title, 'D' + x.day + ' ' + x.time])], ['Pitch schedule', D.startups.slice(0, 4).map(x => [x.name, x.pitch])], ['Speakers', D.speakers.slice(0, 4).map(x => [x.name, x.org.replace(' (demo)', '')])], ['Demos', [['CoachVision AI live analysis', 'D2 12:30'], ['ForceTrack jump testing', 'D2 13:15'], ['Turfsense pitch sensors', 'D3 13:00']]]] },
+      live: { d: 'LIVE NOW: The Future of AI Coaching. Watch in the player above or take a seat in Zone C.', cols: [['Live now', [['The Future of AI Coaching', '● LIVE'], ['Seats available', '41 / 324']]], ['Up next', D.sessions.filter(x => x.stage === 'Innovation Arena' && x.day === 2 && x.status === 'upcoming').map(x => [x.title, x.time])], ['Pitch schedule', D.startups.slice(0, 3).map(x => [x.name, x.pitch])], ['Demos today', [['CoachVision AI', '12:30'], ['ForceTrack', '13:15']]]] },
+      post: { d: 'Every session is recorded with highlights, speaker information and related companies.', cols: [['Recordings', D.sessions.filter(x => x.stage === 'Innovation Arena').slice(0, 4).map(x => [x.title, x.dur])], ['Highlights', [['Pitch Final: winning moment', '2:40'], ['AI Coaching: key exchange', '4:12']]], ['Speakers', D.speakers.slice(0, 3).map(x => [x.name, 'PROFILE'])], ['Related companies', D.exhibitors.filter(e => e.zone === 'C').map(e => [e.name, e.stall])]] }
+    };
+    const ar = arenaBy[phase];
+    return {
+      phases: [['pre', 'BEFORE EVENT'], ['live', 'DURING · DAY 2'], ['post', 'AFTER EVENT']].map(([id, t]) => ({ t, ...sel(id === phase), pick: () => this.setState({ phase: id }) })),
+      phaseNote: { pre: 'Sessions show details and reminders. Watch shows trailers only.', live: 'Homepage and Watch switch to live mode with player, up next and announcements.', post: 'Every session shows its recording, highlights and downloads.' }[phase],
+      isLive: phase === 'live',
+      happening: [{ t: 'Startup Village open pitches', where: 'Zone C · C-SUV', st: 'NOW', c: '#0B6E4F' }, { t: 'Hosted buyer briefing: Football', where: 'Zone D · Hosted Buyer Lounge', st: 'NOW', c: '#F07C12' }, { t: 'Archery Experience · 12 places left', where: 'Try Sport Arena', st: '10:30', c: '#C2610B' }],
+      upNext: D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 3).map(x => ({ ...x, open: open(x.id) })),
+      openLive: open('x5'), toggleTranscript: () => this.setState({ transcript: !s.transcript }), showTranscript: s.transcript, transcriptLabel: s.transcript ? 'HIDE TRANSCRIPT' : 'LIVE TRANSCRIPT',
+      days: [1, 2, 3].map(d => ({ t: 'DAY ' + d, ...sel(d === s.day), pick: () => this.setState({ day: d }) })),
+      views: [['agenda', 'AGENDA'], ['timeline', 'TIMELINE'], ['stage', 'STAGE'], ['sector', 'SECTOR'], ['speaker', 'SPEAKER']].map(([id, t]) => ({ t, ...sel(id === s.view), pick: () => this.setState({ view: id }) })),
+      vAgenda: s.view === 'agenda', vTimeline: s.view === 'timeline', vStage: s.view === 'stage', vSector: s.view === 'sector', vSpeaker: s.view === 'speaker',
+      daySessions: daySes, hours: ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'], tlRows,
+      sectors: topics.map(t => { const items = D.sessions.filter(x => x.topic === t).map(x => ({ ...x, open: open(x.id) })); return { t, c: TC[t] || '#0E0E0F', n: items.length, items }; }),
+      speakers: D.speakers.map(p => { const mine = D.sessions.filter(x => x.speakers.includes(p.id)); return { ...p, slot: 'spk-' + p.id, count: mine.length, bg: '#fff', open: open(mine[0].id) }; }),
+      arena: { d: ar.d, cols: ar.cols.map(([t, rows]) => ({ t, rows: rows.map(([a, b]) => ({ a, b })) })) },
+      libFilters: LIBF.map(t => { const on = s.lib.includes(t); return { t, on, ...sel(on), pick: () => this.setState({ lib: on ? s.lib.filter(x => x !== t) : [...s.lib.filter(x => !(t.startsWith('DAY') && x.startsWith('DAY'))), t] }) }; }),
+      library: lib.map(x => ({ ...x, topicU: x.topic.toUpperCase(), badgeBg: x.st === 'live' ? '#9E1B22' : '#0E0E0F' })), libCount: lib.length, libEmpty: lib.length === 0,
+      detailOpen: !!det, close: () => this.setState({ open: null }), stop: e => e.stopPropagation(),
+      d: det ? { ...det, desc: DESC[det.topic] || '', hasPlayer: det.st !== 'upcoming', isAfter: det.st === 'ondemand', slot: 'player-' + det.id, playerPh: det.st === 'live' ? 'Live stream embed' : 'Full recording embed',
+        watchLabel: det.st === 'live' ? '● WATCH LIVE' : det.st === 'ondemand' ? '▶ PLAY RECORDING' : 'SET REMINDER', watch: () => this.flash(det.st === 'upcoming' ? 'Reminder set for 15 minutes before' : 'Playing in Expo player (demo)'),
+        cal: () => this.flash('Calendar file downloaded (.ics, demo)'),
+        chapters: [{ t: '00:00', d: 'Opening and context' }, { t: '06:20', d: 'Panel: what has changed since 2024' }, { t: '21:45', d: 'Case study from the floor' }, { t: '38:10', d: 'Audience Q&A' }],
+        spks: det.speakers.map(id => ({ ...D.sp(id), slot: 'spk-' + id })),
+        related: D.sessions.filter(x => x.topic === det.topic && x.id !== det.id).slice(0, 3).map(x => ({ ...x, open: open(x.id) })),
+        companies: D.exhibitors.filter(e => e.zone === det.zone).slice(0, 3) } : { spks: [], related: [], companies: [], chapters: [] },
+      openSearch: () => this.setState({ search: true }), closeSearch: () => this.setState({ search: false }), searchOpen: s.search, q: s.q, setQ: e => this.setState({ q: e.target.value }), results: groups, noResults: q && groups.length === 0,
+      toast: !!s.toast, toastText: s.toast || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+/* Page frame used by the design runtime: each screen fills #dc-root. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+#dc-root,
+#dc-root > .sc-host {
+  height: 100%;
+}
+
+/* Defaults until a page's own styles (src/screens/pages.json) apply. */
+body {
+  background: #fff;
+  color: #0e0e0f;
+  font-family: 'Instrument Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Shared animations used by the Hall Plan and live indicators. */
+@keyframes iseDash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes isePulse {
+  0% {
+    r: 6;
+    opacity: 0.9;
+  }
+  100% {
+    r: 22;
+    opacity: 0;
+  }
+}
+@keyframes iseBlink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.sc-error {
+  padding: 6px 10px;
+  background: #b00020;
+  color: #fff;
+  font: 12px/1.4 ui-monospace, monospace;
+  white-space: pre-wrap;
+}
