@@ -4,6 +4,8 @@
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
+import DemoVideo from '@/components/DemoVideo';
+import { VenueMap } from '@/components/GettingThereMap';
 import '@/data/ise';
 import '@/lib/maplibre';
 import '@/lib/hero-fit';
@@ -72,19 +74,23 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this._onScroll, { passive: true });
     this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this.initMap(); this.journeyStore.notify(); } }, 100);
   }
-  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); this.map && this.map.remove(); }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
   initMap() {
     if (this.reduced) return;
     try {
       this.map = new maplibregl.Map({
         container: this.mapRef.current, interactive: false, attributionControl: { compact: true },
+        // Smoother globe while scrolling: keep loading tiles mid-zoom, keep more of them,
+        // cap the render resolution on high-density screens and skip wrapped world copies.
+        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: 600, pixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
+        renderWorldCopies: false, fadeDuration: 0,
         style: { version: 8, projection: { type: 'globe' },
           sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 19, attribution: 'Esri, Maxar, Earthstar Geographics' } },
-          layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat' }],
+          layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-fade-duration': 160 } }],
           sky: { 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 5, 1, 8, 0] } },
         center: [55, 18], zoom: 0.9
       });
-      this.map.on('load', () => this.tick());
+      this.map.on('load', () => { this._cam = this.progress(); this.tick(); });
     } catch (e) { this.map = null; }
   }
   progress() {
@@ -107,13 +113,28 @@ class Component extends DCLogic {
   })();
   tick() {
     const p = this.progress();
-    if (this.map) {
-      const K = this.KF; let i = 0; while (i < K.length - 2 && p > K[i + 1].p) i++;
-      const a = K[i], b = K[i + 1]; let t = (p - a.p) / (b.p - a.p); t = Math.max(0, Math.min(1, t)); t = t * t * (3 - 2 * t);
-      const L = (x, y) => x + (y - x) * t;
-      this.map.jumpTo({ center: [L(a.lon, b.lon), L(a.lat, b.lat)], zoom: L(a.z, b.z), pitch: L(a.pitch, b.pitch), bearing: L(a.b, b.b) });
-    }
+    this._target = p;
+    if (this.map && !this._camRaf) this._camRaf = requestAnimationFrame(this.camStep);
     this.journeyStore.set(p);
+  }
+  // The globe camera eases toward the scroll position instead of jumping with every
+  // scroll event, so wheel steps and touch flicks turn into one continuous glide.
+  camStep = () => {
+    this._camRaf = null;
+    if (!this.map) return;
+    const target = this._target ?? 0;
+    const cur = this._cam ?? target;
+    const d = target - cur;
+    const next = Math.abs(d) < 0.0004 ? target : cur + d * 0.18;
+    this._cam = next;
+    this.placeCamera(next);
+    if (next !== target) this._camRaf = requestAnimationFrame(this.camStep);
+  };
+  placeCamera(p) {
+    const K = this.KF; let i = 0; while (i < K.length - 2 && p > K[i + 1].p) i++;
+    const a = K[i], b = K[i + 1]; let t = (p - a.p) / (b.p - a.p); t = Math.max(0, Math.min(1, t)); t = t * t * (3 - 2 * t);
+    const L = (x, y) => x + (y - x) * t;
+    this.map.jumpTo({ center: [L(a.lon, b.lon), L(a.lat, b.lat)], zoom: L(a.z, b.z), pitch: L(a.pitch, b.pitch), bearing: L(a.b, b.b) });
   }
   scrollToP(p) {
     const el = this.journeyRef.current; if (!el) return;
@@ -720,7 +741,7 @@ function render(v) {
               <Fragment key={$index}>
                 <a href={withBase("/programme")} style={{ textDecoration: "none", color: "#0E0E0F", display: "flex", flexDirection: "column", gap: "12px" }}>
                   <span style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative", display: "block" }}>
-                    {" "}
+                    <DemoVideo id={_v?.id} thumb />
                     <span style={sx(`position:absolute;left:12px;top:12px;background:${_v?.badgeBg ?? ""};color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;padding:4px 8px;`)}>
                       {txt(_v?.badge)}
                     </span>
@@ -754,7 +775,7 @@ function render(v) {
                 Yashobhoomi sits in Sector 25, Dwarka, with its own underground station on the Delhi Airport Metro Express line.
               </p>
               <div style={{ aspectRatio: "16/10", position: "relative" }}>
-                <image-slot id="home-yasho-foyer" shape="rect" placeholder="Official photograph — Yashobhoomi Grand Foyer" />
+                <VenueMap />
               </div>
             </div>
             <div style={{ display: "flex", flexDirection: "column", borderTop: "2px solid #0E0E0F" }}>
@@ -810,7 +831,6 @@ function render(v) {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>PROTOTYPE MAP</span>
-              <a href={withBase("/design-system")} style={{ color: "#BDB9B0" }}>Design system</a>
               <a href={withBase("/explore")} style={{ color: "#BDB9B0" }}>{"Hall 2 digital twin & map"}</a>
               <a href={withBase("/zones")} style={{ color: "#BDB9B0" }}>Zone experiences A–D</a>
               <a href={withBase("/exhibit")} style={{ color: "#BDB9B0" }}>{"Exhibit & stall booking"}</a>
@@ -825,7 +845,7 @@ function render(v) {
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }} />
               <a href={withBase("/mobile")} style={{ color: "#BDB9B0" }}>Mobile app</a>
-              <a href={withBase("/admin")} style={{ color: "#BDB9B0" }}>{"Admin, CMS & command"}</a>
+              <a href={withBase("/admin")} style={{ color: "#BDB9B0" }}>{"Super admin · Admin, CMS & command"}</a>
             </div>
           </div>
         </footer>

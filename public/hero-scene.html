@@ -6,6 +6,9 @@
 window.onerror = function () { return true; };
 window.addEventListener('error', function (e) { e.preventDefault(); e.stopImmediatePropagation(); }, true);
 window.addEventListener('unhandledrejection', function (e) { e.preventDefault(); });
+// No pointer, touch or key input reaches the 3D scene (registered before Spline's own listeners).
+['pointerdown', 'pointermove', 'pointerup', 'pointerover', 'pointerenter', 'mousedown', 'mousemove', 'mouseup', 'touchstart', 'touchmove', 'touchend', 'click', 'dblclick', 'contextmenu', 'keydown', 'keyup']
+  .forEach(function (ev) { window.addEventListener(ev, function (e) { e.stopImmediatePropagation(); }, { capture: true }); });
 </script></head>
 <body><canvas id="c"></canvas>
 <script type="module">
@@ -22,6 +25,14 @@ window.__kept = app.getAllObjects().filter(o => o.visible).map(o => o.name + '|'
 window.addEventListener('wheel', e => { e.preventDefault(); e.stopImmediatePropagation(); try { parent.scrollBy({ top: e.deltaY, left: 0 }); } catch (_) {} }, { capture: true, passive: false });
 try { app.setZoom && null; } catch (e) {}
 try { app.setBackgroundColor('#0E0E0F'); } catch (e) {}
+// Keep the hand, globe and ring fixed together in their authored pose: no mouse-follow, no
+// drag-to-rotate, no touch spin. The page already gives this frame no pointer input; this also
+// holds if it ever gets some. Spline's play() turns camera controls back on, so lock re-applies.
+const lock = () => {
+  try { app.setGlobalEvents(false); } catch (e) {}
+  try { if (app._controls && app._controls.orbitControls) app._controls.orbitControls.enabled = false; } catch (e) {}
+};
+lock();
 // Pull Spline's camera back so the whole hand + globe renders inside the 1440×900 frame.
 try { app.setZoom(0.85); } catch (e) {}
 window.__app = app;
@@ -30,6 +41,7 @@ window.__app = app;
 addEventListener('message', e => {
   if (!e.data || typeof e.data.heroPause !== 'boolean') return;
   try { e.data.heroPause ? app.stop() : app.play(); } catch (_) {}
+  lock();
 });
 // Measure lit content (union over ~2 s of animation) by drawing the WebGL canvas into a small 2D grid inside rAF, then report to the parent page.
 const GW = 144, GH = 90;

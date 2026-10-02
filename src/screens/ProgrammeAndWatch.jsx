@@ -4,6 +4,7 @@
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
+import DemoVideo from '@/components/DemoVideo';
 import '@/data/ise';
 
 /* global maplibregl */
@@ -139,7 +140,7 @@ function render(v) {
                 <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.6fr) minmax(0,1fr)", gap: "24px" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     <div style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative", border: "1px solid #2A2A2D" }}>
-                      <image-slot id="live-player" shape="rect" placeholder="Live stream embed (YouTube / platform player)" />
+                      <DemoVideo id="live" live />
                       <span style={{ position: "absolute", left: "16px", top: "16px", background: "#9E1B22", color: "#fff", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", padding: "5px 10px", display: "flex", gap: "8px", alignItems: "center", pointerEvents: "none" }}>
                         <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#fff", animation: "iseBlink 1.4s infinite" }} />
                         LIVE · INNOVATION ARENA
@@ -442,7 +443,7 @@ function render(v) {
                 <button onClick={_v?.open} style={{ border: "0", background: "none", padding: "0", textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: "10px", color: "#0E0E0F" }}>
                   <span style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative", display: "block", width: "100%" }}>
                     {" "}
-                    <span style={{ position: "absolute", inset: "0", background: "repeating-linear-gradient(135deg,#1A1A1C 0 10px,#202023 10px 20px)" }} />
+                    <DemoVideo id={_v?.id} thumb />
                     {" "}
                     <span style={sx(`position:absolute;left:0;top:0;bottom:0;width:6px;background:${_v?.zc ?? ""};`)} />
                     {" "}
@@ -453,8 +454,6 @@ function render(v) {
                     <span style={{ position: "absolute", right: "12px", bottom: "12px", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#fff", background: "rgba(14,14,15,0.8)", padding: "3px 6px" }}>
                       {txt(_v?.dur)}
                     </span>
-                    {" "}
-                    <span style={{ position: "absolute", left: "16px", bottom: "12px", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#8A877F" }}>THUMBNAIL</span>
                     {" "}
                   </span>
                   <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
@@ -490,7 +489,7 @@ function render(v) {
                 {v.d?.hasPlayer ? (
                   <>
                     <div style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative" }}>
-                      <image-slot id={v.d?.slot} shape="rect" placeholder={v.d?.playerPh} />
+                      <DemoVideo key={v.d?.id} id={v.d?.id} live={v.d?.st === 'live'} />
                     </div>
                   </>
                 ) : null}

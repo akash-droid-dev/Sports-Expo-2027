@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <rect width="1200" height="800" fill="#0E0E0F"/>
+  <g transform="translate(600 470)">
+    <path d="M-470 0 L-250 -110 L-20 -110 L-240 0 Z" fill="#2A2A2D" stroke="#E3E0D8" stroke-width="4"/>
+    <path d="M20 0 L240 -110 L470 -110 L250 0 Z" fill="#2A2A2D" stroke="#E3E0D8" stroke-width="4"/>
+    <path d="M-470 0 L-240 0 L-240 26 L-470 26 Z M20 0 L250 0 L250 26 L20 26 Z" fill="#3A3A3E"/>
+  </g>
+  <polyline points="120,250 220,240 300,180 360,120 420,210 500,230 600,160 680,110 760,200 860,230 960,170 1080,190" fill="none" stroke="#F07C12" stroke-width="6" stroke-linejoin="round"/>
+  <polyline points="120,300 220,290 300,250 360,210 420,270 500,280 600,240 680,200 760,260 860,280 960,240 1080,250" fill="none" stroke="#0B6E4F" stroke-width="4" stroke-linejoin="round"/>
+  <text x="120" y="90" font-family="JetBrains Mono, monospace" font-size="22" fill="#8A877F" letter-spacing="5">GROUND REACTION FORCE · L / R</text>
+  <text x="60" y="740" font-family="JetBrains Mono, monospace" font-size="22" fill="#8A877F" letter-spacing="5">PRODUCT RENDER · SAMPLE</text>
+</svg>

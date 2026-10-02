@@ -7,6 +7,7 @@ import { withBase } from '@/lib/base';
 import '@/data/ise';
 import '@/lib/maplibre';
 import HallPlan from './HallPlan';
+import GettingThereMap from '@/components/GettingThereMap';
 
 /* global maplibregl */
 class Component extends DCLogic {
@@ -110,6 +111,7 @@ class Component extends DCLogic {
         : Z ? { color: Z.color, kicker: 'ZONE ' + Z.id, title: Z.name, text: Z.blurb, zoneHref, rows: D.clusters.filter(c => c.zone === Z.id).map(c => ({ name: c.name, meta: c.meta, pick: () => this.setState({ cluster: c.id }) })) }
         : { color: '#0E0E0F', kicker: 'EXHIBITION HALL 2 · YASHOBHOOMI', title: 'Four event zones', text: 'Select a zone or click any cluster on the plan. The Sports Boulevard connects every zone to the Main Entrance.', zoneHref, rows: D.zones.map(z => ({ name: 'Zone ' + z.id + ' · ' + z.name, meta: D.clusters.filter(c => c.zone === z.id).length + ' areas', pick: () => this.setState({ zone: z.id }) })) },
       travelTabs: Object.keys(travelDefs).map(k => ({ label: k.toUpperCase(), bg: st.travel === k ? '#0E0E0F' : '#fff', fg: st.travel === k ? '#fff' : '#0E0E0F', pick: () => this.setState({ travel: k }) })),
+      travelKey: st.travel,
       travel: { ...tv, steps: tv.steps.map((t, i) => ({ n: String(i + 1).padStart(2, '0'), t })) },
       info: [
         { t: 'Food', color: '#C2610B', d: 'Three food courts on the Sports Boulevard and the Networking Café in Zone D. Vegetarian, vegan and Jain options marked. (sample)' },
@@ -461,12 +463,7 @@ function render(v) {
             </ol>
             <span style={{ fontSize: "13px", color: "#6B6A66" }}>Times are sample values unless a source is shown. Verify before travel.</span>
           </div>
-          <div style={{ position: "relative", background: "#E3E0D8", minHeight: "480px" }}>
-            <div ref={v.cityMapRef} style={{ position: "absolute", inset: "0" }} />
-            <span style={{ position: "absolute", left: "16px", top: "16px", background: "#fff", border: "1px solid #0E0E0F", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", padding: "6px 10px" }}>
-              ROUTE LINES SCHEMATIC
-            </span>
-          </div>
+          <GettingThereMap travel={v.travelKey} cityMapRef={v.cityMapRef} />
         </section>
         <section data-screen-label="Visitor info" style={{ padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: "24px", marginBottom: "40px" }}>

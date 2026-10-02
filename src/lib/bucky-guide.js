@@ -1,6 +1,7 @@
 'use client';
 // Bucky (named R-4X in the design), the Expo guide robot. Ported from design/site/r4x-guide.js; mounted once by the root layout.
 import { withBase } from './base';
+import { isMuted, playClick, playHover, setMuted, unlockOnFirstGesture } from './bucky-sounds';
 
 const POSTER_KEY = 'bucky-poster-v1';
 
@@ -13,6 +14,12 @@ export function initBucky(opts = {}) {
   #bucky-bot{position:fixed;left:0;top:0;width:${SIZE}px;height:${SIZE}px;z-index:9000;will-change:transform;}
   #bucky-crop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
   #bucky-poster{position:absolute;inset:0;background:center/cover no-repeat;transition:opacity .5s}
+  #bucky-crop{transform-origin:50% 90%}
+  #bucky-bot.bucky-wiggle #bucky-crop{animation:buckyWiggle .7s cubic-bezier(.36,.07,.19,.97)}
+  #bucky-bot.bucky-hop #bucky-crop{animation:buckyHop .62s cubic-bezier(.3,.7,.4,1)}
+  @keyframes buckyWiggle{0%,100%{transform:none}20%{transform:translateX(-7px) rotate(-5deg)}40%{transform:translateX(6px) rotate(4deg)}60%{transform:translateX(-4px) rotate(-3deg)}80%{transform:translateX(2px) rotate(1deg)}}
+  @keyframes buckyHop{0%{transform:none}18%{transform:scale(1.08,.9)}45%{transform:translateY(-22px) scale(.96,1.05)}70%{transform:translateY(0) scale(1.07,.93)}85%{transform:translateY(-5px)}100%{transform:none}}
+  #bucky-panel header .bucky-actions{display:flex;gap:6px}
   #bucky-bot iframe{position:absolute;left:0;top:0;width:1200px;height:800px;border:0;background:transparent;pointer-events:none;color-scheme:normal;transform-origin:0 0;transform:translate(-162px,-120px) scale(.4)}
   #bucky-bot button.bucky-hit{position:absolute;inset:14%;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0}
   #bucky-bot button.bucky-hit:focus-visible{outline:2px solid #F07C12;outline-offset:4px}
@@ -45,7 +52,7 @@ export function initBucky(opts = {}) {
   const bot = document.createElement('div'); bot.id = 'bucky-bot';
   bot.innerHTML = `<div id="bucky-crop"></div><span id="bucky-tip">ASK BUCKY</span><button class="bucky-hit" aria-label="Ask Bucky, the Expo guide" aria-expanded="false" aria-controls="bucky-panel"></button>`;
   const panel = document.createElement('div'); panel.id = 'bucky-panel'; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-label', 'Ask Bucky');
-  panel.innerHTML = `<header><div style="display:flex;flex-direction:column;gap:3px"><span><i></i>EXPO GUIDE · ONLINE</span><b>ASK BUCKY</b></div><button type="button" data-close>CLOSE ✕</button></header>
+  panel.innerHTML = `<header><div style="display:flex;flex-direction:column;gap:3px"><span><i></i>EXPO GUIDE · ONLINE</span><b>ASK BUCKY</b></div><div class="bucky-actions"><button type="button" data-sound aria-pressed="false">SOUND ON</button><button type="button" data-close>CLOSE ✕</button></div></header>
     <div id="bucky-log" role="log" aria-live="polite"></div>
     <div id="bucky-sug"></div>
     <form id="bucky-form"><input aria-label="Ask anything about the Expo" placeholder="Ask anything about the Expo…" autocomplete="off"><button type="submit">ASK →</button></form>
@@ -142,7 +149,23 @@ export function initBucky(opts = {}) {
     requestAnimationFrame(step);
   }
   function setOpen(v) { open = v; panel.classList.toggle('open', v); hit.setAttribute('aria-expanded', String(v)); if (v) { place(); setTimeout(() => input.focus(), 30); } }
-  hit.addEventListener('click', () => { if (jumping) return; if (open) return setOpen(false); jump(() => setOpen(true)); });
+  unlockOnFirstGesture();
+  // Hover: a little side-to-side wiggle, or now and then a hop, with a soft "boop-bip".
+  let lastPlay = 0;
+  hit.addEventListener('pointerenter', e => {
+    if (e.pointerType === 'touch' || jumping) return;
+    const now = performance.now(); if (now - lastPlay < 700) return; lastPlay = now;
+    playHover();
+    if (reduced) return;
+    const cls = Math.random() < 0.3 ? 'bucky-hop' : 'bucky-wiggle';
+    bot.classList.remove('bucky-hop', 'bucky-wiggle'); void bot.offsetWidth; bot.classList.add(cls);
+  });
+  bot.querySelector('#bucky-crop').addEventListener('animationend', () => bot.classList.remove('bucky-hop', 'bucky-wiggle'));
+  hit.addEventListener('click', () => { if (jumping) return; playClick(); if (open) return setOpen(false); jump(() => setOpen(true)); });
+  const soundBtn = panel.querySelector('[data-sound]');
+  const showSound = () => { const m = isMuted(); soundBtn.textContent = m ? 'SOUND OFF' : 'SOUND ON'; soundBtn.setAttribute('aria-pressed', String(!m)); };
+  soundBtn.addEventListener('click', () => { setMuted(!isMuted()); showSound(); if (!isMuted()) playHover(); });
+  showSound();
   panel.querySelector('[data-close]').addEventListener('click', () => setOpen(false));
   addEventListener('keydown', e => { if (e.key === 'Escape' && open) setOpen(false); });
   setTimeout(() => { bot.classList.add('bucky-hello'); setTimeout(() => bot.classList.remove('bucky-hello'), 3200); }, 2500);
