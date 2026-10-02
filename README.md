@@ -55,7 +55,7 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 
 ## Beyond the design
 
-- **Brand:** the India Sports Expo 2027 logo (`public/brand`) in every header, side rail and the loading screen; `logo-on-dark` is the same logo with white lettering for the dark bars.
+- **Brand:** the India Sports Expo 2027 logo in every header, side rail, the loading screen and the Home book cover (`src/components/BrandLogo.jsx`). It is the original artwork (`public/brand/logo.png`) cut into two pieces at full resolution: the ring (`ring.png`), which turns clockwise without stopping (one turn every 16 s, still for visitors who prefer reduced motion), and the lettering (`wordmark.png`; `wordmark-on-dark.png` has white lettering for the dark bars).
 - **Home hero:** a stadium photo (`public/assets/hero-stadium*.webp`) behind the headline; SPORTS and 2027 fold open letter by letter when the page opens (`src/components/anim/FoldWord.jsx`), as do GLOBAL and INDIA in "The global sports economy meets India".
 - **Sporty finish** (`src/app/sporty.css`, `src/components/anim/SportsTicker.jsx`), in the logo's colours: display type slants forward like the wordmark, primary buttons are angled, a running-track stripe moves along the bottom of every header, dark sections carry speed lines and feature sections pitch markings, Home has a stadium LED ticker with sport icons, and footers open with "Be a sport. Shape the future."
 - **Home animations** (`src/components/home/`, `src/components/anim/`, `src/app/anim.css`):
@@ -84,6 +84,8 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
   - The header keeps the logo; its links and buttons move into a ☰ menu.
   - Layouts that are too wide for the screen are reflowed: wide grids get fewer columns, rows wrap, oversized headlines shrink. No page scrolls sideways.
   - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.
+  - The Home zone cards fit the screen in a two-by-two grid (four across in landscape), showing each zone's name, key facts and link; the longer text is on the Zones page. Bucky steps aside while they are up.
+  - Smooth scrolling on phones: moving strips pause when off screen, the 3D booths lie flat when off screen (and phones get one set instead of two), folded headline letters turn back into plain text once unfolded, the header stripe moves on the GPU without repainting, and the zone cards and Home book use a tint instead of a live blur. On a mid-range phone this cut the page's GPU layers from about 400 to about 120 and the stutters while scrolling by about two thirds.
 - **Back button** at the top left of every page except Home, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
   - Bucky's scene is served by the site (`public/assets/bucky.splinecode`; delete it and run `npm install` to pull a new version from Spline). A bundled poster shows him at once on a first visit, and a snapshot from that visit is reused on later pages.

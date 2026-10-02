@@ -44,10 +44,20 @@
   -webkit-clip-path: inset(50% -10% -10% -10%);
   clip-path: inset(50% -10% -10% -10%);
   transform-origin: 50% 50%;
-  transform: rotateX(178deg);
   opacity: 0;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+}
+/* Once unfolded, the plain letter takes over and the 3D halves go away (fewer GPU layers). */
+.fold-word.is-done .fw-top,
+.fold-word.is-done .fw-bot {
+  display: none;
+}
+.fold-word.is-done .fw-size {
+  visibility: visible;
+}
+.fold-word.is-done .fw-l {
+  perspective: none;
 }
 .fold-word.is-on .fw-top {
   animation: fwTop 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d) forwards;
@@ -222,8 +232,18 @@
 }
 .mq:hover .mq-track,
 .mq:focus-within .mq-track,
-.mq.is-paused .mq-track {
+.mq.is-paused .mq-track,
+.mq.is-off .mq-track {
   animation-play-state: paused;
+}
+/* Off screen, the 3D booths lie flat so their faces stop being separate GPU layers. */
+.mq.is-off .booth-cube {
+  transform-style: flat;
+  transform: none;
+  animation: none;
+}
+.mq.is-off .bc-face {
+  transform: none;
 }
 @keyframes mqLeft {
   from {
@@ -707,10 +727,8 @@
     #0e0e0f;
   box-shadow: inset 0 0 0 1px #2a2a2d;
 }
-.hb-cover-art img {
-  width: 70%;
-  max-width: 260px;
-  height: auto;
+.hb-cover-logo {
+  --logo-h: clamp(64px, 7vw, 96px);
 }
 .hb-cover-title {
   margin-top: auto;
@@ -1349,4 +1367,11 @@ html.m-on.pg-exhibit .m-h:not(.m-in) {
 /* Items waiting to slide in from the side must not widen the page. */
 #dc-root {
   overflow-x: clip;
+}
+
+/* Phones and tablets: no live blur behind the open book. */
+html.lite .hb-backdrop {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: rgba(14, 14, 15, 0.9);
 }

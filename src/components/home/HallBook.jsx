@@ -5,6 +5,7 @@
 // shrinks back. Phones show one page at a time (src/app/anim.css).
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { withBase } from '@/lib/base';
+import BrandLogo from '@/components/BrandLogo';
 import '@/data/ise';
 
 const TURN_MS = 800;
@@ -105,8 +106,7 @@ function Page({ page, n, D }) {
 function Cover({ small = false }) {
   return (
     <div className={'hb-cover-art' + (small ? ' is-small' : '')}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={withBase('/brand/logo-on-dark@2x.png')} alt="" />
+      <BrandLogo className="hb-cover-logo" />
       <span className="hb-cover-title">
         HALL 2
         <br />

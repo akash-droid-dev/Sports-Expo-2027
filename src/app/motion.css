@@ -60,9 +60,7 @@
   white-space: nowrap;
 }
 .curtain-logo {
-  height: clamp(84px, 14vw, 132px);
-  width: auto;
-  display: block;
+  --logo-h: clamp(84px, 14vw, 132px);
   opacity: 0;
   transform: perspective(700px) rotateX(-70deg) translateY(12px);
   transform-origin: 50% 0;
@@ -74,19 +72,51 @@
     transform: none;
   }
 }
-/* The site logo in headers and side rails (public/brand). */
-.site-logo {
-  height: 44px;
-  width: auto;
+
+/* ---------- The logo (src/components/BrandLogo.jsx) ---------- */
+/* Same proportions as the original artwork (1580 × 639): the ring takes the first 644 px. */
+.brand-logo {
+  --logo-h: 44px;
+  position: relative;
   display: block;
   flex: none;
+  height: var(--logo-h);
+  width: calc(var(--logo-h) * 1580 / 639);
 }
-aside .site-logo {
-  height: 52px;
+.brand-ring,
+.brand-word {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+.brand-ring {
+  left: 0;
+  width: 40.7595%;
+  transform-origin: 50% 50%;
+  animation: brandSpin 16s linear infinite;
+  will-change: transform;
+}
+.brand-word {
+  left: 40.7595%;
+  width: 59.2405%;
+}
+/* Left to right over the top: clockwise. */
+@keyframes brandSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+aside .brand-logo {
+  --logo-h: 52px;
 }
 @media (max-width: 900px) {
   .site-logo {
-    height: 38px;
+    --logo-h: 38px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-ring {
+    animation: none;
   }
 }
 .curtain-line {

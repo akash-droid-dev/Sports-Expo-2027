@@ -2,8 +2,10 @@
 // Home "Build your presence": the seven stall products as 3D booth blocks (bigger product,
 // taller block) travelling left to right. Hover pauses the strip and turns the booth with the
 // pointer; each one opens the Exhibit page (src/app/anim.css).
+import { useEffect, useState } from 'react';
 import Marquee from '@/components/anim/Marquee';
 import { withBase } from '@/lib/base';
+import { isLite } from '@/lib/device';
 
 function turn(e) {
   const r = e.currentTarget.getBoundingClientRect();
@@ -12,12 +14,16 @@ function turn(e) {
 }
 
 export default function BoothStrip({ items = [] }) {
+  // Seven booths already outrun a phone screen: one set per half keeps the 3D layers down.
+  // Decided after mounting so the server-rendered HTML still matches.
+  const [lite, setLite] = useState(false);
+  useEffect(() => setLite(isLite()), []);
   if (!items.length) return null;
   return (
     <Marquee
       dir="right"
       seconds={46}
-      repeat={2}
+      repeat={lite ? 1 : 2}
       label="Stall products"
       className="booth-strip"
       items={items}
