@@ -1,0 +1,5 @@
+:HL["/Sports-Expo-2027/_next/static/css/7c2eb07de0dfc41b.css","style"]
+:HL["https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap","style"]
+:HL["/Sports-Expo-2027/brand/ring.png","image"]
+:HL["/Sports-Expo-2027/brand/wordmark-on-dark.png","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"_not-found","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"9wWC3g0w4AAu88Oh4eYXm"}

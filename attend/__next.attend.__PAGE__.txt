@@ -1,0 +1,20 @@
+1:"$Sreact.fragment"
+2:I[786,["367","static/chunks/app/attend/page-7fafbdce9d973747.js"],"default"]
+3:I[484,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[484,[],"ViewportBoundary"]
+9:I[484,[],"MetadataBoundary"]
+b:I[7121,[],""]
+c:I[4581,[],""]
+7:X
+e:X
+e:C
+0:{"buildId":"9wWC3g0w4AAu88Oh4eYXm","data":[{"rsc":["$","$1","c",{"children":[[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}"}}],["$","div",null,{"id":"dc-root","children":["$","$L2",null,{"route":"/attend","defaults":{}}]}]],null,["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Attend & My Expo · India Sports Expo 2027"}],["$","meta","1",{"name":"description","content":"India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi (IICC), Dwarka, New Delhi. Explore the hall, exhibit, attend, connect and watch."}]]}]}]}],null]}],"isPartial":"$@a","staleTime":"$7","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lb",null,{"parallelRouterKey":"children","template":["$","$Lc",null,{}]}]]}],"isPartial":"$@d","staleTime":"$7","varyParams":"$e"}],"isUpgradeableISRFallback":false,"a":"$@f","rootVaryParams":null,"needsRuntimeRequest":"$@10"}
+5:null
+10:true
+7:300
+7:C
+f:0
+a:"$undefined"
+d:"$undefined"
+6:"$undefined"
