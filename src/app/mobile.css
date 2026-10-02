@@ -19,11 +19,6 @@
   #dc-root header[style*='position: sticky'] > a:first-child {
     min-width: 0;
   }
-  #dc-root header[style*='position: sticky'] > a:first-child > span:last-child {
-    font-size: 19px !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
 
   html.has-header .mm-btn {
     position: fixed;

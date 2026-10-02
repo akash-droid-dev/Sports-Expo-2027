@@ -110,14 +110,8 @@ function render(v) {
       <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "232px minmax(0,1fr)" }}>
         <aside style={{ background: "#fff", borderRight: "1px solid #0E0E0F", display: "flex", flexDirection: "column", position: "sticky", top: "0", height: "100vh", overflow: "auto" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#0E0E0F", padding: "18px 18px", borderBottom: "1px solid #0E0E0F", background: "#0E0E0F" }}>
-            <span style={{ width: "20px", height: "20px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
-              <span style={{ position: "absolute", left: "-6px", top: "7px", width: "34px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
-            </span>
-            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "20px", color: "#fff" }}>
-              {"ISE "}
-              <span style={{ color: "#F07C12" }}>2027</span>
-              {" · ADMIN"}
-            </span>
+            <img className="site-logo" src={withBase("/brand/logo-on-dark.png")} srcSet={withBase("/brand/logo-on-dark@2x.png") + " 2x"} alt="India Sports Expo 2027" />
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0" }}>ADMIN</span>
           </a>
           <nav aria-label="Admin" style={{ display: "flex", flexDirection: "column", padding: "6px 0 24px" }}>
             {list(v.nav).map((g, $index) => (

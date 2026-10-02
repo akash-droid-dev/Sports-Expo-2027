@@ -83,14 +83,8 @@ function render(v) {
       <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "240px minmax(0,1fr)" }}>
         <aside style={{ background: "#0E0E0F", color: "#fff", display: "flex", flexDirection: "column", position: "sticky", top: "0", height: "100vh", overflow: "auto" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff", padding: "20px", borderBottom: "1px solid #2A2A2D" }}>
-            <span style={{ width: "20px", height: "20px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
-              <span style={{ position: "absolute", left: "-6px", top: "7px", width: "34px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
-            </span>
-            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "20px" }}>
-              {"ISE "}
-              <span style={{ color: "#F07C12" }}>2027</span>
-              {" · EXHIBITOR"}
-            </span>
+            <img className="site-logo" src={withBase("/brand/logo-on-dark.png")} srcSet={withBase("/brand/logo-on-dark@2x.png") + " 2x"} alt="India Sports Expo 2027" />
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0" }}>EXHIBITOR</span>
           </a>
           <nav aria-label="Exhibitor modules" style={{ display: "flex", flexDirection: "column", padding: "8px 0" }}>
             {list(v.mods).map((m, $index) => (

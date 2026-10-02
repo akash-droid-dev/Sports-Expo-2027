@@ -10,6 +10,7 @@ import './globals.css';
 import './dc-pseudo.css';
 import './motion.css';
 import './mobile.css';
+import './anim.css';
 import BackButton from '@/components/BackButton';
 import MobileMenu from '@/components/MobileMenu';
 
@@ -71,12 +72,13 @@ function deviceScript(localBucky: boolean) {
 try{lite=matchMedia(${JSON.stringify(LITE_QUERY)}).matches}catch(e){}
 if(/[?&]lite=1/.test(q))lite=true;if(/[?&]lite=0/.test(q))lite=false;
 var b=${base},h=document.head,add=function(rel,href,as,img){var l=document.createElement('link');l.rel=rel;l.href=b+href;if(as){l.as=as;if(!img)l.crossOrigin='anonymous'}h.appendChild(l)};
-var home=!location.pathname.slice(b.length).replace(/[/]$/,'');
-if(lite){d.classList.add('lite');if(home)add('preload','/assets/hero-poster-mobile.webp','image',1);return}
-if(home)add('preload','/assets/hero-poster.jpg','image',1);
+var seg=location.pathname.slice(b.length).replace(/^[/]|[/]$/g,'').split('/')[0],home=!seg;
+d.classList.add('pg-'+(seg||'home'));
+if(lite)d.classList.add('lite');
+if(home)add('preload',lite?'/assets/hero-stadium-sm.webp':'/assets/hero-stadium.webp','image',1);
+if(lite)return;
 add('modulepreload','/vendor/spline/runtime.js');
 ${localBucky ? "add('preload','/assets/bucky.splinecode','fetch');" : ''}
-if(home)add('preload','/assets/hero-scene.splinecode','fetch');
 })();`;
 }
 
@@ -98,12 +100,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Covers the page while it loads and during page changes (src/lib/motion.js). */}
         <div id="page-curtain" aria-hidden="true">
           <div className="curtain-brand">
-            <span className="curtain-mark" />
-            <span className="curtain-word">
-              <span>
-                INDIA SPORTS EXPO <b>2027</b>
-              </span>
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="curtain-logo" src={withBase('/brand/logo-on-dark@2x.png')} alt="" />
           </div>
           <span className="curtain-line" />
         </div>
