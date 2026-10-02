@@ -16,6 +16,14 @@ Node 20 or newer is required.
 
 R-4X, the robot guide, answers common questions (exhibitors, stalls, live sessions, registration, travel, buyers, programme) from the demo data. To answer anything else with Claude, set `ANTHROPIC_API_KEY` on the server. Without it, `/api/r4x` returns 503 and R-4X replies with its built-in help message.
 
+## Deploy
+
+**GitHub Pages:** every push to `main` runs `.github/workflows/pages.yml`, which builds a static copy of the site and publishes it to the `gh-pages` branch. It is served at https://akash-droid-dev.github.io/Sports-Expo-2027/ once Pages is on (Settings → Pages → Source: Deploy from a branch → `gh-pages`, `/ (root)`). Pages only hosts static files, so R-4X there answers from its built-in topics only.
+
+**Netlify:** project `sports-expo-yashobhoomi-2027` (https://sports-expo-yashobhoomi-2027.netlify.app). `netlify.toml` builds the full app, including the `/api/r4x` function. Link the GitHub repository in the Netlify project (branch `main`) to deploy on every push.
+
+To build the static copy locally: `STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/Sports-Expo-2027 npm run build` (move `src/app/api` aside first; static export can't include it). The output is in `out/`.
+
 ## Pages
 
 | Route | Page |
