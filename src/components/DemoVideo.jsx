@@ -4,8 +4,10 @@
 //                                while on screen. Nothing downloads until it plays.
 //   <DemoVideo id="x1" thumb />  a card thumbnail: the poster image, previewing the clip muted
 //                                while hovered.
+// Phones and tablets show only the poster on cards, and players wait for a tap.
 import { useEffect, useRef, useState } from 'react';
 import { withBase } from '@/lib/base';
+import { isLite } from '@/lib/device';
 
 let clipsP = null;
 const loadClips = () =>
@@ -34,7 +36,7 @@ export default function DemoVideo({ id, thumb = false, live = false }) {
   // Live: play muted while on screen, pause when scrolled away.
   useEffect(() => {
     const v = ref.current;
-    if (!live || !clip || !v || !('IntersectionObserver' in window)) return;
+    if (!live || !clip || !v || isLite() || !('IntersectionObserver' in window)) return;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const io = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) v.play().then(() => setPlaying(true)).catch(() => {});
@@ -58,6 +60,9 @@ export default function DemoVideo({ id, thumb = false, live = false }) {
 
   if (!clip) return <span style={{ ...fill, background: '#1A1A1C' }} />;
 
+  if (thumb && isLite()) {
+    return <img src={url(clip.poster)} alt="" loading="lazy" decoding="async" style={fill} />;
+  }
   if (thumb) {
     return (
       <span style={{ ...fill, overflow: 'hidden', background: '#1A1A1C' }}>

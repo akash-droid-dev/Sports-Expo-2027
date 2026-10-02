@@ -3,7 +3,8 @@
 // offsets it so the hand + globe sit centred in the hero's right area.
 // A poster (a still of the same frame) is fitted the same way and shows at once; the live
 // scene fades in over it as soon as it draws (heroReady), then settles on its measured framing.
-if (typeof window !== 'undefined') (function () {
+// Phones and tablets show a separate small still instead (src/lib/device.js), so nothing runs there.
+if (typeof window !== 'undefined' && !document.documentElement.classList.contains('lite')) (function () {
   // Extent of the hand, globe and ring inside the 1440×900 frame, measured from a render.
   const DEFAULT_BOX = { l: 750, r: 1130, t: 160, b: 710 };
   let box = null, ready = false, onScreen = true;
@@ -57,7 +58,6 @@ if (typeof window !== 'undefined') (function () {
     }), 500);
   }
   // Fit as soon as the hero renders, then keep checking until the scene has measured itself.
-  // Phones and tablets have no live scene (src/lib/device.js): fit the still once it renders.
-  const iv = setInterval(() => { if (frames().length || posters().length) { fit(); if (box || !frames().length) clearInterval(iv); } }, 50);
+  const iv = setInterval(() => { if (frames().length) { fit(); if (box) clearInterval(iv); } }, 50);
   window.__heroFit = () => ({ box, ready, t: [...frames()].map(f => f.style.transform) });
 })();

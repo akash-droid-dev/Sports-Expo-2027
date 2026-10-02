@@ -62,7 +62,11 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 - **Google Maps:** Home's "Getting to Yashobhoomi" shows the venue on Google Maps. Explore → Getting there shows the Google Maps route for the selected tab (metro, airport, car, shuttle, parking), with the design's route schematic one click away. Both use Google's keyless embed and load only when scrolled near.
 - **Demo media** (`public/media`): every photo slot, logo, portrait and video player is filled. See "Demo media" below.
 - **Phones and tablets** (`src/lib/device.js`, `src/lib/mobile-fit.js`, `src/app/mobile.css`, `src/components/MobileMenu.tsx`):
-  - They get still versions of the 3D views: the hero hand and globe float in place, Bucky bobs, and the venue finale shows a drifting venue photo instead of the live tour. The 3D runtime and scenes are not even downloaded. Only the Earth globe stays live, at a lower render resolution. This keeps the page within mobile memory limits; with all four 3D views, phones could close the page.
+  - They get still versions of the 3D views: a small still of the hand and globe floats in the hero, Bucky bobs, and the venue finale shows a drifting venue photo instead of the live tour. The 3D runtime and scenes are not even downloaded.
+  - The Earth globe stays live, at a lower resolution, and only exists while you are near the journey; it is freed once you scroll well past.
+  - Google maps load on a tap, watch cards show still images, and the live player waits for a tap.
+  - All of this keeps the page within mobile memory limits. Phones close a page that uses too much, and after repeated crashes Safari refuses to load it.
+  - The phone menu shows the build date at the bottom, to check which version is live.
   - The header keeps the logo; its links and buttons move into a ☰ menu.
   - Layouts that are too wide for the screen are reflowed: wide grids get fewer columns, rows wrap, oversized headlines shrink. No page scrolls sideways.
   - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.

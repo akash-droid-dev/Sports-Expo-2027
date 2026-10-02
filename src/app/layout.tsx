@@ -31,11 +31,13 @@ function deviceScript(localBucky: boolean) {
   return `(function(){var d=document.documentElement,q=location.search,lite=false;
 try{lite=matchMedia(${JSON.stringify(LITE_QUERY)}).matches}catch(e){}
 if(/[?&]lite=1/.test(q))lite=true;if(/[?&]lite=0/.test(q))lite=false;
-if(lite){d.classList.add('lite');return}
-var b=${base},h=document.head,add=function(rel,href,as){var l=document.createElement('link');l.rel=rel;l.href=b+href;if(as){l.as=as;l.crossOrigin='anonymous'}h.appendChild(l)};
+var b=${base},h=document.head,add=function(rel,href,as,img){var l=document.createElement('link');l.rel=rel;l.href=b+href;if(as){l.as=as;if(!img)l.crossOrigin='anonymous'}h.appendChild(l)};
+var home=!location.pathname.slice(b.length).replace(/[/]$/,'');
+if(lite){d.classList.add('lite');if(home)add('preload','/assets/hero-poster-mobile.webp','image',1);return}
+if(home)add('preload','/assets/hero-poster.jpg','image',1);
 add('modulepreload','/vendor/spline/runtime.js');
 ${localBucky ? "add('preload','/assets/bucky.splinecode','fetch');" : ''}
-var p=location.pathname.slice(b.length).replace(/[/]$/,'');if(!p)add('preload','/assets/hero-scene.splinecode','fetch');
+if(home)add('preload','/assets/hero-scene.splinecode','fetch');
 })();`;
 }
 

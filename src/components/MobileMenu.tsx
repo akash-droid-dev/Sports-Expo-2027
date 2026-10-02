@@ -79,14 +79,14 @@ export default function MobileMenu() {
         <nav className="mm-panel" aria-label="Menu">
           {items.map((it, i) =>
             it.href ? (
-              <a key={i} href={it.href} className={it.current ? 'mm-item is-current' : 'mm-item'} style={{ animationDelay: i * 40 + 'ms' }} onClick={() => setOpen(false)}>
+              <a key={i} href={it.href} className={'mm-item' + (it.current ? ' is-current' : '') + (i === items.length - 1 ? ' is-cta' : '')} style={{ animationDelay: i * 40 + 'ms' }} onClick={() => setOpen(false)}>
                 {it.label}
               </a>
             ) : (
               <button
                 key={i}
                 type="button"
-                className="mm-item"
+                className={'mm-item' + (i === items.length - 1 ? ' is-cta' : '')}
                 style={{ animationDelay: i * 40 + 'ms' }}
                 onClick={() => {
                   setOpen(false);
@@ -97,6 +97,9 @@ export default function MobileMenu() {
               </button>
             ),
           )}
+          <span className="mm-build">
+            BUILD {process.env.NEXT_PUBLIC_BUILD} · {document.documentElement.classList.contains('lite') ? 'PHONE VERSION' : 'FULL VERSION'}
+          </span>
         </nav>
       ) : null}
     </>
