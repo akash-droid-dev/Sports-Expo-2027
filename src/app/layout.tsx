@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import ClientInit from '@/components/ClientInit';
+import PreloadScenes from '@/components/PreloadScenes';
 import { withBase } from '@/lib/base';
 import './globals.css';
 import './dc-pseudo.css';
+import './motion.css';
+import BackButton from '@/components/BackButton';
 
 export const metadata: Metadata = {
   title: 'India Sports Expo 2027 · Yashobhoomi',
@@ -26,7 +29,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href={FONTS} />
       </head>
       <body>
+        <PreloadScenes />
+        {/* Covers the page while it loads and during page changes (src/lib/motion.js). */}
+        <div id="page-curtain" aria-hidden="true">
+          <div className="curtain-brand">
+            <span className="curtain-mark" />
+            <span className="curtain-word">
+              <span>
+                INDIA SPORTS EXPO <b>2027</b>
+              </span>
+            </span>
+          </div>
+          <span className="curtain-line" />
+        </div>
         {children}
+        <BackButton />
         <ClientInit />
         {/* <image-slot> media placeholders. Fill slots by id in public/image-slots.state.json. */}
         <Script src={withBase('/image-slot.js')} strategy="afterInteractive" />

@@ -1,0 +1,253 @@
+/* Home journey finale: venue scene, flat zone chart and zone cards. */
+.vs-root {
+  position: absolute;
+  inset: 0;
+}
+
+/* Venue backdrop */
+.vs-venue {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.vs-scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #0e0e0f;
+}
+.vs-pano {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  transform: scale(1.06);
+  /* An equirectangular image is twice as wide as it is tall: one loop = one full turn. */
+  animation: vsPan 140s linear infinite;
+}
+@keyframes vsPan {
+  from {
+    background-position: 0 50%;
+  }
+  to {
+    background-position: calc(-2 * (100vh - 60px)) 50%;
+  }
+}
+.vs-tour {
+  position: absolute;
+  left: -6%;
+  top: -6%;
+  width: 112%;
+  height: 112%;
+  border: 0;
+  pointer-events: none;
+  animation: vsDrift 48s ease-in-out infinite alternate;
+}
+@keyframes vsDrift {
+  from {
+    transform: scale(1.02) translateX(-2%);
+  }
+  to {
+    transform: scale(1.1) translateX(2%);
+  }
+}
+.vs-scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(14, 14, 15, 0.7) 0%, rgba(14, 14, 15, 0.2) 34%, rgba(14, 14, 15, 0.25) 62%, rgba(14, 14, 15, 0.85) 100%),
+    radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+}
+
+/* Zone finale */
+.vs-final {
+  position: absolute;
+  inset: 24px 28px 24px 220px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 18px;
+  color: #fff;
+}
+.vs-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.vs-kicker {
+  font: 500 12px 'JetBrains Mono', monospace;
+  letter-spacing: 0.2em;
+  color: #f07c12;
+}
+.vs-title {
+  margin: 0;
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: clamp(40px, 5vw, 76px);
+  line-height: 0.86;
+  letter-spacing: 0.005em;
+}
+.vs-title span {
+  color: #f07c12;
+}
+.vs-chart {
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+}
+.vs-chart-panel {
+  /* The plan is about 0.6× as tall as it is wide: fit it inside the row either way. */
+  width: min(100cqw, 160cqh);
+  background: rgba(251, 250, 247, 0.94);
+  padding: 4px 22px 0;
+  box-sizing: border-box;
+  box-shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+}
+.vs-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.vs-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 18px 16px;
+  background: #fff;
+  color: #0e0e0f;
+  text-decoration: none;
+  border: 1px solid rgba(14, 14, 15, 0.9);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(36px);
+  pointer-events: none;
+  transition:
+    opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease;
+}
+.vs-card.is-in {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.vs-card.is-in:hover,
+.vs-card.is-in:focus-visible,
+.vs-card.is-in.is-hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 50px -22px rgba(0, 0, 0, 0.8);
+  color: #0e0e0f;
+}
+.vs-card:focus-visible {
+  outline: 2px solid #f07c12;
+  outline-offset: 3px;
+}
+.vs-card-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 6px;
+  background: var(--zone);
+  transform-origin: left;
+  transition: height 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.vs-card.is-in:hover .vs-card-bar,
+.vs-card.is-hover .vs-card-bar {
+  height: 10px;
+}
+.vs-card-zone {
+  margin-top: 4px;
+  font: 500 11px 'JetBrains Mono', monospace;
+  letter-spacing: 0.18em;
+  color: var(--zone);
+}
+.vs-card-name {
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 800;
+  font-size: clamp(20px, 1.7vw, 26px);
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+.vs-card-blurb {
+  font-size: 13px;
+  line-height: 1.45;
+  color: #3a3a3e;
+}
+.vs-card-facts {
+  font: 500 11px 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  color: #6b6a66;
+}
+.vs-card-list {
+  font-size: 12px;
+  color: #6b6a66;
+  line-height: 1.4;
+}
+.vs-card-cta {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--zone);
+}
+.vs-card.is-in:hover .vs-card-cta {
+  color: #c2610b;
+}
+
+@media (max-height: 820px) {
+  .vs-card-list {
+    display: none;
+  }
+}
+@media (max-width: 900px) {
+  .vs-final {
+    inset: 76px 16px 16px;
+    gap: 12px;
+  }
+  .vs-title {
+    font-size: 40px;
+  }
+  .vs-card-name {
+    font-size: 17px;
+    overflow-wrap: anywhere;
+  }
+  .vs-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .vs-card {
+    padding: 14px 12px 12px;
+  }
+  .vs-card-blurb,
+  .vs-card-list,
+  .vs-card-facts {
+    display: none;
+  }
+  .vs-chart-panel {
+    padding: 0 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vs-pano,
+  .vs-tour {
+    animation: none;
+  }
+  .vs-card {
+    transition: none;
+  }
+}
+
+/* The journey's side navigation would sit on top of the cards on phones. */
+@media (max-width: 900px) {
+  nav[aria-label='Journey'] {
+    display: none !important;
+  }
+}

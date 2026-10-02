@@ -9,7 +9,18 @@ const nextConfig: NextConfig = {
   // The design logic runs effects once per mount (maps, scroll listeners), as in the prototype.
   reactStrictMode: false,
   basePath: basePath || undefined,
-  ...(staticExport ? { output: 'export', trailingSlash: true } : {}),
+  ...(staticExport
+    ? { output: 'export', trailingSlash: true }
+    : {
+        // 3D runtimes and scenes are large and rarely change: let browsers (and the scene iframes) reuse them.
+        async headers() {
+          const cache = [{ key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' }];
+          return [
+            { source: '/vendor/:path*', headers: cache },
+            { source: '/assets/:path*', headers: cache },
+          ];
+        },
+      }),
 };
 
 export default nextConfig;

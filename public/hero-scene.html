@@ -12,7 +12,7 @@ window.addEventListener('unhandledrejection', function (e) { e.preventDefault();
 import { Application } from './vendor/spline/runtime.js';
 const c = document.getElementById('c');
 const app = new Application(c);
-let SCENE = new URL('assets/r4x-robot.splinecode', location.href).href; try { if (parent.__resources && parent.__resources.heroSpline) SCENE = parent.__resources.heroSpline; } catch (e) {}
+let SCENE = new URL('assets/hero-scene.splinecode', location.href).href; try { if (parent.__resources && parent.__resources.heroSpline) SCENE = parent.__resources.heroSpline; } catch (e) {}
 await app.load(SCENE);
 // Show only the hand, globe and the translucent Torus covering: the one extra object in this export is the Backdrop.
 app.getAllObjects().forEach(o => { if (o.name === 'Backdrop') o.visible = false; else if (o.name === 'Torus') o.visible = true; });
@@ -44,7 +44,9 @@ const measure = () => {
   const k = innerWidth / GW, ky = innerHeight / GH;
   return { l: x0 * k, r: (x1 + 1) * k, t: y0 * ky, b: (y1 + 1) * ky };
 };
-const loop = () => { sample(); if (++n < 50) requestAnimationFrame(loop); else { box = measure(); window.__box = box; parent.postMessage({ heroBox: box, w: innerWidth, h: innerHeight }, '*'); } };
+const loop = () => { sample(); if (++n < 30) requestAnimationFrame(loop); else { box = measure(); window.__box = box; parent.postMessage({ heroBox: box, w: innerWidth, h: innerHeight }, '*'); } };
 c.style.opacity = 1;
-setTimeout(() => requestAnimationFrame(loop), 500);
+// Tell the page the scene is drawing so it can fade in now; the measured fit follows.
+requestAnimationFrame(() => parent.postMessage({ heroReady: true }, '*'));
+setTimeout(() => requestAnimationFrame(loop), 120);
 </script></body></html>
