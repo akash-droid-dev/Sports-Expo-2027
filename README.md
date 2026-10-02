@@ -67,7 +67,11 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
   - Google maps load on a tap, watch cards show still images, and the live player waits for a tap.
   - All of this keeps the page within mobile memory limits. Phones close a page that uses too much, and after repeated crashes Safari refuses to load it.
   - The phone menu shows the build date at the bottom, to check which version is live.
-- **Older iPhones and browsers:** the site is compiled for Safari 14 / iOS 14 and newer (`browserslist` in `package.json`; Next.js alone targets Safari 16.4+), with two small fill-ins for iOS before 15.4. Before iOS 16.4 the maps are skipped. If the site still fails to start on a device, it shows the error, browser and build on screen after 9 seconds (the inline script in `src/app/layout.tsx`), ready to screenshot.
+- **Older phones and browsers:** the site runs on Android Chrome 67+ (2018), Samsung Internet 9.2+, iOS/Safari 14+ and Firefox 68+.
+  - Builds use webpack (`next build --webpack`) because it compiles the code, MapLibre included, down to the `browserslist` targets in `package.json`. Turbopack, the Next.js 16 default, keeps newer syntax that those browsers can't run. `npm run dev` still uses Turbopack.
+  - The inline script in `src/app/layout.tsx` fills in newer JavaScript features they lack. `src/lib/legacy-css.js` restores the inline `inset`, `aspect-ratio` and flex `gap` they ignore, and the stylesheets give top/right/bottom/left before each `inset`.
+  - Browsers before Chrome 94 / iOS 16.4 skip the maps.
+  - If the site still fails to start on a device, it shows the error, browser and build on screen after 9 seconds, ready to screenshot.
   - The header keeps the logo; its links and buttons move into a ☰ menu.
   - Layouts that are too wide for the screen are reflowed: wide grids get fewer columns, rows wrap, oversized headlines shrink. No page scrolls sideways.
   - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.

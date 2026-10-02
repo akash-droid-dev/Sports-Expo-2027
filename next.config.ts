@@ -10,6 +10,9 @@ const BUILD = new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
 
 const nextConfig: NextConfig = {
   env: { NEXT_PUBLIC_BUILD: BUILD },
+  // Ship code that older phones can run (see "browserslist" in package.json); MapLibre comes
+  // pre-built for new browsers only, so compile it too.
+  transpilePackages: ['maplibre-gl'],
   // The design logic runs effects once per mount (maps, scroll listeners), as in the prototype.
   reactStrictMode: false,
   basePath: basePath || undefined,

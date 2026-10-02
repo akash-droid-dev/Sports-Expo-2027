@@ -1,23 +1,40 @@
+/* Each `inset` is preceded by top/right/bottom/left for older browsers (Chrome before 87). */
 /* Home journey finale: venue scene and the four zone cards. */
 .vs-root {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
 }
 
 /* Venue backdrop */
 .vs-venue {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
   pointer-events: none;
 }
 .vs-scene {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
   overflow: hidden;
   background: #0e0e0f;
 }
 .vs-pano {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -35,6 +52,10 @@
 }
 .vs-photo {
   position: absolute;
+  top: -4%;
+  right: -4%;
+  bottom: -4%;
+  left: -4%;
   inset: -4%;
   background: center / cover no-repeat;
   animation: vsDrift 48s ease-in-out infinite alternate;
@@ -59,6 +80,10 @@
 }
 .vs-scrim {
   position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
   background:
     linear-gradient(180deg, rgba(14, 14, 15, 0.7) 0%, rgba(14, 14, 15, 0.2) 34%, rgba(14, 14, 15, 0.25) 62%, rgba(14, 14, 15, 0.85) 100%),
@@ -68,6 +93,10 @@
 /* Zone finale */
 .vs-final {
   position: absolute;
+  top: 24px;
+  right: 28px;
+  bottom: 24px;
+  left: 220px;
   inset: 24px 28px 24px 220px;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
@@ -222,6 +251,10 @@
 }
 @media (max-width: 900px) {
   .vs-final {
+    top: 76px;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
     inset: 76px 16px 16px;
     gap: 12px;
   }

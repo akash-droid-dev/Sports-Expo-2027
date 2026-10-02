@@ -7,6 +7,7 @@ import { initBucky } from '@/lib/bucky-guide';
 import { withBase } from '@/lib/base';
 import { initMotion } from '@/lib/motion';
 import { initMobileFit } from '@/lib/mobile-fit';
+import { initLegacyCss } from '@/lib/legacy-css';
 
 declare global {
   interface Window {
@@ -31,6 +32,7 @@ export default function ClientInit({ localBucky = false }: { localBucky?: boolea
         return data.text;
       },
     };
+    initLegacyCss();
     initMotion();
     initMobileFit();
     initBucky({ localScene: localBucky });

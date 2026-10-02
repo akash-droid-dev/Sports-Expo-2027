@@ -1,3 +1,4 @@
+/* Each `inset` is preceded by top/right/bottom/left for older browsers (Chrome before 87). */
 /* Site-wide motion (driven by src/lib/motion.js). Reduced motion turns all of it off. */
 
 :root {
@@ -8,6 +9,10 @@
 /* ---------- Page curtain ---------- */
 #page-curtain {
   position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   inset: 0;
   z-index: 10000;
   background: #0e0e0f;
