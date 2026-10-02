@@ -1,0 +1,8 @@
+# Netlify builds the full Next.js app (pages + the /api/r4x function).
+# Set ANTHROPIC_API_KEY in the site's environment variables to turn on R-4X AI answers.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"

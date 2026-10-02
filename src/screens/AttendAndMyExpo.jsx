@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import HallPlan from './HallPlan';
 
@@ -139,9 +140,9 @@ class Component extends DCLogic {
       metrics: [[saved.ex.length, 'Saved exhibitors'], [saved.prod.length, 'Saved products'], [saved.ses.length, 'Sessions'], [4, 'Meetings'], [saved.expx.length, 'Experiences']].map(([v, k]) => ({ v, k })),
       todayMini: itinFull.slice(0, 5).map((it, i) => ({ ...it, zc: zc(it.z), st: i === 0 ? 'NOW' : i === 2 ? 'CONFIRMED' : '', stc: i === 0 ? '#C2610B' : '#0B6E4F' })),
       nextUp: [
-        { k: '● UPCOMING SESSION · 10:00', c: '#9E1B22', t: 'The Future of AI Coaching', d: 'Innovation Arena · Arjun Mehta, Dr. Meera Raghavan', cta: 'WATCH LIVE →', href: '/programme#watch' },
-        { k: 'UPCOMING MEETING · 11:00', c: '#0B6E4F', t: 'Apex Sports India', d: 'B2B Meeting Zone · Table 14 · 4 min walk', cta: 'NAVIGATE →', href: '/explore' },
-        { k: 'EXPERIENCE BOOKING · 16:40', c: '#C2610B', t: 'Sprint Timing Experience', d: 'Try Sport Arena · bring sports shoes', cta: 'VIEW BOOKING →', href: '/zones' }
+        { k: '● UPCOMING SESSION · 10:00', c: '#9E1B22', t: 'The Future of AI Coaching', d: 'Innovation Arena · Arjun Mehta, Dr. Meera Raghavan', cta: 'WATCH LIVE →', href: withBase('/programme#watch') },
+        { k: 'UPCOMING MEETING · 11:00', c: '#0B6E4F', t: 'Apex Sports India', d: 'B2B Meeting Zone · Table 14 · 4 min walk', cta: 'NAVIGATE →', href: withBase('/explore') },
+        { k: 'EXPERIENCE BOOKING · 16:40', c: '#C2610B', t: 'Sprint Timing Experience', d: 'Try Sport Arena · bring sports shoes', cta: 'VIEW BOOKING →', href: withBase('/zones') }
       ],
       modules: modsBy[role],
       days: [1, 2, 3].map(d => ({ t: 'DAY ' + d, ...sel(d === s.day), pick: () => this.setState({ day: d }) })),
@@ -157,12 +158,12 @@ class Component extends DCLogic {
       routeLit: ['SGM'],
       routes: [{ from: 'Main Entrance', to: 'Apex Sports · B-SGM-017', via: 'Sports Boulevard → Zone B → Sports Goods Manufacturing', min: 4 }, { from: 'B-SGM-017', to: 'B2B Table 14', via: 'Boulevard south → Zone D', min: 3 }, { from: 'B2B Zone', to: 'Plenary Hall', via: 'Boulevard east → Zone C', min: 5 }],
       notifs: [
-        { time: '09:10', k: 'MEETING', t: 'Meeting in 15 min — not yet', d: 'Apex Sports India at 11:00 · Table 14. Reminder set for 10:45.', c: '#0B6E4F', cta: 'VIEW', href: '/connect#meetings', bg: '#FBFAF7' },
-        { time: '09:02', k: 'LIVE', t: 'Live session starting', d: 'The Future of AI Coaching begins at 10:00 in the Innovation Arena.', c: '#9E1B22', cta: 'WATCH', href: '/programme#watch', bg: '#FBFAF7' },
-        { time: '08:40', k: 'BUYER REQUEST', t: 'New meeting request', d: 'Stridewell Footwear wants to meet you on Day 2 or Day 3.', c: '#C2610B', cta: 'RESPOND', href: '/connect#meetings', bg: '#FBFAF7' },
-        { time: '08:15', k: 'TRANSPORT', t: 'Transport update', d: 'Airport Express Line running every 10 min to Yashobhoomi Dwarka Sector 25 (sample).', c: '#1F4E9E', cta: 'DETAILS', href: '/explore#getting-there', bg: '#fff' },
-        { time: 'YEST.', k: 'EXHIBITOR', t: 'Exhibitor response', d: 'TurfLine Systems accepted your request. Choose a slot.', c: '#0B6E4F', cta: 'CHOOSE SLOT', href: '/connect#meetings', bg: '#fff' },
-        { time: 'YEST.', k: 'ROUTE', t: 'Route changed', d: 'Aisle 4 in Zone B is closed for build-up until 09:00. Your route avoids it.', c: '#3A3A3E', cta: 'VIEW ROUTE', href: '/explore', bg: '#fff' }
+        { time: '09:10', k: 'MEETING', t: 'Meeting in 15 min — not yet', d: 'Apex Sports India at 11:00 · Table 14. Reminder set for 10:45.', c: '#0B6E4F', cta: 'VIEW', href: withBase('/connect#meetings'), bg: '#FBFAF7' },
+        { time: '09:02', k: 'LIVE', t: 'Live session starting', d: 'The Future of AI Coaching begins at 10:00 in the Innovation Arena.', c: '#9E1B22', cta: 'WATCH', href: withBase('/programme#watch'), bg: '#FBFAF7' },
+        { time: '08:40', k: 'BUYER REQUEST', t: 'New meeting request', d: 'Stridewell Footwear wants to meet you on Day 2 or Day 3.', c: '#C2610B', cta: 'RESPOND', href: withBase('/connect#meetings'), bg: '#FBFAF7' },
+        { time: '08:15', k: 'TRANSPORT', t: 'Transport update', d: 'Airport Express Line running every 10 min to Yashobhoomi Dwarka Sector 25 (sample).', c: '#1F4E9E', cta: 'DETAILS', href: withBase('/explore#getting-there'), bg: '#fff' },
+        { time: 'YEST.', k: 'EXHIBITOR', t: 'Exhibitor response', d: 'TurfLine Systems accepted your request. Choose a slot.', c: '#0B6E4F', cta: 'CHOOSE SLOT', href: withBase('/connect#meetings'), bg: '#fff' },
+        { time: 'YEST.', k: 'ROUTE', t: 'Route changed', d: 'Aisle 4 in Zone B is closed for build-up until 09:00. Your route avoids it.', c: '#3A3A3E', cta: 'VIEW ROUTE', href: withBase('/explore'), bg: '#fff' }
       ],
       helpCats: ['Registration', 'Exhibitor', 'Visa', 'Travel', 'Accommodation', 'Transport', 'Meeting', 'Stall', 'Accreditation', 'Programme', 'Technical', 'General'].map(t => ({ t, ...sel(t === s.help), pick: () => { this.setState({ help: t }); this.flash('New ' + t + ' request started (demo)'); } })),
       tickets: [ticket('HD-10482', 'VISA', 'Invitation letter for business visa', 'Agent Neha: letter issued, check your email (demo)', 4), ticket('HD-10511', 'MEETING', 'Change table for Apex meeting', 'Waiting for exhibitor confirmation', 3), ticket('HD-10533', 'ACCOMMODATION', 'Partner hotel shuttle times', 'Assigned to Travel Desk', 1)],
@@ -187,7 +188,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -197,12 +198,12 @@ function render(v) {
             </span>
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href="/explore" style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href="/exhibit" style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href="/attend" style={{ color: "#F07C12", textDecoration: "none" }}>ATTEND</a>
-            <a href="/connect" style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href="/programme#watch" style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
+            <a href={withBase("/attend")} style={{ color: "#F07C12", textDecoration: "none" }}>ATTEND</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
+            <a href={withBase("/programme#watch")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
           </nav>
           <a href="#myexpo" style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>MY EXPO</a>
           <a href="#register" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px", whiteSpace: "nowrap" }}>
@@ -542,7 +543,7 @@ function render(v) {
                 <button onClick={v.download} style={{ height: "50px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
                   {txt(v.dlLabel)}
                 </button>
-                <a href="/mobile" style={{ height: "50px", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                <a href={withBase("/mobile")} style={{ height: "50px", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                   OPEN IN APP
                 </a>
               </div>
@@ -687,8 +688,8 @@ function render(v) {
                               <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(s?.stage)}{" · "}{txt(s?.topic)}{" · "}{txt(s?.spk)}</span>
                             </span>
                             <span style={{ display: "flex", gap: "8px" }}>
-                              <a href="/programme" style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>{txt(s?.cta)}</a>
-                              <a href="/explore" style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>NAVIGATE</a>
+                              <a href={withBase("/programme")} style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>{txt(s?.cta)}</a>
+                              <a href={withBase("/explore")} style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>NAVIGATE</a>
                             </span>
                           </div>
                         </Fragment>
@@ -698,7 +699,7 @@ function render(v) {
                           <div style={{ border: "1px dashed #BDB9B0", padding: "32px", display: "flex", flexDirection: "column", gap: "8px" }}>
                             <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "28px" }}>NOTHING SAVED FOR THIS DAY</b>
                             <span style={{ color: "#6B6A66" }}>Add sessions from the programme and they appear here with reminders.</span>
-                            <a href="/programme" style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>BROWSE PROGRAMME →</a>
+                            <a href={withBase("/programme")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>BROWSE PROGRAMME →</a>
                           </div>
                         </>
                       ) : null}
@@ -725,7 +726,7 @@ function render(v) {
                               <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;border:1px solid ${m?.c ?? ""};color:${m?.c ?? ""};padding:5px 8px;`)}>
                                 {txt(m?.icon)}{" "}{txt(m?.st)}
                               </span>
-                              <a href="/connect#meetings" style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>OPEN</a>
+                              <a href={withBase("/connect#meetings")} style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>OPEN</a>
                             </span>
                           </div>
                         </Fragment>
@@ -779,7 +780,7 @@ function render(v) {
                             </div>
                           </Fragment>
                         ))}
-                        <a href="/explore" style={{ marginTop: "14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>OPEN FULL MAP →</a>
+                        <a href={withBase("/explore")} style={{ marginTop: "14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>OPEN FULL MAP →</a>
                       </div>
                     </div>
                   </>

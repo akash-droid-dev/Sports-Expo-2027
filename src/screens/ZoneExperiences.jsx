@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import '@/lib/maplibre';
 
@@ -170,7 +171,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -180,15 +181,17 @@ function render(v) {
             </span>
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href="/explore" style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
-            <a href="/exhibit" style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href="/attend" style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href="/connect" style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
           </nav>
-          <a href="/attend" style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>MY EXPO</a>
-          <a href="/attend" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
+          <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+            MY EXPO
+          </a>
+          <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
             REGISTER
           </a>
         </header>
@@ -272,16 +275,16 @@ function render(v) {
                       ))}
                     </dl>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginTop: "auto" }}>
-                      <a href="/explore" style={{ background: "#9E1B22", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
+                      <a href={withBase("/explore")} style={{ background: "#9E1B22", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
                         VIEW PAVILION
                       </a>
                       <button onClick={v.saveState} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "46px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
                         {txt(v.saveLabel)}
                       </button>
-                      <a href="/connect" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
+                      <a href={withBase("/connect")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
                         BOOK MEETING
                       </a>
-                      <a href="/explore" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
+                      <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
                         NAVIGATE
                       </a>
                     </div>
@@ -368,10 +371,10 @@ function render(v) {
                       ))}
                     </dl>
                     <div style={{ display: "flex", gap: "8px" }}>
-                      <a href="/connect" style={{ background: "#9E1B22", color: "#fff", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", padding: "0 18px", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
+                      <a href={withBase("/connect")} style={{ background: "#9E1B22", color: "#fff", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", padding: "0 18px", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
                         REQUEST MEETING
                       </a>
-                      <a href="/explore" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", padding: "0 18px", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
+                      <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", padding: "0 18px", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
                         EXPO LOCATION
                       </a>
                     </div>
@@ -537,16 +540,16 @@ function render(v) {
                             </span>
                           </div>
                           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", alignContent: "start" }}>
-                            <a href="/exhibit" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
+                            <a href={withBase("/exhibit")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
                               VIEW EXHIBITOR
                             </a>
-                            <a href="/exhibit" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                            <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                               VIEW PRODUCTS
                             </a>
-                            <a href="/connect" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                            <a href={withBase("/connect")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                               BOOK MEETING
                             </a>
-                            <a href="/explore" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                            <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                               VIEW ON MAP
                             </a>
                             <button onClick={e?.save} style={sx(`grid-column:1 / -1;border:0;background:${e?.saveBg ?? ""};height:36px;font:700 11px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
@@ -796,13 +799,13 @@ function render(v) {
                         </div>
                         <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{"PITCH · "}{txt(s?.pitch)}{" · INNOVATION ARENA"}</span>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "6px", marginTop: "auto" }}>
-                          <a href="/connect" style={{ gridColumn: "span 2", background: "#0B6E4F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
+                          <a href={withBase("/connect")} style={{ gridColumn: "span 2", background: "#0B6E4F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
                             REQUEST MEETING
                           </a>
-                          <a href="/programme" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
+                          <a href={withBase("/programme")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
                             PITCH
                           </a>
-                          <a href="/explore" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
+                          <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
                             MAP
                           </a>
                         </div>
@@ -1001,13 +1004,13 @@ function render(v) {
                   ))}
                 </dl>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "6px", marginTop: "auto" }}>
-                  <a href="/explore" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
+                  <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
                     VIEW PAVILION
                   </a>
-                  <a href="/exhibit" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                  <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                     VIEW COMPANIES
                   </a>
-                  <a href="/connect" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
+                  <a href={withBase("/connect")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
                     REQUEST MEETING
                   </a>
                 </div>

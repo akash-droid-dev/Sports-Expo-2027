@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 
 /* global maplibregl */
@@ -35,14 +36,14 @@ class Component extends DCLogic {
     const q = (s.q || '').trim().toLowerCase();
     const m = t => t.toLowerCase().includes(q);
     const groups = !q ? [] : [
-      { t: 'EXHIBITORS', items: D.exhibitors.filter(e => m(e.name + e.sector + e.sport + e.stall + e.country + e.products.join(' '))).map(e => ({ a: e.name, b: e.sector + ' · ' + e.city, c: e.stall, zc: zc(e.zone), href: '/exhibit#directory' })) },
-      { t: 'PRODUCTS', items: D.products.filter(p => m(p.name + p.cat + p.type + p.by)).map(p => ({ a: p.name, b: p.by, c: p.stall, zc: zc(p.stall[0]), href: '/exhibit#directory' })) },
+      { t: 'EXHIBITORS', items: D.exhibitors.filter(e => m(e.name + e.sector + e.sport + e.stall + e.country + e.products.join(' '))).map(e => ({ a: e.name, b: e.sector + ' · ' + e.city, c: e.stall, zc: zc(e.zone), href: withBase('/exhibit#directory') })) },
+      { t: 'PRODUCTS', items: D.products.filter(p => m(p.name + p.cat + p.type + p.by)).map(p => ({ a: p.name, b: p.by, c: p.stall, zc: zc(p.stall[0]), href: withBase('/exhibit#directory') })) },
       { t: 'SESSIONS', items: D.sessions.filter(x => m(x.title + x.topic + x.stage + spk(x))).map(x => ({ a: x.title, b: 'Day ' + x.day + ' · ' + x.time + ' · ' + x.stage, c: x.topic.toUpperCase(), zc: zc(x.zone), href: '#programme' })) },
-      { t: 'EXPERIENCES', items: [['Football Reaction Challenge', 'Try Sport Arena'], ['Archery Experience', 'Try Sport Arena'], ['Wheelchair Basketball', 'Try Sport Arena'], ['VR Training', 'Interactive Experiences']].filter(([a, b]) => m(a + b)).map(([a, b]) => ({ a, b, c: 'ZONE C', zc: zc('C'), href: '/zones' })) },
-      { t: 'FEDERATIONS', items: ['Football', 'Hockey', 'Athletics', 'Archery', 'Badminton', 'Boxing'].filter(x => m(x)).map(x => ({ a: x + ' federation (sample)', b: 'Federations & Institutions · A-FED', c: 'ZONE A', zc: zc('A'), href: '/zones' })) },
-      { t: 'STARTUPS', items: D.startups.filter(x => m(x.name + x.sport + x.tech + x.country)).map(x => ({ a: x.name, b: x.tech + ' · ' + x.sport + ' · ' + x.stage, c: x.stall, zc: zc('C'), href: '/zones' })) },
+      { t: 'EXPERIENCES', items: [['Football Reaction Challenge', 'Try Sport Arena'], ['Archery Experience', 'Try Sport Arena'], ['Wheelchair Basketball', 'Try Sport Arena'], ['VR Training', 'Interactive Experiences']].filter(([a, b]) => m(a + b)).map(([a, b]) => ({ a, b, c: 'ZONE C', zc: zc('C'), href: withBase('/zones') })) },
+      { t: 'FEDERATIONS', items: ['Football', 'Hockey', 'Athletics', 'Archery', 'Badminton', 'Boxing'].filter(x => m(x)).map(x => ({ a: x + ' federation (sample)', b: 'Federations & Institutions · A-FED', c: 'ZONE A', zc: zc('A'), href: withBase('/zones') })) },
+      { t: 'STARTUPS', items: D.startups.filter(x => m(x.name + x.sport + x.tech + x.country)).map(x => ({ a: x.name, b: x.tech + ' · ' + x.sport + ' · ' + x.stage, c: x.stall, zc: zc('C'), href: withBase('/zones') })) },
       { t: 'SPEAKERS', items: D.speakers.filter(x => m(x.name + x.org)).map(x => ({ a: x.name, b: x.role + ' · ' + x.org, c: '', zc: '#0E0E0F', href: '#programme' })) },
-      { t: 'COUNTRIES & STATES', items: [...D.countries.map(c => ({ a: c.name, b: 'Country pavilion ' + c.pav, c: c.pav })), ...D.states.map(c => ({ a: c.name, b: c.identity, c: c.pav }))].filter(x => m(x.a + x.b)).map(x => ({ ...x, zc: x.c[0] === 'A' ? zc('A') : zc('D'), href: x.c[0] === 'A' ? '/zones' : '/connect#countries' })) }
+      { t: 'COUNTRIES & STATES', items: [...D.countries.map(c => ({ a: c.name, b: 'Country pavilion ' + c.pav, c: c.pav })), ...D.states.map(c => ({ a: c.name, b: c.identity, c: c.pav }))].filter(x => m(x.a + x.b)).map(x => ({ ...x, zc: x.c[0] === 'A' ? zc('A') : zc('D'), href: x.c[0] === 'A' ? withBase('/zones') : withBase('/connect#countries') })) }
     ].filter(g => g.items.length).map(g => ({ ...g, n: g.items.length }));
     const arenaBy = {
       pre: { d: 'Programme, pitch schedule, speakers and demos for the three days. Save sessions to get reminders.', cols: [['Programme', D.sessions.filter(x => x.stage === 'Innovation Arena').slice(0, 4).map(x => [x.title, 'D' + x.day + ' ' + x.time])], ['Pitch schedule', D.startups.slice(0, 4).map(x => [x.name, x.pitch])], ['Speakers', D.speakers.slice(0, 4).map(x => [x.name, x.org.replace(' (demo)', '')])], ['Demos', [['CoachVision AI live analysis', 'D2 12:30'], ['ForceTrack jump testing', 'D2 13:15'], ['Turfsense pitch sensors', 'D3 13:00']]]] },
@@ -85,7 +86,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -95,17 +96,17 @@ function render(v) {
             </span>
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href="/explore" style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href="/exhibit" style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href="/attend" style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href="/connect" style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
             <a href="#programme" style={{ color: "#F07C12", textDecoration: "none" }}>PROGRAMME</a>
             <a href="#watch" style={{ color: "#F07C12", textDecoration: "none" }}>WATCH</a>
           </nav>
           <button onClick={v.openSearch} aria-label="Search" style={{ background: "transparent", border: "1px solid #3A3A3E", color: "#BDB9B0", height: "36px", padding: "0 14px", fontSize: "13px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", whiteSpace: "nowrap" }}>
             ⌕ Search the Expo
           </button>
-          <a href="/attend#myexpo" style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+          <a href={withBase("/attend#myexpo")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
             MY EXPO
           </a>
         </header>
@@ -393,7 +394,7 @@ function render(v) {
                 ARENA
               </h2>
               <span style={{ fontSize: "16px", lineHeight: "1.5", maxWidth: "440px" }}>{txt(v.arena?.d)}</span>
-              <a href="/zones" style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>ZONE C EXPERIENCES →</a>
+              <a href={withBase("/zones")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>ZONE C EXPERIENCES →</a>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "24px" }}>
               {list(v.arena?.cols).map((c, $index) => (
@@ -508,7 +509,7 @@ function render(v) {
                     <button onClick={v.d?.cal} style={{ height: "46px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
                       ADD TO CALENDAR
                     </button>
-                    <a href="/explore" style={{ height: "46px", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", boxSizing: "border-box" }}>
+                    <a href={withBase("/explore")} style={{ height: "46px", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", boxSizing: "border-box" }}>
                       NAVIGATE
                     </a>
                     <button onClick={v.d?.watch} style={{ height: "46px", border: "0", background: "#0E0E0F", color: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
@@ -570,7 +571,7 @@ function render(v) {
                       <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>RELATED COMPANIES</span>
                       {list(v.d?.companies).map((c, $index) => (
                         <Fragment key={$index}>
-                          <a href="/exhibit#directory" style={{ display: "block", borderBottom: "1px solid #E3E0D8", padding: "10px 0", fontSize: "14px", fontWeight: "600", textDecoration: "none" }}>
+                          <a href={withBase("/exhibit#directory")} style={{ display: "block", borderBottom: "1px solid #E3E0D8", padding: "10px 0", fontSize: "14px", fontWeight: "600", textDecoration: "none" }}>
                             {txt(c?.name)}{" "}
                             <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66", fontWeight: "400" }}>{txt(c?.stall)}</span>
                           </a>

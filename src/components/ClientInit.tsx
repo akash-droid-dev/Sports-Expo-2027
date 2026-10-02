@@ -4,6 +4,7 @@
 import { useEffect } from 'react';
 import '@/data/ise';
 import { initR4X } from '@/lib/r4x-guide';
+import { withBase } from '@/lib/base';
 
 declare global {
   interface Window {
@@ -15,7 +16,7 @@ export default function ClientInit() {
   useEffect(() => {
     window.claude ??= {
       async complete(prompt: string) {
-        const res = await fetch('/api/r4x', {
+        const res = await fetch(withBase('/api/r4x'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ prompt }),

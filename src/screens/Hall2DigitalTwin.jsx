@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import '@/lib/maplibre';
 import HallPlan from './HallPlan';
@@ -70,7 +71,7 @@ class Component extends DCLogic {
     const pins = Object.entries(pinDefs).filter(([k]) => st.filters[k]).flatMap(([k, arr]) => arr.map(([x, y, g]) => ({ x, y, glyph: g, label: k, bg: pinBg[k] })));
     const heatVals = { STA: .42, THM: .61, MYS: .2, FED: .33, HER: .55, SGM: .72, SIV: .48, OEM: .3, APF: .39, SRF: .22, LSE: .26, CTY: .5, ISX: .81, B2B: .66, HBL: .35, MOU: .4, INV: .2, FDL: .15, CEO: .1, STI: .77, IAS: .94, SUV: .58, PSS: .44, IEX: .68, TSA: .88 };
     const origin = { A: '25% 30%', B: '75% 30%', C: '75% 70%', D: '25% 70%' };
-    const zoneHref = '/zones#zone-' + ((C ? C.zone : st.zone) || 'b').toLowerCase();
+    const zoneHref = withBase('/zones#zone-') + ((C ? C.zone : st.zone) || 'b').toLowerCase();
     const walk = c => Math.max(1, Math.round(this.route(c).len * 0.62 / 80)) + ' min';
     const travelDefs = {
       Metro: { time: '~21 MIN', src: 'NEW DELHI → SECTOR 25 · PMO', steps: ['Board the Airport Express Line (orange) at New Delhi', 'Ride through Shivaji Stadium, Dhaula Kuan, Aerocity, IGI T3', 'Change at Dwarka Sector 21 only if your train terminates there', 'Exit at Yashobhoomi Dwarka Sector 25 — underground, inside the venue'] },
@@ -127,7 +128,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
             <span style={{ width: "22px", height: "22px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "8px", width: "36px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>
@@ -137,21 +138,23 @@ function render(v) {
             </span>
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href="/explore" style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
-            <a href="/exhibit" style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href="/attend" style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href="/connect" style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href="/programme" style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
           </nav>
-          <a href="/attend" style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>MY EXPO</a>
-          <a href="/attend" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
+          <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
+            MY EXPO
+          </a>
+          <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
             REGISTER
           </a>
         </header>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap", padding: "14px 28px", borderBottom: "1px solid #E3E0D8" }}>
           <nav aria-label="Breadcrumb" style={{ display: "flex", gap: "10px", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.12em", flexWrap: "wrap" }}>
-            <a href="/" style={{ color: "#6B6A66", textDecoration: "none" }}>YASHOBHOOMI</a>
+            <a href={withBase("/")} style={{ color: "#6B6A66", textDecoration: "none" }}>YASHOBHOOMI</a>
             <span style={{ color: "#A29E95" }}>→</span>
             <button onClick={v.resetZone} style={sx(`background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;cursor:pointer;color:${v.crumbHallColor ?? ""};`)}>
               EXHIBITION HALL 2
@@ -353,7 +356,7 @@ function render(v) {
                       </Fragment>
                     ))}
                   </div>
-                  <a href="/mobile" style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
+                  <a href={withBase("/mobile")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
                     SEND ROUTE TO MOBILE APP
                   </a>
                 </div>
@@ -386,7 +389,7 @@ function render(v) {
                   <div style={{ background: "#0E0E0F", color: "#fff", padding: "16px", display: "flex", flexDirection: "column", gap: "6px" }}>
                     <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#F07C12" }}>● LIVE NOW · INNOVATION ARENA</span>
                     <b style={{ fontSize: "17px" }}>The Future of AI Coaching</b>
-                    <a href="/programme" style={{ color: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em" }}>WATCH →</a>
+                    <a href={withBase("/programme")} style={{ color: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em" }}>WATCH →</a>
                   </div>
                 </div>
               </>
@@ -416,7 +419,7 @@ function render(v) {
                     <button onClick={v.navHere} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "44px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
                       NAVIGATE
                     </button>
-                    <a href="/exhibit" style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
+                    <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
                       BOOK A STALL
                     </a>
                   </div>

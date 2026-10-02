@@ -9,10 +9,10 @@ window.addEventListener('unhandledrejection', function (e) { e.preventDefault();
 </script></head>
 <body><canvas id="c"></canvas>
 <script type="module">
-import { Application } from '/vendor/spline/runtime.js';
+import { Application } from './vendor/spline/runtime.js';
 const c = document.getElementById('c');
 const app = new Application(c);
-let SCENE = '/assets/r4x-robot.splinecode'; try { if (parent.__resources && parent.__resources.heroSpline) SCENE = parent.__resources.heroSpline; } catch (e) {}
+let SCENE = new URL('assets/r4x-robot.splinecode', location.href).href; try { if (parent.__resources && parent.__resources.heroSpline) SCENE = parent.__resources.heroSpline; } catch (e) {}
 await app.load(SCENE);
 // Show only the hand, globe and the translucent Torus covering: the one extra object in this export is the Backdrop.
 app.getAllObjects().forEach(o => { if (o.name === 'Backdrop') o.visible = false; else if (o.name === 'Torus') o.visible = true; });

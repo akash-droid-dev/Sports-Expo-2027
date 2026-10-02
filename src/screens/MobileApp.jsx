@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import HallPlan from './HallPlan';
 
@@ -68,7 +69,7 @@ function render(v) {
         <div style={{ maxWidth: "1440px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "40px" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "20px" }}>
             <div>
-              <a href="/" style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66", textDecoration: "none" }}>
+              <a href={withBase("/")} style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66", textDecoration: "none" }}>
                 ← INDIA SPORTS EXPO 2027
               </a>
               <h1 style={{ margin: "10px 0 0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,7vw,112px)", lineHeight: "0.85" }}>
@@ -440,10 +441,10 @@ function render(v) {
                 </div>
               </div>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                <a href="/attend#myexpo" style={{ height: "46px", padding: "0 18px", background: "#0E0E0F", color: "#fff", textDecoration: "none", display: "flex", alignItems: "center", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
+                <a href={withBase("/attend#myexpo")} style={{ height: "46px", padding: "0 18px", background: "#0E0E0F", color: "#fff", textDecoration: "none", display: "flex", alignItems: "center", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
                   MY EXPO ON WEB
                 </a>
-                <a href="/explore" style={{ height: "46px", padding: "0 18px", border: "1px solid #0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
+                <a href={withBase("/explore")} style={{ height: "46px", padding: "0 18px", border: "1px solid #0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
                   FULL DIGITAL TWIN
                 </a>
               </div>

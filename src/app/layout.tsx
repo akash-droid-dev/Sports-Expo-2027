@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import ClientInit from '@/components/ClientInit';
+import { withBase } from '@/lib/base';
 import './globals.css';
 import './dc-pseudo.css';
 
@@ -28,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <ClientInit />
         {/* <image-slot> media placeholders. Fill slots by id in public/image-slots.state.json. */}
-        <Script src="/image-slot.js" strategy="afterInteractive" />
+        <Script src={withBase('/image-slot.js')} strategy="afterInteractive" />
       </body>
     </html>
   );

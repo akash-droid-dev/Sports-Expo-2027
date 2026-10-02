@@ -3,6 +3,7 @@
 // Logic class and template are carried over from the design unchanged; links point at app routes.
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
+import { withBase } from '@/lib/base';
 import '@/data/ise';
 import HallPlan from './HallPlan';
 
@@ -108,7 +109,7 @@ function render(v) {
     <>
       <div style={{ minHeight: "100vh", display: "grid", gridTemplateColumns: "232px minmax(0,1fr)" }}>
         <aside style={{ background: "#fff", borderRight: "1px solid #0E0E0F", display: "flex", flexDirection: "column", position: "sticky", top: "0", height: "100vh", overflow: "auto" }}>
-          <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#0E0E0F", padding: "18px 18px", borderBottom: "1px solid #0E0E0F", background: "#0E0E0F" }}>
+          <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#0E0E0F", padding: "18px 18px", borderBottom: "1px solid #0E0E0F", background: "#0E0E0F" }}>
             <span style={{ width: "20px", height: "20px", background: "#fff", display: "inline-block", position: "relative", overflow: "hidden" }}>
               <span style={{ position: "absolute", left: "-6px", top: "7px", width: "34px", height: "6px", background: "#F07C12", transform: "rotate(-28deg)" }} />
             </span>

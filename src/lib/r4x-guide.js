@@ -1,5 +1,7 @@
 'use client';
 // R-4X, the Expo guide robot. Ported from design/site/r4x-guide.js; mounted once by the root layout.
+import { withBase } from './base';
+
 export function initR4X() {
   if (window.__r4x) return; window.__r4x = true;
   const SIZE = 150, PAD = 16, TOP_SAFE = 72;
@@ -45,7 +47,7 @@ export function initR4X() {
     <form id="r4x-form"><input aria-label="Ask anything about the Expo" placeholder="Ask anything about the Expo…" autocomplete="off"><button type="submit">ASK →</button></form>
     <footer>Demo assistant · answers use sample Expo data</footer>`;
   const mount = () => { document.body.appendChild(bot); document.body.appendChild(panel); };
-  const loadScene = () => { const f = document.createElement('iframe'); f.src = (window.__resources && window.__resources.r4xScene) || '/r4x-scene.html'; f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#r4x-crop').appendChild(f); };
+  const loadScene = () => { const f = document.createElement('iframe'); f.src = (window.__resources && window.__resources.r4xScene) || withBase('/r4x-scene.html'); f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#r4x-crop').appendChild(f); };
   document.readyState === 'complete' ? setTimeout(loadScene, 800) : addEventListener('load', () => setTimeout(loadScene, 800), { once: true });
   document.body ? mount() : addEventListener('DOMContentLoaded', mount);
 
@@ -53,7 +55,7 @@ export function initR4X() {
   const add = (me, text, links) => {
     const d = document.createElement('div'); d.className = 'r4x-m' + (me ? ' r4x-me' : '');
     d.innerHTML = `<small>${me ? 'YOU' : 'R-4X'}</small><p></p>`; d.querySelector('p').textContent = text;
-    if (links && links.length) { const l = document.createElement('div'); l.className = 'r4x-links'; links.forEach(k => { const a = document.createElement('a'); a.href = k.href; a.textContent = k.t; l.appendChild(a); }); d.appendChild(l); }
+    if (links && links.length) { const l = document.createElement('div'); l.className = 'r4x-links'; links.forEach(k => { const a = document.createElement('a'); a.href = withBase(k.href); a.textContent = k.t; l.appendChild(a); }); d.appendChild(l); }
     log.appendChild(d); log.scrollTop = log.scrollHeight;
   };
   add(false, 'Namaste. I am R-4X, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. Ask me anything: exhibitors, stalls, sessions, meetings, routes or travel.');

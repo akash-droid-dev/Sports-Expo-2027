@@ -91,7 +91,8 @@
 /* END USAGE */
 
 (() => {
-  const STATE_FILE = '/image-slots.state.json';
+  // Resolved next to this script, so it works under a base path (GitHub Pages).
+  const STATE_FILE = new URL('image-slots.state.json', (document.currentScript && document.currentScript.src) || location.href).href;
 
   // Unsplash terms require visible attribution wherever their photos
   // display, and every link back to unsplash.com must carry utm referral
