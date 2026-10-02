@@ -1,9 +1,8 @@
 'use client';
 // End of the Home globe journey. After the map reaches Yashobhoomi, the venue scene takes
-// over the screen and keeps rotating behind a flat Hall 2 zone chart and four zone cards.
+// over the screen and keeps moving behind four zone cards (A–D).
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
 import { useState } from 'react';
-import HallPlan from '@/screens/HallPlan';
 import VenueScene from './VenueScene';
 import { withBase } from '@/lib/base';
 import '@/data/ise';
@@ -22,18 +21,13 @@ function zoneSummary(D, z) {
   return { facts: facts.join(' · '), highlights: clusters.slice(0, 3).map((c) => c.name) };
 }
 
-export default function VenueStage({ p = 0, reduced = false, lit }) {
+export default function VenueStage({ p = 0, reduced = false }) {
   const [hover, setHover] = useState(null);
   const D = typeof window !== 'undefined' ? window.ISE : null;
 
   const venueOpacity = reduced ? 1 : ramp(p, 0.56, 0.62);
   const finale = reduced ? 1 : ramp(p, 0.7, 0.76);
-  const roof = reduced ? 0 : 1 - ramp(p, 0.74, 0.79);
   const zoneHref = (id) => withBase('/zones#zone-' + id.toLowerCase());
-  const openZone = (id) => {
-    window.location.href = zoneHref(id);
-  };
-
   return (
     <div className="vs-root">
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
@@ -48,18 +42,6 @@ export default function VenueStage({ p = 0, reduced = false, lit }) {
             FOUR EVENT <span>ZONES</span>
           </h2>
         </header>
-
-        <div className="vs-chart">
-          <div className="vs-chart-panel">
-            <HallPlan
-              roof={roof}
-              lit={lit}
-              activeZone={hover || ''}
-              labels
-              onCluster={(c) => openZone(c.zone)}
-            />
-          </div>
-        </div>
 
         <div className="vs-cards" role="list">
           {D
@@ -81,6 +63,9 @@ export default function VenueStage({ p = 0, reduced = false, lit }) {
                     onBlur={() => setHover(null)}
                   >
                     <span className="vs-card-bar" />
+                    <span className="vs-card-letter" aria-hidden="true">
+                      {z.id}
+                    </span>
                     <span className="vs-card-zone">ZONE {z.id}</span>
                     <span className="vs-card-name">{z.name}</span>
                     <span className="vs-card-blurb">{z.blurb}</span>

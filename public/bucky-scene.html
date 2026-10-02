@@ -18,8 +18,13 @@ window.addEventListener('unhandledrejection', function (e) { e.preventDefault();
 <script type="module">
 import { Application } from './vendor/spline/runtime.js';
 const c = document.getElementById('c');
-const app = new Application(c);
-await app.load('https://prod.spline.design/clZpIOGef0TGq99W/scene.splinecode');
+// Load Spline's WebAssembly helpers (Draco decoder, physics) from this site, not a CDN.
+const app = new Application(c, { wasmPath: new URL('vendor/spline', location.href).href });
+// The scene is copied into the site at build time when possible (scripts/vendor-assets.mjs);
+// the page passes ?scene=local then. Otherwise it loads from Spline.
+const REMOTE = 'https://prod.spline.design/clZpIOGef0TGq99W/scene.splinecode';
+const local = new URLSearchParams(location.search).get('scene') === 'local';
+await app.load(local ? new URL('assets/bucky.splinecode', location.href).href : REMOTE);
 const keep = new Set(['Robot', 'Helmet', 'ear', 'Shield', 'Eyes', 'Collar', 'Body', 'Camera', 'Directional Light']);
 app.getAllObjects().forEach(o => { if (!keep.has(o.name)) o.visible = false; });
 try { app.setBackgroundColor('transparent'); } catch (e) {}
@@ -41,6 +46,16 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setTimeout(blink, 1
 window.__app = app;
 c.style.opacity = 1;
 parent.postMessage({ bucky: 'ready' }, '*');
+// Send a snapshot of the visible crop (x 405–780, y 300–675 of this 1200×800 frame) so the
+// page can show Bucky instantly on later page loads while the 3D scene starts.
+setTimeout(() => requestAnimationFrame(() => {
+  try {
+    const k = c.width / innerWidth, out = document.createElement('canvas');
+    out.width = out.height = 300;
+    out.getContext('2d').drawImage(c, 405 * k, 300 * k, 375 * k, 375 * k, 0, 0, 300, 300);
+    parent.postMessage({ buckyPoster: out.toDataURL('image/webp', 0.85) }, '*');
+  } catch (e) {}
+}), 1800);
 </script>
 </body>
 </html>

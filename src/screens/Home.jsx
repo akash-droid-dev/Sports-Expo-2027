@@ -8,11 +8,11 @@ import '@/data/ise';
 import '@/lib/maplibre';
 import '@/lib/hero-fit';
 import HallPlan from './HallPlan';
-import VenueStage from '@/components/home/VenueStage';
+import HomeJourney from '@/components/home/HomeJourney';
 
 /* global maplibregl */
 class Component extends DCLogic {
-  state = { p: 0, day: 2, zone: null, sel: null, searchOpen: false, q: 'football', gq: '', gmsgs: [{ me: false, text: 'Namaste. I am Bucky, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. What are you looking for?' }], gbusy: false };
+  state = { day: 2, zone: null, sel: null, searchOpen: false, q: 'football', gq: '', gmsgs: [{ me: false, text: 'Namaste. I am Bucky, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. What are you looking for?' }], gbusy: false };
   guideLogRef = React.createRef();
   guideLocal(q) {
     const D = window.ISE; const t = q.toLowerCase(); if (!D) return null;
@@ -70,7 +70,7 @@ class Component extends DCLogic {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._onScroll = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = null; this.tick(); }); };
     window.addEventListener('scroll', this._onScroll, { passive: true });
-    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this.initMap(); this.forceUpdate(); } }, 100);
+    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this.initMap(); this.journeyStore.notify(); } }, 100);
   }
   componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); this.map && this.map.remove(); }
   initMap() {
@@ -92,6 +92,19 @@ class Component extends DCLogic {
     const r = el.getBoundingClientRect(); const span = r.height - (window.innerHeight - 60);
     return Math.max(0, Math.min(1, (60 - r.top) / span));
   }
+  // Journey progress lives in a small store so scrolling re-renders only the journey
+  // (src/components/home/HomeJourney.jsx), not the whole page.
+  journeyStore = (() => {
+    let version = 0; const subs = new Set();
+    const bump = () => { version++; subs.forEach(f => f()); };
+    return {
+      p: 0,
+      get: () => version,
+      subscribe: f => { subs.add(f); return () => subs.delete(f); },
+      set(p) { if (p !== this.p && (Math.abs(p - this.p) > 0.002 || p === 0 || p === 1)) { this.p = p; bump(); } },
+      notify: bump
+    };
+  })();
   tick() {
     const p = this.progress();
     if (this.map) {
@@ -100,15 +113,15 @@ class Component extends DCLogic {
       const L = (x, y) => x + (y - x) * t;
       this.map.jumpTo({ center: [L(a.lon, b.lon), L(a.lat, b.lat)], zoom: L(a.z, b.z), pitch: L(a.pitch, b.pitch), bearing: L(a.b, b.b) });
     }
-    if (Math.abs(p - this.state.p) > 0.002 || p === 0 || p === 1) this.setState({ p });
+    this.journeyStore.set(p);
   }
   scrollToP(p) {
     const el = this.journeyRef.current; if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY - 60; const span = el.offsetHeight - (window.innerHeight - 60);
     window.scrollTo({ top: top + span * p, behavior: this.reduced ? 'auto' : 'smooth' });
   }
-  renderVals() {
-    const D = window.ISE; const p = this.state.p; const live = !!this.props.liveMode;
+  journeyVals(p) {
+    const D = window.ISE;
     const reduced = this.reduced || this.props.journey === 'reduced';
     const ramp = (a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
     const stage = [...this.STAGES].reverse().find(s => p >= s.at) || this.STAGES[0];
@@ -127,17 +140,25 @@ class Component extends DCLogic {
       const on = s === stage; const past = p >= s.at;
       return { label: s.label, go: () => this.scrollToP(s.at + 0.02), bar: on ? '36px' : '14px', color: planOpacity > 0.5 ? (on ? '#0E0E0F' : past ? '#3A3A3E' : '#A29E95') : (on ? '#F07C12' : past ? '#fff' : '#6B6A66') };
     });
-    const base = {
-      journeyRef: this.journeyRef, mapRef: this.mapRef, afterRef: this.afterRef, live,
+    return {
+      journeyRef: this.journeyRef, mapRef: this.mapRef, skip: this.skipIntro,
       journeyHeight: reduced ? '100vh' : '900vh',
       mapOpacity: reduced ? 0 : 1 - ramp(0.6, 0.66),
       arrivalScrim: reduced ? 0 : Math.min(0.35, ramp(0.56, 0.6) * 0.35),
       showPin: !reduced && p > 0.5 && p < 0.62, pinOpacity: Math.min(ramp(0.5, 0.55), 1 - ramp(0.58, 0.61)),
-      journeyP: p, journeyReduced: reduced, lit, captionOpacity, readoutOpacity: reduced ? 0 : 1 - ramp(0.58, 0.62),
+      journeyP: p, journeyReduced: reduced, captionOpacity, readoutOpacity: reduced ? 0 : 1 - ramp(0.58, 0.62),
       crumbs, stageKicker: stage.k + (stage.label === 'YASHOBHOOMI' ? ' · NEW DELHI' : ''), stageTitle, stageText,
       captionColor: planOpacity > 0.5 ? '#0E0E0F' : '#fff',
-      coordText: `${curCenter.lat.toFixed(4)}° N · ${curCenter.lng.toFixed(4)}° E`, altText: alt > 1000 ? Math.round(alt / 1000).toLocaleString() + ' KM' : alt + ' M',
-      enter: () => this.scrollToP(0.01), skip: () => { const el = this.afterRef.current; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60 }); },
+      coordText: `${curCenter.lat.toFixed(4)}° N · ${curCenter.lng.toFixed(4)}° E`, altText: alt > 1000 ? Math.round(alt / 1000).toLocaleString() + ' KM' : alt + ' M'
+    };
+  }
+  skipIntro = () => { const el = this.afterRef.current; if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60 }); };
+  renderVals() {
+    const D = window.ISE; const live = !!this.props.liveMode;
+    const base = {
+      afterRef: this.afterRef, live,
+      journeyStore: this.journeyStore, journeyVals: p => this.journeyVals(p),
+      enter: () => this.scrollToP(0.01), skip: this.skipIntro,
       openSearch: () => this.setState({ searchOpen: true }), closeSearch: () => this.setState({ searchOpen: false }), stop: e => e.stopPropagation(),
       q: this.state.q, setQ: e => this.setState({ q: e.target.value }), searchOpen: this.state.searchOpen,
       guideLogRef: this.guideLogRef, guideQ: this.state.gq, guideSetQ: e => this.setState({ gq: e.target.value }), guideBusy: this.state.gbusy,
@@ -271,8 +292,11 @@ function render(v) {
           </>
         ) : null}
         <section data-screen-label="01 Entry" style={{ height: "calc(100vh - 60px)", minHeight: "560px", background: "#0E0E0F", color: "#fff", display: "grid", gridTemplateRows: "1fr auto", padding: "48px 28px 32px", boxSizing: "border-box", position: "relative", overflow: "hidden" }}>
-          <div aria-hidden="true" style={{ position: "absolute", top: "0", bottom: "0", right: "0", width: "min(66%,1100px)", pointerEvents: "auto", zIndex: "0", overflow: "hidden" }}>
-            <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "#0E0E0F", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s" }} />
+          <div aria-hidden="true" style={{ position: "absolute", top: "0", bottom: "0", right: "0", width: "min(66%,1100px)", pointerEvents: "none", zIndex: "0", overflow: "hidden" }}>
+            {/* A still of the scene shows at once; the live scene fades in over it (src/lib/hero-fit.js).
+                The scene takes no pointer input so wheel and touch scrolling reach the page. */}
+            <img data-hero-poster="1" src={withBase("/assets/hero-poster.jpg")} alt="" decoding="async" fetchPriority="high" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .5s" }} />
+            <iframe data-hero-scene="1" src={withBase("/hero-scene.html")} title="" tabIndex="-1" style={{ position: "absolute", left: "0", top: "0", width: "1440px", height: "900px", border: "0", background: "transparent", display: "block", transformOrigin: "0 0", opacity: "0", transition: "opacity .8s", pointerEvents: "none" }} />
             <span style={{ position: "absolute", inset: "0 auto 0 0", width: "18%", background: "linear-gradient(90deg,#0E0E0F,rgba(14,14,15,0))", pointerEvents: "none" }} />
           </div>
           <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
@@ -304,52 +328,7 @@ function render(v) {
             <span>28.5549° N · 77.0446° E</span>
           </div>
         </section>
-        <section data-screen-label="02 Earth journey" ref={v.journeyRef} style={sx(`position:relative;height:${v.journeyHeight ?? ""};background:#000;`)}>
-          <div style={{ position: "sticky", top: "60px", height: "calc(100vh - 60px)", overflow: "hidden", background: "#000" }}>
-            <div ref={v.mapRef} style={sx(`position:absolute;inset:0;opacity:${v.mapOpacity ?? ""};transition:opacity .3s;`)} />
-            <div style={{ position: "absolute", inset: "0", pointerEvents: "none", background: "radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.55) 100%)" }} />
-            <div style={sx(`position:absolute;inset:0;background:#000;opacity:${v.arrivalScrim ?? ""};pointer-events:none;`)} />
-            {v.showPin ? (
-              <>
-                <div style={sx(`position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:${v.pinOpacity ?? ""};`)}>
-                  <span style={{ background: "#F07C12", color: "#0E0E0F", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", padding: "6px 10px", fontWeight: "500", whiteSpace: "nowrap" }}>
-                    YASHOBHOOMI · IICC
-                  </span>
-                  <span style={{ width: "2px", height: "40px", background: "#F07C12" }} />
-                  <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#F07C12", boxShadow: "0 0 0 6px rgba(240,124,18,0.3)" }} />
-                </div>
-              </>
-            ) : null}
-            <VenueStage p={v.journeyP} reduced={v.journeyReduced} lit={v.lit} />
-            <nav aria-label="Journey" style={{ position: "absolute", left: "28px", top: "50%", transform: "translateY(-50%)", display: "flex", flexDirection: "column", gap: "12px" }}>
-              {list(v.crumbs).map((c, $index) => (
-                <Fragment key={$index}>
-                  <button onClick={c?.go} style={sx(`background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.18em;color:${c?.color ?? ""};text-align:left;`)}>
-                    <span style={sx(`width:${c?.bar ?? ""};height:2px;background:${c?.color ?? ""};transition:width .4s;`)} />
-                    {txt(c?.label)}
-                  </button>
-                </Fragment>
-              ))}
-            </nav>
-            <div style={sx(`position:absolute;left:28px;bottom:32px;max-width:640px;color:${v.captionColor ?? ""};pointer-events:none;opacity:${v.captionOpacity ?? ""};`)}>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.8", marginBottom: "10px" }}>
-                {txt(v.stageKicker)}
-              </div>
-              <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,8vw,128px)", lineHeight: "0.84" }}>
-                {txt(v.stageTitle)}
-              </div>
-              <div style={{ fontSize: "17px", lineHeight: "1.45", marginTop: "14px", maxWidth: "520px", opacity: "0.9" }}>{txt(v.stageText)}</div>
-            </div>
-            <div style={sx(`position:absolute;right:28px;bottom:32px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;color:${v.captionColor ?? ""};opacity:${(v.readoutOpacity ?? 1) * 0.7};text-align:right;line-height:1.7;pointer-events:none;`)}>
-              <div>{txt(v.coordText)}</div>
-              <div>{"ALT "}{txt(v.altText)}</div>
-              <div>IMAGERY: ESRI WORLD IMAGERY</div>
-            </div>
-            <button onClick={v.skip} style={{ position: "absolute", right: "28px", top: "24px", background: "rgba(0,0,0,0.5)", color: "#fff", border: "1px solid #55555A", height: "36px", padding: "0 14px", font: "600 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
-              SKIP INTRO →
-            </button>
-          </div>
-        </section>
+        <HomeJourney store={v.journeyStore} vals={v.journeyVals} />
         <div ref={v.afterRef} />
         <section data-screen-label="03 Intro" style={{ padding: "120px 28px 80px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "60px", alignItems: "end" }}>
           <div>
