@@ -45,8 +45,6 @@
   clip-path: inset(50% -10% -10% -10%);
   transform-origin: 50% 50%;
   opacity: 0;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
 }
 /* Once unfolded, the plain letter takes over and the 3D halves go away (fewer GPU layers). */
 .fold-word.is-done .fw-top,
@@ -63,6 +61,8 @@
   animation: fwTop 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d) forwards;
 }
 .fold-word.is-on .fw-bot {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   animation: fwBot 0.9s cubic-bezier(0.3, 1.4, 0.4, 1) calc(var(--d) + 0.18s) forwards;
 }
 @keyframes fwTop {
@@ -633,6 +633,98 @@
   }
   .ws-stack .ws-card {
     transform: translateX(calc(var(--k) * -282px + 20px)) translateY(30px) rotate(var(--r));
+  }
+}
+
+/* ---------- Featured product cards (ProductShuffle) ---------- */
+.ps .mq {
+  padding: 18px 0 26px;
+  margin: 0 -28px;
+}
+.ps-card {
+  position: relative;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+  width: 280px;
+  margin-right: 22px;
+  padding: 10px 10px 16px;
+  background: #fff;
+  border: 1px solid #e3e0d8;
+  border-radius: 10px;
+  box-shadow: 0 18px 40px -26px rgba(14, 14, 15, 0.55);
+  color: #0e0e0f;
+  text-decoration: none;
+  z-index: calc(100 - var(--k));
+  transition:
+    transform 0.85s cubic-bezier(0.2, 0.9, 0.25, 1.05) calc(var(--k) * 110ms),
+    opacity 0.4s ease calc(var(--k) * 110ms),
+    box-shadow 0.3s ease;
+}
+/* Stacked like a deck at the left edge, each card slightly turned; the cards off screen wait
+   hidden and snap into place when the deal starts. */
+.ps-stack .ps-card {
+  transform: translateX(calc(var(--k) * -302px + 40px)) translateY(30px) rotate(var(--r));
+}
+.ps-stack .ps-card.ps-off {
+  opacity: 0;
+}
+.ps-card.ps-off {
+  transition: box-shadow 0.3s ease;
+}
+.ps-deal .ps-card,
+.ps-roll .ps-card {
+  transform: none;
+  opacity: 1;
+}
+.ps-roll .ps-card {
+  transition:
+    transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.3s ease;
+}
+.ps-roll .ps-card:hover {
+  transform: translateY(-8px) rotate(1.2deg);
+  box-shadow: 0 28px 50px -24px rgba(14, 14, 15, 0.6);
+}
+.ps-photo {
+  position: relative;
+  display: block;
+  height: 0;
+  padding-top: 75%; /* 4:3, also on browsers without aspect-ratio */
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f6f4ef;
+}
+.ps-photo image-slot {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.ps-cat {
+  font: 500 10px 'JetBrains Mono', monospace;
+  letter-spacing: 0.14em;
+  color: #6b6a66;
+  padding: 0 4px;
+}
+.ps-name {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0 4px;
+}
+.ps-by {
+  font-size: 13px;
+  color: #6b6a66;
+  padding: 0 4px;
+}
+@media (max-width: 600px) {
+  .ps-card {
+    width: 240px;
+  }
+  .ps-stack .ps-card {
+    transform: translateX(calc(var(--k) * -262px + 20px)) translateY(30px) rotate(var(--r));
   }
 }
 

@@ -2,35 +2,15 @@
 // Home "Live & on demand": the session cards wait stacked like a deck; when the section scrolls
 // into view they are dealt out into a row, which then keeps moving right to left
 // (src/app/anim.css). Hover pauses it.
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import Marquee from '@/components/anim/Marquee';
+import useDeal from '@/components/anim/useDeal';
 import DemoVideo from '@/components/DemoVideo';
 import { withBase } from '@/lib/base';
 
 export default function WatchShuffle({ items = [] }) {
   const ref = useRef(null);
-  const [phase, setPhase] = useState('stack');
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return setPhase('roll');
-    let t1, t2;
-    const io = new IntersectionObserver(
-      ([e]) => {
-        if (!e.isIntersecting) return;
-        io.disconnect();
-        t1 = setTimeout(() => setPhase('deal'), 60);
-        t2 = setTimeout(() => setPhase('roll'), 60 + 900 + Math.min(items.length, 6) * 110);
-      },
-      { threshold: 0.35 },
-    );
-    io.observe(el);
-    return () => {
-      io.disconnect();
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, [items.length]);
+  const phase = useDeal(ref, Math.min(items.length, 6));
   if (!items.length) return null;
   const n = items.length;
   return (
