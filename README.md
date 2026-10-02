@@ -22,6 +22,15 @@ Bucky, the robot guide (R-4X in the design files), answers common questions (exh
 
 **Netlify:** project `sports-expo-2027-yashobhoomi` (https://sports-expo-2027-yashobhoomi.netlify.app). `netlify.toml` builds the full app, including the `/api/bucky` function. Link the GitHub repository in the Netlify project (branch `main`) to deploy on every push.
 
+**Netlify, manual upload:** build the static copy without a base path and upload the folder:
+
+```bash
+mv src/app/api /tmp/api-aside && STATIC_EXPORT=1 npm run build; mv /tmp/api-aside src/app/api
+npx netlify-cli deploy --dir out --prod --site sports-expo-2027-yashobhoomi
+```
+
+Or drag the `out` folder onto the project's Deploys page. The static copy has no `/api/bucky`, so Bucky answers from his built-in topics, as on GitHub Pages.
+
 **Saved copy:** the branch `archive/v1-design-faithful` holds the first build, a pixel-faithful copy of the design before the changes below.
 
 To build the static copy locally: `STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/Sports-Expo-2027 npm run build` (move `src/app/api` aside first; static export can't include it). The output is in `out/`.
@@ -52,7 +61,7 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 - **Bucky's sounds and moves** (`src/lib/bucky-sounds.js`): hovering Bucky makes him wiggle or now and then hop, with a soft "boop-bip"; clicking him plays a chirp. Sounds are synthesised in the browser (no audio files) and start after the visitor's first click or tap, as browsers require. SOUND ON/OFF in his panel mutes them.
 - **Google Maps:** Home's "Getting to Yashobhoomi" shows the venue on Google Maps. Explore → Getting there shows the Google Maps route for the selected tab (metro, airport, car, shuttle, parking), with the design's route schematic one click away. Both use Google's keyless embed and load only when scrolled near.
 - **Demo media** (`public/media`): every photo slot, logo, portrait and video player is filled. See "Demo media" below.
-- **Back button** on every page (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
+- **Back button** at the top left of every page, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
   - The hero shows a still (`public/assets/hero-poster.jpg`) at once; the live scene fades in over it and pauses while scrolled out of view.
   - Bucky's scene is served by the site (`public/assets/bucky.splinecode`; delete it and run `npm install` to pull a new version from Spline). A bundled poster shows him at once on a first visit, and a snapshot from that visit is reused on later pages.

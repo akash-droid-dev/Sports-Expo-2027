@@ -180,16 +180,19 @@ html.m-on #dc-root a[style*='padding']:active {
 }
 
 /* ---------- Back button ---------- */
+/* Top left, inside the dark 60px header bar; the header's content shifts right to make room
+   (html.has-back is set by src/components/BackButton.tsx). On the portal and admin pages it
+   sits at the top of the left rail, above the rail's logo. */
 .back-btn {
   position: fixed;
-  left: 18px;
-  bottom: 18px;
+  left: 16px;
+  top: 10px;
   z-index: 8999;
-  height: 46px;
-  padding: 0 18px 0 14px;
+  height: 40px;
+  padding: 0 14px 0 10px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: #0e0e0f;
   color: #fff;
   border: 1px solid #3a3a3e;
@@ -197,15 +200,14 @@ html.m-on #dc-root a[style*='padding']:active {
   font: 700 12px 'Instrument Sans', sans-serif;
   letter-spacing: 0.14em;
   cursor: pointer;
-  box-shadow: 0 18px 40px -20px rgba(14, 14, 15, 0.7);
   animation: backIn 0.7s var(--ease) 0.4s both;
   transition:
     background-color 0.2s ease,
-    translate 0.3s var(--ease);
+    border-color 0.2s ease;
 }
 .back-btn:hover {
   background: #1a1a1c;
-  translate: 0 -2px;
+  border-color: #f07c12;
 }
 .back-btn-arrow {
   color: #f07c12;
@@ -215,18 +217,36 @@ html.m-on #dc-root a[style*='padding']:active {
 .back-btn:hover .back-btn-arrow {
   transform: translateX(-4px);
 }
+html.has-back #dc-root header[style*='position: sticky'] {
+  padding-left: 132px !important;
+}
+.back-btn.on-rail {
+  left: 12px;
+  top: 12px;
+}
+/* Pages without the header bar (the companion app page): room above the content. */
+html.has-back-bare #dc-root {
+  padding-top: 56px;
+}
+html.has-back-rail #dc-root aside > a:first-child {
+  padding-top: 64px !important;
+}
 @keyframes backIn {
   from {
     opacity: 0;
-    transform: translateX(-24px);
+    transform: translateY(-12px);
   }
 }
 @media (max-width: 600px) {
   .back-btn {
-    left: 12px;
-    bottom: 12px;
-    height: 40px;
-    padding: 0 14px 0 10px;
+    left: 10px;
+    padding: 0 10px;
+  }
+  .back-btn-label {
+    display: none;
+  }
+  html.has-back #dc-root header[style*='position: sticky'] {
+    padding-left: 64px !important;
   }
 }
 
