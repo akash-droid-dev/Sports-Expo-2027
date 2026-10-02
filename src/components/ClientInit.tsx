@@ -16,6 +16,8 @@ declare global {
 
 export default function ClientInit({ localBucky = false }: { localBucky?: boolean }) {
   useEffect(() => {
+    // The site has started: the inline boot check in src/app/layout.tsx stands down.
+    (window as unknown as { __booted?: boolean }).__booted = true;
     window.claude ??= {
       async complete(prompt: string) {
         const res = await fetch(withBase('/api/bucky'), {

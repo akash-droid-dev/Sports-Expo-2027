@@ -22,6 +22,7 @@ class Component extends DCLogic {
   }
   componentWillUnmount() { clearInterval(this._l); clearInterval(this._m); this.city && this.city.remove(); }
   initCity() {
+    if (document.documentElement.classList.contains('legacy')) return;
     const Y = [77.044636, 28.554862];
     const pts = { 'Yashobhoomi': Y, 'IGI Airport T3': [77.0880, 28.5555], 'Aerocity': [77.1210, 28.5490], 'New Delhi Rly Stn': [77.2194, 28.6430], 'Dwarka Sec 21 Metro': [77.0587, 28.5523] };
     try {
