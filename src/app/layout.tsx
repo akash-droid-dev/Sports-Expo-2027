@@ -25,14 +25,26 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1 };
 const LOCAL_BUCKY = existsSync(join(process.cwd(), 'public', 'assets', 'bucky.splinecode'));
 
 // Runs first, in old-style JavaScript so any phone can run it:
-// - fills in two newer JavaScript features that iOS before 15.4 lacks;
+// - fills in newer JavaScript features that older iPhones (before iOS 15.4) and older Android
+//   Chrome (back to 67) lack; the code itself is compiled for them ("browserslist", package.json);
 // - marks browsers without class static blocks (iOS before 16.4) as "legacy": they skip the maps;
 // - if the site has not started 9 s after loading, shows what went wrong on screen (errors,
 //   browser, build) instead of leaving the loading screen up, so it can be reported.
 const BOOT_SCRIPT = `(function(){
-if(!Object.hasOwn)Object.hasOwn=function(o,k){return Object.prototype.hasOwnProperty.call(o,k)};
+var def=function(o,k,v){if(!o[k])Object.defineProperty(o,k,{value:v,writable:true,configurable:true})};
+if(typeof globalThis==='undefined')window.globalThis=window;
+def(Object,'hasOwn',function(o,k){return Object.prototype.hasOwnProperty.call(o,k)});
+def(Object,'fromEntries',function(it){var o={};Array.from(it).forEach(function(e){o[e[0]]=e[1]});return o});
 var at=function(i){i=Math.trunc(i)||0;if(i<0)i+=this.length;return i<0||i>=this.length?undefined:this[i]};
-[Array,String].forEach(function(C){if(!C.prototype.at)Object.defineProperty(C.prototype,'at',{value:at,writable:true,configurable:true})});
+def(Array.prototype,'at',at);def(String.prototype,'at',at);
+def(Array.prototype,'flat',function(d){d=d===undefined?1:Math.floor(d);var f=function(a,n){return a.reduce(function(r,x){return r.concat(Array.isArray(x)&&n>0?f(x,n-1):[x])},[])};return f(this,d)});
+def(Array.prototype,'flatMap',function(fn,t){return Array.prototype.map.call(this,fn,t).flat(1)});
+def(String.prototype,'replaceAll',function(p,r){if(p instanceof RegExp)return this.replace(p,r);return this.split(String(p)).join(typeof r==='function'?r(String(p)):r)});
+def(String.prototype,'matchAll',function(re){var s=String(this),r=new RegExp(re.source,re.flags.indexOf('g')<0?re.flags+'g':re.flags),out=[],m;while((m=r.exec(s))){out.push(m);if(m[0]==='')r.lastIndex++}return out[Symbol.iterator]()});
+def(Promise,'allSettled',function(ps){return Promise.all(Array.from(ps).map(function(p){return Promise.resolve(p).then(function(v){return{status:'fulfilled',value:v}},function(e){return{status:'rejected',reason:e}})}))});
+def(window,'queueMicrotask',function(f){Promise.resolve().then(f)});
+def(window,'structuredClone',function(v){return v===undefined?v:JSON.parse(JSON.stringify(v))});
+[Element.prototype,Document.prototype,DocumentFragment.prototype].forEach(function(P){def(P,'replaceChildren',function(){while(this.lastChild)this.removeChild(this.lastChild);this.append.apply(this,arguments)})});
 try{new Function('class A{static{}}')}catch(e){document.documentElement.classList.add('legacy')}
 var errs=window.__bootErrors=[];
 addEventListener('error',function(e){var t=e.target;if(t&&t!==window&&(t.src||t.href))errs.push('Could not load '+(t.src||t.href));else errs.push((e.message||'Error')+(e.filename?' ('+e.filename.split('/').pop()+':'+e.lineno+')':''))},true);

@@ -1,3 +1,4 @@
+/* Each `inset` is preceded by top/right/bottom/left for older browsers (Chrome before 87). */
 /* Phone and tablet layout fixes for the design's pages (below 900px).
    The design's header holds the logo, six links, search and two buttons in one row, which
    is wider than a phone: here it keeps the logo, and the rest moves into the ☰ menu
@@ -80,6 +81,10 @@
 
   .mm-panel {
     position: fixed;
+    top: 60px;
+    right: 0;
+    bottom: 0;
+    left: 0;
     inset: 60px 0 0 0;
     z-index: 9000;
     background: #0e0e0f;
