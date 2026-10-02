@@ -1,0 +1,30 @@
+{
+  "images": {
+    "venue-exterior":   { "source": "commons",   "query": "Yashobhoomi" },
+    "venue-hall":       { "source": "commons",   "query": "India International Convention and Expo Centre" },
+    "venue-metro":      { "source": "commons",   "query": "Yashobhoomi Dwarka Sector 25 metro station" },
+    "expo-hall":        { "source": "openverse", "query": "trade fair exhibition hall interior" },
+    "pavilion":         { "source": "openverse", "query": "sports museum exhibition gallery" },
+    "athlete":          { "source": "openverse", "query": "sprinter running athlete dark background" },
+    "prod-football":    { "source": "openverse", "query": "soccer ball on grass" },
+    "prod-goal":        { "source": "openverse", "query": "football goal net" },
+    "prod-cricket-bat": { "source": "openverse", "query": "cricket bat" },
+    "prod-hockey-turf": { "source": "openverse", "query": "field hockey pitch turf" },
+    "prod-floodlight":  { "source": "openverse", "query": "stadium floodlights night" },
+    "prod-spikes":      { "source": "openverse", "query": "running spikes track shoes" },
+    "prod-coaching":    { "source": "openverse", "query": "cricket batsman practice nets" },
+    "prod-force":       { "source": "openverse", "query": "athlete weightlifting gym platform" },
+    "mat-knit":         { "source": "openverse", "query": "knitted fabric texture macro" },
+    "mat-comp":         { "source": "openverse", "query": "sports fabric mesh texture" },
+    "mat-prot":         { "source": "openverse", "query": "foam texture close up" },
+    "mat-sust":         { "source": "openverse", "query": "yarn spools recycled" }
+  },
+  "videos": {
+    "vid-football":   { "query": "football match" },
+    "vid-athletics":  { "query": "athletics sprint race" },
+    "vid-cricket":    { "query": "cricket match" },
+    "vid-hockey":     { "query": "field hockey" },
+    "vid-conference": { "query": "conference keynote speech" },
+    "vid-stadium":    { "query": "stadium crowd" }
+  }
+}

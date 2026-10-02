@@ -1,0 +1,37 @@
+# Finds openly licensed demo photos and video clips (scripts/media/plan.json) and publishes
+# web-ready candidates to the `media-candidates` branch for review. Run it from the Actions tab.
+name: Media candidates
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: Comma-separated plan keys to refresh (empty = all)
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  candidates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts && npm rebuild sharp
+      - name: Install ffmpeg
+        run: command -v ffmpeg || (sudo apt-get update && sudo apt-get install -y ffmpeg)
+      - run: node scripts/media/fetch-candidates.mjs "${{ inputs.only }}"
+      - name: Publish to media-candidates branch
+        run: |
+          cd media-candidates
+          git init -q -b media-candidates
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Media candidates from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" media-candidates
