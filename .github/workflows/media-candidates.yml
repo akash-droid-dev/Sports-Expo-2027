@@ -1,8 +1,11 @@
 # Finds openly licensed demo photos and video clips (scripts/media/plan.json) and publishes
-# web-ready candidates to the `media-candidates` branch for review. Run it from the Actions tab.
+# web-ready candidates to the `media-candidates` branch for review. Run it from the Actions tab,
+# or by pushing to the `media-request` branch.
 name: Media candidates
 
 on:
+  push:
+    branches: [media-request]
   workflow_dispatch:
     inputs:
       only:
