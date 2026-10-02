@@ -133,8 +133,13 @@ function startReveals() {
   started_reveals = true;
   scan();
   check();
-  let raf = 0;
-  const onScroll = () => raf || (raf = requestAnimationFrame(() => ((raf = 0), check())));
+  // At most every 120 ms while scrolling: reveals don't need per-frame precision.
+  let queued = false;
+  const onScroll = () => {
+    if (queued || !pending.size) return;
+    queued = true;
+    setTimeout(() => requestAnimationFrame(() => ((queued = false), check())), 120);
+  };
   // Capture catches inner scroll panels (portal, admin, drawers) as well as the page.
   document.addEventListener('scroll', onScroll, { capture: true, passive: true });
   addEventListener('resize', onScroll);
@@ -142,7 +147,10 @@ function startReveals() {
   setInterval(() => pending.size && check(), 500);
   // Screens render tabs, filters and drawers on demand: animate what they add.
   let t = 0;
-  new MutationObserver(() => {
+  // Ignore changes in parts that update continuously (the journey, Bucky, the progress bar).
+  const busy = (n) => n.nodeType === 1 && n.closest && n.closest('[data-screen-label="02 Earth journey"], #bucky-bot, #bucky-panel');
+  new MutationObserver((records) => {
+    if (records.every((r) => busy(r.target))) return;
     clearTimeout(t);
     t = setTimeout(() => {
       scan();
@@ -219,7 +227,7 @@ export function initMotion() {
     first = !sessionStorage.getItem('ise-visited');
     sessionStorage.setItem('ise-visited', '1');
   } catch {}
-  const minShow = first ? 700 : 150;
+  const minShow = first ? 350 : 0;
   const t0 = performance.now();
   // Reveals start as the curtain slides away, so the first screen animates in view.
   const lift = () =>

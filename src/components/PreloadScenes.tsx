@@ -4,10 +4,14 @@
 import ReactDOM from 'react-dom';
 import { withBase } from '@/lib/base';
 
-export default function PreloadScenes({ hero = false }: { hero?: boolean }) {
+export default function PreloadScenes({ hero = false, bucky = false }: { hero?: boolean; bucky?: boolean }) {
   ReactDOM.preconnect('https://prod.spline.design', { crossOrigin: 'anonymous' });
   ReactDOM.preconnect('https://www.gstatic.com', { crossOrigin: 'anonymous' });
   ReactDOM.preloadModule(withBase('/vendor/spline/runtime.js'));
-  if (hero) ReactDOM.preload(withBase('/assets/hero-scene.splinecode'), { as: 'fetch', crossOrigin: 'anonymous' });
+  if (bucky) ReactDOM.preload(withBase('/assets/bucky.splinecode'), { as: 'fetch', crossOrigin: 'anonymous' });
+  if (hero) {
+    ReactDOM.preload(withBase('/assets/hero-poster.jpg'), { as: 'image', fetchPriority: 'high' });
+    ReactDOM.preload(withBase('/assets/hero-scene.splinecode'), { as: 'fetch', crossOrigin: 'anonymous' });
+  }
   return null;
 }

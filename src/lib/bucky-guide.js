@@ -2,13 +2,17 @@
 // Bucky (named R-4X in the design), the Expo guide robot. Ported from design/site/r4x-guide.js; mounted once by the root layout.
 import { withBase } from './base';
 
-export function initBucky() {
+const POSTER_KEY = 'bucky-poster-v1';
+
+/** @param {{ localScene?: boolean }} [opts] localScene: the robot scene is served by this site. */
+export function initBucky(opts = {}) {
   if (window.__bucky) return; window.__bucky = true;
   const SIZE = 150, PAD = 16, TOP_SAFE = 72;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const css = `
   #bucky-bot{position:fixed;left:0;top:0;width:${SIZE}px;height:${SIZE}px;z-index:9000;will-change:transform;}
   #bucky-crop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+  #bucky-poster{position:absolute;inset:0;background:center/cover no-repeat;transition:opacity .5s}
   #bucky-bot iframe{position:absolute;left:0;top:0;width:1200px;height:800px;border:0;background:transparent;pointer-events:none;color-scheme:normal;transform-origin:0 0;transform:translate(-162px,-120px) scale(.4)}
   #bucky-bot button.bucky-hit{position:absolute;inset:14%;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0}
   #bucky-bot button.bucky-hit:focus-visible{outline:2px solid #F07C12;outline-offset:4px}
@@ -47,7 +51,24 @@ export function initBucky() {
     <form id="bucky-form"><input aria-label="Ask anything about the Expo" placeholder="Ask anything about the Expo…" autocomplete="off"><button type="submit">ASK →</button></form>
     <footer>Demo assistant · answers use sample Expo data</footer>`;
   const mount = () => { document.body.appendChild(bot); document.body.appendChild(panel); };
-  const loadScene = () => { const f = document.createElement('iframe'); f.src = (window.__resources && window.__resources.buckyScene) || withBase('/bucky-scene.html'); f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#bucky-crop').appendChild(f); };
+  // A snapshot from an earlier visit shows Bucky at once while the 3D scene loads.
+  let poster = null;
+  try {
+    const saved = localStorage.getItem(POSTER_KEY);
+    if (saved) {
+      poster = document.createElement('div'); poster.id = 'bucky-poster';
+      poster.style.backgroundImage = `url("${saved}")`;
+      bot.querySelector('#bucky-crop').appendChild(poster);
+    }
+  } catch (e) {}
+  addEventListener('message', e => {
+    if (!e.data) return;
+    if (e.data.bucky === 'ready' && poster) setTimeout(() => { poster.style.opacity = '0'; }, 500);
+    if (typeof e.data.buckyPoster === 'string' && e.data.buckyPoster.startsWith('data:image/')) {
+      try { localStorage.setItem(POSTER_KEY, e.data.buckyPoster); } catch (err) {}
+    }
+  });
+  const loadScene = () => { const f = document.createElement('iframe'); f.src = (window.__resources && window.__resources.buckyScene) || withBase('/bucky-scene.html') + (opts.localScene ? '?scene=local' : ''); f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#bucky-crop').appendChild(f); };
   // Start loading the robot straight away (it used to wait for the whole page plus 800 ms).
   requestAnimationFrame(loadScene);
   document.body ? mount() : addEventListener('DOMContentLoaded', mount);

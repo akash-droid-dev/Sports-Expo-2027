@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import Script from 'next/script';
 import ClientInit from '@/components/ClientInit';
 import PreloadScenes from '@/components/PreloadScenes';
@@ -16,6 +18,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1 };
 
+// True when the build copied Bucky's scene into the site (scripts/vendor-assets.mjs).
+const LOCAL_BUCKY = existsSync(join(process.cwd(), 'public', 'assets', 'bucky.splinecode'));
+
 const FONTS =
   'https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap';
 
@@ -29,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="stylesheet" href={FONTS} />
       </head>
       <body>
-        <PreloadScenes />
+        <PreloadScenes bucky={LOCAL_BUCKY} />
         {/* Covers the page while it loads and during page changes (src/lib/motion.js). */}
         <div id="page-curtain" aria-hidden="true">
           <div className="curtain-brand">
@@ -44,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         {children}
         <BackButton />
-        <ClientInit />
+        <ClientInit localBucky={LOCAL_BUCKY} />
         {/* <image-slot> media placeholders. Fill slots by id in public/image-slots.state.json. */}
         <Script src={withBase('/image-slot.js')} strategy="afterInteractive" />
       </body>

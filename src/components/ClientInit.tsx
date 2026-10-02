@@ -13,7 +13,7 @@ declare global {
   }
 }
 
-export default function ClientInit() {
+export default function ClientInit({ localBucky = false }: { localBucky?: boolean }) {
   useEffect(() => {
     window.claude ??= {
       async complete(prompt: string) {
@@ -29,7 +29,7 @@ export default function ClientInit() {
       },
     };
     initMotion();
-    initBucky();
-  }, []);
+    initBucky({ localScene: localBucky });
+  }, [localBucky]);
   return null;
 }

@@ -177,9 +177,6 @@ html.m-on #dc-root a[style*='padding']:active {
   outline: 2px solid #f07c12;
   outline-offset: 2px;
 }
-html.m-on {
-  scroll-behavior: smooth;
-}
 
 /* ---------- Back button ---------- */
 .back-btn {
@@ -240,8 +237,5 @@ html.m-on {
   }
   .back-btn {
     animation: none;
-  }
-  html {
-    scroll-behavior: auto;
   }
 }
