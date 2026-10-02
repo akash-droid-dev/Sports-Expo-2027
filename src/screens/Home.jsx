@@ -86,7 +86,8 @@ class Component extends DCLogic {
     else if (!near && this.map) { cancelAnimationFrame(this._camRaf); this._camRaf = null; try { this.map.remove(); } catch (e) {} this.map = null; this._cam = undefined; }
   }
   initMap() {
-    if (this.reduced) return;
+    // Browsers older than iOS 16.4 can't run the map's worker code (src/app/layout.tsx marks them).
+    if (this.reduced || document.documentElement.classList.contains('legacy')) return;
     try {
       this.map = new maplibregl.Map({
         container: this.mapRef.current, interactive: false, attributionControl: { compact: true },

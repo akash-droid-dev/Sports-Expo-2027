@@ -24,6 +24,33 @@ export const viewport: Viewport = { width: 'device-width', initialScale: 1 };
 // True when the build copied Bucky's scene into the site (scripts/vendor-assets.mjs).
 const LOCAL_BUCKY = existsSync(join(process.cwd(), 'public', 'assets', 'bucky.splinecode'));
 
+// Runs first, in old-style JavaScript so any phone can run it:
+// - fills in two newer JavaScript features that iOS before 15.4 lacks;
+// - marks browsers without class static blocks (iOS before 16.4) as "legacy": they skip the maps;
+// - if the site has not started 9 s after loading, shows what went wrong on screen (errors,
+//   browser, build) instead of leaving the loading screen up, so it can be reported.
+const BOOT_SCRIPT = `(function(){
+if(!Object.hasOwn)Object.hasOwn=function(o,k){return Object.prototype.hasOwnProperty.call(o,k)};
+var at=function(i){i=Math.trunc(i)||0;if(i<0)i+=this.length;return i<0||i>=this.length?undefined:this[i]};
+[Array,String].forEach(function(C){if(!C.prototype.at)Object.defineProperty(C.prototype,'at',{value:at,writable:true,configurable:true})});
+try{new Function('class A{static{}}')}catch(e){document.documentElement.classList.add('legacy')}
+var errs=window.__bootErrors=[];
+addEventListener('error',function(e){var t=e.target;if(t&&t!==window&&(t.src||t.href))errs.push('Could not load '+(t.src||t.href));else errs.push((e.message||'Error')+(e.filename?' ('+e.filename.split('/').pop()+':'+e.lineno+')':''))},true);
+addEventListener('unhandledrejection',function(e){var r=e.reason;errs.push('Promise: '+(r&&r.message||r))});
+addEventListener('load',function(){setTimeout(function(){
+if(window.__booted)return;
+var c=document.getElementById('page-curtain');if(c)c.style.display='none';
+var b=document.createElement('div');b.id='boot-error';
+b.setAttribute('style','position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:#0E0E0F;color:#fff;padding:24px;font:14px/1.5 -apple-system,Helvetica,Arial,sans-serif;overflow:auto');
+var esc=function(x){return String(x).replace(/[&<>]/g,function(ch){return{'&':'&amp;','<':'&lt;','>':'&gt;'}[ch]})};
+b.innerHTML='<p style="font-weight:700;font-size:20px;margin:0 0 12px">The site could not start on this browser.</p>'+
+'<p style="margin:0 0 16px;color:#BDB9B0">Please take a screenshot of this screen and send it to the site team. Updating iOS (Settings, General, Software Update) usually fixes it.</p>'+
+'<button onclick="location.reload()" style="background:#F07C12;color:#0E0E0F;border:0;padding:12px 18px;font-weight:700;margin-bottom:20px">TRY AGAIN</button>'+
+'<pre style="white-space:pre-wrap;font:12px/1.5 ui-monospace,Menlo,monospace;color:#E3E0D8;margin:0">'+esc('Build: '+(window.__build||'?')+'\\nBrowser: '+navigator.userAgent+'\\nErrors:\\n'+(errs.length?errs.slice(0,8).join('\\n'):'none recorded'))+'</pre>';
+document.body.appendChild(b);
+},9000)});
+})();`;
+
 // Runs before the page renders: marks phones and tablets as "lite" (src/lib/device.js), and on
 // other devices starts downloading the 3D runtime and scenes right away.
 function deviceScript(localBucky: boolean) {
@@ -48,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: deviceScript(LOCAL_BUCKY) }} />
+        <script dangerouslySetInnerHTML={{ __html: `window.__build=${JSON.stringify(process.env.NEXT_PUBLIC_BUILD || '')};` + BOOT_SCRIPT + deviceScript(LOCAL_BUCKY) }} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
