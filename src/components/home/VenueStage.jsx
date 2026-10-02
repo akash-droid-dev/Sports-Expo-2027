@@ -3,7 +3,7 @@
 // over the screen and four zone cards (A–D) are dealt like playing cards, sport photo up;
 // scrolling on turns each one over to its zone side (see-through glass).
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VenueScene from './VenueScene';
 import { withBase } from '@/lib/base';
 import '@/data/ise';
@@ -38,6 +38,12 @@ export default function VenueStage({ p = 0, reduced = false }) {
   const venueOpacity = reduced ? 1 : ramp(p, 0.56, 0.62);
   const finale = reduced ? 1 : ramp(p, 0.7, 0.76);
   const zoneHref = (id) => withBase('/zones#zone-' + id.toLowerCase());
+  // Lets Bucky step aside on phones while the cards are up (venue-stage.css).
+  const cardsOn = finale > 0.5;
+  useEffect(() => {
+    document.documentElement.classList.toggle('vs-cards-on', cardsOn);
+    return () => document.documentElement.classList.remove('vs-cards-on');
+  }, [cardsOn]);
   return (
     <div className="vs-root">
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
@@ -47,7 +53,9 @@ export default function VenueStage({ p = 0, reduced = false }) {
 
       <div className="vs-final" style={{ opacity: finale, pointerEvents: finale > 0.5 ? 'auto' : 'none' }}>
         <header className="vs-head">
-          <span className="vs-kicker">08 / 08 · EXHIBITION HALL 2 · YASHOBHOOMI</span>
+          <span className="vs-kicker">
+            08 / 08 · EXHIBITION HALL 2<span className="vs-kicker-more"> · YASHOBHOOMI</span>
+          </span>
           <h2 className="vs-title">
             FOUR EVENT <span>ZONES</span>
           </h2>
@@ -98,7 +106,9 @@ export default function VenueStage({ p = 0, reduced = false }) {
                         <span className="vs-card-blurb">{z.blurb}</span>
                         <span className="vs-card-facts">{facts}</span>
                         <span className="vs-card-list">{highlights.join(' · ')}</span>
-                        <span className="vs-card-cta">EXPLORE ZONE {z.id} →</span>
+                        <span className="vs-card-cta">
+                          <span className="vs-cta-more">EXPLORE </span>ZONE {z.id} →
+                        </span>
                       </span>
                     </span>
                   </a>

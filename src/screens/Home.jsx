@@ -4,6 +4,7 @@
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
+import BrandLogo from '@/components/BrandLogo';
 import { isLite } from '@/lib/device';
 import DemoVideo from '@/components/DemoVideo';
 import { VenueMap } from '@/components/GettingThereMap';
@@ -103,7 +104,7 @@ class Component extends DCLogic {
         renderWorldCopies: false, fadeDuration: 0,
         style: { version: 8, projection: { type: 'globe' },
           sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 19, attribution: 'Esri, Maxar, Earthstar Geographics' } },
-          layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-fade-duration': 160 } }],
+          layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-fade-duration': isLite() ? 0 : 160 } }],
           sky: { 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 5, 1, 8, 0] } },
         center: [55, 18], zoom: 0.9
       });
@@ -290,7 +291,7 @@ function render(v) {
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px", borderBottom: "1px solid #2A2A2D" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
-            <img className="site-logo" src={withBase("/brand/logo-on-dark.png")} srcSet={withBase("/brand/logo-on-dark@2x.png") + " 2x"} alt="India Sports Expo 2027" />
+            <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
             <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>

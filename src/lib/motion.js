@@ -78,8 +78,9 @@ function eligible(el) {
   return true;
 }
 
-function mark(el, delay, kind) {
+function mark(el, delay, kind, root) {
   seen.add(el);
+  el.__mRoot = root;
   el.classList.add(kind);
   el.style.setProperty('--m-d', delay + 'ms');
   pending.add(el);
@@ -92,8 +93,17 @@ function check() {
   // At the very bottom nothing can scroll further up into view, so show what is on screen.
   const atBottom = scrollY + vh >= document.documentElement.scrollHeight - 2;
   const line = atBottom ? vh : vh * 0.94;
+  // One measurement per section: nothing inside a section still below the line can be revealed,
+  // so its items are skipped without being measured (keeps scrolling light on phones).
+  const tops = new Map();
+  const below = (root) => {
+    if (!root || !root.isConnected) return false;
+    if (!tops.has(root)) tops.set(root, root.getBoundingClientRect().top);
+    return tops.get(root) >= line;
+  };
   pending.forEach((el) => {
     if (!el.isConnected) return pending.delete(el);
+    if (below(el.__mRoot)) return;
     if (el.offsetParent === null) return; // not displayed yet (closed tab, drawer)
     const r = el.getBoundingClientRect();
     if (r.top < line) {
@@ -110,7 +120,7 @@ function scan() {
     if (root.closest(SKIP)) return;
     // Big headings wipe in.
     root.querySelectorAll('h1, h2').forEach((h) => {
-      if (eligible(h)) mark(h, 0, 'm-h');
+      if (eligible(h)) mark(h, 0, 'm-h', root);
     });
     // Items of grids and wrapping rows rise in, one after another.
     root.querySelectorAll('div, ul, ol, dl, nav').forEach((group) => {
@@ -121,12 +131,12 @@ function scan() {
       if (kids.length < 2 || kids.length > 24) return;
       let i = 0;
       kids.forEach((k) => {
-        if (eligible(k) && !k.matches('h1, h2')) mark(k, Math.min(i++, 8) * 70, 'm-r');
+        if (eligible(k) && !k.matches('h1, h2')) mark(k, Math.min(i++, 8) * 70, 'm-r', root);
       });
     });
     // Remaining top-level blocks of the section.
     [...root.children].forEach((k, i) => {
-      if (eligible(k) && !k.querySelector('.m-r, .m-h')) mark(k, Math.min(i, 4) * 60, 'm-r');
+      if (eligible(k) && !k.querySelector('.m-r, .m-h')) mark(k, Math.min(i, 4) * 60, 'm-r', root);
     });
   });
 }

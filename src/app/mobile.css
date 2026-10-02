@@ -156,3 +156,8 @@
     max-height: 300px;
   }
 }
+
+/* Taps show the orange pulse (src/lib/motion.js) instead of the grey browser flash. */
+html {
+  -webkit-tap-highlight-color: transparent;
+}

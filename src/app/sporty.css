@@ -45,9 +45,9 @@
 #dc-root header[style*='position: sticky']::after {
   content: '';
   position: absolute;
-  left: 0;
+  left: -198px;
   right: 0;
-  bottom: -1px;
+  bottom: 0;
   height: 3px;
   background: repeating-linear-gradient(
     90deg,
@@ -58,13 +58,17 @@
     var(--ise-blue) 132px 192px,
     #fff 192px 198px
   );
-  background-size: 198px 3px;
+  /* Moved with a transform (one pattern repeat per loop) so the header is never repainted. */
   animation: lane 4s linear infinite;
+  will-change: transform;
   pointer-events: none;
+}
+#dc-root header[style*='position: sticky'] {
+  overflow: hidden;
 }
 @keyframes lane {
   to {
-    background-position: 198px 0;
+    transform: translate3d(198px, 0, 0);
   }
 }
 .scroll-progress {

@@ -4,6 +4,7 @@
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
+import BrandLogo from '@/components/BrandLogo';
 import '@/data/ise';
 import '@/lib/maplibre';
 import HallPlan from './HallPlan';
@@ -134,7 +135,7 @@ function render(v) {
       <div style={{ minHeight: "100vh" }}>
         <header style={{ position: "sticky", top: "0", zIndex: "60", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", gap: "28px", padding: "0 28px", height: "60px" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#fff" }}>
-            <img className="site-logo" src={withBase("/brand/logo-on-dark.png")} srcSet={withBase("/brand/logo-on-dark@2x.png") + " 2x"} alt="India Sports Expo 2027" />
+            <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
             <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>

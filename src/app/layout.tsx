@@ -14,6 +14,7 @@ import './anim.css';
 import './sporty.css';
 import BackButton from '@/components/BackButton';
 import MobileMenu from '@/components/MobileMenu';
+import BrandLogo from '@/components/BrandLogo';
 
 export const metadata: Metadata = {
   title: 'India Sports Expo 2027 · Yashobhoomi',
@@ -101,8 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Covers the page while it loads and during page changes (src/lib/motion.js). */}
         <div id="page-curtain" aria-hidden="true">
           <div className="curtain-brand">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img className="curtain-logo" src={withBase('/brand/logo-on-dark@2x.png')} alt="" />
+            <BrandLogo className="curtain-logo" />
           </div>
           <span className="curtain-line" />
         </div>
