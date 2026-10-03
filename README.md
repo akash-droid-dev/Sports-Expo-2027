@@ -1,5 +1,7 @@
 # India Sports Expo 2027
 
+> **Project memory:** this branch carries [`ARBrain/`](ARBrain/README.md), an Obsidian vault with the full history, design system, patterns (with source), playbooks, templates and every asset of this project.
+
 The digital platform for India Sports Expo 2027, Exhibition Hall 2, Yashobhoomi (IICC), Dwarka, New Delhi. It is built with Next.js 16 and React 19 from the Claude Design handoff in [`design/`](design/HANDOFF.md).
 
 ## Run it

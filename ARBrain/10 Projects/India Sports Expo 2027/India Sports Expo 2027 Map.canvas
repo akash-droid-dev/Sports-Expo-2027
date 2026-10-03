@@ -1,0 +1,723 @@
+{
+ "nodes": [
+  {
+   "id": "hub",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/India Sports Expo 2027.md",
+   "x": -200,
+   "y": -460,
+   "width": 400,
+   "height": 300,
+   "color": "2"
+  },
+  {
+   "id": "title",
+   "type": "text",
+   "text": "# India Sports Expo 2027\nYashobhoomi \u00b7 Hall 2 \u00b7 New Delhi\n\nNext.js 16 \u00b7 React 19 \u00b7 MapLibre \u00b7 Spline \u00b7 Claude\n\nLive: GitHub Pages + Netlify",
+   "x": -700,
+   "y": -460,
+   "width": 420,
+   "height": 220,
+   "color": "2"
+  },
+  {
+   "id": "g-mem",
+   "type": "group",
+   "label": "Project memory",
+   "x": -1500,
+   "y": -60,
+   "width": 700,
+   "height": 560,
+   "color": "4"
+  },
+  {
+   "id": "m0",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Brief and Scope.md",
+   "x": -1460,
+   "y": -20,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "m1",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Request Log.md",
+   "x": -1460,
+   "y": 80,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "m2",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Timeline and Decisions.md",
+   "x": -1460,
+   "y": 180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "m3",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Launch Checklist and Known Gaps.md",
+   "x": -1460,
+   "y": 280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "m4",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Source Snapshot.md",
+   "x": -1460,
+   "y": 380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "g-ds",
+   "type": "group",
+   "label": "Design system",
+   "x": -760,
+   "y": -60,
+   "width": 700,
+   "height": 1160,
+   "color": "6"
+  },
+  {
+   "id": "ds",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Design System.md",
+   "x": -720,
+   "y": -20,
+   "width": 620,
+   "height": 80,
+   "color": "6"
+  },
+  {
+   "id": "d0",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Brand and Logo.md",
+   "x": -720,
+   "y": 80,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d1",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Colour.md",
+   "x": -720,
+   "y": 180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d2",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Typography.md",
+   "x": -720,
+   "y": 280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d3",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Layout Shape and Spacing.md",
+   "x": -720,
+   "y": 380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d4",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Motion.md",
+   "x": -720,
+   "y": 480,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d5",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Sporty Finish.md",
+   "x": -720,
+   "y": 580,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d6",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE UI Components.md",
+   "x": -720,
+   "y": 680,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d7",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Status and States.md",
+   "x": -720,
+   "y": 780,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d8",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Voice and Copy.md",
+   "x": -720,
+   "y": 880,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "d9",
+   "type": "file",
+   "file": "20 Design Systems/India Sports Expo 2027/ISE Design Tokens.md",
+   "x": -720,
+   "y": 980,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "g-build",
+   "type": "group",
+   "label": "Build",
+   "x": -20,
+   "y": -60,
+   "width": 700,
+   "height": 1060,
+   "color": "5"
+  },
+  {
+   "id": "b0",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Architecture.md",
+   "x": 20,
+   "y": -20,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b1",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Repo Map.md",
+   "x": 20,
+   "y": 80,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b2",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Routes and Pages.md",
+   "x": 20,
+   "y": 180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b3",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Data Model.md",
+   "x": 20,
+   "y": 280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b4",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Bucky Robot Guide.md",
+   "x": 20,
+   "y": 380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b5",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Build and Deploy.md",
+   "x": 20,
+   "y": 480,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b6",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Device Support.md",
+   "x": 20,
+   "y": 580,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b7",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Performance Log.md",
+   "x": 20,
+   "y": 680,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b8",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Asset Inventory.md",
+   "x": 20,
+   "y": 780,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "b9",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Media and Credits.md",
+   "x": 20,
+   "y": 880,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "g-pages",
+   "type": "group",
+   "label": "Pages",
+   "x": 720,
+   "y": -60,
+   "width": 700,
+   "height": 1160,
+   "color": "3"
+  },
+  {
+   "id": "p0",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Home page.md",
+   "x": 760,
+   "y": -20,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p1",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Explore page.md",
+   "x": 760,
+   "y": 80,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p2",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Zones page.md",
+   "x": 760,
+   "y": 180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p3",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Exhibit page.md",
+   "x": 760,
+   "y": 280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p4",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Attend page.md",
+   "x": 760,
+   "y": 380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p5",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Connect page.md",
+   "x": 760,
+   "y": 480,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p6",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Programme page.md",
+   "x": 760,
+   "y": 580,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p7",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Portal page.md",
+   "x": 760,
+   "y": 680,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p8",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Admin page.md",
+   "x": 760,
+   "y": 780,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p9",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Mobile App page.md",
+   "x": 760,
+   "y": 880,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "p10",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/Pages/Design System page.md",
+   "x": 760,
+   "y": 980,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "shots",
+   "type": "file",
+   "file": "10 Projects/India Sports Expo 2027/ISE Screenshots.md",
+   "x": 760,
+   "y": 1120,
+   "width": 620,
+   "height": 80,
+   "color": "3"
+  },
+  {
+   "id": "g-pat",
+   "type": "group",
+   "label": "Reusable patterns",
+   "x": 1460,
+   "y": -60,
+   "width": 700,
+   "height": 2020,
+   "color": "1"
+  },
+  {
+   "id": "pidx",
+   "type": "file",
+   "file": "30 Patterns/Patterns Index.md",
+   "x": 1500,
+   "y": -20,
+   "width": 620,
+   "height": 80,
+   "color": "1"
+  },
+  {
+   "id": "x0",
+   "type": "file",
+   "file": "30 Patterns/Back Button and Mobile Menu.md",
+   "x": 1500,
+   "y": 80,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x1",
+   "type": "file",
+   "file": "30 Patterns/Brand Curtain and Page Transitions.md",
+   "x": 1500,
+   "y": 180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x2",
+   "type": "file",
+   "file": "30 Patterns/CSS 3D Boxes.md",
+   "x": 1500,
+   "y": 280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x3",
+   "type": "file",
+   "file": "30 Patterns/Card Deal Strip.md",
+   "x": 1500,
+   "y": 380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x4",
+   "type": "file",
+   "file": "30 Patterns/Design Component to JSX Converter.md",
+   "x": 1500,
+   "y": 480,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x5",
+   "type": "file",
+   "file": "30 Patterns/Fold Word Reveal.md",
+   "x": 1500,
+   "y": 580,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x6",
+   "type": "file",
+   "file": "30 Patterns/Image Slot Media Placeholders.md",
+   "x": 1500,
+   "y": 680,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x7",
+   "type": "file",
+   "file": "30 Patterns/Infinite Marquee.md",
+   "x": 1500,
+   "y": 780,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x8",
+   "type": "file",
+   "file": "30 Patterns/LED Sports Ticker.md",
+   "x": 1500,
+   "y": 880,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x9",
+   "type": "file",
+   "file": "30 Patterns/Lite Mode for Phones and Tablets.md",
+   "x": 1500,
+   "y": 980,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x10",
+   "type": "file",
+   "file": "30 Patterns/Lock and Key Link.md",
+   "x": 1500,
+   "y": 1080,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x11",
+   "type": "file",
+   "file": "30 Patterns/Old Browser Support.md",
+   "x": 1500,
+   "y": 1180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x12",
+   "type": "file",
+   "file": "30 Patterns/Page-Turn Book.md",
+   "x": 1500,
+   "y": 1280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x13",
+   "type": "file",
+   "file": "30 Patterns/Per-Page Signature Animations.md",
+   "x": 1500,
+   "y": 1380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x14",
+   "type": "file",
+   "file": "30 Patterns/Playing Card Flip Finale.md",
+   "x": 1500,
+   "y": 1480,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x15",
+   "type": "file",
+   "file": "30 Patterns/Robot Guide Widget.md",
+   "x": 1500,
+   "y": 1580,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x16",
+   "type": "file",
+   "file": "30 Patterns/Scroll Reveals and Count-ups.md",
+   "x": 1500,
+   "y": 1680,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x17",
+   "type": "file",
+   "file": "30 Patterns/Scroll-Driven Globe Journey.md",
+   "x": 1500,
+   "y": 1780,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "x18",
+   "type": "file",
+   "file": "30 Patterns/Spinning Logo Ring.md",
+   "x": 1500,
+   "y": 1880,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "g-pb",
+   "type": "group",
+   "label": "Playbooks (for the next web app)",
+   "x": 2200,
+   "y": -60,
+   "width": 700,
+   "height": 820,
+   "color": "4"
+  },
+  {
+   "id": "k0",
+   "type": "file",
+   "file": "40 Playbooks/Playbook - Demo Media Sourcing.md",
+   "x": 2240,
+   "y": -20,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "k1",
+   "type": "file",
+   "file": "40 Playbooks/Playbook - Deploy to GitHub Pages and Netlify.md",
+   "x": 2240,
+   "y": 80,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "k2",
+   "type": "file",
+   "file": "40 Playbooks/Playbook - Mobile and Tablet Performance Audit.md",
+   "x": 2240,
+   "y": 180,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "k3",
+   "type": "file",
+   "file": "40 Playbooks/Playbook - New Web App from a Claude Design Handoff.md",
+   "x": 2240,
+   "y": 280,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "k4",
+   "type": "file",
+   "file": "40 Playbooks/Playbook - Old Browser Hardening.md",
+   "x": 2240,
+   "y": 380,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "k5",
+   "type": "file",
+   "file": "40 Playbooks/Playbook - Premium Motion Pass.md",
+   "x": 2240,
+   "y": 480,
+   "width": 620,
+   "height": 80
+  },
+  {
+   "id": "k6",
+   "type": "file",
+   "file": "40 Playbooks/Test Harness.md",
+   "x": 2240,
+   "y": 580,
+   "width": 620,
+   "height": 80
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-hub-g-mem",
+   "fromNode": "hub",
+   "fromSide": "bottom",
+   "toNode": "g-mem",
+   "toSide": "top"
+  },
+  {
+   "id": "e-hub-g-ds",
+   "fromNode": "hub",
+   "fromSide": "bottom",
+   "toNode": "g-ds",
+   "toSide": "top"
+  },
+  {
+   "id": "e-hub-g-build",
+   "fromNode": "hub",
+   "fromSide": "bottom",
+   "toNode": "g-build",
+   "toSide": "top"
+  },
+  {
+   "id": "e-hub-g-pages",
+   "fromNode": "hub",
+   "fromSide": "bottom",
+   "toNode": "g-pages",
+   "toSide": "top"
+  },
+  {
+   "id": "e-hub-g-pat",
+   "fromNode": "hub",
+   "fromSide": "bottom",
+   "toNode": "g-pat",
+   "toSide": "top"
+  },
+  {
+   "id": "e-hub-g-pb",
+   "fromNode": "hub",
+   "fromSide": "bottom",
+   "toNode": "g-pb",
+   "toSide": "top"
+  },
+  {
+   "id": "e-title-hub",
+   "fromNode": "title",
+   "fromSide": "right",
+   "toNode": "hub",
+   "toSide": "left"
+  }
+ ]
+}

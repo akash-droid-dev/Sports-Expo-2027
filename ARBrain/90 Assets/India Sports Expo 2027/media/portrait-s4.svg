@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <rect width="300" height="300" fill="#F0E4F3"/>
+  <circle cx="150" cy="118" r="54" fill="#7A2E8C"/>
+  <path d="M46 300 C52 214 98 186 150 186 C202 186 248 214 254 300 Z" fill="#7A2E8C"/>
+  <rect x="0" y="246" width="300" height="54" fill="#0E0E0F" opacity=".88"/>
+  <text x="150" y="282" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="24" fill="#fff" letter-spacing="6">AT</text>
+</svg>
