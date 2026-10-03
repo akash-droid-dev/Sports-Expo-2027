@@ -1,0 +1,20 @@
+import { chromium, devices } from 'playwright-core';
+const b = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined });
+const ctx = await b.newContext(devices[process.argv[3] || 'Pixel 5']); const p = await ctx.newPage();
+await p.route(/google\.com|arcgisonline|iiccnewdelhi/, r => r.abort());
+const cdp = await ctx.newCDPSession(p);
+await p.goto(process.argv[2] || 'http://localhost:4100/', { waitUntil: 'domcontentloaded' }); await p.waitForTimeout(4000);
+const start = await p.evaluate(() => { const el = document.querySelector('[data-screen-label="03 Intro"]'); return el.getBoundingClientRect().top + scrollY; });
+await p.evaluate(y => scrollTo(0, y), start); await p.waitForTimeout(1500);
+await cdp.send('Emulation.setCPUThrottlingRate', { rate: 4 });
+const events = [];
+cdp.on('Tracing.dataCollected', d => events.push(...d.value));
+await cdp.send('Tracing.start', { categories: 'devtools.timeline,disabled-by-default-devtools.timeline', transferMode: 'ReportEvents' });
+await p.evaluate(() => new Promise(res => { const t0 = performance.now(); const step = (now) => { scrollBy(0, 14); if (now - t0 < 5000) requestAnimationFrame(step); else res(); }; requestAnimationFrame(step); }));
+const done = new Promise(r => cdp.once('Tracing.tracingComplete', r));
+await cdp.send('Tracing.end'); await done;
+const main = events.filter(e => e.name === 'ThreadName' && e.args && e.args.name === 'CrRendererMain').map(e => e.tid); console.log('events', events.length, 'main', main);
+const agg = new Map();
+for (const e of events) { if (e.ph !== 'X' || !e.dur || (main.length && !main.includes(e.tid))) continue; const k = e.name === 'FunctionCall' ? 'FunctionCall ' + ((e.args.data && e.args.data.url || '').split('/').pop() + ':' + (e.args.data && e.args.data.functionName)) : e.name; agg.set(k, (agg.get(k) || 0) + e.dur); }
+[...agg].sort((a, b) => b[1] - a[1]).slice(0, 25).forEach(([k, t]) => console.log((t / 1000).toFixed(0).padStart(6), 'ms', k));
+await b.close();

@@ -1,0 +1,209 @@
+---
+type: pattern
+project: "[[India Sports Expo 2027]]"
+source_commit: 6aaefbc
+tags:
+  - pattern
+  - pattern/media
+status: proven
+---
+
+# Image Slot Media Placeholders
+
+> A web component that shows a placeholder until an image is mapped to its id, then shows the image with a credit chip. Media is mapped in `public/media/media.json` (`id → {src, credit, href}`); videos in `videos.json`.
+
+**Used in:** Every photo/video slot in the screens (`<image-slot id=…>`).
+
+## How it works
+
+- Slots are identified by `id`; the same id can appear twice (marquee copies) and shows the same image.
+- Visitors never see the editing controls (removed when not editable — they were hidden blurred GPU layers).
+- Credit chip uses a solid dark fill, not a blur.
+
+## Reuse it
+
+- Keep media mapping in JSON so content can be swapped without code.
+
+## Gotchas and lessons
+
+- The host element sizes to its parent: give the parent a definite ratio/height.
+
+## Related
+
+[[ISE Media and Credits]] · [[Playbook - Demo Media Sourcing]] · [[Patterns Index]]
+
+## Source
+From [https://github.com/akash-droid-dev/Sports-Expo-2027](https://github.com/akash-droid-dev/Sports-Expo-2027) at commit `6aaefbc`. Copied verbatim.
+
+#### `public/media/media.json`
+```json
+{
+ "twin-yasho-hall": {
+  "src": "yasho-exterior.webp",
+  "credit": "Ayush Raj · CC BY-SA 4.0",
+  "href": "https://commons.wikimedia.org/wiki/File:Yashobhoomi_%E2%80%93_India_International_Convention_and_Expo_Centre,_Delhi.jpg"
+ },
+ "twin-yasho-foyer": {
+  "src": "yasho-plaza.webp",
+  "credit": "VartamanVarta · CC BY-SA 4.0",
+  "href": "https://commons.wikimedia.org/wiki/File:Yashobhoomi_-_IICC.jpg"
+ },
+ "twin-yasho-metro": {
+  "src": "yasho-metro.webp",
+  "credit": "AutobotIndian · CC BY 4.0",
+  "href": "https://commons.wikimedia.org/wiki/File:Yashobhoomi_Dwarka_Sec-25_metro_station_(Gate_no._1).jpg"
+ },
+ "home-prod-0": {
+  "src": "football.webp",
+  "credit": "shawnzrossi · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/19517696@N00/1217925851"
+ },
+ "prod-detail-0": {
+  "src": "football.webp",
+  "credit": "shawnzrossi · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/19517696@N00/1217925851"
+ },
+ "home-prod-1": {
+  "src": "goal.webp",
+  "credit": "Dave Dugdale · CC BY-SA 2.0",
+  "href": "https://www.flickr.com/photos/37387065@N05/5026217210"
+ },
+ "prod-detail-1": {
+  "src": "goal.webp",
+  "credit": "Dave Dugdale · CC BY-SA 2.0",
+  "href": "https://www.flickr.com/photos/37387065@N05/5026217210"
+ },
+ "home-prod-2": {
+  "src": "cricket-bats.webp",
+  "credit": "BOMBMAN · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/99622129@N00/14495358898"
+ },
+ "prod-detail-2": {
+  "src": "cricket-bats.webp",
+  "credit": "BOMBMAN · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/99622129@N00/14495358898"
+ },
+ "home-prod-3": {
+  "src": "hockey-turf.webp",
+  "credit": "Soft Surfaces Ltd · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/68055546@N03/6210008643"
+ },
+ "prod-detail-3": {
+  "src": "hockey-turf.webp",
+  "credit": "Soft Surfaces Ltd · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/68055546@N03/6210008643"
+ },
+ "prod-detail-4": {
+  "src": "floodlights.webp",
+  "credit": "joncandy · CC BY-SA 2.0",
+  "href": "https://www.flickr.com/photos/37195744@N03/4344119611"
+ },
+ "prod-detail-6": {
+  "src": "cricket-nets.webp",
+  "credit": "Acabashi · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/150012178@N06/49525608541"
+ },
+ "new-product-img": {
+  "src": "football-play.webp",
+  "credit": "TheBusyBrain · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/26176646@N04/2592014018"
+ },
+ "theme-room-render": {
+  "src": "expo-floor.webp",
+  "credit": "5of7 · CC BY-SA 2.0",
+  "href": "https://www.flickr.com/photos/53936799@N05/6979784584"
+ },
+ "mat-knit": {
+  "src": "knit.webp",
+  "credit": "stolte-sawa · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/8420299@N07/4743135028"
+ },
+ "mat-comp": {
+  "src": "compression.webp",
+  "credit": "FreePX · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/48184699@N04/4557666198"
+ },
+ "mat-sust": {
+  "src": "recycled-yarn.webp",
+  "credit": "Horia Varlan · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/10361931@N06/5009413427"
+ },
+ "mat-prot": {
+  "src": "impact-foam.webp",
+  "credit": "Adaptalux · CC BY 2.0",
+  "href": "https://www.flickr.com/photos/125216703@N02/16439091900"
+ },
+ "logo-apex": {
+  "src": "logo-apex.svg"
+ },
+ "logo-willow": {
+  "src": "logo-willow.svg"
+ },
+ "logo-arena": {
+  "src": "logo-arena.svg"
+ },
+ "logo-turf": {
+  "src": "logo-turf.svg"
+ },
+ "logo-lumen": {
+  "src": "logo-lumen.svg"
+ },
+ "logo-stride": {
+  "src": "logo-stride.svg"
+ },
+ "logo-origin": {
+  "src": "logo-origin.svg"
+ },
+ "logo-motion": {
+  "src": "logo-motion.svg"
+ },
+ "logo-matrix": {
+  "src": "logo-matrix.svg"
+ },
+ "logo-velocity": {
+  "src": "logo-velocity.svg"
+ },
+ "logo-hayate": {
+  "src": "logo-hayate.svg"
+ },
+ "logo-flex": {
+  "src": "logo-flex.svg"
+ },
+ "spk-s1": {
+  "src": "portrait-s1.svg"
+ },
+ "spk-s2": {
+  "src": "portrait-s2.svg"
+ },
+ "spk-s3": {
+  "src": "portrait-s3.svg"
+ },
+ "spk-s4": {
+  "src": "portrait-s4.svg"
+ },
+ "spk-s5": {
+  "src": "portrait-s5.svg"
+ },
+ "spk-s6": {
+  "src": "portrait-s6.svg"
+ },
+ "spk-s7": {
+  "src": "portrait-s7.svg"
+ },
+ "spk-s8": {
+  "src": "portrait-s8.svg"
+ },
+ "pass-photo": {
+  "src": "portrait-pass-photo.svg"
+ },
+ "prod-detail-5": {
+  "src": "product-spike-plate.svg"
+ },
+ "prod-detail-7": {
+  "src": "product-force-plates.svg"
+ },
+ "pss-athlete": {
+  "src": "athlete-figure.svg"
+ }
+}
+```
