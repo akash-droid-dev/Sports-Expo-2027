@@ -13,7 +13,7 @@ export default function HomeJourney({ store, vals }) {
   return (
     <section data-screen-label="02 Earth journey" ref={v.journeyRef} style={sx(`position:relative;height:${v.journeyHeight ?? ""};background:#000;`)}>
       <div style={{ position: "sticky", top: "60px", height: "calc(100vh - 60px)", overflow: "hidden", background: "#000" }}>
-        <div ref={v.mapRef} style={sx(`position:absolute;inset:0;opacity:${v.mapOpacity ?? ""};transition:opacity .3s;`)} />
+        <div ref={v.mapRef} style={sx(`position:absolute;inset:0;opacity:${v.mapOpacity ?? ""};visibility:${v.mapOpacity === 0 ? "hidden" : "visible"};transition:opacity .3s;`)} />
         <JourneyFrames getP={v.getP} opacity={v.mapOpacity} off={v.journeyReduced} />
         <div style={{ position: "absolute", inset: "0", pointerEvents: "none", background: "radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,0.55) 100%)" }} />
         <div style={sx(`position:absolute;inset:0;background:#000;opacity:${v.arrivalScrim ?? ""};pointer-events:none;`)} />

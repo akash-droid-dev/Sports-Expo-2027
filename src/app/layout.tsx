@@ -66,8 +66,10 @@ document.body.appendChild(b);
 },9000)});
 })();`;
 
-// Runs before the page renders: marks phones and tablets as "lite" (src/lib/device.js), and on
-// other devices starts downloading the 3D runtime and scenes right away.
+// Runs before the page renders: marks phones and tablets as "lite" (src/lib/device.js), marks
+// computers that draw 3D without a graphics chip as "no-gpu" (hardware acceleration off or the
+// driver blocklisted, where 3D is drawn slowly in software), and on other devices starts
+// downloading the 3D runtime and scenes right away.
 function deviceScript(localBucky: boolean) {
   const base = JSON.stringify(BASE);
   return `(function(){var d=document.documentElement,q=location.search,lite=false;
@@ -77,8 +79,13 @@ var b=${base},h=document.head,add=function(rel,href,as,img){var l=document.creat
 var seg=location.pathname.slice(b.length).replace(/^[/]|[/]$/g,'').split('/')[0],home=!seg;
 d.classList.add('pg-'+(seg||'home'));
 if(lite)d.classList.add('lite');
+var nogpu=/[?&]gpu=0/.test(q);
+if(!lite&&!nogpu&&!/[?&]gpu=1/.test(q)){try{var cv=document.createElement('canvas'),gl=cv.getContext('webgl',{failIfMajorPerformanceCaveat:true});
+if(!gl)nogpu=true;else{var ri=gl.getExtension('WEBGL_debug_renderer_info'),rn=ri?String(gl.getParameter(ri.UNMASKED_RENDERER_WEBGL)):'';
+if(/swiftshader|llvmpipe|softpipe|software|basic render/i.test(rn))nogpu=true;var lc=gl.getExtension('WEBGL_lose_context');if(lc)lc.loseContext()}}catch(e){}}
+if(nogpu)d.classList.add('no-gpu');
 if(home)add('preload',lite?'/assets/hero-stadium-sm.webp':'/assets/hero-stadium.webp','image',1);
-if(lite)return;
+if(lite||nogpu)return;
 add('modulepreload','/vendor/spline/runtime.js');
 ${localBucky ? "add('preload','/assets/bucky.splinecode','fetch');" : ''}
 })();`;

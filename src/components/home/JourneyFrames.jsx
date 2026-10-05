@@ -7,7 +7,7 @@
 // current zoom level, shifted to the current centre and crossfaded.
 import { useEffect, useRef } from 'react';
 import { withBase } from '@/lib/base';
-import { isLite } from '@/lib/device';
+import { isLite, noGpu } from '@/lib/device';
 import { camAt } from '@/lib/journey-camera.mjs';
 import J from '@/data/journey.json';
 import M from '@/data/journey-frames.json';
@@ -21,9 +21,10 @@ const AHEAD = 3;
 const mercX = (lon) => (lon + 180) / 360;
 const mercY = (lat) => { const s = Math.sin((lat * Math.PI) / 180); return 0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI); };
 
-// Phones, tablets and browsers too old for the map's worker code (src/app/layout.tsx marks them).
+// Phones, tablets, computers without hardware 3D and browsers too old for the map's worker code
+// (src/app/layout.tsx marks them).
 export function framesMode() {
-  return typeof document !== 'undefined' && (isLite() || document.documentElement.classList.contains('legacy'));
+  return typeof document !== 'undefined' && (isLite() || noGpu() || document.documentElement.classList.contains('legacy'));
 }
 
 export default function JourneyFrames({ getP, opacity, off }) {

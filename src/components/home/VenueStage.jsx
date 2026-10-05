@@ -57,7 +57,7 @@ export default function VenueStage({ p = 0, reduced = false }) {
   return (
     <div className="vs-root" ref={rootRef}>
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
-        <VenueScene active={reduced || p > 0.3} />
+        <VenueScene active={reduced || p > 0.3} visible={venueOpacity > 0} />
         <div className="vs-scrim" style={{ opacity: 0.6 + finale * 0.3 }} />
       </div>
 

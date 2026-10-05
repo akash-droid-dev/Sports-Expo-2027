@@ -1,7 +1,7 @@
 'use client';
 // Bucky (named R-4X in the design), the Expo guide robot. Ported from design/site/r4x-guide.js; mounted once by the root layout.
 import { withBase } from './base';
-import { isLite } from './device';
+import { isLite, noGpu } from './device';
 import { isMuted, playClick, playHover, setMuted, unlockOnFirstGesture } from './bucky-sounds';
 
 const POSTER_KEY = 'bucky-poster-v1';
@@ -18,9 +18,9 @@ export function initBucky(opts = {}) {
   #bucky-crop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
   #bucky-poster{position:absolute;inset:0;background:center/cover no-repeat;transition:opacity .5s}
   #bucky-crop{transform-origin:50% 90%}
-  html.lite #bucky-poster{animation:buckyIdle 3.2s ease-in-out infinite}
+  html.lite #bucky-poster,html.no-gpu #bucky-poster{animation:buckyIdle 3.2s ease-in-out infinite}
   @keyframes buckyIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-  @media (prefers-reduced-motion:reduce){html.lite #bucky-poster{animation:none}}
+  @media (prefers-reduced-motion:reduce){html.lite #bucky-poster,html.no-gpu #bucky-poster{animation:none}}
   #bucky-bot.bucky-wiggle #bucky-crop{animation:buckyWiggle .7s cubic-bezier(.36,.07,.19,.97)}
   #bucky-bot.bucky-hop #bucky-crop{animation:buckyHop .62s cubic-bezier(.3,.7,.4,1)}
   @keyframes buckyWiggle{0%,100%{transform:none}20%{transform:translateX(-7px) rotate(-5deg)}40%{transform:translateX(6px) rotate(4deg)}60%{transform:translateX(-4px) rotate(-3deg)}80%{transform:translateX(2px) rotate(1deg)}}
@@ -81,10 +81,29 @@ export function initBucky(opts = {}) {
       try { localStorage.setItem(POSTER_KEY, e.data.buckyPoster); } catch (err) {}
     }
   });
-  const loadScene = () => { const f = document.createElement('iframe'); f.src = (window.__resources && window.__resources.buckyScene) || withBase('/bucky-scene.html') + (opts.localScene ? '?scene=local' : ''); f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#bucky-crop').appendChild(f); };
-  // Start loading the robot straight away (it used to wait for the whole page plus 800 ms).
+  let scene = null;
+  const loadScene = () => {
+    const f = scene = document.createElement('iframe');
+    const u = new URL((window.__resources && window.__resources.buckyScene) || withBase('/bucky-scene.html') + (opts.localScene ? '?scene=local' : ''), location.href);
+    // The scene frame is shown at 0.4 x (see #bucky-bot iframe), so it renders at 0.4 x the screen's
+    // pixel density: as sharp as it appears, with about a sixth of the pixels to draw.
+    u.searchParams.set('pr', String(Math.round(Math.min(2, Math.max(0.25, 0.4 * (window.devicePixelRatio || 1))) * 100) / 100));
+    f.src = u.href; f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#bucky-crop').appendChild(f);
+  };
+  // He stands still while the page scrolls, so his scene stops drawing until scrolling ends,
+  // leaving the graphics chip to the page.
+  let pauseT = 0, paused = false;
+  const pauseScene = v => { if (paused === v || !scene || !scene.contentWindow) return; paused = v; scene.contentWindow.postMessage({ buckyPause: v }, '*'); };
+  addEventListener('scroll', () => { if (!scene) return; pauseScene(true); clearTimeout(pauseT); pauseT = setTimeout(() => pauseScene(false), 250); }, { passive: true });
+  // The still of Bucky shows at once; his 3D scene starts once the page has loaded and the browser
+  // is idle, so building it doesn't hold up the page itself.
   // Phones and tablets keep the still of Bucky (gently animated in CSS) instead of a second live 3D scene.
-  if (!isLite()) requestAnimationFrame(loadScene);
+  // So do computers without hardware 3D (src/lib/device.js), where the scene would be drawn in software.
+  if (!isLite() && !noGpu()) {
+    const idle = window.requestIdleCallback || (cb => setTimeout(cb, 200));
+    const start = () => idle(loadScene, { timeout: 2000 });
+    document.readyState === 'complete' ? start() : addEventListener('load', start, { once: true });
+  }
   document.body ? mount() : addEventListener('DOMContentLoaded', mount);
 
   const log = panel.querySelector('#bucky-log'), input = panel.querySelector('input'), hit = bot.querySelector('.bucky-hit');
