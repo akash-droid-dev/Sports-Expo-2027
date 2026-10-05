@@ -57,7 +57,7 @@ class Component extends DCLogic {
         onClick: () => p.onCluster && p.onCluster(c),
         style: {
           position: 'absolute', left: c.x / 10 + '%', top: c.y / 5 + '%', width: c.w / 10 + '%', height: c.h / 5 + '%',
-          background: ht != null ? tint : c.kind === 'hero' && on ? (c.zone === 'D' ? '#141416' : z.color + '22') : c.kind === 'stage' && on ? z.color + '1F' : tint,
+          background: ht != null ? tint : c.kind === 'hero' && on ? (c.zone === 'D' ? z.color : z.color + '22') : c.kind === 'stage' && on ? z.color + '1F' : tint,
           border: `1px solid ${on ? z.color : '#D6D2C8'}`, outline: isSel ? `3px solid ${z.color}` : 'none', outlineOffset: 2,
           cursor: p.onCluster ? 'pointer' : 'default', overflow: 'hidden',
           transition: 'background .6s, opacity .6s, transform .8s, box-shadow .8s',

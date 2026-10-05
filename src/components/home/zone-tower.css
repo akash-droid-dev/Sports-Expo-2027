@@ -1,0 +1,649 @@
+/* Home "05 The Four Worlds": the rotating four-sided standee (ZoneTower.jsx).
+   Each `inset` is preceded by top/right/bottom/left for older browsers. */
+.zt-section {
+  background: #0b0b0d;
+}
+.zt {
+  --tw: min(290px, 24vw);
+  --th: min(560px, 62vh);
+  position: relative;
+  height: 640vh;
+  color: #fff;
+}
+.zt-stage {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 55%),
+    #0b0b0d;
+}
+.zt-head {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  right: 28px;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font: 500 12px 'JetBrains Mono', monospace;
+  letter-spacing: 0.2em;
+  color: #bdb9b0;
+}
+.zt-head-live {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+}
+.zt-head-live i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--zc);
+  box-shadow: 0 0 0 0 var(--zc);
+  animation: ztPing 1.6s ease-out infinite;
+}
+@keyframes ztPing {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+}
+/* Spotlight in the active zone's colour, and a reflective floor. */
+.zt-glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120vmin;
+  height: 120vmin;
+  margin: -60vmin 0 0 -60vmin;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--zc) 0%, rgba(0, 0, 0, 0) 62%);
+  opacity: 0.55;
+  pointer-events: none;
+  transition: background 0.6s ease;
+}
+.zt-floor {
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: 0;
+  height: 26%;
+  background:
+    linear-gradient(to bottom, rgba(11, 11, 13, 1), rgba(11, 11, 13, 0.2) 40%, rgba(11, 11, 13, 0.9)),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 1px, rgba(0, 0, 0, 0) 1px 80px);
+  transform: perspective(600px) rotateX(58deg);
+  transform-origin: 50% 100%;
+  pointer-events: none;
+}
+.zt-scene {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 1500px;
+  perspective-origin: 50% 30%;
+}
+.zt-cam {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 46%;
+  will-change: transform;
+}
+.zt-tower {
+  position: relative;
+  width: var(--tw);
+  height: var(--th);
+  transform-style: preserve-3d;
+}
+/* One face per zone: the zone's colour, lit edges, the letter and its numbers. */
+.zt-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--tw);
+  height: var(--th);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 26px 22px 22px;
+  overflow: hidden;
+  border: 0;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: rotateY(calc(var(--i) * 90deg)) translateZ(calc(var(--tw) / 2));
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 30%, rgba(0, 0, 0, 0.35)),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0 2px, rgba(0, 0, 0, 0) 2px 14px),
+    var(--fc);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.28),
+    inset 0 0 40px rgba(0, 0, 0, 0.35);
+}
+/* Bright LED strips down both edges. */
+.zt-face-led {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.85) 0 3px, rgba(255, 255, 255, 0) 3px calc(100% - 3px), rgba(255, 255, 255, 0.85) calc(100% - 3px)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0 3px, rgba(255, 255, 255, 0) 3px);
+  opacity: 0.5;
+}
+.zt-face.is-front .zt-face-led {
+  animation: ztLed 2.4s ease-in-out infinite;
+}
+/* The front face's lettering gives way as the camera arrives (the face becomes the screen). */
+.zt-face.is-front > span:not(.zt-face-led):not(.zt-face-shade) {
+  opacity: calc(1 - var(--dolly, 0) * 1.8);
+}
+.zt-face-shade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes ztLed {
+  50% {
+    opacity: 0.95;
+  }
+}
+.zt-face-top {
+  font: 500 12px 'JetBrains Mono', monospace;
+  letter-spacing: 0.3em;
+  opacity: 0.85;
+}
+.zt-face-letter {
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 900;
+  font-style: italic;
+  font-size: calc(var(--tw) * 0.72);
+  line-height: 0.8;
+  margin: 8px 0 0 -4px;
+  text-shadow: 0 6px 24px rgba(0, 0, 0, 0.35);
+}
+.zt-face-name {
+  margin-top: auto;
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 900;
+  font-style: italic;
+  font-size: calc(var(--tw) * 0.1);
+  line-height: 0.92;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  text-transform: uppercase;
+  padding-right: 0.06em;
+}
+.zt-face-meta {
+  margin-top: 10px;
+  font: 500 11px 'JetBrains Mono', monospace;
+  letter-spacing: 0.08em;
+  opacity: 0.85;
+}
+.zt-face-foot {
+  margin-top: 14px;
+  padding-top: 10px;
+  width: 100%;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  font: 600 9px 'Instrument Sans', sans-serif;
+  letter-spacing: 0.24em;
+  opacity: 0.8;
+}
+/* The top of the tower: a dark light-box. */
+.zt-cap {
+  position: absolute;
+  left: 0;
+  top: calc(var(--tw) / -2);
+  width: var(--tw);
+  height: var(--tw);
+  transform: rotateX(90deg);
+  background: #141416;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+.zt-plinth {
+  display: block;
+  width: calc(var(--tw) * 1.5);
+  height: 18px;
+  margin-top: -2px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0) 70%);
+  filter: blur(2px);
+}
+
+/* The face, dollied up close, becomes a live screen. */
+.zt-screen {
+  position: absolute;
+  top: 74px;
+  left: 50%;
+  bottom: 34px;
+  z-index: 4;
+  width: min(1180px, calc(100% - 120px));
+  margin-left: calc(min(1180px, calc(100% - 120px)) / -2);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, rgba(0, 0, 0, 0) 1.5px) 0 0 / 6px 6px,
+    linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(0, 0, 0, 0.5)),
+    var(--zc);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.35),
+    0 0 80px -10px var(--zc);
+}
+.zt-screen-in {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  gap: 36px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 36px 40px 32px;
+}
+.zt-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+.zt-kicker,
+.zt-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 11px 'JetBrains Mono', monospace;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.8);
+}
+.zt-kicker i {
+  width: 10px;
+  height: 10px;
+  background: #fff;
+}
+.zt-name {
+  margin: 0;
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 900;
+  font-style: italic;
+  font-size: clamp(38px, 4.4vw, 68px);
+  line-height: 0.9;
+  text-transform: uppercase;
+  padding-right: 0.06em;
+}
+.zt-blurb {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+.zt-nums {
+  display: flex;
+  gap: 28px;
+  margin-top: 6px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+.zt-nums span {
+  display: flex;
+  flex-direction: column;
+  font: 500 10px 'JetBrains Mono', monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+}
+.zt-nums b {
+  font-family: 'Archivo', sans-serif;
+  font-stretch: 62%;
+  font-weight: 900;
+  font-size: clamp(40px, 4vw, 60px);
+  line-height: 1;
+  letter-spacing: 0;
+  color: #fff;
+}
+.zt-enter {
+  align-self: flex-start;
+  margin-top: auto;
+  padding: 14px 24px;
+  background: #fff;
+  color: #0e0e0f;
+  text-decoration: none;
+  font: 700 13px 'Instrument Sans', sans-serif;
+  letter-spacing: 0.1em;
+  -webkit-clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.zt-areas {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+.zt-areas li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 14px;
+}
+.zt-areas em {
+  font: normal 500 10px 'JetBrains Mono', monospace;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  text-align: right;
+}
+.zt-plan {
+  width: 100%;
+  height: auto;
+  max-height: 150px;
+  background: rgba(0, 0, 0, 0.25);
+}
+.zt-plan .is-on {
+  animation: ztPlan 1.6s ease-in-out infinite;
+}
+@keyframes ztPlan {
+  50% {
+    fill-opacity: 0.55;
+  }
+}
+.zt-feat {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.zt-feat li {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.zt-feat em {
+  font-style: normal;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.zt-live {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-top: auto;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 3px solid #fff;
+  font-size: 14px;
+}
+.zt-live span {
+  font: 500 10px 'JetBrains Mono', monospace;
+  letter-spacing: 0.18em;
+}
+.zt-live.is-live span::before {
+  content: '● ';
+  color: #ff4d4d;
+}
+.zt-live em {
+  font-style: normal;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+}
+/* Content arrives once the screen is lit. */
+.zt-screen-in .zt-col {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.zt-screen-in.is-on .zt-col {
+  opacity: 1;
+  transform: none;
+}
+.zt-screen-in.is-on .zt-col-areas {
+  transition-delay: 0.08s;
+}
+.zt-screen-in.is-on .zt-col-side {
+  transition-delay: 0.16s;
+}
+/* The zone rail. */
+.zt-rail {
+  position: absolute;
+  right: 28px;
+  top: 50%;
+  z-index: 5;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.zt-rail-track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+.zt-rail-bar {
+  display: block;
+  height: 100%;
+  background: #fff;
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+}
+.zt-rail button {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: #0b0b0d;
+  color: #fff;
+  font: 900 italic 16px 'Archivo', sans-serif;
+  font-stretch: 62%;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+.zt-rail button.is-on {
+  background: var(--fc);
+  border-color: #fff;
+  transform: scale(1.15);
+}
+.zt-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  font: 500 10px 'JetBrains Mono', monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+/* Reduced motion: the four screens, one under the other. */
+.zt-static {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 40px 28px;
+}
+.zt-screen-static {
+  position: relative;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  width: auto;
+  margin: 0;
+}
+
+/* Phones. */
+@media (max-width: 900px) {
+  .zt {
+    --tw: min(220px, 56vw);
+    --th: min(400px, 54vh);
+  }
+  .zt-head {
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    font-size: 10px;
+  }
+  .zt-rail {
+    right: 10px;
+    gap: 8px;
+  }
+  .zt-rail button {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .zt-screen {
+    top: 46px;
+    bottom: 12px;
+    width: calc(100% - 56px);
+    left: 10px;
+    margin-left: 0;
+  }
+  .zt-screen-in {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 14px 12px;
+    overflow: hidden;
+  }
+  .zt-col {
+    gap: 6px;
+    min-height: auto;
+  }
+  /* Name, then the numbers and the Enter button on one row. */
+  .zt-col-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: 10px;
+  }
+  .zt-col-main .zt-kicker,
+  .zt-col-main .zt-name {
+    grid-column: 1 / -1;
+  }
+  .zt-name {
+    font-size: clamp(24px, 7vw, 32px);
+  }
+  .zt-blurb {
+    display: none;
+  }
+  .zt-nums {
+    gap: 16px;
+    margin-top: 0;
+    padding: 4px 0;
+    border-bottom: 0;
+  }
+  .zt-nums b {
+    font-size: 28px;
+  }
+  .zt-enter {
+    margin: 0 0 6px;
+    padding: 9px 14px;
+    font-size: 10.5px;
+  }
+  .zt-col-areas .zt-label {
+    display: none;
+  }
+  .zt-areas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+    overflow: visible;
+  }
+  .zt-areas li {
+    flex-direction: column;
+    gap: 1px;
+    padding: 4px 0;
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  .zt-areas em {
+    text-align: left;
+    font-size: 9px;
+  }
+  /* Plan beside the featured names; what's on below. */
+  .zt-col-side {
+    display: grid;
+    grid-template-columns: 42% minmax(0, 1fr);
+    column-gap: 10px;
+    row-gap: 8px;
+    align-items: center;
+  }
+  .zt-col-side .zt-label {
+    display: none;
+  }
+  .zt-plan {
+    max-height: 70px;
+  }
+  .zt-feat {
+    gap: 3px;
+  }
+  .zt-feat li {
+    font-size: 11px;
+    line-height: 1.2;
+  }
+  .zt-feat em {
+    display: none;
+  }
+  .zt-live {
+    grid-column: 1 / -1;
+    margin-top: 0;
+    padding: 6px 10px;
+    font-size: 11.5px;
+  }
+  .zt-live em {
+    font-size: 10px;
+  }
+  .zt-hint {
+    bottom: 8px;
+  }
+}
+@media (max-width: 900px) and (max-height: 600px) {
+  .zt-name {
+    font-size: 22px;
+  }
+  .zt-nums b {
+    font-size: 22px;
+  }
+  .zt-live em,
+  .zt-areas em {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .zt-face-led,
+  .zt-plan .is-on,
+  .zt-head-live i {
+    animation: none !important;
+  }
+}

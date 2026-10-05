@@ -186,9 +186,9 @@ function Cover({ small = false }) {
       </span>
       <span className="hb-cover-bands" aria-hidden="true">
         <i style={{ background: '#9E1B22' }} />
-        <i style={{ background: '#3F4A56' }} />
-        <i style={{ background: '#0B6E4F' }} />
-        <i style={{ background: '#C9A227' }} />
+        <i style={{ background: '#5B3A9E' }} />
+        <i style={{ background: '#0A62BF' }} />
+        <i style={{ background: '#00803F' }} />
       </span>
       <span className="hb-foil hb-cover-sub">4 ZONES · 213 STALLS · 25 PAVILIONS</span>
     </div>

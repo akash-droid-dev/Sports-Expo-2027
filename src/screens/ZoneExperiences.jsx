@@ -74,7 +74,7 @@ class Component extends DCLogic {
       { id: 'market', n: '31', unit: 'STALLS + 2 PAVILIONS', name: 'Sports Goods Manufacturing' }, { id: 'oem', n: '20', unit: 'STALLS', name: 'OEM / ODM & Supply Chain' },
       { id: 'infra', n: '32', unit: 'STALLS + 1 PAVILION', name: 'Sports Infrastructure & Venue Build' }, { id: 'apparel', n: '14', unit: 'STALLS + 1 PAVILION', name: 'Apparel & Footwear' },
       { id: 'surf', n: '9', unit: 'STALLS + 1 PAVILION', name: 'Surfaces & Turf' }, { id: 'infra2', n: '13', unit: 'STALLS', name: 'Lighting, Seating & Engineering' }
-    ].map(t => ({ ...t, ...tab(s.b === 'infra' && t.id === 'infra2' ? 'x' : s.b, t.id, '#3F4A56'), pick: () => this.setState({ b: t.id === 'infra2' ? 'infra' : t.id, layer: t.id === 'infra2' ? 1 : s.layer }) }));
+    ].map(t => ({ ...t, ...tab(s.b === 'infra' && t.id === 'infra2' ? 'x' : s.b, t.id, '#5B3A9E'), pick: () => this.setState({ b: t.id === 'infra2' ? 'infra' : t.id, layer: t.id === 'infra2' ? 1 : s.layer }) }));
     const chipSports = ['Football', 'Hockey', 'Cricket', 'Athletics', 'Racquet', 'Combat', 'Fitness', 'Indoor', 'Outdoor'];
     const mk = D.exhibitors.filter(e => e.zone === 'B' || e.zone === 'D').filter(e => !s.sports.length || s.sports.includes(e.sport) || (s.sports.includes('Outdoor') && e.sport === 'Multi-sport')).filter(e => !s.exportOnly || /Export|Manufacturer/.test(e.type));
     const layers = [
@@ -106,7 +106,7 @@ class Component extends DCLogic {
     const SF = surfaces[s.surf];
     // Zone C
     const cTiles = [{ id: 'tech', code: 'C-STI · 34+1', name: 'SportsTech & Innovation' }, { id: 'startup', code: 'C-SUV · 30+1', name: 'Startup Village' }, { id: 'body', code: 'C-PSS · 30+1', name: 'Performance & Sports Science' }, { id: 'arena', code: 'C-IAS · 324 seats', name: 'Innovation Arena Stage' }, { id: 'try', code: 'C-TSA', name: 'Try Sport Arena' }, { id: 'try', code: 'C-IEX', name: 'Interactive Experiences' }]
-      .map((t, i) => ({ ...t, ...tab(s.c, t.id, '#0B6E4F'), bar: s.c === t.id && (i < 5) ? '#0B6E4F' : 'transparent', pick: () => this.setState({ c: t.id }) }));
+      .map((t, i) => ({ ...t, ...tab(s.c, t.id, '#0A62BF'), bar: s.c === t.id && (i < 5) ? '#0A62BF' : 'transparent', pick: () => this.setState({ c: t.id }) }));
     const stake = {
       ATHLETE: [['AI Coaching', 'Computer-vision technique feedback from a phone camera.', 'MotionIQ · C-STI-011'], ['Wearables', 'GPS, HRV and load monitoring.', 'RecovR · C-SUV-011'], ['Performance Analytics', 'Benchmarks across age groups and regions.', 'SportMatrix · C-STI-022']],
       COACH: [['Video Analysis', 'Tagging, telestration and clip sharing.', 'KheloLens · C-SUV-004'], ['Tactical Systems', 'Set-piece and formation planning.', 'SportMatrix · C-STI-022'], ['Data', 'Squad dashboards and talent IDs.', 'Paceline · C-SUV-028']],
@@ -149,17 +149,17 @@ class Component extends DCLogic {
       shoeSel: shoeParts[s.shoe],
       materials: [{ id: 'mat-knit', t: 'TECHNICAL FABRIC', p: 'Macro: engineered knit' }, { id: 'mat-comp', t: 'COMPRESSION', p: 'Macro: compression weave' }, { id: 'mat-prot', t: 'PROTECTIVE WEAR', p: 'Macro: impact foam' }, { id: 'mat-sust', t: 'SUSTAINABLE MATERIALS', p: 'Macro: recycled yarn' }],
       chain: ['Design', 'Material', 'Manufacturing', 'Quality', 'Packaging', 'Logistics', 'Global Retail'].map((t, i) => ({ t: t.toUpperCase(), n: i + 1, cos: [['Origin Supply Co.', 'Stridewell (ODM)'], ['Kinetic Fabrics (demo)'], ['Origin Supply Co.', 'Apex Sports India'], ['TestLab India (demo)'], ['PackRight (demo)'], ['Bharat Freight (demo)'], ['Global Sports Retail GmbH', 'Northline Distribution']][i] })),
-      surfTabs: Object.keys(surfaces).map(k => ({ name: k.toUpperCase(), ...sel(k === s.surf, '#3F4A56'), pick: () => this.setState({ surf: k }) })),
+      surfTabs: Object.keys(surfaces).map(k => ({ name: k.toUpperCase(), ...sel(k === s.surf, '#5B3A9E'), pick: () => this.setState({ surf: k }) })),
       surf: { ...SF, layers: SF.layers.map(([n, h, c]) => ({ n, h: h * 2 + 'px', c })) },
       cTiles, cTech: s.c === 'tech', cStartup: s.c === 'startup', cBody: s.c === 'body', cArena: s.c === 'arena', cTry: s.c === 'try',
-      stakeTabs: Object.keys(stake).map(k => ({ t: k, ...sel(k === s.stake, '#0B6E4F'), pick: () => this.setState({ stake: k }) })),
+      stakeTabs: Object.keys(stake).map(k => ({ t: k, ...sel(k === s.stake, '#0A62BF'), pick: () => this.setState({ stake: k }) })),
       stakeItems: stake[s.stake].map(([t, d, co]) => ({ t, d, co })),
       startups: D.startups,
-      nodes: nodes.map(([t, x, y]) => ({ t, x, y, bg: t === s.node ? '#F07C12' : '#0B6E4F', pick: () => this.setState({ node: t }) })),
+      nodes: nodes.map(([t, x, y]) => ({ t, x, y, bg: t === s.node ? '#F07C12' : '#0A62BF', pick: () => this.setState({ node: t }) })),
       node: { t: s.node, rows: [{ k: 'TECHNOLOGIES', v: nodeData.tech[ni] }, { k: 'RESEARCH', v: 'National Sports Science Centre (demo) — open data posters' }, { k: 'COMPANIES', v: 'Velocity Performance Labs (C-PSS-006) · RecovR (C-SUV-011)' }, { k: 'SESSIONS', v: 'Sports Science for the Next Olympic Cycle · Day 2 11:00' }, { k: 'DEMOS', v: 'Live testing at C-PSS, every hour on the hour (sample)' }] },
-      phaseTabs: [['before', 'BEFORE'], ['during', '● DURING'], ['after', 'AFTER']].map(([id, t]) => ({ t, ...sel(id === s.phase, '#0B6E4F'), pick: () => this.setState({ phase: id }) })),
+      phaseTabs: [['before', 'BEFORE'], ['during', '● DURING'], ['after', 'AFTER']].map(([id, t]) => ({ t, ...sel(id === s.phase, '#0A62BF'), pick: () => this.setState({ phase: id }) })),
       arena: arenaPh[s.phase],
-      tryList: tryList.map(([time, name, dur, cap, taken, loc, elig]) => { const b = s.booked[name]; const full = taken >= cap && !b; return { time, name, dur, loc, elig, cap: (cap - taken - (b ? 1 : 0)) + ' of ' + cap + ' left', pct: Math.round((taken + (b ? 1 : 0)) / cap * 100) + '%', bookLabel: b ? '✓ BOOKED' : full ? 'WAITLIST' : 'BOOK', bookBg: b ? '#E3F1EB' : full ? '#E3E0D8' : '#0B6E4F', bookFg: b ? '#0B6E4F' : full ? '#0E0E0F' : '#fff', book: () => this.setState(p => ({ booked: { ...p.booked, [name]: !p.booked[name] } })) }; }),
+      tryList: tryList.map(([time, name, dur, cap, taken, loc, elig]) => { const b = s.booked[name]; const full = taken >= cap && !b; return { time, name, dur, loc, elig, cap: (cap - taken - (b ? 1 : 0)) + ' of ' + cap + ' left', pct: Math.round((taken + (b ? 1 : 0)) / cap * 100) + '%', bookLabel: b ? '✓ BOOKED' : full ? 'WAITLIST' : 'BOOK', bookBg: b ? '#E4EEFA' : full ? '#E3E0D8' : '#0A62BF', bookFg: b ? '#0A62BF' : full ? '#0E0E0F' : '#fff', book: () => this.setState(p => ({ booked: { ...p.booked, [name]: !p.booked[name] } })) }; }),
       dSpaces: D.clusters.filter(c => c.zone === 'D').map(c => ({ code: 'D-' + c.id, name: c.name, meta: c.meta, access: /Invite|Accredited/.test(c.meta) ? '◆ RESTRICTED' : 'OPEN' })),
       ctyBtns: D.countries.map(c => ({ name: c.name, bg: c.id === s.cty ? '#fff' : 'rgba(0,0,0,0.6)', fg: c.id === s.cty ? '#0E0E0F' : '#fff', pick: () => this.pickCty(c.id) })),
       cty: { ...C, rows: [{ k: 'Pavilion location', v: 'Zone D · ' + C.pav }, { k: 'Delegation', v: 'Trade ministry + industry association (sample)' }, { k: 'Companies', v: C.companies + ' exhibiting (demo)' }, { k: 'Technologies', v: C.profile }, { k: 'Buyers', v: '4 hosted buyers (demo)' }, { k: 'Speakers', v: C.id === 'JP' ? 'Aiko Tanaka (demo)' : C.id === 'DE' ? 'Lukas Brandt (demo)' : 'TBC' }, { k: 'Sessions', v: 'Country briefing · Business Exchange Stage (sample)' }] }
@@ -195,15 +195,15 @@ function render(v) {
             <b style={{ color: "#9E1B22" }}>A</b>
             {" · India Sports & Heritage"}
           </a>
-          <a href="#zone-b" style={{ textDecoration: "none", color: "#0E0E0F", padding: "12px 20px", borderTop: "5px solid #3F4A56", borderRight: "1px solid #E3E0D8", fontWeight: "600", fontSize: "14px" }}>
-            <b style={{ color: "#3F4A56" }}>B</b>
+          <a href="#zone-b" style={{ textDecoration: "none", color: "#0E0E0F", padding: "12px 20px", borderTop: "5px solid #5B3A9E", borderRight: "1px solid #E3E0D8", fontWeight: "600", fontSize: "14px" }}>
+            <b style={{ color: "#5B3A9E" }}>B</b>
             {" · Sports Goods & Infrastructure"}
           </a>
-          <a href="#zone-c" style={{ textDecoration: "none", color: "#0E0E0F", padding: "12px 20px", borderTop: "5px solid #0B6E4F", borderRight: "1px solid #E3E0D8", fontWeight: "600", fontSize: "14px" }}>
-            <b style={{ color: "#0B6E4F" }}>C</b>
+          <a href="#zone-c" style={{ textDecoration: "none", color: "#0E0E0F", padding: "12px 20px", borderTop: "5px solid #0A62BF", borderRight: "1px solid #E3E0D8", fontWeight: "600", fontSize: "14px" }}>
+            <b style={{ color: "#0A62BF" }}>C</b>
             {" · Sports Tech & Experience"}
           </a>
-          <a href="#zone-d" style={{ textDecoration: "none", color: "#0E0E0F", padding: "12px 20px", borderTop: "5px solid #141416", fontWeight: "600", fontSize: "14px" }}>
+          <a href="#zone-d" style={{ textDecoration: "none", color: "#0E0E0F", padding: "12px 20px", borderTop: "5px solid #00803F", fontWeight: "600", fontSize: "14px" }}>
             <b>D</b>
             {" · Sports Business & Investment"}
           </a>
@@ -443,7 +443,7 @@ function render(v) {
           </div>
         </section>
         <section id="zone-b" data-screen-label="Zone B" style={{ scrollMarginTop: "110px", marginTop: "96px" }}>
-          <div style={{ background: "#3F4A56", color: "#fff", padding: "72px 28px 56px" }}>
+          <div style={{ background: "#5B3A9E", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
               <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>B</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -463,7 +463,7 @@ function render(v) {
               {list(v.bTiles).map((t, $index) => (
                 <Fragment key={$index}>
                   <button onClick={t?.pick} style={sx(`text-align:left;border:0;border-right:1px solid #E3E0D8;border-bottom:4px solid ${t?.bar ?? ""};background:${t?.bg ?? ""};padding:20px 18px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:170px;`)}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "52px", lineHeight: "0.85", color: "#3F4A56" }}>
+                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "52px", lineHeight: "0.85", color: "#5B3A9E" }}>
                       {txt(t?.n)}
                     </span>
                     <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(t?.unit)}</span>
@@ -567,7 +567,7 @@ function render(v) {
             {v.bInfra ? (
               <>
                 <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)", border: "1px solid #E3E0D8", borderTop: "0", minHeight: "640px" }}>
-                  <div style={{ background: "#E8EBEE", display: "flex", alignItems: "center", justifyContent: "center", perspective: "1800px", padding: "40px 0" }}>
+                  <div style={{ background: "#EEE8F7", display: "flex", alignItems: "center", justifyContent: "center", perspective: "1800px", padding: "40px 0" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "0", transformStyle: "preserve-3d" }}>
                       {list(v.layers).map((l, $index) => (
                         <Fragment key={$index}>
@@ -580,7 +580,7 @@ function render(v) {
                     </div>
                   </div>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#3F4A56" }}>
+                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#5B3A9E" }}>
                       {"EXPLODED STADIUM · LAYER "}{txt(v.layer?.n)}{" OF 8"}
                     </span>
                     <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.86" }}>{txt(v.layer?.name)}</span>
@@ -655,14 +655,14 @@ function render(v) {
                       <Fragment key={$index}>
                         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                           <div style={{ display: "flex", alignItems: "center" }}>
-                            <span style={{ width: "14px", height: "14px", background: "#3F4A56" }} />
+                            <span style={{ width: "14px", height: "14px", background: "#5B3A9E" }} />
                             <span style={{ flex: "1", height: "3px", background: "#F07C12" }} />
                           </div>
                           <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>0{txt(c?.n)}</span>
                           <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px", lineHeight: "0.9" }}>{txt(c?.t)}</span>
                           {list(c?.cos).map((co, $index) => (
                             <Fragment key={$index}>
-                              <span style={{ fontSize: "13px", borderLeft: "2px solid #3F4A56", padding: "4px 0 4px 8px", marginRight: "12px" }}>{txt(co)}</span>
+                              <span style={{ fontSize: "13px", borderLeft: "2px solid #5B3A9E", padding: "4px 0 4px 8px", marginRight: "12px" }}>{txt(co)}</span>
                             </Fragment>
                           ))}
                         </div>
@@ -693,7 +693,7 @@ function render(v) {
                       {" "}{txt(v.surf?.by)}
                     </span>
                   </div>
-                  <div style={{ padding: "32px", background: "#E8EBEE", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <div style={{ padding: "32px", background: "#EEE8F7", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                     <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", marginBottom: "10px" }}>
                       SYSTEM CROSS-SECTION · ILLUSTRATIVE
                     </span>
@@ -712,7 +712,7 @@ function render(v) {
           </div>
         </section>
         <section id="zone-c" data-screen-label="Zone C" style={{ scrollMarginTop: "110px", marginTop: "96px" }}>
-          <div style={{ background: "#0B6E4F", color: "#fff", padding: "72px 28px 56px" }}>
+          <div style={{ background: "#0A62BF", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
               <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>C</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
@@ -755,7 +755,7 @@ function render(v) {
                   <div style={{ padding: "32px", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: "24px", alignContent: "start" }}>
                     {list(v.stakeItems).map((i, $index) => (
                       <Fragment key={$index}>
-                        <div style={{ borderTop: "3px solid #0B6E4F", paddingTop: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                        <div style={{ borderTop: "3px solid #0A62BF", paddingTop: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
                           <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "800", fontSize: "26px", textTransform: "uppercase", lineHeight: "1" }}>
                             {txt(i?.t)}
                           </span>
@@ -781,20 +781,20 @@ function render(v) {
                         </div>
                         <span style={{ fontSize: "13px", color: "#6B6A66" }}>
                           {txt(s?.country)}{" · "}{txt(s?.tech)}{" · "}{txt(s?.sport)}{" · "}
-                          <b style={{ color: "#0B6E4F" }}>{txt(s?.stage)}</b>
+                          <b style={{ color: "#0A62BF" }}>{txt(s?.stage)}</b>
                         </span>
                         <span style={{ fontSize: "16px", lineHeight: "1.4" }}>“{txt(s?.problem)}”</span>
                         <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                           <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", alignSelf: "center" }}>LOOKING FOR</span>
                           {list(s?.seeking).map((k, $index) => (
                             <Fragment key={$index}>
-                              <span style={{ background: "#E3F1EB", color: "#0B6E4F", fontSize: "12px", fontWeight: "700", padding: "4px 8px" }}>{txt(k)}</span>
+                              <span style={{ background: "#E4EEFA", color: "#0A62BF", fontSize: "12px", fontWeight: "700", padding: "4px 8px" }}>{txt(k)}</span>
                             </Fragment>
                           ))}
                         </div>
                         <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{"PITCH · "}{txt(s?.pitch)}{" · INNOVATION ARENA"}</span>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "6px", marginTop: "auto" }}>
-                          <a href={withBase("/connect")} style={{ gridColumn: "span 2", background: "#0B6E4F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
+                          <a href={withBase("/connect")} style={{ gridColumn: "span 2", background: "#0A62BF", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
                             REQUEST MEETING
                           </a>
                           <a href={withBase("/programme")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
@@ -829,7 +829,7 @@ function render(v) {
                     ))}
                   </div>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "14px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#0B6E4F" }}>
+                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#0A62BF" }}>
                       {"PERFORMANCE & SPORTS SCIENCE · 30 STALLS"}
                     </span>
                     <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.86", textTransform: "uppercase" }}>
@@ -882,7 +882,7 @@ function render(v) {
                       {list(v.arena?.list).map((s, $index) => (
                         <Fragment key={$index}>
                           <div style={{ display: "grid", gridTemplateColumns: "70px 1fr", gap: "12px", padding: "12px 0", borderBottom: "1px solid #E3E0D8" }}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "13px", color: "#0B6E4F" }}>{txt(s?.a)}</span>
+                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "13px", color: "#0A62BF" }}>{txt(s?.a)}</span>
                             <span style={{ fontSize: "15px", fontWeight: "600" }}>{txt(s?.b)}</span>
                           </div>
                         </Fragment>
@@ -916,7 +916,7 @@ function render(v) {
                         <span>{txt(t?.dur)}</span>
                         <span>
                           <span style={{ display: "block", height: "4px", background: "#E3E0D8" }}>
-                            <span style={sx(`display:block;height:4px;background:#0B6E4F;width:${t?.pct ?? ""};`)} />
+                            <span style={sx(`display:block;height:4px;background:#0A62BF;width:${t?.pct ?? ""};`)} />
                           </span>
                           <span style={{ fontSize: "12px" }}>{txt(t?.cap)}</span>
                         </span>
@@ -939,7 +939,7 @@ function render(v) {
           </div>
         </section>
         <section id="zone-d" data-screen-label="Zone D" style={{ scrollMarginTop: "110px", marginTop: "96px", paddingBottom: "96px" }}>
-          <div style={{ background: "#141416", color: "#fff", padding: "72px 28px 56px" }}>
+          <div style={{ background: "#00803F", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
               <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>D</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
