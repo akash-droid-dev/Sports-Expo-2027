@@ -121,10 +121,13 @@ class Component extends DCLogic {
   getP = () => this.progress();
   tick() {
     const p = this.progress();
-    this._target = p;
+    // The globe has faded out by framesUntil (the venue and zone cards take over), so the camera
+    // stops there: it used to keep flying, redrawing the hidden globe under the zone cards.
+    const cam = Math.min(p, JOURNEY.framesUntil);
+    this._target = cam;
     // Only move the camera when the journey position changed: above or below the journey every
     // scroll frame would otherwise redraw the globe for nothing.
-    if (this.map && !this._camRaf && this._cam !== p) this._camRaf = requestAnimationFrame(this.camStep);
+    if (this.map && !this._camRaf && this._cam !== cam) this._camRaf = requestAnimationFrame(this.camStep);
     this.journeyStore.set(p);
   }
   // The globe camera eases toward the scroll position instead of jumping with every

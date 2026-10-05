@@ -29,15 +29,10 @@
   overflow: hidden;
   background: #0e0e0f;
 }
-/* Asleep (faded out, see VenueScene.jsx): hidden and the tour moved off screen, which makes
-   browsers stop drawing it, and no drifting. */
+/* Asleep (faded out, see VenueScene.jsx): hidden, and no drifting. */
 .vs-scene.is-asleep {
   visibility: hidden;
 }
-.vs-scene.is-asleep .vs-tour {
-  left: -400vw;
-}
-.vs-scene.is-asleep .vs-tour,
 .vs-scene.is-asleep .vs-photo,
 .vs-scene.is-asleep .vs-pano {
   animation: none;
@@ -71,16 +66,6 @@
   left: -4%;
   inset: -4%;
   background: center / cover no-repeat;
-  animation: vsDrift 48s ease-in-out infinite alternate;
-}
-.vs-tour {
-  position: absolute;
-  left: -6%;
-  top: -6%;
-  width: 112%;
-  height: 112%;
-  border: 0;
-  pointer-events: none;
   animation: vsDrift 48s ease-in-out infinite alternate;
 }
 @keyframes vsDrift {
@@ -121,6 +106,22 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+/* The official 360° tour, opened in a new tab. */
+.vs-tour-link {
+  align-self: flex-start;
+  margin-top: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font: 600 13px var(--f-body);
+  text-decoration: none;
+  transition: background-color 0.25s ease;
+}
+.vs-tour-link:hover,
+.vs-tour-link:focus-visible {
+  background: rgba(255, 255, 255, 0.22);
 }
 .vs-kicker {
   font: 500 12px var(--f-label);
@@ -272,10 +273,10 @@
   flex-direction: column;
   gap: 6px;
   padding: 24px 22px 20px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
-  background-color: rgba(14, 14, 15, 0.38);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
-  backdrop-filter: blur(14px) saturate(1.3);
+  /* Tinted glass rather than a live blur: a blur behind each card has to be redrawn on every
+     frame the drifting venue moves, which stuttered on laptops. */
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+  background-color: rgba(18, 19, 23, 0.62);
   border: 1px solid rgba(255, 255, 255, 0.35);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.35),
@@ -484,8 +485,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .vs-pano,
-  .vs-photo,
-  .vs-tour {
+  .vs-photo {
     animation: none;
   }
   .vs-card,
@@ -499,13 +499,4 @@
   nav[aria-label='Journey'] {
     display: none !important;
   }
-}
-
-/* Phones and tablets: a live blur over the drifting venue photo is redrawn every frame, so the
-   zone side uses a deeper tint instead. Still see-through, text just as readable. */
-html.lite .vs-back {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04));
-  background-color: rgba(14, 14, 15, 0.6);
 }

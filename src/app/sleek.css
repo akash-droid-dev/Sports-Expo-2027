@@ -208,7 +208,7 @@ body {
 #dc-root main image-slot,
 #dc-root section:not([data-screen-label='01 Entry']) image-slot,
 #dc-root section:not([data-screen-label='01 Entry']) video,
-#dc-root section:not([data-screen-label='01 Entry']) iframe:not(.vs-tour) {
+#dc-root section:not([data-screen-label='01 Entry']) iframe {
   border-radius: var(--r-card);
   overflow: hidden;
 }
