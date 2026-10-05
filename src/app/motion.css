@@ -29,6 +29,11 @@
 #page-curtain.is-gone {
   transform: translateY(-101%);
   animation: none;
+  /* Once it has slid away, stop drawing it: otherwise it stays a full-screen layer. */
+  visibility: hidden;
+  transition:
+    transform 0.75s var(--ease-io),
+    visibility 0s linear 0.75s;
 }
 #page-curtain.is-leaving {
   transform: translateY(0);

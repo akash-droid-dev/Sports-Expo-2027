@@ -4,7 +4,8 @@
 // scrolling on turns each one over to its zone side (see-through glass).
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
 import { useEffect, useRef, useState } from 'react';
-import VenueScene from './VenueScene';
+import VenueScene, { predecode } from './VenueScene';
+import { VENUE_TOUR_URL } from '@/lib/venue';
 import { withBase } from '@/lib/base';
 import '@/data/ise';
 import './venue-stage.css';
@@ -49,6 +50,13 @@ export default function VenueStage({ p = 0, reduced = false }) {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+  // The card photos are decoded while the venue fades in, so dealing the cards doesn't stall.
+  const faces = useRef(false);
+  useEffect(() => {
+    if (faces.current || !(reduced || p > 0.5)) return;
+    faces.current = true;
+    predecode(Object.values(FACE).map((f) => f.img));
+  }, [p, reduced]);
   const cardsOn = finale > 0.5 && onScreen;
   useEffect(() => {
     document.documentElement.classList.toggle('vs-cards-on', cardsOn);
@@ -58,7 +66,7 @@ export default function VenueStage({ p = 0, reduced = false }) {
     <div className="vs-root" ref={rootRef}>
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
         <VenueScene active={reduced || p > 0.3} visible={venueOpacity > 0} />
-        <div className="vs-scrim" style={{ opacity: 0.6 + finale * 0.3 }} />
+        <div className="vs-scrim" style={{ opacity: 0.45 + finale * 0.2 }} />
       </div>
 
       <div className="vs-final" style={{ opacity: finale, pointerEvents: finale > 0.5 ? 'auto' : 'none' }}>
@@ -67,8 +75,11 @@ export default function VenueStage({ p = 0, reduced = false }) {
             08 / 08 · EXHIBITION HALL 2<span className="vs-kicker-more"> · YASHOBHOOMI</span>
           </span>
           <h2 className="vs-title">
-            FOUR EVENT <span>ZONES</span>
+            Four event <span>zones</span>
           </h2>
+          <a className="vs-tour-link" href={VENUE_TOUR_URL} target="_blank" rel="noopener noreferrer" tabIndex={finale > 0.5 ? 0 : -1}>
+            Take the 360° venue tour ↗
+          </a>
         </header>
 
         <div className="vs-cards" role="list">
