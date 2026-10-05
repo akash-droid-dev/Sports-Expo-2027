@@ -9,8 +9,9 @@ const POSTER_KEY = 'bucky-poster-v1';
 /** @param {{ localScene?: boolean }} [opts] localScene: the robot scene is served by this site. */
 export function initBucky(opts = {}) {
   if (window.__bucky) return; window.__bucky = true;
-  // Smaller on phones, where he would otherwise cover a third of the screen width.
-  const SIZE = isLite() && innerWidth < 600 ? 104 : 150, PAD = 16, TOP_SAFE = 72;
+  // Smaller on phones and tablets, where he would otherwise take up too much of the screen.
+  const phone = isLite() && innerWidth < 600, tablet = isLite() && !phone;
+  const SIZE = phone ? 72 : tablet ? 104 : 150, EDGE = phone ? 8 : 18, PAD = 16, TOP_SAFE = 72;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const css = `
   #bucky-bot{position:fixed;left:0;top:0;width:${SIZE}px;height:${SIZE}px;z-index:9000;will-change:transform;}
@@ -25,6 +26,9 @@ export function initBucky(opts = {}) {
   @keyframes buckyWiggle{0%,100%{transform:none}20%{transform:translateX(-7px) rotate(-5deg)}40%{transform:translateX(6px) rotate(4deg)}60%{transform:translateX(-4px) rotate(-3deg)}80%{transform:translateX(2px) rotate(1deg)}}
   @keyframes buckyHop{0%{transform:none}18%{transform:scale(1.08,.9)}45%{transform:translateY(-22px) scale(.96,1.05)}70%{transform:translateY(0) scale(1.07,.93)}85%{transform:translateY(-5px)}100%{transform:none}}
   #bucky-panel header .bucky-actions{display:flex;gap:6px}
+  #bucky-crop{transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s ease}
+  #bucky-bot.bucky-tucked #bucky-crop{transform:translateX(58%) scale(.82);opacity:.55}
+  #bucky-bot.bucky-tucked #bucky-tip{opacity:0}
   #bucky-bot iframe{position:absolute;left:0;top:0;width:1200px;height:800px;border:0;background:transparent;pointer-events:none;color-scheme:normal;transform-origin:0 0;transform:translate(-162px,-120px) scale(.4)}
   #bucky-bot button.bucky-hit{position:absolute;inset:14%;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0}
   #bucky-bot button.bucky-hit:focus-visible{outline:2px solid #F07C12;outline-offset:4px}
@@ -131,7 +135,7 @@ export function initBucky(opts = {}) {
 
   // Stationary on the right edge, vertically low. Eyes blink inside the scene; click = jump, then open chat.
   let open = false, jumping = false;
-  const pos = () => ({ x: innerWidth - SIZE - 18, y: innerHeight - SIZE - 18 });
+  const pos = () => ({ x: innerWidth - SIZE - EDGE, y: innerHeight - SIZE - EDGE });
   function place() {
     const p = pos();
     if (!jumping) bot.style.transform = `translate(${p.x}px, ${p.y}px)`;
@@ -141,6 +145,17 @@ export function initBucky(opts = {}) {
     panel.style.left = px + 'px'; panel.style.top = py + 'px';
   }
   place(); addEventListener('resize', place);
+  // Phones and tablets: while the page scrolls he steps half out of the way, and comes back
+  // once scrolling stops (or straight away when tapped).
+  if (isLite()) {
+    let tuckT = 0;
+    addEventListener('scroll', () => {
+      if (open || jumping) return;
+      if (!bot.classList.contains('bucky-tucked')) bot.classList.add('bucky-tucked');
+      clearTimeout(tuckT);
+      tuckT = setTimeout(() => bot.classList.remove('bucky-tucked'), 900);
+    }, { passive: true });
+  }
   function jump(done) {
     if (reduced) return done();
     jumping = true; const p = pos(); const t0 = performance.now(), D = 560;

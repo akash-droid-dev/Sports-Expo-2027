@@ -15,7 +15,6 @@
 #dc-root h2,
 .vs-title,
 .vs-card-name,
-.hb-title,
 .hb-cover-title,
 .ibox-t,
 .booth-name,
@@ -30,7 +29,6 @@
 #dc-root a[style*='background: rgb(240, 124, 18)'],
 #dc-root button[style*='background: rgb(240, 124, 18)'],
 .lock-key,
-.hb-controls .hb-next,
 .mm-panel .mm-item.is-cta {
   -webkit-clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
