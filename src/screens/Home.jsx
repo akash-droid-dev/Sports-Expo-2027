@@ -15,6 +15,7 @@ import IntentBoxes from '@/components/home/IntentBoxes';
 import BoothStrip from '@/components/home/BoothStrip';
 import WatchShuffle from '@/components/home/WatchShuffle';
 import ProductShuffle from '@/components/home/ProductShuffle';
+import ZoneTower from '@/components/home/ZoneTower';
 import HallBook from '@/components/home/HallBook';
 import '@/data/ise';
 import '@/lib/maplibre';
@@ -507,32 +508,8 @@ function render(v) {
             <HallBook />
           </div>
         </section>
-        <section data-screen-label="05 Four worlds" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "40px" }}>05 — THE FOUR WORLDS</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,300px),1fr))", gap: "0", borderLeft: "1px solid #0E0E0F" }}>
-            {list(v.worlds).map((w, $index) => (
-              <Fragment key={$index}>
-                <a className="scp-12697256" href={w?.href} style={sx(`text-decoration:none;color:#0E0E0F;border-right:1px solid #0E0E0F;border-top:8px solid ${w?.color ?? ""};padding:28px 24px 32px;display:flex;flex-direction:column;gap:20px;`)}>
-                  <span style={sx(`font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:120px;line-height:0.8;color:${w?.color ?? ""};`)}>{txt(w?.id)}</span>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "34px", lineHeight: "0.92", textTransform: "uppercase", minHeight: "64px" }}>
-                    {txt(w?.name)}
-                  </span>
-                  <span style={{ fontSize: "15px", lineHeight: "1.5", color: "#3A3A3E" }}>{txt(w?.blurb)}</span>
-                  <span style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #E3E0D8" }}>
-                    {list(w?.items).map((i, $index) => (
-                      <Fragment key={$index}>
-                        <span style={{ display: "flex", justifyContent: "space-between", gap: "8px", padding: "8px 0", borderBottom: "1px solid #E3E0D8", fontSize: "13px" }}>
-                          <span>{txt(i?.name)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#6B6A66", whiteSpace: "nowrap" }}>{txt(i?.meta)}</span>
-                        </span>
-                      </Fragment>
-                    ))}
-                  </span>
-                  <span style={{ fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>{"ENTER ZONE "}{txt(w?.id)}{" →"}</span>
-                </a>
-              </Fragment>
-            ))}
-          </div>
+        <section data-screen-label="05 Four worlds" className="zt-section">
+          <ZoneTower />
         </section>
         <section data-screen-label="06 Product architecture" style={{ background: "#0E0E0F", color: "#fff", padding: "96px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
@@ -650,7 +627,7 @@ function render(v) {
         </section>
         <section data-screen-label="10 SportsTech" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#0B6E4F" }}>
+            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#0A62BF" }}>
               {"10 — SPORTSTECH & INNOVATION · ZONE C"}
             </span>
             <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
@@ -668,7 +645,7 @@ function render(v) {
             {list(v.stake).map((s, $index) => (
               <Fragment key={$index}>
                 <div style={{ padding: "20px", borderRight: "1px solid #0E0E0F", borderBottom: "1px solid #0E0E0F", display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "30px", lineHeight: "0.9", color: "#0B6E4F" }}>
+                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "30px", lineHeight: "0.9", color: "#0A62BF" }}>
                     {txt(s?.t)}
                   </span>
                   <span style={{ fontSize: "14px", color: "#3A3A3E" }}>{txt(s?.d)}</span>

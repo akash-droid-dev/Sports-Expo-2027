@@ -30,7 +30,7 @@ class Component extends DCLogic {
     const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
     const tlRows = D.stages.map(st => { const items = daySes.filter(x => x.stage === st); return { stage: st, meta: st === 'Plenary Hall' ? '1,200 seats' : st === 'Innovation Arena' ? '324 seats · Zone C' : '220 seats · Zone D', empty: items.length === 0, items: items.map(x => ({ ...x, l: ((toMin(x.time) - 540) / 480 * 100) + '%', w: ((toMin(x.end) - toMin(x.time)) / 480 * 100) + '%', bg: x.st === 'live' ? '#0E0E0F' : '#F6F4EF', fg: x.st === 'live' ? '#fff' : '#0E0E0F' })) }; });
     const topics = [...new Set(D.sessions.map(x => x.topic))];
-    const TC = { Investment: '#141416', Manufacturing: '#3F4A56', Infrastructure: '#3F4A56', Startups: '#0B6E4F', SportsTech: '#0B6E4F', 'Sports Science': '#0B6E4F', Federations: '#9E1B22' };
+    const TC = { Investment: '#00803F', Manufacturing: '#5B3A9E', Infrastructure: '#5B3A9E', Startups: '#0A62BF', SportsTech: '#0A62BF', 'Sports Science': '#0A62BF', Federations: '#9E1B22' };
     const LIBF = ['LIVE', 'DAY 1', 'DAY 2', 'DAY 3', 'SPORTSTECH', 'MANUFACTURING', 'INVESTMENT', 'INFRASTRUCTURE', 'STARTUPS', 'SPORTS SCIENCE'];
     const lib = D.sessions.map(decorate).filter(x => phase === 'pre' ? false : x.st !== 'upcoming').filter(x => s.lib.every(f => f === 'LIVE' ? x.st === 'live' : f.startsWith('DAY') ? x.day === +f.slice(4) : x.topic.toUpperCase() === f));
     const det = s.open ? decorate(D.sessions.find(x => x.id === s.open)) : null;

@@ -4,9 +4,9 @@ if (typeof window !== 'undefined' && !window.ISE) {
 (function () {
   const Z = {
     A: { id: 'A', name: 'India Sports & Heritage', short: 'India', color: '#9E1B22', tint: '#F6E7E6', blurb: 'States, Ministry, federations and the story of Indian sport.' },
-    B: { id: 'B', name: 'Sports Goods & Infrastructure', short: 'Manufacturing', color: '#3F4A56', tint: '#E8EBEE', blurb: 'Manufacturers, venue builders, surfaces, apparel and supply chain.' },
-    C: { id: 'C', name: 'Sports Tech & Experience', short: 'Technology', color: '#0B6E4F', tint: '#E3F1EB', blurb: 'SportsTech, startups, sports science and live experiences.' },
-    D: { id: 'D', name: 'Sports Business & Investment', short: 'Business', color: '#141416', tint: '#ECEBE8', blurb: 'Country pavilions, buyers, investors, deal rooms and lounges.' }
+    B: { id: 'B', name: 'Sports Goods & Infrastructure', short: 'Manufacturing', color: '#5B3A9E', tint: '#EEE8F7', blurb: 'Manufacturers, venue builders, surfaces, apparel and supply chain.' },
+    C: { id: 'C', name: 'Sports Tech & Experience', short: 'Technology', color: '#0A62BF', tint: '#E4EEFA', blurb: 'SportsTech, startups, sports science and live experiences.' },
+    D: { id: 'D', name: 'Sports Business & Investment', short: 'Business', color: '#00803F', tint: '#E2F2E9', blurb: 'Country pavilions, buyers, investors, deal rooms and lounges.' }
   };
   // Hall 2 schematic — 1000 x 500 units. Derived from Hall2_Layout_with_Legend (schematic, not to scale).
   const clusters = [

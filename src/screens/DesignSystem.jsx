@@ -132,8 +132,8 @@ function render(v) {
                 <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>#C2610B Saffron ink (text on white)</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                <span style={{ height: "48px", background: "#3F4A56" }} />
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>#3F4A56 Zone B steel</span>
+                <span style={{ height: "48px", background: "#5B3A9E" }} />
+                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>#5B3A9E Zone B purple</span>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                 <span style={{ height: "48px", background: "#1F4E9E" }} />
@@ -144,22 +144,22 @@ function render(v) {
               <div style={{ padding: "14px 14px 14px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
                 <span style={{ height: "10px", background: "#9E1B22" }} />
                 <b>{"Zone A · India Sports & Heritage"}</b>
-                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Deep red. Heritage and institutions.</span>
+                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Red. Heritage and institutions.</span>
               </div>
               <div style={{ padding: "14px 14px 14px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
-                <span style={{ height: "10px", background: "#3F4A56" }} />
+                <span style={{ height: "10px", background: "#5B3A9E" }} />
                 <b>{"Zone B · Sports Goods & Infrastructure"}</b>
-                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Steel. Industrial and product-led.</span>
+                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Purple. Industrial and product-led.</span>
               </div>
               <div style={{ padding: "14px 14px 14px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
-                <span style={{ height: "10px", background: "#0B6E4F" }} />
+                <span style={{ height: "10px", background: "#0A62BF" }} />
                 <b>{"Zone C · Sports Tech & Experience"}</b>
-                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Green. Innovation and growth.</span>
+                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Blue. Innovation and technology.</span>
               </div>
               <div style={{ padding: "14px 14px 14px 0", display: "flex", flexDirection: "column", gap: "6px" }}>
-                <span style={{ height: "10px", background: "#141416" }} />
+                <span style={{ height: "10px", background: "#00803F" }} />
                 <b>{"Zone D · Sports Business & Investment"}</b>
-                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Ink. Private and commercial.</span>
+                <span style={{ fontSize: "13px", color: "#6B6A66" }}>Green. Business and growth.</span>
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "0", height: "40px", background: "#F07C12" }}>
@@ -321,7 +321,7 @@ function render(v) {
                   LIST ROW · REPLACES CARD GRIDS
                 </span>
                 <div style={{ display: "grid", gridTemplateColumns: "10px minmax(0,1fr) auto", gap: "14px", alignItems: "center", padding: "14px 0", borderTop: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8" }}>
-                  <span style={{ width: "10px", height: "10px", background: "#3F4A56" }} />
+                  <span style={{ width: "10px", height: "10px", background: "#5B3A9E" }} />
                   <span>
                     <b style={{ display: "block", fontSize: "16px" }}>Apex Sports India</b>
                     <span style={{ fontSize: "13px", color: "#6B6A66" }}>Jalandhar, India · Football Equipment</span>
