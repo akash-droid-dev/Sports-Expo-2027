@@ -74,20 +74,21 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
 - **Demo media** (`public/media`): every photo slot, logo, portrait and video player is filled. See "Demo media" below.
 - **Phones and tablets** (`src/lib/device.js`, `src/lib/mobile-fit.js`, `src/app/mobile.css`, `src/components/MobileMenu.tsx`):
   - They get still versions of the 3D views: Bucky bobs, and the venue finale shows a drifting venue photo instead of the live tour. The 3D runtime and Bucky's scene are not even downloaded; the hero photo is a smaller file.
-  - The Earth globe stays live, at a lower resolution, and only exists while you are near the journey; it is freed once you scroll well past.
+  - The Earth journey is made of still frames of the live globe (`src/components/home/JourneyFrames.jsx`, `public/journey`): each scroll frame zooms, shifts and crossfades the two nearest frames on the GPU, following the same camera path as the desktop globe (`src/data/journey.json`). Phones get 1000 × 1300 frames and tablets 1500 × 1500; only the frames near the current position are loaded. The map library (about 1.1 MB) is never downloaded. The live globe managed only 10–18 frames a second on phones and iPads, and with the frames the journey scrolls as smoothly as the rest of the page. In a simulated Pixel 5 (4× slower processor, 9 Mbps) slow frames in the journey fell from 125 of 298 to 1–3, the page's download fell from 2.6 MB to 1.5 MB, and it is ready about 2 seconds sooner. On a simulated iPad Pro they fell from 304 of 488 to 4.
+  - **Re-rendering the frames** after changing the camera path in `src/data/journey.json`: push any commit to the `journey-frames-request` branch. GitHub Actions (`.github/workflows/journey-frames.yml`) runs `scripts/journey/render-frames.mjs`, which needs internet for the satellite imagery, and publishes the result to the `journey-frames` branch. Copy its `p-*.webp` and `t-*.webp` into `public/journey` and its `frames.json` into `src/data/journey-frames.json`, keeping the `p`, `z`, `lon` and `lat` of each frame.
   - Google maps load on a tap, watch cards show still images, and the live player waits for a tap.
   - All of this keeps the page within mobile memory limits. Phones close a page that uses too much, and after repeated crashes Safari refuses to load it.
   - The phone menu shows the build date at the bottom, to check which version is live.
 - **Older phones and browsers:** the site runs on Android Chrome 67+ (2018), Samsung Internet 9.2+, iOS/Safari 14+ and Firefox 68+.
   - Builds use webpack (`next build --webpack`) because it compiles the code, MapLibre included, down to the `browserslist` targets in `package.json`. Turbopack, the Next.js 16 default, keeps newer syntax that those browsers can't run. `npm run dev` still uses Turbopack.
   - The inline script in `src/app/layout.tsx` fills in newer JavaScript features they lack. `src/lib/legacy-css.js` restores the inline `inset`, `aspect-ratio` and flex `gap` they ignore, and the stylesheets give top/right/bottom/left before each `inset`.
-  - Browsers before Chrome 94 / iOS 16.4 skip the maps.
+  - Browsers before Chrome 94 / iOS 16.4 skip the maps, except the Earth journey, which uses the still frames there too.
   - If the site still fails to start on a device, it shows the error, browser and build on screen after 9 seconds, ready to screenshot.
   - The header keeps the logo; its links and buttons move into a ☰ menu.
   - Layouts that are too wide for the screen are reflowed: wide grids get fewer columns, rows wrap, oversized headlines shrink. No page scrolls sideways.
   - Add `?lite=1` or `?lite=0` to a URL to force either version for testing.
   - The Home zone cards fit the screen in a two-by-two grid (four across in landscape), showing each zone's name, key facts and link; the longer text is on the Zones page. Bucky steps aside while they are up. Bucky is 72 px on phones and 104 px on tablets, and steps half out of the way while the page scrolls.
-  - Smooth scrolling on tablets and iPads: the Earth globe only redraws while its position changes (it used to redraw on every scroll frame above and below the journey), is built and freed during a pause in scrolling rather than mid-scroll, and photo slots no longer carry hidden, blurred edit buttons (`public/image-slot.js`). On simulated iPads with a slowed processor, stutters while scrolling dropped from 10–17 to 0–1 in a 5-second scroll.
+  - Smooth scrolling on tablets and iPads: photo slots no longer carry hidden, blurred edit buttons (`public/image-slot.js`). On simulated iPads with a slowed processor, stutters while scrolling dropped from 10–17 to 0–1 in a 5-second scroll.
   - Smooth scrolling on phones: moving strips pause when off screen, the 3D booths lie flat when off screen (and phones get one set instead of two), folded headline letters turn back into plain text once unfolded, the header stripe moves on the GPU without repainting, and the zone cards and Home book use a tint instead of a live blur. On a mid-range phone this cut the page's GPU layers from about 400 to about 120 and the stutters while scrolling by about two thirds.
 - **Back button** at the top left of every page except Home, inside the header bar (`src/components/BackButton.tsx`): goes back within the site, or to Home after a direct visit.
 - **Faster 3D:**
@@ -142,4 +143,4 @@ This overwrites `src/screens/`. The screens have been edited by hand since (logo
 ## Known gaps carried over from the design
 
 - Portal, Admin and My Expo are desktop layouts; on phones they are reflowed to fit but are best used on a larger screen.
-- The Earth journey's satellite imagery still sharpens a moment after a fast zoom.
+- On desktop, the Earth journey's satellite imagery still sharpens a moment after a fast zoom.
