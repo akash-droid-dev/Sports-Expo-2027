@@ -18,8 +18,10 @@ import ProductShuffle from '@/components/home/ProductShuffle';
 import ZoneTower from '@/components/home/ZoneTower';
 import HallBook from '@/components/home/HallBook';
 import '@/data/ise';
-import '@/lib/maplibre';
 import HomeJourney from '@/components/home/HomeJourney';
+import { framesMode } from '@/components/home/JourneyFrames';
+import { camAt } from '@/lib/journey-camera.mjs';
+import JOURNEY from '@/data/journey.json';
 
 /* global maplibregl */
 class Component extends DCLogic {
@@ -57,16 +59,7 @@ class Component extends DCLogic {
   }
   guideScroll() { const el = this.guideLogRef.current; if (el) el.scrollTop = el.scrollHeight; }
   journeyRef = React.createRef(); mapRef = React.createRef(); afterRef = React.createRef();
-  KF = [
-    { p: 0, lon: 55, lat: 18, z: 0.9, pitch: 0, b: 0 },
-    { p: 0.12, lon: 78, lat: 24, z: 2.1, pitch: 0, b: 0 },
-    { p: 0.24, lon: 79, lat: 22, z: 3.7, pitch: 0, b: 0 },
-    { p: 0.36, lon: 77.15, lat: 28.6, z: 8.6, pitch: 10, b: 0 },
-    { p: 0.47, lon: 77.06, lat: 28.575, z: 12.2, pitch: 30, b: -10 },
-    { p: 0.57, lon: 77.0446, lat: 28.5549, z: 15.6, pitch: 48, b: -22 },
-    { p: 0.68, lon: 77.0446, lat: 28.5549, z: 16.4, pitch: 58, b: -40 },
-    { p: 1, lon: 77.0446, lat: 28.5549, z: 16.6, pitch: 60, b: -48 }
-  ];
+  KF = JOURNEY.keyframes;
   STAGES = [
     { at: 0, label: 'EARTH', k: '01 / 08', t: 'EARTH', d: 'Every sporting economy on the planet, converging on one hall in New Delhi.' },
     { at: 0.1, label: 'ASIA', k: '02 / 08', t: 'ASIA', d: 'The fastest-growing region for sport participation, media and manufacturing.' },
@@ -81,55 +74,25 @@ class Component extends DCLogic {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._onScroll = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = null; this.tick(); }); };
     window.addEventListener('scroll', this._onScroll, { passive: true });
-    // Phones and tablets create the globe only near the journey and free it once scrolled well
-    // away (see liteMap), so its WebGL memory isn't held for the whole page.
-    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this._mapReady = true; if (!isLite()) this.initMap(); else this.liteMap(); this.journeyStore.notify(); } }, 100);
+    // Phones, tablets and older browsers get the still-frame journey (JourneyFrames) and never
+    // download the map library; everything else loads it here and flies the live globe.
+    this.frames = framesMode();
+    if (this.frames || this.reduced) return;
+    import('@/lib/maplibre');
+    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this.initMap(); this.journeyStore.notify(); } }, 100);
   }
-  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); clearTimeout(this._freeT); clearTimeout(this._makeT); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
-  liteMap() {
-    const el = this.journeyRef.current; if (!el || !this._mapReady || this.reduced) return;
-    const r = el.getBoundingClientRect(), vh = window.innerHeight;
-    // Creating or freeing the map stalls the page for a moment, so both wait for a pause in
-    // scrolling; the map is only built mid-scroll when the journey is about to come on screen.
-    const soon = r.top < vh * 3 && r.bottom > -vh * 2;
-    const near = r.top < vh * 1.2 && r.bottom > -vh * 0.3;
-    const far = !soon;
-    if (soon && !this.map) {
-      clearTimeout(this._freeT);
-      if (near) this.initMap();
-      else {
-        clearTimeout(this._makeT);
-        this._makeT = setTimeout(() => this.liteMapNow(), 250);
-      }
-    }
-    else if (far && this.map) {
-      clearTimeout(this._freeT);
-      this._freeT = setTimeout(() => {
-        const q = el.getBoundingClientRect();
-        if (!this.map || (q.top < vh * 3 && q.bottom > -vh * 2)) return;
-        cancelAnimationFrame(this._camRaf); this._camRaf = null; try { this.map.remove(); } catch (e) {} this.map = null; this._cam = undefined;
-      }, 700);
-    }
-  }
-  liteMapNow() {
-    const el = this.journeyRef.current; if (!el || this.map || !this._mapReady || this.reduced) return;
-    const r = el.getBoundingClientRect(), vh = window.innerHeight;
-    if (r.top < vh * 3 && r.bottom > -vh * 2) this.initMap();
-  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
   initMap() {
-    // Browsers older than iOS 16.4 can't run the map's worker code (src/app/layout.tsx marks them).
-    if (this.reduced || document.documentElement.classList.contains('legacy')) return;
     try {
       this.map = new maplibregl.Map({
         container: this.mapRef.current, interactive: false, attributionControl: { compact: true },
         // Smoother globe while scrolling: keep loading tiles mid-zoom, keep more of them,
         // cap the render resolution on high-density screens and skip wrapped world copies.
-        // Phones and tablets: default tile cache and a lower render resolution, to stay well inside mobile GPU memory.
-        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: isLite() ? 60 : 300, pixelRatio: isLite() ? 1 : Math.min(window.devicePixelRatio || 1, 1.5),
+        cancelPendingTileRequestsWhileZooming: false, maxTileCacheSize: 300, pixelRatio: Math.min(window.devicePixelRatio || 1, 1.5),
         renderWorldCopies: false, fadeDuration: 0,
         style: { version: 8, projection: { type: 'globe' },
           sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, maxzoom: 19, attribution: 'Esri, Maxar, Earthstar Geographics' } },
-          layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-fade-duration': isLite() ? 0 : 160 } }],
+          layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat', paint: { 'raster-fade-duration': 160 } }],
           sky: { 'atmosphere-blend': ['interpolate', ['linear'], ['zoom'], 0, 1, 5, 1, 8, 0] } },
         center: [55, 18], zoom: 0.9
       });
@@ -154,8 +117,8 @@ class Component extends DCLogic {
       notify: bump
     };
   })();
+  getP = () => this.progress();
   tick() {
-    if (isLite()) this.liteMap();
     const p = this.progress();
     this._target = p;
     // Only move the camera when the journey position changed: above or below the journey every
@@ -178,10 +141,8 @@ class Component extends DCLogic {
     if (next !== target) this._camRaf = requestAnimationFrame(this.camStep);
   };
   placeCamera(p) {
-    const K = this.KF; let i = 0; while (i < K.length - 2 && p > K[i + 1].p) i++;
-    const a = K[i], b = K[i + 1]; let t = (p - a.p) / (b.p - a.p); t = Math.max(0, Math.min(1, t)); t = t * t * (3 - 2 * t);
-    const L = (x, y) => x + (y - x) * t;
-    this.map.jumpTo({ center: [L(a.lon, b.lon), L(a.lat, b.lat)], zoom: L(a.z, b.z), pitch: L(a.pitch, b.pitch), bearing: L(a.b, b.b) });
+    const c = camAt(this.KF, p);
+    this.map.jumpTo({ center: [c.lon, c.lat], zoom: c.z, pitch: c.pitch, bearing: c.b });
   }
   scrollToP(p) {
     const el = this.journeyRef.current; if (!el) return;
@@ -201,15 +162,17 @@ class Component extends DCLogic {
     // The venue scene and the zone finale sit on a dark background, so captions stay light.
     const planOpacity = 0;
     const captionOpacity = reduced ? 0 : 1 - ramp(0.7, 0.74);
-    const curCenter = this.map ? this.map.getCenter() : { lat: 18, lng: 55 };
-    const z = this.map ? this.map.getZoom() : 1;
+    // The still-frame journey has no map to ask, so its readout follows the camera path.
+    const cam = this.map ? null : camAt(this.KF, Math.min(p, JOURNEY.framesUntil));
+    const curCenter = this.map ? this.map.getCenter() : { lat: cam.lat, lng: cam.lon };
+    const z = this.map ? this.map.getZoom() : cam.z;
     const alt = Math.round(40000000 / Math.pow(2, z));
     const crumbs = this.STAGES.map((s, i) => {
       const on = s === stage; const past = p >= s.at;
       return { label: s.label, go: () => this.scrollToP(s.at + 0.02), bar: on ? '36px' : '14px', color: planOpacity > 0.5 ? (on ? '#0E0E0F' : past ? '#3A3A3E' : '#A29E95') : (on ? '#F07C12' : past ? '#fff' : '#6B6A66') };
     });
     return {
-      journeyRef: this.journeyRef, mapRef: this.mapRef, skip: this.skipIntro,
+      journeyRef: this.journeyRef, mapRef: this.mapRef, getP: this.getP, skip: this.skipIntro,
       journeyHeight: reduced ? '100vh' : '900vh',
       mapOpacity: reduced ? 0 : 1 - ramp(0.6, 0.66),
       arrivalScrim: reduced ? 0 : Math.min(0.35, ramp(0.56, 0.6) * 0.35),

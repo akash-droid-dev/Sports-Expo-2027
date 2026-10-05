@@ -2,7 +2,7 @@
 // Renders the still frames phones use for the Home Earth journey (src/components/home/JourneyFrames.jsx):
 // the same MapLibre globe, satellite imagery and camera path as the live journey (src/data/journey.json),
 // captured at progress points close enough together that a zoom-and-crossfade between them looks
-// like the flight. Writes journey-frames/f-NN.webp + frames.json.
+// like the flight. Writes journey-frames/{p,t}-NN.webp (phone and tablet sizes) + frames.json.
 // Needs internet (satellite tiles) and a browser: it runs in GitHub Actions
 // (.github/workflows/journey-frames.yml). Usage: node scripts/journey/render-frames.mjs
 import { createServer } from 'node:http';
