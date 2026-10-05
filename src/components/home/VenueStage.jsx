@@ -3,7 +3,7 @@
 // over the screen and four zone cards (A–D) are dealt like playing cards, sport photo up;
 // scrolling on turns each one over to its zone side (see-through glass).
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import VenueScene from './VenueScene';
 import { withBase } from '@/lib/base';
 import '@/data/ise';
@@ -38,14 +38,24 @@ export default function VenueStage({ p = 0, reduced = false }) {
   const venueOpacity = reduced ? 1 : ramp(p, 0.56, 0.62);
   const finale = reduced ? 1 : ramp(p, 0.7, 0.76);
   const zoneHref = (id) => withBase('/zones#zone-' + id.toLowerCase());
-  // Lets Bucky step aside on phones while the cards are up (venue-stage.css).
-  const cardsOn = finale > 0.5;
+  // Lets Bucky step aside on phones while the cards are up (venue-stage.css) — only while the
+  // stage is actually on screen, not for the rest of the page below the journey.
+  const rootRef = useRef(null);
+  const [onScreen, setOnScreen] = useState(false);
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.intersectionRatio > 0.5), { threshold: [0, 0.5, 1] });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  const cardsOn = finale > 0.5 && onScreen;
   useEffect(() => {
     document.documentElement.classList.toggle('vs-cards-on', cardsOn);
     return () => document.documentElement.classList.remove('vs-cards-on');
   }, [cardsOn]);
   return (
-    <div className="vs-root">
+    <div className="vs-root" ref={rootRef}>
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
         <VenueScene active={reduced || p > 0.3} />
         <div className="vs-scrim" style={{ opacity: 0.6 + finale * 0.3 }} />
