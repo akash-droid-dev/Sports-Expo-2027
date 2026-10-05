@@ -6,12 +6,14 @@ import ClientInit from '@/components/ClientInit';
 import PreloadScenes from '@/components/PreloadScenes';
 import { BASE, withBase } from '@/lib/base';
 import { LITE_QUERY } from '@/lib/device';
+import './fonts.css';
 import './globals.css';
 import './dc-pseudo.css';
 import './motion.css';
 import './mobile.css';
 import './anim.css';
 import './sporty.css';
+import './sleek.css';
 import BackButton from '@/components/BackButton';
 import MobileMenu from '@/components/MobileMenu';
 import BrandLogo from '@/components/BrandLogo';
@@ -91,18 +93,11 @@ ${localBucky ? "add('preload','/assets/bucky.splinecode','fetch');" : ''}
 })();`;
 }
 
-const FONTS =
-  'https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=Instrument+Sans:wght@400..700&family=JetBrains+Mono:wght@400;500&display=swap';
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: `window.__build=${JSON.stringify(process.env.NEXT_PUBLIC_BUILD || '')};` + BOOT_SCRIPT + deviceScript(LOCAL_BUCKY) }} />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link rel="stylesheet" href={FONTS} />
       </head>
       <body>
         <PreloadScenes />

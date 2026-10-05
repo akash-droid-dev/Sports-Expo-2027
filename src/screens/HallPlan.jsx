@@ -69,7 +69,7 @@ class Component extends DCLogic {
     });
     const zl = [{ id: 'A', l: 2, t: -5.5 }, { id: 'B', l: 54, t: -5.5 }, { id: 'D', l: 2, t: 101 }, { id: 'C', l: 72, t: 101 }];
     const zoneLabels = p.zoneLabels === false ? [] : zl.map(o => ({ ...D.Z[o.id], style: { position: 'absolute', left: o.l + '%', top: o.t + '%', opacity: lit.includes(o.id) ? 1 : 0.25, transition: 'opacity .6s' } }));
-    const cargo = [12, 30, 66, 86].map(l => ({ style: { position: 'absolute', left: l + '%', top: '-2.2%', width: '5%', height: '2.2%', background: '#E3E0D8', fontFamily: 'JetBrains Mono,monospace', fontSize: '0.55cqw', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6B6A66', letterSpacing: '.1em' } }));
+    const cargo = [12, 30, 66, 86].map(l => ({ style: { position: 'absolute', left: l + '%', top: '-2.2%', width: '5%', height: '2.2%', background: '#E3E0D8', fontFamily: 'var(--f-label)', fontSize: '0.55cqw', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6B6A66', letterSpacing: '.1em' } }));
     let routeLayer = null;
     if (p.route) {
       const pts = p.routePts || '500,500 500,250 643,250 643,118 643,66';
@@ -80,7 +80,7 @@ class Component extends DCLogic {
         h('circle', { cx: 643, cy: 66, r: 6, fill: '#F07C12', style: { animation: 'isePulse 1.6s ease-out infinite' } }),
         h('circle', { cx: 643, cy: 66, r: 7, fill: '#0E0E0F', stroke: '#fff', strokeWidth: 2 }));
     }
-    const pins = (p.pins || []).map(pn => ({ ...pn, style: { position: 'absolute', left: pn.x / 10 + '%', top: pn.y / 5 + '%', transform: 'translate(-50%,-50%)' + (iso ? ' translateZ(26px)' : ''), width: '2.1cqw', height: '2.1cqw', borderRadius: '50%', background: pn.bg || '#0E0E0F', color: '#fff', fontSize: '1cqw', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 1px 3px rgba(0,0,0,.3)', fontFamily: 'Instrument Sans,sans-serif' } }));
+    const pins = (p.pins || []).map(pn => ({ ...pn, style: { position: 'absolute', left: pn.x / 10 + '%', top: pn.y / 5 + '%', transform: 'translate(-50%,-50%)' + (iso ? ' translateZ(26px)' : ''), width: '2.1cqw', height: '2.1cqw', borderRadius: '50%', background: pn.bg || '#0E0E0F', color: '#fff', fontSize: '1cqw', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid #fff', boxShadow: '0 1px 3px rgba(0,0,0,.3)', fontFamily: 'var(--f-body)' } }));
     return { planStyle, roofStyle, items, zoneLabels, cargo, routeLayer, pins };
   }
 }
@@ -88,15 +88,15 @@ class Component extends DCLogic {
 function render(v) {
   return (
     <>
-      <div style={{ position: "relative", width: "100%", containerType: "inline-size", fontFamily: "'Instrument Sans',sans-serif", perspective: "2400px", padding: "3.5% 0 5%", boxSizing: "border-box" }}>
+      <div style={{ position: "relative", width: "100%", containerType: "inline-size", fontFamily: "var(--f-body)", perspective: "2400px", padding: "3.5% 0 5%", boxSizing: "border-box" }}>
         <div style={sx(v.planStyle)}>
           <div style={{ position: "absolute", inset: "0", background: "#FBFAF7", border: "1.5px solid #0E0E0F" }} />
           <div style={{ position: "absolute", top: "0", bottom: "0", left: "48%", width: "4%", background: "#F07C12" }} />
           <div style={{ position: "absolute", left: "0", right: "0", top: "46%", height: "8%", background: "#F07C12", display: "flex", alignItems: "center", justifyContent: "space-around" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "0.9cqw", letterSpacing: "0.4em", color: "#0E0E0F", fontWeight: "500" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "0.9cqw", letterSpacing: "0.4em", color: "#0E0E0F", fontWeight: "500" }}>
               SPORTS BOULEVARD →
             </span>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "0.9cqw", letterSpacing: "0.4em", color: "#0E0E0F", fontWeight: "500" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "0.9cqw", letterSpacing: "0.4em", color: "#0E0E0F", fontWeight: "500" }}>
               ← SPORTS BOULEVARD
             </span>
           </div>
@@ -105,7 +105,7 @@ function render(v) {
               {" "}
               <div style={sx(z?.style)}>
                 {" "}
-                <span style={sx(`font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:800;font-size:1.25cqw;letter-spacing:0.02em;color:${z?.color ?? ""};text-transform:uppercase;`)}>
+                <span style={sx(`font-family:var(--f-display);font-stretch:62%;font-weight:800;font-size:calc(1.25cqw * 0.82);letter-spacing:0.02em;color:${z?.color ?? ""};text-transform:uppercase;`)}>
                   {"Zone "}{txt(z?.id)}{" · "}{txt(z?.name)}
                 </span>
                 {" "}
@@ -141,10 +141,10 @@ function render(v) {
                   <>
                     <div style={{ position: "relative", padding: "0.5cqw 0.6cqw", display: "flex", flexDirection: "column", gap: "0.15cqw", pointerEvents: "none" }}>
                       <span style={sx(`font-size:0.95cqw;font-weight:600;line-height:1.1;color:${c?.ink ?? ""};text-wrap:balance;`)}>{txt(c?.name)}</span>
-                      <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:0.7cqw;color:${c?.ink ?? ""};opacity:0.75;`)}>{txt(c?.meta)}</span>
+                      <span style={sx(`font-family:var(--f-label);font-size:0.7cqw;color:${c?.ink ?? ""};opacity:0.75;`)}>{txt(c?.meta)}</span>
                       {c?.heatLabel ? (
                         <>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "0.8cqw", fontWeight: "500", color: "#fff", background: "#0E0E0F", alignSelf: "flex-start", padding: "0.1cqw 0.4cqw", marginTop: "0.2cqw" }}>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "0.8cqw", fontWeight: "500", color: "#fff", background: "#0E0E0F", alignSelf: "flex-start", padding: "0.1cqw 0.4cqw", marginTop: "0.2cqw" }}>
                             {txt(c?.heatLabel)}
                           </span>
                         </>
@@ -157,7 +157,7 @@ function render(v) {
               {" "}
             </Fragment>
           ))}
-          <div style={{ position: "absolute", left: "42%", width: "16%", bottom: "-4.5%", height: "4.5%", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "0.7cqw", letterSpacing: "0.12em", whiteSpace: "nowrap" }}>
+          <div style={{ position: "absolute", left: "42%", width: "16%", bottom: "-4.5%", height: "4.5%", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--f-label)", fontSize: "0.7cqw", letterSpacing: "0.12em", whiteSpace: "nowrap" }}>
             MAIN ENTRANCE · REGISTRATION
           </div>
           {list(v.cargo).map((g, $index) => (
@@ -178,11 +178,11 @@ function render(v) {
           {" "}{txt(v.routeLayer)}{" "}
           <div style={sx(v.roofStyle)}>
             <div style={{ position: "absolute", inset: "0", background: "repeating-linear-gradient(90deg,transparent 0 6.2%,rgba(255,255,255,0.08) 6.2% 6.5%),repeating-linear-gradient(0deg,transparent 0 12%,rgba(255,255,255,0.06) 12% 12.6%)" }} />
-            <span style={{ position: "absolute", left: "3%", top: "6%", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "4cqw", color: "#fff", letterSpacing: "0.01em" }}>
-              EXHIBITION HALL 2
+            <span style={{ position: "absolute", left: "3%", top: "6%", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "calc(4cqw * 0.82)", color: "#fff", letterSpacing: "0.01em" }}>
+              Exhibition Hall 2
             </span>
             {" "}
-            <span style={{ position: "absolute", left: "3%", top: "20%", fontFamily: "'JetBrains Mono',monospace", fontSize: "0.9cqw", color: "#BDB9B0", letterSpacing: "0.2em" }}>
+            <span style={{ position: "absolute", left: "3%", top: "20%", fontFamily: "var(--f-label)", fontSize: "0.9cqw", color: "#BDB9B0", letterSpacing: "0.2em" }}>
               YASHOBHOOMI · IICC DWARKA · ROOF
             </span>
             {" "}

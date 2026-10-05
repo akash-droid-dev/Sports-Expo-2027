@@ -1,0 +1,459 @@
+/* Sleek theme: soft, premium and minimal, over the design's original editorial look.
+   - Type: Manrope headlines, Inter text and labels (font variables below; every screen uses them).
+   - No lines or boxes: borders become space and soft tints; bordered boxes become rounded cards.
+   - Pill buttons, tags and fields; rounded images.
+   - Sections are rounded sheets that slide over the one before.
+   - Softer black, gentle hover lift.
+   Most of the screens style themselves inline (src/screens, generated from the design), so this
+   file matches those inline styles by their text, the same way src/app/sporty.css does. */
+
+:root {
+  --f-display: 'Manrope Variable', 'Manrope', 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-body: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --f-label: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ink: #18191d;
+  --ink-soft: #3c3d43;
+  --night: #121317;
+  --tint: rgba(128, 118, 100, 0.09);
+  --tint-strong: rgba(128, 118, 100, 0.15);
+  --r-card: 22px;
+  --r-small: 14px;
+  --sheet: 36px;
+  --shadow-soft: 0 1px 2px rgba(18, 19, 23, 0.04), 0 10px 30px -14px rgba(18, 19, 23, 0.16);
+  --shadow-lift: 0 2px 4px rgba(18, 19, 23, 0.05), 0 22px 44px -18px rgba(18, 19, 23, 0.28);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@media (max-width: 700px) {
+  :root {
+    --r-card: 18px;
+    --sheet: 24px;
+  }
+}
+
+body {
+  font-family: var(--f-body);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------- Type ---------- */
+
+/* Headlines: upright, tight and calm. */
+#dc-root [style*='var(--f-display)'] {
+  font-style: normal !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.035em !important;
+  text-transform: none !important;
+}
+#dc-root h1[style*='var(--f-display)'],
+#dc-root h2[style*='var(--f-display)'],
+#dc-root h3[style*='var(--f-display)'],
+#dc-root div[style*='var(--f-display)'][style*='calc('] {
+  line-height: 1.04 !important;
+  text-wrap: balance;
+}
+/* Small labels (eyebrows, meta): light, spaced capitals with even digits. */
+#dc-root [style*='var(--f-label)'] {
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- No lines ---------- */
+
+/* Separator lines (one side only) are dropped; space does the separating. Thicker coloured
+   accents (3 px and up) stay. */
+#dc-root [style*='border-bottom: 1px'],
+#dc-root [style*='border-bottom: 1.5px'],
+#dc-root [style*='border-bottom: 2px'],
+#dc-root [style*='border-top: 1px'],
+#dc-root [style*='border-top: 1.5px'],
+#dc-root [style*='border-top: 2px'],
+#dc-root [style*='border-left: 1px'],
+#dc-root [style*='border-right: 1px'] {
+  border-color: transparent !important;
+}
+/* Rows of lists and tables: soft rounded highlight instead of rules. */
+#dc-root :is(div, li, a, button, tr)[style*='border-bottom: 1px']:is([style*='display: grid'], [style*='display: flex']),
+#dc-root tr {
+  border-radius: var(--r-small);
+  transition: background-color 0.25s var(--ease);
+}
+#dc-root :is(div, li, a, button)[style*='border-bottom: 1px']:is([style*='display: grid'], [style*='display: flex']):not([style*='position: sticky']):hover {
+  background-color: var(--tint);
+}
+#dc-root table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+#dc-root td,
+#dc-root th {
+  border-color: transparent !important;
+}
+#dc-root hr {
+  border: 0;
+  height: 0;
+}
+
+/* ---------- Boxes become cards ---------- */
+/* (Empty bordered elements, and ones with their own shadow, are drawings such as icons: kept.) */
+
+#dc-root :is(div, section, article, aside, ul, ol, li, figure, form, nav, label, table, details)[style*='border: 1px']:not(:empty):not([style*='box-shadow']),
+#dc-root :is(div, section, article, aside, ul, ol, li, figure, form, nav, label, table, details)[style*='border: 1.5px']:not(:empty):not([style*='box-shadow']),
+#dc-root :is(div, section, article, aside, ul, ol, li, figure, form, nav, label, table, details)[style*='border: 2px']:not(:empty):not([style*='box-shadow']) {
+  border-color: transparent !important;
+  border-radius: var(--r-card) !important;
+}
+/* Boxes with no fill of their own get a soft tint; white ones a soft shadow. */
+#dc-root :is(div, section, article, aside, ul, ol, li, figure, form, nav, label, table, details)[style*='border: 1px']:not([style*='background']),
+#dc-root :is(div, section, article, aside, ul, ol, li, figure, form, nav, label, table, details)[style*='border: 1.5px']:not([style*='background']) {
+  background-color: var(--tint);
+}
+#dc-root [style*='border: 1px'][style*='background: rgb(255, 255, 255)'],
+#dc-root [style*='border: 1px'][style*='background-color: rgb(255, 255, 255)'] {
+  box-shadow: var(--shadow-soft);
+}
+/* Card-sized links lift gently on hover. */
+#dc-root a:is([style*='border: 1px'], [style*='border: 1.5px'], [style*='border: 2px']):not([style*=' height: ']),
+#dc-root :is(div, article, li)[style*='cursor: pointer']:is([style*='border: 1px'], [style*='border: 1.5px']) {
+  border-color: transparent !important;
+  border-radius: var(--r-card) !important;
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), background-color 0.3s var(--ease);
+}
+#dc-root a:is([style*='border: 1px'], [style*='border: 1.5px'], [style*='border: 2px']):not([style*=' height: ']):hover,
+#dc-root :is(div, article, li)[style*='cursor: pointer']:is([style*='border: 1px'], [style*='border: 1.5px']):hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+/* Small bordered tags and badges: pills. */
+#dc-root span:is([style*='border: 1px'], [style*='border: 1.5px']):not(:empty):not([style*='box-shadow']) {
+  border-color: transparent !important;
+  border-radius: 999px !important;
+}
+#dc-root span:is([style*='border: 1px'], [style*='border: 1.5px']):not(:empty):not([style*='box-shadow']):not([style*='background']) {
+  background-color: var(--tint);
+}
+
+/* ---------- Pill buttons ---------- */
+
+#dc-root :is(button, a):is([style*=' height: '], [style^='height: ']),
+#dc-root .lock-key {
+  border-radius: 999px !important;
+  white-space: nowrap;
+  letter-spacing: 0 !important;
+  font-weight: 600 !important;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), background-color 0.25s var(--ease), color 0.25s var(--ease), filter 0.25s var(--ease);
+}
+/* Outlined buttons: no outline, a soft fill instead. */
+#dc-root :is(button, a):is([style*=' height: '], [style^='height: ']):is([style*='border: 1px'], [style*='border: 1.5px'], [style*='border: 2px']) {
+  border-color: transparent !important;
+}
+#dc-root :is(button, a):is([style*=' height: '], [style^='height: ']):is([style*='border: 1px'], [style*='border: 1.5px']):is([style*='background: rgb(255, 255, 255)'], [style*='background: none'], [style*='background: transparent']),
+#dc-root :is(button, a):is([style*=' height: '], [style^='height: ']):is([style*='border: 1px'], [style*='border: 1.5px']):not([style*='background']) {
+  background: var(--tint) !important;
+}
+#dc-root :is(button, a):is([style*=' height: '], [style^='height: ']):hover {
+  transform: translateY(-1px);
+}
+/* The orange primary action glows softly. */
+#dc-root :is(button, a)[style*='background: rgb(240, 124, 18)']:hover,
+#dc-root .lock-key:hover {
+  box-shadow: 0 10px 26px -10px rgba(240, 124, 18, 0.75);
+}
+#dc-root :is(button, a)[style*='background: rgb(14, 14, 15)']:hover {
+  box-shadow: 0 10px 26px -12px rgba(18, 19, 23, 0.6);
+}
+/* Tab bars: a soft pill track with pill tabs. */
+#dc-root [role='tablist'],
+#dc-root button[role='tab'] {
+  border-color: transparent !important;
+  border-radius: var(--r-small) !important;
+}
+#dc-root div:has(> button[role='tab']) {
+  border-color: transparent !important;
+  border-radius: var(--r-card) !important;
+}
+/* Short tabs (a fixed height) are pills in a pill track; taller picture tabs stay soft squares. */
+#dc-root button[role='tab']:is([style*=' height: '], [style^='height: ']) {
+  border-radius: 999px !important;
+}
+#dc-root div:has(> button[role='tab']:is([style*=' height: '], [style^='height: '])) {
+  border-radius: 999px !important;
+}
+
+/* ---------- Fields ---------- */
+
+#dc-root input:not([type='checkbox']):not([type='radio']):not([type='range']),
+#dc-root select,
+#dc-root textarea {
+  border-color: transparent !important;
+  background-color: var(--tint) !important;
+  border-radius: var(--r-small) !important;
+  transition: box-shadow 0.25s var(--ease), background-color 0.25s var(--ease);
+}
+#dc-root input:not([type='checkbox']):not([type='radio']):not([type='range']):focus,
+#dc-root select:focus,
+#dc-root textarea:focus {
+  outline: none;
+  background-color: #fff !important;
+  box-shadow: 0 0 0 2px rgba(240, 124, 18, 0.55), var(--shadow-soft);
+}
+#dc-root header input {
+  border-radius: 999px !important;
+}
+
+/* ---------- Images and media ---------- */
+
+#dc-root main image-slot,
+#dc-root section:not([data-screen-label='01 Entry']) image-slot,
+#dc-root section:not([data-screen-label='01 Entry']) video,
+#dc-root section:not([data-screen-label='01 Entry']) iframe:not(.vs-tour) {
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+
+/* ---------- Sections: rounded sheets sliding over each other ---------- */
+
+#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='Intentions']):not([data-screen-label='Metrics']):not([data-screen-label='14 CTA']),
+#dc-root footer {
+  position: relative;
+  border-radius: var(--sheet) var(--sheet) 0 0;
+  margin-top: calc(var(--sheet) * -1);
+}
+/* The Earth journey's sticky globe stays square inside its rounded top. */
+#dc-root section[data-screen-label='02 Earth journey'] {
+  overflow: clip;
+}
+
+/* ---------- Softer colours ---------- */
+
+#dc-root [style*='background: rgb(14, 14, 15)'] {
+  background-color: var(--night) !important;
+}
+#dc-root [style^='color: rgb(14, 14, 15)'],
+#dc-root [style*='; color: rgb(14, 14, 15)'] {
+  color: var(--ink) !important;
+}
+
+/* ---------- Components with their own stylesheets ---------- */
+
+/* Home: Four Worlds tower (src/components/home/zone-tower.css). */
+html .zt-face-letter,
+html .zt-face-name,
+html .zt-name,
+html .zt-nums b,
+html .zt-rail button {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-transform: none;
+}
+html .zt-face-letter {
+  font-size: calc(var(--tw) * 0.56);
+}
+html .zt-face-name {
+  font-size: calc(var(--tw) * 0.085);
+  line-height: 1.05;
+}
+html .zt-name {
+  font-size: clamp(30px, 3.2vw, 50px);
+  line-height: 1.04;
+}
+html .zt-nums b {
+  font-size: clamp(30px, 3vw, 46px);
+}
+html .zt-rail button {
+  font-size: 14px;
+  border-radius: 999px;
+}
+html .zt-screen {
+  border-radius: var(--r-card);
+}
+
+/* Home: journey finale (src/components/home/venue-stage.css). */
+html .vs-title {
+  font-weight: 700;
+  font-size: clamp(30px, 3.6vw, 54px);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-style: normal;
+}
+html .vs-pip b {
+  font-weight: 700;
+  font-size: 22px;
+}
+html .vs-card-letter {
+  font-weight: 700;
+  font-size: 92px;
+  letter-spacing: -0.05em;
+}
+html .vs-card-name {
+  font-weight: 700;
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  font-style: normal;
+}
+html .vs-card-inner,
+html .vs-face {
+  border-radius: var(--r-card);
+}
+
+/* Home: intention boxes, booth strip, hall guide (src/app/anim.css). */
+html .ibox-t {
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+html .booth-name {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: none;
+}
+html .hb-cover-title {
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  font-size: clamp(28px, 3.2vw, 42px);
+  line-height: 1.02;
+}
+html .curtain-brand {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* Home: the ways-in strip (IntentBoxes) as soft floating cards with a glow in their colour. */
+html .ibox {
+  --depth: 0px;
+  margin-right: 22px;
+  border-radius: var(--r-card);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+  box-shadow: var(--shadow-soft);
+}
+html .ibox-top,
+html .ibox-side {
+  display: none;
+}
+html .ibox-front {
+  border: 0;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--tone) 22%, transparent), transparent 60%),
+    #fff;
+  transition: background-color 0.4s var(--ease), color 0.3s var(--ease);
+}
+html .ibox-n {
+  font-weight: 600;
+  color: var(--tone);
+}
+html .ibox-t {
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+html .ibox:hover,
+html .ibox:focus-visible {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lift);
+}
+html .ibox:hover .ibox-front,
+html .ibox:focus-visible .ibox-front {
+  background: var(--tone);
+}
+@media (max-width: 600px) {
+  html .ibox-t {
+    font-size: 32px;
+  }
+}
+
+/* Home: closing calls to action as three rounded cards, the middle one stepped down. */
+#dc-root section[data-screen-label='14 CTA'] {
+  gap: 16px;
+  padding: 24px 28px 96px;
+  max-width: 1440px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+#dc-root section[data-screen-label='14 CTA'] > a {
+  border: 0 !important;
+  border-radius: var(--r-card);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+}
+#dc-root section[data-screen-label='14 CTA'] > a[style*='background: rgb(255, 255, 255)'] {
+  background: #f3f1ec !important;
+}
+#dc-root section[data-screen-label='14 CTA'] > a:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lift);
+}
+@media (min-width: 900px) {
+  #dc-root section[data-screen-label='14 CTA'] > a:nth-child(2) {
+    margin-top: 40px;
+    margin-bottom: -40px;
+  }
+}
+
+/* Small tags (labels with a fill) are pills; small square colour markers are dots. */
+#dc-root span[style*='var(--f-label)'][style*='background'],
+#dc-root div[style*='var(--f-label)'][style*='background'][style*='padding'] {
+  border-radius: 999px !important;
+}
+#dc-root span:is([style*='width: 6px; height: 6px'], [style*='width: 8px; height: 8px'], [style*='width: 10px; height: 10px'], [style*='width: 12px; height: 12px']) {
+  border-radius: 50% !important;
+}
+
+/* Phone menu (src/app/mobile.css). */
+html .mm-panel .mm-item {
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  font-style: normal;
+}
+html .mm-panel .mm-item.is-cta {
+  border-radius: 999px;
+}
+html .mm-btn {
+  border-radius: 999px !important;
+  border-color: transparent !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Bucky's panel (src/lib/bucky-guide.js). */
+html #bucky-panel {
+  border: 0 !important;
+  border-radius: var(--r-card);
+  overflow: hidden;
+  box-shadow: 0 30px 70px -24px rgba(18, 19, 23, 0.45) !important;
+}
+html #bucky-panel header b {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+html #bucky-panel button,
+html #bucky-panel .bucky-links a,
+html #bucky-panel input {
+  border-radius: 999px !important;
+}
+html #bucky-tip {
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #dc-root *,
+  #dc-root *:hover {
+    transition-duration: 0.01ms !important;
+  }
+  #dc-root a:hover,
+  #dc-root div:hover {
+    transform: none !important;
+  }
+}

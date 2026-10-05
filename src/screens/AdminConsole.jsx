@@ -22,9 +22,9 @@ class Component extends DCLogic {
     const label = Object.fromEntries(NAV.flatMap(g => g[1].map(([id, t]) => [id, [g[0], t]])));
     const ph = s.phase; const f = { pre: 0.62, live: 1, post: 1 }[ph];
     const n = v => Math.round(v * f).toLocaleString('en-IN');
-    const cell = (v, o = {}) => ({ v: String(v), c: o.c || '#0E0E0F', w: o.w || 400, f: o.mono ? "'JetBrains Mono',monospace" : "'Instrument Sans',sans-serif", s: o.mono ? '12px' : '14px' });
+    const cell = (v, o = {}) => ({ v: String(v), c: o.c || '#0E0E0F', w: o.w || 400, f: o.mono ? "var(--f-label)" : "var(--f-body)", s: o.mono ? '12px' : '14px' });
     const G = '#0B6E4F', O = '#C2610B', R = '#9E1B22', K = '#6B6A66';
-    const stc = t => ({ v: t, c: /APPROVED|PUBLISHED|ACTIVE|LIVE|CONFIRMED|ISSUED|ALLOCATED|COMPLETE|HELD/.test(t) ? G : /PENDING|REVIEW|QUERY|SCHEDULED|DRAFT|UPCOMING|PRINT/.test(t) ? O : /REJECT|BLOCK|FAIL|NO-SHOW/.test(t) ? R : K, w: 500, f: "'JetBrains Mono',monospace", s: '11px' });
+    const stc = t => ({ v: t, c: /APPROVED|PUBLISHED|ACTIVE|LIVE|CONFIRMED|ISSUED|ALLOCATED|COMPLETE|HELD/.test(t) ? G : /PENDING|REVIEW|QUERY|SCHEDULED|DRAFT|UPCOMING|PRINT/.test(t) ? O : /REJECT|BLOCK|FAIL|NO-SHOW/.test(t) ? R : K, w: 500, f: "var(--f-label)", s: '11px' });
     const T = (cols, rows) => ({ cols, rows, n: rows.length, grid: cols.map((_, i) => i === 0 ? 'minmax(0,1.5fr)' : 'minmax(0,1fr)').join(' ') });
     const TABLES = {
       reports: T(['REPORT', 'SCOPE', 'FORMAT', 'SCHEDULE', 'LAST RUN'], [['Daily footfall & registrations', 'All zones', 'PDF · XLSX', '07:00 daily', 'Today 07:00'], ['Exhibitor ROI summary', 'Per exhibitor', 'PDF', 'Post-event', '—'], ['Meetings & outcomes', 'Business Exchange', 'XLSX', 'Hourly (live)', '10:00'], ['Ministry briefing pack', 'Senior management', 'PDF', 'On demand', 'Yesterday']].map(r => [cell(r[0], { w: 600 }), cell(r[1]), cell(r[2], { mono: true }), cell(r[3]), cell(r[4], { mono: true, c: K })])),
@@ -112,19 +112,19 @@ function render(v) {
         <aside style={{ background: "#fff", borderRight: "1px solid #0E0E0F", display: "flex", flexDirection: "column", position: "sticky", top: "0", height: "100vh", overflow: "auto" }}>
           <a href={withBase("/")} style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", color: "#0E0E0F", padding: "18px 18px", borderBottom: "1px solid #0E0E0F", background: "#0E0E0F" }}>
             <BrandLogo className="site-logo" />
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0" }}>ADMIN</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0" }}>ADMIN</span>
           </a>
           <nav aria-label="Admin" style={{ display: "flex", flexDirection: "column", padding: "6px 0 24px" }}>
             {list(v.nav).map((g, $index) => (
               <Fragment key={$index}>
-                <span style={{ padding: "14px 18px 4px", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.16em", color: "#8A877F" }}>
+                <span style={{ padding: "14px 18px 4px", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.16em", color: "#8A877F" }}>
                   {txt(g?.t)}
                 </span>
                 {list(g?.items).map((m, $index) => (
                   <Fragment key={$index}>
                     <button onClick={m?.pick} style={sx(`display:flex;justify-content:space-between;height:32px;align-items:center;padding:0 18px;border:0;border-left:3px solid ${m?.bl ?? ""};background:${m?.bg ?? ""};color:${m?.fg ?? ""};font-size:13px;font-weight:${m?.w ?? ""};text-align:left;cursor:pointer;`)}>
                       {txt(m?.t)}
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#C2610B" }}>{txt(m?.badge)}</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", color: "#C2610B" }}>{txt(m?.badge)}</span>
                     </button>
                   </Fragment>
                 ))}
@@ -134,7 +134,7 @@ function render(v) {
         </aside>
         <main style={{ minWidth: "0", display: "flex", flexDirection: "column" }}>
           <header style={{ background: "#fff", borderBottom: "1px solid #0E0E0F", height: "60px", display: "flex", alignItems: "center", gap: "20px", padding: "0 28px" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(v.crumb)}</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(v.crumb)}</span>
             <span style={{ flex: "1" }} />
             <div role="tablist" style={{ display: "flex", border: "1px solid #0E0E0F" }}>
               {list(v.phases).map((p, $index) => (
@@ -152,10 +152,10 @@ function render(v) {
           </header>
           <div style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "22px" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "12px" }}>
-              <h1 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "48px", lineHeight: "0.88", textTransform: "uppercase" }}>
+              <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "36px", lineHeight: "0.88", textTransform: "uppercase" }}>
                 {txt(v.title)}
               </h1>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.12em", color: "#6B6A66" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.12em", color: "#6B6A66" }}>
                 ALL FIGURES DEMO · LAST SYNC 10:18 IST
               </span>
             </div>
@@ -167,15 +167,15 @@ function render(v) {
                       <Fragment key={$index}>
                         <div style={{ padding: "14px 16px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "2px" }}>
                           <span style={{ fontSize: "12px", color: "#6B6A66" }}>{txt(k?.k)}</span>
-                          <span style={sx(`font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:38px;line-height:0.95;color:${k?.c ?? ""};`)}>{txt(k?.v)}</span>
-                          <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:10px;color:${k?.dc ?? ""};`)}>{txt(k?.d)}</span>
+                          <span style={sx(`font-family:var(--f-display);font-stretch:62%;font-weight:900;font-size:31px;line-height:0.95;color:${k?.c ?? ""};`)}>{txt(k?.v)}</span>
+                          <span style={sx(`font-family:var(--f-label);font-size:10px;color:${k?.dc ?? ""};`)}>{txt(k?.d)}</span>
                         </div>
                       </Fragment>
                     ))}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.3fr) minmax(0,1fr)", gap: "22px" }}>
                     <div style={{ background: "#fff", border: "1px solid #0E0E0F", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px" }}>REGISTRATIONS · LAST 12 WEEKS + EVENT DAYS</b>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px" }}>Registrations · Last 12 weeks + event days</b>
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(15,1fr)", gap: "5px", alignItems: "end", height: "180px", borderBottom: "1px solid #0E0E0F" }}>
                         {list(v.regBars).map((b, $index) => (
                           <Fragment key={$index}>
@@ -198,7 +198,7 @@ function render(v) {
                       </div>
                     </div>
                     <div style={{ background: "#fff", border: "1px solid #0E0E0F", padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px" }}>STALL OCCUPANCY BY ZONE</b>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px" }}>Stall occupancy by zone</b>
                       {list(v.occ).map((o, $index) => (
                         <Fragment key={$index}>
                           <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
@@ -207,7 +207,7 @@ function render(v) {
                                 <b>{"Zone "}{txt(o?.id)}</b>
                                 {" · "}{txt(o?.name)}
                               </span>
-                              <span style={{ fontFamily: "'JetBrains Mono',monospace" }}>{txt(o?.pct)}</span>
+                              <span style={{ fontFamily: "var(--f-label)" }}>{txt(o?.pct)}</span>
                             </div>
                             <div style={{ display: "flex", height: "14px", background: "#F1EFEA" }}>
                               <span style={sx(`width:${o?.a ?? ""};background:${o?.c ?? ""};`)} />
@@ -221,7 +221,7 @@ function render(v) {
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3,minmax(0,1fr))", gap: "22px" }}>
                     <div style={{ background: "#fff", border: "1px solid #0E0E0F", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px" }}>MEETINGS BY TYPE</b>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px" }}>Meetings by type</b>
                       {list(v.mtypes).map((m, $index) => (
                         <Fragment key={$index}>
                           <div style={{ display: "grid", gridTemplateColumns: "110px 1fr 54px", gap: "10px", alignItems: "center", fontSize: "13px" }}>
@@ -229,24 +229,24 @@ function render(v) {
                             <span style={{ height: "12px", background: "#F1EFEA" }}>
                               <span style={sx(`display:block;height:12px;width:${m?.w ?? ""};background:#0E0E0F;`)} />
                             </span>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", textAlign: "right" }}>{txt(m?.v)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", textAlign: "right" }}>{txt(m?.v)}</span>
                           </div>
                         </Fragment>
                       ))}
                     </div>
                     <div style={{ background: "#0E0E0F", color: "#fff", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px" }}>BUSINESS OUTCOMES</b>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px" }}>Business outcomes</b>
                       {list(v.outcomes).map((o, $index) => (
                         <Fragment key={$index}>
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", borderTop: "1px solid #2A2A2D", paddingTop: "8px" }}>
                             <span style={{ fontSize: "14px", color: "#BDB9B0" }}>{txt(o?.k)}</span>
-                            <span style={sx(`font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:34px;color:${o?.c ?? ""};`)}>{txt(o?.v)}</span>
+                            <span style={sx(`font-family:var(--f-display);font-stretch:62%;font-weight:900;font-size:28px;color:${o?.c ?? ""};`)}>{txt(o?.v)}</span>
                           </div>
                         </Fragment>
                       ))}
                     </div>
                     <div style={{ background: "#fff", border: "1px solid #0E0E0F", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px" }}>ALERTS</b>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px" }}>Alerts</b>
                       {list(v.alerts).map((a, $index) => (
                         <Fragment key={$index}>
                           <button onClick={a?.go} style={{ display: "grid", gridTemplateColumns: "8px 1fr", gap: "10px", border: "0", borderBottom: "1px solid #E3E0D8", background: "none", padding: "8px 0", textAlign: "left", cursor: "pointer" }}>
@@ -273,8 +273,8 @@ function render(v) {
                     <div style={{ display: "flex", borderBottom: "1px solid #0E0E0F" }}>
                       {list(v.vzones).map((z, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={z?.pick} style={sx(`flex:1;height:42px;border:0;border-right:1px solid #0E0E0F;background:${z?.bg ?? ""};color:${z?.fg ?? ""};font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:800;font-size:18px;cursor:pointer;`)}>
-                            {"ZONE "}{txt(z?.id)}
+                          <button onClick={z?.pick} style={sx(`flex:1;height:42px;border:0;border-right:1px solid #0E0E0F;background:${z?.bg ?? ""};color:${z?.fg ?? ""};font-family:var(--f-display);font-stretch:62%;font-weight:800;font-size:16px;cursor:pointer;`)}>
+                            {"Zone "}{txt(z?.id)}
                           </button>
                         </Fragment>
                       ))}
@@ -284,22 +284,22 @@ function render(v) {
                         <button onClick={c?.pick} style={sx(`display:grid;grid-template-columns:minmax(0,1fr) 70px 90px;gap:10px;padding:12px 16px;border:0;border-bottom:1px solid #E3E0D8;background:${c?.bg ?? ""};text-align:left;cursor:pointer;align-items:center;`)}>
                           <span>
                             <b style={{ display: "block", fontSize: "14px", color: "#0E0E0F" }}>{txt(c?.name)}</b>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(c?.id)}{" · "}{txt(c?.meta)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(c?.id)}{" · "}{txt(c?.meta)}</span>
                           </span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(c?.occ)}</span>
-                          <span style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", color: "#C2610B" }}>EDIT</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(c?.occ)}</span>
+                          <span style={{ fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", color: "#C2610B" }}>Edit</span>
                         </button>
                       </Fragment>
                     ))}
                     <div style={{ padding: "14px 16px", display: "flex", gap: "8px" }}>
                       <button onClick={v.demo} style={{ height: "40px", padding: "0 14px", border: "0", background: "#0E0E0F", color: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                        + ADD STALL
+                        + Add stall
                       </button>
                       <button onClick={v.demo} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                        BLOCK SELECTED
+                        Block selected
                       </button>
                       <button onClick={v.demo} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                        EXPORT FLOOR PLAN
+                        Export floor plan
                       </button>
                     </div>
                   </div>
@@ -322,25 +322,25 @@ function render(v) {
                     {list(v.queue).map((r, $index) => (
                       <Fragment key={$index}>
                         <div style={{ display: "grid", gridTemplateColumns: "110px minmax(0,1.3fr) minmax(0,1fr) 120px 120px auto", gap: "14px", padding: "12px 16px", borderBottom: "1px solid #E3E0D8", alignItems: "center", fontSize: "14px" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(r?.id)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(r?.id)}</span>
                           <span>
                             <b style={{ display: "block" }}>{txt(r?.name)}</b>
                             <span style={{ fontSize: "12px", color: "#6B6A66" }}>{txt(r?.org)}</span>
                           </span>
                           <span style={{ color: "#3A3A3E" }}>{txt(r?.type)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(r?.when)}</span>
-                          <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:${r?.c ?? ""};border:1px solid ${r?.c ?? ""};padding:4px 6px;text-align:center;`)}>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(r?.when)}</span>
+                          <span style={sx(`font-family:var(--f-label);font-size:10px;letter-spacing:0.1em;color:${r?.c ?? ""};border:1px solid ${r?.c ?? ""};padding:4px 6px;text-align:center;`)}>
                             {txt(r?.icon)}{" "}{txt(r?.st)}
                           </span>
                           <span style={{ display: "flex", gap: "4px" }}>
                             <button onClick={r?.approve} style={{ height: "32px", padding: "0 10px", border: "0", background: "#0B6E4F", color: "#fff", fontSize: "11px", fontWeight: "700", cursor: "pointer" }}>
-                              APPROVE
+                              Approve
                             </button>
                             <button onClick={r?.query} style={{ height: "32px", padding: "0 10px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", cursor: "pointer" }}>
-                              QUERY
+                              Query
                             </button>
                             <button onClick={r?.reject} style={{ height: "32px", padding: "0 10px", border: "1px solid #9E1B22", background: "#fff", color: "#9E1B22", fontSize: "11px", fontWeight: "700", cursor: "pointer" }}>
-                              REJECT
+                              Reject
                             </button>
                           </span>
                         </div>
@@ -376,7 +376,7 @@ function render(v) {
                             <b style={{ display: "block", fontSize: "14px", color: "#0E0E0F" }}>{txt(i?.t)}</b>
                             <span style={{ fontSize: "12px", color: "#6B6A66" }}>{txt(i?.meta)}</span>
                           </span>
-                          <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:${i?.c ?? ""};`)}>{txt(i?.st)}</span>
+                          <span style={sx(`font-family:var(--f-label);font-size:10px;letter-spacing:0.1em;color:${i?.c ?? ""};`)}>{txt(i?.st)}</span>
                         </button>
                       </Fragment>
                     ))}
@@ -386,7 +386,7 @@ function render(v) {
                       <ol style={{ margin: "0", padding: "0", listStyle: "none", display: "flex", gap: "0" }}>
                         {list(v.edFlow).map((f, $index) => (
                           <Fragment key={$index}>
-                            <li style={sx(`padding:6px 10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;background:${f?.bg ?? ""};color:${f?.fg ?? ""};`)}>
+                            <li style={sx(`padding:6px 10px;font-family:var(--f-label);font-size:10px;letter-spacing:0.1em;background:${f?.bg ?? ""};color:${f?.fg ?? ""};`)}>
                               {txt(f?.t)}
                             </li>
                           </Fragment>
@@ -394,10 +394,10 @@ function render(v) {
                       </ol>
                       <div style={{ display: "flex", border: "1px solid #0E0E0F" }}>
                         <button onClick={v.edEdit} style={sx(`height:30px;padding:0 10px;border:0;border-right:1px solid #0E0E0F;background:${v.edEditBg ?? ""};color:${v.edEditFg ?? ""};font-size:11px;font-weight:700;cursor:pointer;`)}>
-                          EDIT
+                          Edit
                         </button>
                         <button onClick={v.edPreview} style={sx(`height:30px;padding:0 10px;border:0;background:${v.edPrevBg ?? ""};color:${v.edPrevFg ?? ""};font-size:11px;font-weight:700;cursor:pointer;`)}>
-                          PREVIEW
+                          Preview
                         </button>
                       </div>
                     </div>
@@ -445,8 +445,8 @@ function render(v) {
                     {v.edPreviewing ? (
                       <>
                         <div style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "12px", background: "#FBFAF7" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#C2610B" }}>{txt(v.ed?.type)}{" · PREVIEW"}</span>
-                          <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "44px", lineHeight: "0.9", textTransform: "uppercase" }}>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#C2610B" }}>{txt(v.ed?.type)}{" · PREVIEW"}</span>
+                          <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "33px", lineHeight: "0.9", textTransform: "uppercase" }}>
                             {txt(v.ed?.t)}
                           </span>
                           <span style={{ fontSize: "16px", lineHeight: "1.55" }}>{txt(v.ed?.body)}</span>
@@ -455,7 +455,7 @@ function render(v) {
                     ) : null}
                     <div style={{ display: "flex", justifyContent: "space-between", gap: "8px", padding: "14px 16px", borderTop: "1px solid #E3E0D8" }}>
                       <button onClick={v.edSave} style={{ height: "42px", padding: "0 16px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                        SAVE DRAFT
+                        Save draft
                       </button>
                       <button onClick={v.edAdvance} style={{ height: "42px", padding: "0 18px", border: "0", background: "#F07C12", color: "#0E0E0F", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
                         {txt(v.edNext)}
@@ -473,15 +473,15 @@ function render(v) {
                       <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                         <div style={sx(`display:flex;justify-content:space-between;border-top:4px solid ${col?.c ?? ""};padding-top:8px;`)}>
                           <b style={{ fontSize: "12px", letterSpacing: "0.08em" }}>{txt(col?.t)}</b>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{txt(col?.n)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(col?.n)}</span>
                         </div>
                         {list(col?.items).map((t, $index) => (
                           <Fragment key={$index}>
                             <button onClick={t?.move} title="Move to next status" style={{ background: "#fff", border: "1px solid #E3E0D8", padding: "10px", textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: "4px" }}>
-                              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#6B6A66" }}>{txt(t?.id)}{" · "}{txt(t?.cat)}</span>
+                              <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", color: "#6B6A66" }}>{txt(t?.id)}{" · "}{txt(t?.cat)}</span>
                               <b style={{ fontSize: "13px", lineHeight: "1.3", color: "#0E0E0F" }}>{txt(t?.t)}</b>
                               <span style={{ fontSize: "11px", color: "#6B6A66" }}>{txt(t?.who)}</span>
-                              <span style={{ fontSize: "10px", fontWeight: "700", letterSpacing: "0.08em", color: "#C2610B" }}>MOVE →</span>
+                              <span style={{ fontSize: "10px", fontWeight: "700", letterSpacing: "0.08em", color: "#C2610B" }}>Move →</span>
                             </button>
                           </Fragment>
                         ))}
@@ -496,13 +496,13 @@ function render(v) {
                 <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
                   <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
                     <input placeholder={`Filter ${v.title ?? ""}…`} style={{ height: "40px", border: "1px solid #0E0E0F", padding: "0 12px", fontSize: "14px", width: "280px", background: "#fff" }} />
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", color: "#6B6A66" }}>{txt(v.tbl?.n)}{" RECORDS"}</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", color: "#6B6A66" }}>{txt(v.tbl?.n)}{" RECORDS"}</span>
                     <span style={{ flex: "1" }} />
                     <button onClick={v.demo} style={{ height: "40px", padding: "0 14px", border: "0", background: "#0E0E0F", color: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                      + NEW
+                      + New
                     </button>
                     <button onClick={v.demo} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                      EXPORT
+                      Export
                     </button>
                   </div>
                   <div style={{ background: "#fff", border: "1px solid #0E0E0F", overflowX: "auto" }}>
@@ -510,7 +510,7 @@ function render(v) {
                       <div role="row" style={sx(`display:grid;grid-template-columns:${v.tbl?.grid ?? ""};border-bottom:1px solid #0E0E0F;`)}>
                         {list(v.tbl?.cols).map((c, $index) => (
                           <Fragment key={$index}>
-                            <span role="columnheader" style={{ padding: "11px 16px", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                            <span role="columnheader" style={{ padding: "11px 16px", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                               {txt(c)}
                             </span>
                           </Fragment>

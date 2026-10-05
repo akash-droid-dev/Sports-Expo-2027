@@ -99,9 +99,9 @@ export default function DemoVideo({ id, thumb = false, live = false }) {
         href={clip.href}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 2, maxWidth: '60%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', background: 'rgba(14,14,15,.7)', color: '#BDB9B0', fontFamily: "'JetBrains Mono',monospace", fontSize: '9px', letterSpacing: '0.08em', padding: '3px 6px', textDecoration: 'none' }}
+        style={{ position: 'absolute', right: '8px', top: '8px', zIndex: 2, maxWidth: '60%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', background: 'rgba(14,14,15,.7)', color: '#BDB9B0', fontFamily: "var(--f-label)", fontSize: '9px', letterSpacing: '0.08em', padding: '3px 6px', textDecoration: 'none' }}
       >
-        DEMO CLIP · {clip.credit}
+        Demo clip · {clip.credit}
       </a>
     </span>
   );

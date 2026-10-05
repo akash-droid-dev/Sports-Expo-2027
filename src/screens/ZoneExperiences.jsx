@@ -20,7 +20,7 @@ class Component extends DCLogic {
   componentWillUnmount() { clearInterval(this._m); this.india && this.india.remove(); this.globe && this.globe.remove(); }
   marker(map, lngLat, text, onClick, dark) {
     const el = document.createElement('button');
-    el.style.cssText = `font:700 12px 'Instrument Sans';background:${dark ? '#fff' : '#9E1B22'};color:${dark ? '#0E0E0F' : '#fff'};border:0;padding:6px 9px;cursor:pointer;white-space:nowrap;`;
+    el.style.cssText = `font:700 12px var(--f-body);background:${dark ? '#fff' : '#9E1B22'};color:${dark ? '#0E0E0F' : '#fff'};border:0;padding:6px 9px;cursor:pointer;white-space:nowrap;`;
     el.textContent = text; el.onclick = onClick; new maplibregl.Marker({ element: el }).setLngLat(lngLat).addTo(map); return el;
   }
   initMaps() {
@@ -119,9 +119,9 @@ class Component extends DCLogic {
     const nodeData = { tech: ['Neurotracking, reaction-time trainers', 'HRV, lactate and VO2 testing', 'Velocity-based training, force plates', 'Markerless motion capture', '3D gait and kinematics labs', 'Cryo, compression, sleep tracking', 'Body composition, personalised plans', 'Sleep staging wearables'] };
     const ni = nodes.findIndex(n => n[0] === s.node);
     const arenaPh = {
-      before: { badge: 'DAY 1 · 09:00 OPENS', badgeBg: '#0E0E0F', player: 'PROGRAMME PREVIEW', title: 'PITCHES, DEMOS & KEYNOTES', listLabel: 'PITCH SCHEDULE', list: D.sessions.filter(x => x.stage === 'Innovation Arena').slice(0, 5).map(x => ({ a: 'D' + x.day + ' ' + x.time, b: x.title })) },
-      during: { badge: '● LIVE NOW', badgeBg: '#9E1B22', player: 'EMBEDDED STREAM PLACEHOLDER', title: 'THE FUTURE OF AI COACHING', listLabel: 'UP NEXT', list: D.sessions.filter(x => x.stage === 'Innovation Arena' && x.day >= 2).slice(1, 5).map(x => ({ a: 'D' + x.day + ' ' + x.time, b: x.title })) },
-      after: { badge: 'RECORDING · 45 MIN', badgeBg: '#0E0E0F', player: 'ON-DEMAND PLAYER', title: 'HIGHLIGHTS: AI COACHING', listLabel: 'RELATED COMPANIES', list: [{ a: 'C-STI', b: 'MotionIQ SportsTech' }, { a: 'C-STI', b: 'SportMatrix Analytics' }, { a: 'C-SUV', b: 'KheloLens' }, { a: 'C-PSS', b: 'Velocity Performance Labs' }] }
+      before: { badge: 'DAY 1 · 09:00 OPENS', badgeBg: '#0E0E0F', player: 'PROGRAMME PREVIEW', title: 'PITCHES, DEMOS & KEYNOTES', listLabel: 'Pitch schedule', list: D.sessions.filter(x => x.stage === 'Innovation Arena').slice(0, 5).map(x => ({ a: 'D' + x.day + ' ' + x.time, b: x.title })) },
+      during: { badge: '● LIVE NOW', badgeBg: '#9E1B22', player: 'EMBEDDED STREAM PLACEHOLDER', title: 'THE FUTURE OF AI COACHING', listLabel: 'Up next', list: D.sessions.filter(x => x.stage === 'Innovation Arena' && x.day >= 2).slice(1, 5).map(x => ({ a: 'D' + x.day + ' ' + x.time, b: x.title })) },
+      after: { badge: 'RECORDING · 45 MIN', badgeBg: '#0E0E0F', player: 'ON-DEMAND PLAYER', title: 'HIGHLIGHTS: AI COACHING', listLabel: 'Related companies', list: [{ a: 'C-STI', b: 'MotionIQ SportsTech' }, { a: 'C-STI', b: 'SportMatrix Analytics' }, { a: 'C-SUV', b: 'KheloLens' }, { a: 'C-PSS', b: 'Velocity Performance Labs' }] }
     };
     const tryList = [['10:00', 'Archery Experience', '20 min', 24, 16, 'C-TSA-1', 'Age 10+ · coached'], ['10:30', 'Wheelchair Basketball', '30 min', 20, 18, 'C-TSA-2', 'All visitors'], ['11:15', 'Football Reaction Challenge', '10 min', 40, 12, 'C-IEX', 'All visitors'], ['12:00', 'Sprint Timing Experience', '15 min', 30, 30, 'C-TSA-3', 'Age 12+ · sports shoes'], ['13:00', 'VR Training', '15 min', 16, 9, 'C-IEX', 'Age 13+']];
     const C = D.countries.find(x => x.id === s.cty);
@@ -129,7 +129,7 @@ class Component extends DCLogic {
       indiaRef: this.indiaRef, globeRef: this.globeRef,
       aDest, aStates: s.a === 'states', aTheme: s.a === 'theme', aFed: s.a === 'fed', aHer: s.a === 'her', aMin: s.a === 'min',
       stateBtns: D.states.map(x => ({ name: x.name, ...sel(x.id === s.state, '#9E1B22'), pick: () => this.pickState(x.id) })), st,
-      saveLabel: s.saved[s.state] ? '✓ IN MY EXPO' : 'ADD TO MY EXPO', saveState: () => this.setState(p => ({ saved: { ...p.saved, [p.state]: !p.saved[p.state] } })),
+      saveLabel: s.saved[s.state] ? '✓ In My Expo' : 'Add to My Expo', saveState: () => this.setState(p => ({ saved: { ...p.saved, [p.state]: !p.saved[p.state] } })),
       rooms: rooms.map((r, i) => ({ ...r, n: i + 1, bg: i === s.room ? '#F07C12' : i < s.room ? '#2A2A2D' : '#1A1A1C', fg: i === s.room ? '#0E0E0F' : '#fff', border: i === s.room ? '#F07C12' : '#3A3A3E', lift: i === s.room ? 'translateZ(30px)' : 'none', shadow: i === s.room ? '0 20px 30px rgba(0,0,0,.5)' : 'none', pick: () => this.setState({ room: i }) })),
       room: rooms[s.room], prevRoom: () => this.setState({ room: (s.room + 4) % 5 }), nextRoom: () => this.setState({ room: (s.room + 1) % 5 }),
       sports: sportsList.map(x => ({ name: x, ...sel(x === s.sport, '#9E1B22'), pick: () => this.setState({ sport: x }) })),
@@ -142,7 +142,7 @@ class Component extends DCLogic {
       facetGroups: [{ label: 'PRODUCT TYPE', opts: ['All types', 'Equipment', 'Surfaces', 'Infrastructure', 'Footwear'] }, { label: 'COUNTRY', opts: ['All countries', 'India', 'Germany', 'Netherlands', 'Japan', 'Australia'] }, { label: 'COMPANY TYPE', opts: ['Any', 'Manufacturer', 'Exporter', 'OEM / ODM', 'Contractor'] }, { label: 'BUYER INTEREST', opts: ['Any', 'Seeking distributors', 'Seeking OEM contracts', 'Seeking projects'] }],
       exportOnly: s.exportOnly, toggleExport: () => this.setState({ exportOnly: !s.exportOnly }),
       resultCount: mk.length, marketEmpty: !mk.length,
-      market: mk.map(e => ({ ...e, logo: 'logo-' + e.id, plist: e.products.join(', '), saveLabel: s.saved[e.id] ? '✓ SAVED TO MY EXPO' : '+ ADD TO MY EXPO', saveBg: s.saved[e.id] ? '#E3F1EB' : '#F6F4EF', save: () => this.setState(p => ({ saved: { ...p.saved, [e.id]: !p.saved[e.id] } })) })),
+      market: mk.map(e => ({ ...e, logo: 'logo-' + e.id, plist: e.products.join(', '), saveLabel: s.saved[e.id] ? '✓ Saved to My Expo' : '+ Add to My Expo', saveBg: s.saved[e.id] ? '#E3F1EB' : '#F6F4EF', save: () => this.setState(p => ({ saved: { ...p.saved, [e.id]: !p.saved[e.id] } })) })),
       layers: layers.map((l, i) => ({ ...l, n: String(i + 1).padStart(2, '0'), bg: i === s.layer ? '#F07C12' : '#fff', fg: '#0E0E0F', shift: i === s.layer ? '60px' : '0px', pick: () => this.setState({ layer: i }) })),
       layer: { ...L, n: s.layer + 1, groups: [{ k: 'PRODUCTS', v: L.p }, { k: 'COMPANIES', v: L.c }, { k: 'TECHNOLOGIES', v: 'BIM-led delivery, digital twins, sustainability ratings' }, { k: 'RELATED SESSION', v: 'Stadiums as Year-round Assets · Day 1 14:00' }] },
       shoe: shoeParts.map((p, i) => ({ ...p, n: String(i + 1).padStart(2, '0'), bg: i === s.shoe ? '#F07C12' : '#fff', fg: i === s.shoe ? '#C2610B' : '#0E0E0F', x: i === s.shoe ? '24px' : '0px', pick: () => this.setState({ shoe: i }) })),
@@ -152,14 +152,14 @@ class Component extends DCLogic {
       surfTabs: Object.keys(surfaces).map(k => ({ name: k.toUpperCase(), ...sel(k === s.surf, '#5B3A9E'), pick: () => this.setState({ surf: k }) })),
       surf: { ...SF, layers: SF.layers.map(([n, h, c]) => ({ n, h: h * 2 + 'px', c })) },
       cTiles, cTech: s.c === 'tech', cStartup: s.c === 'startup', cBody: s.c === 'body', cArena: s.c === 'arena', cTry: s.c === 'try',
-      stakeTabs: Object.keys(stake).map(k => ({ t: k, ...sel(k === s.stake, '#0A62BF'), pick: () => this.setState({ stake: k }) })),
+      stakeTabs: Object.keys(stake).map(k => ({ t: k.charAt(0) + k.slice(1).toLowerCase(), ...sel(k === s.stake, '#0A62BF'), pick: () => this.setState({ stake: k }) })),
       stakeItems: stake[s.stake].map(([t, d, co]) => ({ t, d, co })),
       startups: D.startups,
       nodes: nodes.map(([t, x, y]) => ({ t, x, y, bg: t === s.node ? '#F07C12' : '#0A62BF', pick: () => this.setState({ node: t }) })),
       node: { t: s.node, rows: [{ k: 'TECHNOLOGIES', v: nodeData.tech[ni] }, { k: 'RESEARCH', v: 'National Sports Science Centre (demo) — open data posters' }, { k: 'COMPANIES', v: 'Velocity Performance Labs (C-PSS-006) · RecovR (C-SUV-011)' }, { k: 'SESSIONS', v: 'Sports Science for the Next Olympic Cycle · Day 2 11:00' }, { k: 'DEMOS', v: 'Live testing at C-PSS, every hour on the hour (sample)' }] },
       phaseTabs: [['before', 'BEFORE'], ['during', '● DURING'], ['after', 'AFTER']].map(([id, t]) => ({ t, ...sel(id === s.phase, '#0A62BF'), pick: () => this.setState({ phase: id }) })),
       arena: arenaPh[s.phase],
-      tryList: tryList.map(([time, name, dur, cap, taken, loc, elig]) => { const b = s.booked[name]; const full = taken >= cap && !b; return { time, name, dur, loc, elig, cap: (cap - taken - (b ? 1 : 0)) + ' of ' + cap + ' left', pct: Math.round((taken + (b ? 1 : 0)) / cap * 100) + '%', bookLabel: b ? '✓ BOOKED' : full ? 'WAITLIST' : 'BOOK', bookBg: b ? '#E4EEFA' : full ? '#E3E0D8' : '#0A62BF', bookFg: b ? '#0A62BF' : full ? '#0E0E0F' : '#fff', book: () => this.setState(p => ({ booked: { ...p.booked, [name]: !p.booked[name] } })) }; }),
+      tryList: tryList.map(([time, name, dur, cap, taken, loc, elig]) => { const b = s.booked[name]; const full = taken >= cap && !b; return { time, name, dur, loc, elig, cap: (cap - taken - (b ? 1 : 0)) + ' of ' + cap + ' left', pct: Math.round((taken + (b ? 1 : 0)) / cap * 100) + '%', bookLabel: b ? '✓ Booked' : full ? 'Waitlist' : 'Book', bookBg: b ? '#E4EEFA' : full ? '#E3E0D8' : '#0A62BF', bookFg: b ? '#0A62BF' : full ? '#0E0E0F' : '#fff', book: () => this.setState(p => ({ booked: { ...p.booked, [name]: !p.booked[name] } })) }; }),
       dSpaces: D.clusters.filter(c => c.zone === 'D').map(c => ({ code: 'D-' + c.id, name: c.name, meta: c.meta, access: /Invite|Accredited/.test(c.meta) ? '◆ RESTRICTED' : 'OPEN' })),
       ctyBtns: D.countries.map(c => ({ name: c.name, bg: c.id === s.cty ? '#fff' : 'rgba(0,0,0,0.6)', fg: c.id === s.cty ? '#0E0E0F' : '#fff', pick: () => this.pickCty(c.id) })),
       cty: { ...C, rows: [{ k: 'Pavilion location', v: 'Zone D · ' + C.pav }, { k: 'Delegation', v: 'Trade ministry + industry association (sample)' }, { k: 'Companies', v: C.companies + ' exhibiting (demo)' }, { k: 'Technologies', v: C.profile }, { k: 'Buyers', v: '4 hosted buyers (demo)' }, { k: 'Speakers', v: C.id === 'JP' ? 'Aiko Tanaka (demo)' : C.id === 'DE' ? 'Lukas Brandt (demo)' : 'TBC' }, { k: 'Sessions', v: 'Country briefing · Business Exchange Stage (sample)' }] }
@@ -176,18 +176,18 @@ function render(v) {
             <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
-            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>Explore</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>Exhibit</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>Attend</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>Connect</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
           <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            MY EXPO
+            My Expo
           </a>
           <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
-            REGISTER
+            Register
           </a>
         </header>
         <nav aria-label="Zones" style={{ position: "sticky", top: "60px", zIndex: "50", display: "grid", gridTemplateColumns: "repeat(4,1fr)", background: "#fff", borderBottom: "1px solid #0E0E0F" }}>
@@ -211,15 +211,15 @@ function render(v) {
         <section id="zone-a" data-screen-label="Zone A" style={{ scrollMarginTop: "110px" }}>
           <div style={{ background: "#9E1B22", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>A</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>A</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
                   HALL 2 · NORTH-WEST QUADRANT · 11 PAVILIONS
                 </span>
-                <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,7vw,112px)", lineHeight: "0.85" }}>
-                  INDIA SPORTS
+                <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
+                  India Sports
                   <br />
-                  {"& HERITAGE"}
+                  {"& Heritage"}
                 </h2>
               </div>
             </div>
@@ -229,8 +229,8 @@ function render(v) {
               {list(v.aDest).map((d, $index) => (
                 <Fragment key={$index}>
                   <button onClick={d?.pick} style={sx(`text-align:left;border:0;border-right:1px solid #E3E0D8;border-bottom:4px solid ${d?.bar ?? ""};background:${d?.bg ?? ""};padding:20px;cursor:pointer;display:flex;flex-direction:column;gap:10px;min-height:150px;`)}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(d?.code)}</span>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "800", fontSize: "22px", lineHeight: "1", textTransform: "uppercase", color: "#0E0E0F" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(d?.code)}</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "800", fontSize: "20px", lineHeight: "1", textTransform: "uppercase", color: "#0E0E0F" }}>
                       {txt(d?.name)}
                     </span>
                     <span style={{ marginTop: "auto", fontSize: "13px", color: "#6B6A66" }}>{txt(d?.meta)}</span>
@@ -246,7 +246,7 @@ function render(v) {
                     <div style={{ position: "absolute", left: "16px", bottom: "16px", display: "flex", gap: "6px", flexWrap: "wrap", maxWidth: "80%" }}>
                       {list(v.stateBtns).map((s, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={s?.pick} style={sx(`height:34px;padding:0 12px;border:1px solid #0E0E0F;background:${s?.bg ?? ""};color:${s?.fg ?? ""};font:600 13px 'Instrument Sans';cursor:pointer;`)}>
+                          <button onClick={s?.pick} style={sx(`height:34px;padding:0 12px;border:1px solid #0E0E0F;background:${s?.bg ?? ""};color:${s?.fg ?? ""};font:600 13px var(--f-body);cursor:pointer;`)}>
                             {txt(s?.name)}
                           </button>
                         </Fragment>
@@ -254,10 +254,10 @@ function render(v) {
                     </div>
                   </div>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "18px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#9E1B22" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#9E1B22" }}>
                       {"STATE PROFILE · PAVILION "}{txt(v.st?.pav)}{" · DEMO DATA"}
                     </span>
-                    <h3 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "72px", lineHeight: "0.85", textTransform: "uppercase" }}>
+                    <h3 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "50px", lineHeight: "0.85", textTransform: "uppercase" }}>
                       {txt(v.st?.name)}
                     </h3>
                     <p style={{ margin: "0", fontSize: "18px", lineHeight: "1.4" }}>{txt(v.st?.identity)}</p>
@@ -271,16 +271,16 @@ function render(v) {
                     </dl>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginTop: "auto" }}>
                       <a href={withBase("/explore")} style={{ background: "#9E1B22", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
-                        VIEW PAVILION
+                        View pavilion
                       </a>
-                      <button onClick={v.saveState} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "46px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
+                      <button onClick={v.saveState} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "46px", font: "700 12px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
                         {txt(v.saveLabel)}
                       </button>
                       <a href={withBase("/connect")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
-                        BOOK MEETING
+                        Book meeting
                       </a>
                       <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
-                        NAVIGATE
+                        Navigate
                       </a>
                     </div>
                   </div>
@@ -292,10 +292,10 @@ function render(v) {
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", padding: "40px 32px", background: "#0E0E0F", color: "#fff", display: "flex", flexDirection: "column", gap: "32px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "12px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#F07C12" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#F07C12" }}>
                       THEME PAVILION · A-THM · CUTAWAY WALKTHROUGH
                     </span>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", border: "1px solid #55555A", padding: "4px 8px", color: "#BDB9B0" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", border: "1px solid #55555A", padding: "4px 8px", color: "#BDB9B0" }}>
                       ILLUSTRATIVE STORYLINE · DEMO CONTENT
                     </span>
                   </div>
@@ -304,8 +304,8 @@ function render(v) {
                       {list(v.rooms).map((r, $index) => (
                         <Fragment key={$index}>
                           <button onClick={r?.pick} style={sx(`height:150px;border:1px solid ${r?.border ?? ""};background:${r?.bg ?? ""};color:${r?.fg ?? ""};cursor:pointer;text-align:left;padding:14px;display:flex;flex-direction:column;justify-content:space-between;transition:background .4s,transform .4s;transform:${r?.lift ?? ""};box-shadow:${r?.shadow ?? ""};`)}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{"ROOM "}{txt(r?.n)}</span>
-                            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px", lineHeight: "0.95", textTransform: "uppercase" }}>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{"ROOM "}{txt(r?.n)}</span>
+                            <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px", lineHeight: "0.95", textTransform: "uppercase" }}>
                               {txt(r?.t)}
                             </span>
                           </button>
@@ -316,14 +316,14 @@ function render(v) {
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "32px", alignItems: "start" }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                      <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.86" }}>{txt(v.room?.t)}</span>
+                      <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "45px", lineHeight: "0.86" }}>{txt(v.room?.t)}</span>
                       <span style={{ fontSize: "17px", lineHeight: "1.5", color: "#BDB9B0" }}>{txt(v.room?.d)}</span>
                       <div style={{ display: "flex", gap: "8px" }}>
-                        <button onClick={v.prevRoom} style={{ height: "42px", padding: "0 16px", border: "1px solid #55555A", background: "none", color: "#fff", font: "700 12px 'Instrument Sans'", cursor: "pointer" }}>
-                          ← PREVIOUS
+                        <button onClick={v.prevRoom} style={{ height: "42px", padding: "0 16px", border: "1px solid #55555A", background: "none", color: "#fff", font: "700 12px var(--f-body)", cursor: "pointer" }}>
+                          ← Previous
                         </button>
-                        <button onClick={v.nextRoom} style={{ height: "42px", padding: "0 16px", border: "0", background: "#F07C12", color: "#0E0E0F", font: "700 12px 'Instrument Sans'", cursor: "pointer" }}>
-                          NEXT ROOM →
+                        <button onClick={v.nextRoom} style={{ height: "42px", padding: "0 16px", border: "0", background: "#F07C12", color: "#0E0E0F", font: "700 12px var(--f-body)", cursor: "pointer" }}>
+                          Next room →
                         </button>
                       </div>
                     </div>
@@ -339,11 +339,11 @@ function render(v) {
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)" }}>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86" }}>EXPLORE BY SPORT</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86" }}>Explore by sport</span>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "0", borderTop: "1px solid #0E0E0F", borderLeft: "1px solid #0E0E0F" }}>
                       {list(v.sports).map((s, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={s?.pick} style={sx(`height:72px;border:0;border-right:1px solid #0E0E0F;border-bottom:1px solid #0E0E0F;background:${s?.bg ?? ""};color:${s?.fg ?? ""};font:800 22px 'Archivo';font-stretch:62%;text-transform:uppercase;cursor:pointer;`)}>
+                          <button onClick={s?.pick} style={sx(`height:72px;border:0;border-right:1px solid #0E0E0F;border-bottom:1px solid #0E0E0F;background:${s?.bg ?? ""};color:${s?.fg ?? ""};font:800 20px var(--f-display);font-stretch:62%;text-transform:uppercase;cursor:pointer;`)}>
                             {txt(s?.name)}
                           </button>
                         </Fragment>
@@ -351,10 +351,10 @@ function render(v) {
                     </div>
                   </div>
                   <div style={{ padding: "32px", background: "#F6E7E6", display: "flex", flexDirection: "column", gap: "14px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#9E1B22" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#9E1B22" }}>
                       {"FEDERATION PROFILE · SAMPLE · "}{txt(v.fed?.loc)}
                     </span>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "48px", lineHeight: "0.88", textTransform: "uppercase" }}>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "36px", lineHeight: "0.88", textTransform: "uppercase" }}>
                       {txt(v.fed?.name)}
                     </span>
                     <dl style={{ margin: "0", display: "grid", gridTemplateColumns: "140px 1fr", fontSize: "14px", borderTop: "1px solid #D9BDBB" }}>
@@ -367,10 +367,10 @@ function render(v) {
                     </dl>
                     <div style={{ display: "flex", gap: "8px" }}>
                       <a href={withBase("/connect")} style={{ background: "#9E1B22", color: "#fff", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", padding: "0 18px", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
-                        REQUEST MEETING
+                        Request meeting
                       </a>
                       <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", padding: "0 18px", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
-                        EXPO LOCATION
+                        Expo location
                       </a>
                     </div>
                   </div>
@@ -382,8 +382,8 @@ function render(v) {
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", padding: "32px 0" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", padding: "0 32px 20px", flexWrap: "wrap", gap: "12px" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86" }}>INDIA’S SPORTING TIMELINE</span>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", background: "#F6E7E6", color: "#9E1B22", padding: "6px 10px", alignSelf: "center" }}>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86" }}>India’s sporting timeline</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", background: "#F6E7E6", color: "#9E1B22", padding: "6px 10px", alignSelf: "center" }}>
                       SAMPLE — VERIFY BEFORE PUBLICATION
                     </span>
                   </div>
@@ -393,10 +393,10 @@ function render(v) {
                         <Fragment key={$index}>
                           <div style={{ padding: "20px 24px 0 0", display: "flex", flexDirection: "column", gap: "10px", position: "relative" }}>
                             <span style={{ position: "absolute", top: "-7px", left: "0", width: "12px", height: "12px", background: "#9E1B22" }} />
-                            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.9", color: "#9E1B22" }}>
+                            <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.9", color: "#9E1B22" }}>
                               {txt(t?.y)}
                             </span>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(t?.k)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(t?.k)}</span>
                             <span style={{ fontSize: "16px", fontWeight: "600", lineHeight: "1.3" }}>{txt(t?.t)}</span>
                           </div>
                         </Fragment>
@@ -404,7 +404,7 @@ function render(v) {
                     </div>
                   </div>
                   <div style={{ padding: "24px 32px 0", display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", marginRight: "8px" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", marginRight: "8px" }}>
                       TRADITIONAL SPORTS · TRY IN THE INTERACTIVE ZONE
                     </span>
                     {list(v.trad).map((t, $index) => (
@@ -421,8 +421,8 @@ function render(v) {
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", padding: "32px", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: "24px" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "48px", lineHeight: "0.88" }}>
-                      {"MINISTRY OF YOUTH AFFAIRS & SPORTS"}
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "36px", lineHeight: "0.88" }}>
+                      {"Ministry of Youth Affairs & Sports"}
                     </span>
                     <span style={{ fontSize: "15px", color: "#3A3A3E", lineHeight: "1.5" }}>
                       Two pavilions presenting national schemes, athlete pathways and public sports infrastructure. Content to be supplied by the Ministry; layout shown with placeholders.
@@ -431,7 +431,7 @@ function render(v) {
                   {list(v.ministry).map((m, $index) => (
                     <Fragment key={$index}>
                       <div style={{ borderTop: "4px solid #9E1B22", paddingTop: "14px", display: "flex", flexDirection: "column", gap: "6px" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(m?.code)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(m?.code)}</span>
                         <b style={{ fontSize: "18px" }}>{txt(m?.t)}</b>
                         <span style={{ fontSize: "14px", color: "#3A3A3E" }}>{txt(m?.d)}</span>
                       </div>
@@ -445,15 +445,15 @@ function render(v) {
         <section id="zone-b" data-screen-label="Zone B" style={{ scrollMarginTop: "110px", marginTop: "96px" }}>
           <div style={{ background: "#5B3A9E", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>B</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>B</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
                   HALL 2 · NORTH-EAST QUADRANT · 119 STALLS · 5 PAVILIONS
                 </span>
-                <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,7vw,112px)", lineHeight: "0.85" }}>
-                  SPORTS GOODS
+                <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
+                  Sports Goods
                   <br />
-                  {"& INFRASTRUCTURE"}
+                  {"& Infrastructure"}
                 </h2>
               </div>
             </div>
@@ -463,10 +463,10 @@ function render(v) {
               {list(v.bTiles).map((t, $index) => (
                 <Fragment key={$index}>
                   <button onClick={t?.pick} style={sx(`text-align:left;border:0;border-right:1px solid #E3E0D8;border-bottom:4px solid ${t?.bar ?? ""};background:${t?.bg ?? ""};padding:20px 18px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:170px;`)}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "52px", lineHeight: "0.85", color: "#5B3A9E" }}>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "38px", lineHeight: "0.85", color: "#5B3A9E" }}>
                       {txt(t?.n)}
                     </span>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(t?.unit)}</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(t?.unit)}</span>
                     <span style={{ marginTop: "auto", fontWeight: "700", fontSize: "15px", lineHeight: "1.2", color: "#0E0E0F" }}>{txt(t?.name)}</span>
                   </button>
                 </Fragment>
@@ -476,13 +476,13 @@ function render(v) {
               <>
                 <div style={{ display: "grid", gridTemplateColumns: "260px minmax(0,1fr)", border: "1px solid #E3E0D8", borderTop: "0" }}>
                   <aside style={{ padding: "24px", borderRight: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "20px", background: "#FBFAF7" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "34px", lineHeight: "0.9" }}>SPORTS GOODS MARKETPLACE</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "28px", lineHeight: "0.9" }}>Sports goods marketplace</span>
                     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>SPORT</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>SPORT</span>
                       <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                         {list(v.sportChips).map((c, $index) => (
                           <Fragment key={$index}>
-                            <button onClick={c?.pick} aria-pressed={c?.on} style={sx(`height:30px;padding:0 10px;border:1px solid #0E0E0F;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 12px 'Instrument Sans';cursor:pointer;`)}>
+                            <button onClick={c?.pick} aria-pressed={c?.on} style={sx(`height:30px;padding:0 10px;border:1px solid #0E0E0F;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 12px var(--f-body);cursor:pointer;`)}>
                               {txt(c?.name)}
                             </button>
                           </Fragment>
@@ -492,8 +492,8 @@ function render(v) {
                     {list(v.facetGroups).map((g, $index) => (
                       <Fragment key={$index}>
                         <label style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(g?.label)}</span>
-                          <select style={{ height: "38px", border: "1px solid #0E0E0F", background: "#fff", font: "500 14px 'Instrument Sans'", padding: "0 8px" }}>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(g?.label)}</span>
+                          <select style={{ height: "38px", border: "1px solid #0E0E0F", background: "#fff", font: "500 14px var(--f-body)", padding: "0 8px" }}>
                             {list(g?.opts).map((o, $index) => (
                               <Fragment key={$index}>
                                 <option>{str(o)}</option>
@@ -511,7 +511,7 @@ function render(v) {
                   <div style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "0" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", paddingBottom: "16px", borderBottom: "2px solid #0E0E0F" }}>
                       <b>{txt(v.resultCount)}{" exhibitors"}</b>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.12em", color: "#6B6A66" }}>DEMO ENTITIES</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.12em", color: "#6B6A66" }}>DEMO ENTITIES</span>
                     </div>
                     {list(v.market).map((e, $index) => (
                       <Fragment key={$index}>
@@ -520,8 +520,8 @@ function render(v) {
                             <image-slot id={e?.logo} shape="rect" placeholder="Logo" />
                           </div>
                           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{"STALL "}{txt(e?.stall)}</span>
-                            <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "800", fontSize: "26px", lineHeight: "1", textTransform: "uppercase" }}>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{"STALL "}{txt(e?.stall)}</span>
+                            <span style={{ fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "800", fontSize: "23px", lineHeight: "1", textTransform: "uppercase" }}>
                               {txt(e?.name)}
                             </span>
                             <span style={{ fontSize: "14px", color: "#6B6A66" }}>{txt(e?.city)}{" · "}{txt(e?.sector)}{" · "}{txt(e?.type)}</span>
@@ -536,18 +536,18 @@ function render(v) {
                           </div>
                           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px", alignContent: "start" }}>
                             <a href={withBase("/exhibit")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
-                              VIEW EXHIBITOR
+                              View exhibitor
                             </a>
                             <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                              VIEW PRODUCTS
+                              View products
                             </a>
                             <a href={withBase("/connect")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                              BOOK MEETING
+                              Book meeting
                             </a>
                             <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                              VIEW ON MAP
+                              View on map
                             </a>
-                            <button onClick={e?.save} style={sx(`grid-column:1 / -1;border:0;background:${e?.saveBg ?? ""};height:36px;font:700 11px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
+                            <button onClick={e?.save} style={sx(`grid-column:1 / -1;border:0;background:${e?.saveBg ?? ""};height:36px;font:700 11px var(--f-body);letter-spacing:0.08em;cursor:pointer;`)}>
                               {txt(e?.saveLabel)}
                             </button>
                           </div>
@@ -571,7 +571,7 @@ function render(v) {
                     <div style={{ display: "flex", flexDirection: "column", gap: "0", transformStyle: "preserve-3d" }}>
                       {list(v.layers).map((l, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={l?.pick} style={sx(`width:420px;height:58px;margin-top:-6px;border:1.5px solid #0E0E0F;background:${l?.bg ?? ""};color:${l?.fg ?? ""};transform:rotateX(58deg) rotateZ(-32deg) translateX(${l?.shift ?? ""});transition:transform .5s, background .3s;cursor:pointer;font:800 18px 'Archivo';font-stretch:75%;letter-spacing:0.06em;display:flex;align-items:center;justify-content:space-between;padding:0 20px;`)}>
+                          <button onClick={l?.pick} style={sx(`width:420px;height:58px;margin-top:-6px;border:1.5px solid #0E0E0F;background:${l?.bg ?? ""};color:${l?.fg ?? ""};transform:rotateX(58deg) rotateZ(-32deg) translateX(${l?.shift ?? ""});transition:transform .5s, background .3s;cursor:pointer;font:800 16px var(--f-display);font-stretch:75%;letter-spacing:0.06em;display:flex;align-items:center;justify-content:space-between;padding:0 20px;`)}>
                             <span>{txt(l?.n)}</span>
                             <span>{txt(l?.name)}</span>
                           </button>
@@ -580,15 +580,15 @@ function render(v) {
                     </div>
                   </div>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#5B3A9E" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#5B3A9E" }}>
                       {"EXPLODED STADIUM · LAYER "}{txt(v.layer?.n)}{" OF 8"}
                     </span>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.86" }}>{txt(v.layer?.name)}</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "45px", lineHeight: "0.86" }}>{txt(v.layer?.name)}</span>
                     <span style={{ fontSize: "16px", lineHeight: "1.5", color: "#3A3A3E" }}>{txt(v.layer?.d)}</span>
                     {list(v.layer?.groups).map((g, $index) => (
                       <Fragment key={$index}>
                         <div style={{ borderTop: "1px solid #0E0E0F", paddingTop: "10px" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(g?.k)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(g?.k)}</span>
                           <div style={{ fontSize: "15px", marginTop: "4px" }}>{txt(g?.v)}</div>
                         </div>
                       </Fragment>
@@ -603,12 +603,12 @@ function render(v) {
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", display: "grid", gridTemplateColumns: "minmax(0,1.3fr) minmax(0,1fr)" }}>
                   <div style={{ padding: "40px", background: "#fff", display: "flex", flexDirection: "column", gap: "24px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "12px" }}>
-                      <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontStyle: "italic", fontSize: "80px", lineHeight: "0.84" }}>
-                        ENGINEERED
+                      <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontStyle: "italic", fontSize: "56px", lineHeight: "0.84" }}>
+                        Engineered
                         <br />
-                        TO RUN.
+                        to run.
                       </span>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                         {"APPAREL & FOOTWEAR · 14 STALLS · 1 PAVILION"}
                       </span>
                     </div>
@@ -616,7 +616,7 @@ function render(v) {
                       {list(v.shoe).map((s, $index) => (
                         <Fragment key={$index}>
                           <button onClick={s?.pick} style={{ display: "grid", gridTemplateColumns: "44px minmax(0,1fr) 180px", alignItems: "center", gap: "16px", border: "0", background: "none", padding: "0", cursor: "pointer", textAlign: "left" }}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", color: "#6B6A66" }}>{txt(s?.n)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", color: "#6B6A66" }}>{txt(s?.n)}</span>
                             <span style={sx(`height:${s?.h ?? ""};background:${s?.bg ?? ""};border:1.5px solid #0E0E0F;transform:translateX(${s?.x ?? ""});transition:transform .5s, background .3s;border-radius:${s?.r ?? ""};`)} />
                             <span style={sx(`font-weight:700;font-size:14px;color:${s?.fg ?? ""};`)}>{txt(s?.name)}</span>
                           </button>
@@ -633,7 +633,7 @@ function render(v) {
                       <Fragment key={$index}>
                         <div style={{ position: "relative", minHeight: "220px" }}>
                           <image-slot id={m?.id} shape="rect" placeholder={m?.p} />
-                          <span style={{ position: "absolute", left: "12px", top: "12px", background: "#fff", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", padding: "4px 8px", pointerEvents: "none" }}>
+                          <span style={{ position: "absolute", left: "12px", top: "12px", background: "#fff", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", padding: "4px 8px", pointerEvents: "none" }}>
                             {txt(m?.t)}
                           </span>
                         </div>
@@ -647,8 +647,8 @@ function render(v) {
             {v.bOem ? (
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", padding: "32px" }}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86", display: "block", marginBottom: "28px" }}>
-                    FROM DESIGN TO GLOBAL RETAIL
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86", display: "block", marginBottom: "28px" }}>
+                    From design to global retail
                   </span>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(7,minmax(0,1fr))" }}>
                     {list(v.chain).map((c, $index) => (
@@ -658,8 +658,8 @@ function render(v) {
                             <span style={{ width: "14px", height: "14px", background: "#5B3A9E" }} />
                             <span style={{ flex: "1", height: "3px", background: "#F07C12" }} />
                           </div>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>0{txt(c?.n)}</span>
-                          <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px", lineHeight: "0.9" }}>{txt(c?.t)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>0{txt(c?.n)}</span>
+                          <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "23px", lineHeight: "0.9" }}>{txt(c?.t)}</span>
                           {list(c?.cos).map((co, $index) => (
                             <Fragment key={$index}>
                               <span style={{ fontSize: "13px", borderLeft: "2px solid #5B3A9E", padding: "4px 0 4px 8px", marginRight: "12px" }}>{txt(co)}</span>
@@ -677,11 +677,11 @@ function render(v) {
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)" }}>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86" }}>{"SURFACES & TURF"}</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86" }}>{"Surfaces & turf"}</span>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                       {list(v.surfTabs).map((t, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={t?.pick} style={sx(`height:38px;padding:0 14px;border:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 12px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
+                          <button onClick={t?.pick} style={sx(`height:38px;padding:0 14px;border:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 12px var(--f-body);letter-spacing:0.08em;cursor:pointer;`)}>
                             {txt(t?.name)}
                           </button>
                         </Fragment>
@@ -694,7 +694,7 @@ function render(v) {
                     </span>
                   </div>
                   <div style={{ padding: "32px", background: "#EEE8F7", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", marginBottom: "10px" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", marginBottom: "10px" }}>
                       SYSTEM CROSS-SECTION · ILLUSTRATIVE
                     </span>
                     {list(v.surf?.layers).map((l, $index) => (
@@ -714,15 +714,15 @@ function render(v) {
         <section id="zone-c" data-screen-label="Zone C" style={{ scrollMarginTop: "110px", marginTop: "96px" }}>
           <div style={{ background: "#0A62BF", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>C</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>C</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
                   HALL 2 · SOUTH-EAST QUADRANT · 94 STALLS · 324-SEAT ARENA
                 </span>
-                <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,7vw,112px)", lineHeight: "0.85" }}>
-                  SPORTS TECH
+                <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
+                  Sports Tech
                   <br />
-                  {"& EXPERIENCE"}
+                  {"& Experience"}
                 </h2>
               </div>
             </div>
@@ -732,8 +732,8 @@ function render(v) {
               {list(v.cTiles).map((t, $index) => (
                 <Fragment key={$index}>
                   <button onClick={t?.pick} style={sx(`text-align:left;border:0;border-right:1px solid #E3E0D8;border-bottom:4px solid ${t?.bar ?? ""};background:${t?.bg ?? ""};padding:20px 18px;cursor:pointer;display:flex;flex-direction:column;gap:8px;min-height:130px;`)}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(t?.code)}</span>
-                    <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "800", fontSize: "20px", lineHeight: "1", textTransform: "uppercase", color: "#0E0E0F" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(t?.code)}</span>
+                    <span style={{ marginTop: "auto", fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "800", fontSize: "18px", lineHeight: "1", textTransform: "uppercase", color: "#0E0E0F" }}>
                       {txt(t?.name)}
                     </span>
                   </button>
@@ -746,7 +746,7 @@ function render(v) {
                   <div style={{ display: "flex", flexDirection: "column", borderRight: "1px solid #E3E0D8" }}>
                     {list(v.stakeTabs).map((s, $index) => (
                       <Fragment key={$index}>
-                        <button onClick={s?.pick} style={sx(`height:76px;border:0;border-bottom:1px solid #E3E0D8;background:${s?.bg ?? ""};color:${s?.fg ?? ""};font:900 34px 'Archivo';font-stretch:62%;text-align:left;padding:0 24px;cursor:pointer;`)}>
+                        <button onClick={s?.pick} style={sx(`height:76px;border:0;border-bottom:1px solid #E3E0D8;background:${s?.bg ?? ""};color:${s?.fg ?? ""};font:900 28px var(--f-display);font-stretch:62%;text-align:left;padding:0 24px;cursor:pointer;`)}>
                           {txt(s?.t)}
                         </button>
                       </Fragment>
@@ -756,11 +756,11 @@ function render(v) {
                     {list(v.stakeItems).map((i, $index) => (
                       <Fragment key={$index}>
                         <div style={{ borderTop: "3px solid #0A62BF", paddingTop: "14px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                          <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "800", fontSize: "26px", textTransform: "uppercase", lineHeight: "1" }}>
+                          <span style={{ fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "800", fontSize: "23px", textTransform: "uppercase", lineHeight: "1" }}>
                             {txt(i?.t)}
                           </span>
                           <span style={{ fontSize: "14px", color: "#3A3A3E", lineHeight: "1.45" }}>{txt(i?.d)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(i?.co)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(i?.co)}</span>
                         </div>
                       </Fragment>
                     ))}
@@ -776,8 +776,8 @@ function render(v) {
                     <Fragment key={$index}>
                       <article style={{ border: "1px solid #E3E0D8", margin: "-1px 0 0 -1px", padding: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-                          <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "900", fontSize: "32px", textTransform: "uppercase" }}>{txt(s?.name)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(s?.stall)}</span>
+                          <span style={{ fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "900", fontSize: "26px", textTransform: "uppercase" }}>{txt(s?.name)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(s?.stall)}</span>
                         </div>
                         <span style={{ fontSize: "13px", color: "#6B6A66" }}>
                           {txt(s?.country)}{" · "}{txt(s?.tech)}{" · "}{txt(s?.sport)}{" · "}
@@ -785,23 +785,23 @@ function render(v) {
                         </span>
                         <span style={{ fontSize: "16px", lineHeight: "1.4" }}>“{txt(s?.problem)}”</span>
                         <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", alignSelf: "center" }}>LOOKING FOR</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", alignSelf: "center" }}>LOOKING FOR</span>
                           {list(s?.seeking).map((k, $index) => (
                             <Fragment key={$index}>
                               <span style={{ background: "#E4EEFA", color: "#0A62BF", fontSize: "12px", fontWeight: "700", padding: "4px 8px" }}>{txt(k)}</span>
                             </Fragment>
                           ))}
                         </div>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{"PITCH · "}{txt(s?.pitch)}{" · INNOVATION ARENA"}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{"PITCH · "}{txt(s?.pitch)}{" · INNOVATION ARENA"}</span>
                         <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "6px", marginTop: "auto" }}>
                           <a href={withBase("/connect")} style={{ gridColumn: "span 2", background: "#0A62BF", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
-                            REQUEST MEETING
+                            Request meeting
                           </a>
                           <a href={withBase("/programme")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
-                            PITCH
+                            Pitch
                           </a>
                           <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", boxSizing: "border-box" }}>
-                            MAP
+                            Map
                           </a>
                         </div>
                       </article>
@@ -821,7 +821,7 @@ function render(v) {
                       <Fragment key={$index}>
                         <button onClick={n?.pick} aria-label={n?.t} style={sx(`position:absolute;left:${n?.x ?? ""};top:${n?.y ?? ""};transform:translate(-50%,-50%);display:flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;padding:0;`)}>
                           <span style={sx(`width:18px;height:18px;border-radius:50%;background:${n?.bg ?? ""};border:2px solid #fff;box-shadow:0 0 0 6px rgba(11,110,79,0.35);`)} />
-                          <span style={{ background: "#fff", color: "#0E0E0F", font: "700 11px 'Instrument Sans'", letterSpacing: "0.08em", padding: "4px 8px", whiteSpace: "nowrap" }}>
+                          <span style={{ background: "#fff", color: "#0E0E0F", font: "700 11px var(--f-body)", letterSpacing: "0.08em", padding: "4px 8px", whiteSpace: "nowrap" }}>
                             {txt(n?.t)}
                           </span>
                         </button>
@@ -829,16 +829,16 @@ function render(v) {
                     ))}
                   </div>
                   <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "14px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#0A62BF" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#0A62BF" }}>
                       {"PERFORMANCE & SPORTS SCIENCE · 30 STALLS"}
                     </span>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.86", textTransform: "uppercase" }}>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "45px", lineHeight: "0.86", textTransform: "uppercase" }}>
                       {txt(v.node?.t)}
                     </span>
                     {list(v.node?.rows).map((r, $index) => (
                       <Fragment key={$index}>
                         <div style={{ display: "grid", gridTemplateColumns: "130px 1fr", gap: "12px", borderTop: "1px solid #E3E0D8", padding: "10px 0", fontSize: "14px" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", paddingTop: "2px" }}>{txt(r?.k)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", paddingTop: "2px" }}>{txt(r?.k)}</span>
                           <span>{txt(r?.v)}</span>
                         </div>
                       </Fragment>
@@ -852,11 +852,11 @@ function render(v) {
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", padding: "32px", display: "flex", flexDirection: "column", gap: "24px" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86" }}>INNOVATION ARENA</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86" }}>Innovation Arena</span>
                     <div role="tablist" style={{ display: "flex", border: "1px solid #0E0E0F" }}>
                       {list(v.phaseTabs).map((p, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={p?.pick} style={sx(`height:40px;padding:0 16px;border:0;border-right:1px solid #0E0E0F;background:${p?.bg ?? ""};color:${p?.fg ?? ""};font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;`)}>
+                          <button onClick={p?.pick} style={sx(`height:40px;padding:0 16px;border:0;border-right:1px solid #0E0E0F;background:${p?.bg ?? ""};color:${p?.fg ?? ""};font:700 12px var(--f-body);letter-spacing:0.1em;cursor:pointer;`)}>
                             {txt(p?.t)}
                           </button>
                         </Fragment>
@@ -865,24 +865,24 @@ function render(v) {
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", gap: "28px" }}>
                     <div style={{ aspectRatio: "16/9", background: "#0E0E0F", color: "#fff", position: "relative", display: "flex", alignItems: "flex-end", padding: "20px", boxSizing: "border-box" }}>
-                      <span style={sx(`position:absolute;left:16px;top:16px;background:${v.arena?.badgeBg ?? ""};font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;padding:5px 9px;`)}>
+                      <span style={sx(`position:absolute;left:16px;top:16px;background:${v.arena?.badgeBg ?? ""};font-family:var(--f-label);font-size:11px;letter-spacing:0.14em;padding:5px 9px;`)}>
                         {txt(v.arena?.badge)}
                       </span>
-                      <span style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66", letterSpacing: "0.14em" }}>
+                      <span style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66", letterSpacing: "0.14em" }}>
                         {txt(v.arena?.player)}
                       </span>
-                      <span style={{ position: "relative", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "40px", lineHeight: "0.9" }}>
+                      <span style={{ position: "relative", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "30px", lineHeight: "0.9" }}>
                         {txt(v.arena?.title)}
                       </span>
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", borderTop: "2px solid #0E0E0F" }}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", padding: "12px 0" }}>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", padding: "12px 0" }}>
                         {txt(v.arena?.listLabel)}
                       </span>
                       {list(v.arena?.list).map((s, $index) => (
                         <Fragment key={$index}>
                           <div style={{ display: "grid", gridTemplateColumns: "70px 1fr", gap: "12px", padding: "12px 0", borderBottom: "1px solid #E3E0D8" }}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "13px", color: "#0A62BF" }}>{txt(s?.a)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "13px", color: "#0A62BF" }}>{txt(s?.a)}</span>
                             <span style={{ fontSize: "15px", fontWeight: "600" }}>{txt(s?.b)}</span>
                           </div>
                         </Fragment>
@@ -896,10 +896,10 @@ function render(v) {
             {v.cTry ? (
               <>
                 <div style={{ border: "1px solid #E3E0D8", borderTop: "0", padding: "32px" }}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86", display: "block", marginBottom: "20px" }}>
-                    TRY SPORT ARENA · LIVE EXPERIENCE
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86", display: "block", marginBottom: "20px" }}>
+                    Try Sport Arena · Live experience
                   </span>
-                  <div style={{ display: "grid", gridTemplateColumns: "90px minmax(0,1.6fr) 90px 120px 130px minmax(0,1fr) 180px", gap: "12px", padding: "10px 0", borderBottom: "2px solid #0E0E0F", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "90px minmax(0,1.6fr) 90px 120px 130px minmax(0,1fr) 180px", gap: "12px", padding: "10px 0", borderBottom: "2px solid #0E0E0F", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                     <span>TIME</span>
                     <span>EXPERIENCE</span>
                     <span>DURATION</span>
@@ -911,7 +911,7 @@ function render(v) {
                   {list(v.tryList).map((t, $index) => (
                     <Fragment key={$index}>
                       <div style={{ display: "grid", gridTemplateColumns: "90px minmax(0,1.6fr) 90px 120px 130px minmax(0,1fr) 180px", gap: "12px", padding: "14px 0", borderBottom: "1px solid #E3E0D8", alignItems: "center", fontSize: "14px" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "15px" }}>{txt(t?.time)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "15px" }}>{txt(t?.time)}</span>
                         <b style={{ fontSize: "17px" }}>{txt(t?.name)}</b>
                         <span>{txt(t?.dur)}</span>
                         <span>
@@ -920,14 +920,14 @@ function render(v) {
                           </span>
                           <span style={{ fontSize: "12px" }}>{txt(t?.cap)}</span>
                         </span>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(t?.loc)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(t?.loc)}</span>
                         <span style={{ color: "#3A3A3E" }}>{txt(t?.elig)}</span>
                         <span style={{ display: "flex", gap: "6px" }}>
-                          <button onClick={t?.book} style={sx(`flex:1;height:36px;border:0;background:${t?.bookBg ?? ""};color:${t?.bookFg ?? ""};font:700 11px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
+                          <button onClick={t?.book} style={sx(`flex:1;height:36px;border:0;background:${t?.bookBg ?? ""};color:${t?.bookFg ?? ""};font:700 11px var(--f-body);letter-spacing:0.08em;cursor:pointer;`)}>
                             {txt(t?.bookLabel)}
                           </button>
-                          <button style={{ height: "36px", padding: "0 10px", border: "1px solid #0E0E0F", background: "#fff", font: "700 11px 'Instrument Sans'", cursor: "pointer" }}>
-                            SAVE
+                          <button style={{ height: "36px", padding: "0 10px", border: "1px solid #0E0E0F", background: "#fff", font: "700 11px var(--f-body)", cursor: "pointer" }}>
+                            Save
                           </button>
                         </span>
                       </div>
@@ -941,15 +941,15 @@ function render(v) {
         <section id="zone-d" data-screen-label="Zone D" style={{ scrollMarginTop: "110px", marginTop: "96px", paddingBottom: "96px" }}>
           <div style={{ background: "#00803F", color: "#fff", padding: "72px 28px 56px" }}>
             <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: "40px", alignItems: "end" }}>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "220px", lineHeight: "0.75" }}>D</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>D</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
                   HALL 2 · SOUTH-WEST QUADRANT · 6 COUNTRY PAVILIONS · 7 BUSINESS SPACES
                 </span>
-                <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,7vw,112px)", lineHeight: "0.85" }}>
-                  SPORTS BUSINESS
+                <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
+                  Sports Business
                   <br />
-                  {"& INVESTMENT"}
+                  {"& Investment"}
                 </h2>
               </div>
             </div>
@@ -959,7 +959,7 @@ function render(v) {
               {list(v.dSpaces).map((d, $index) => (
                 <Fragment key={$index}>
                   <div style={{ borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", padding: "20px", display: "flex", flexDirection: "column", gap: "8px", minHeight: "120px" }}>
-                    <span style={{ display: "flex", justifyContent: "space-between", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>
+                    <span style={{ display: "flex", justifyContent: "space-between", fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>
                       <span>{txt(d?.code)}</span>
                       <span>{txt(d?.access)}</span>
                     </span>
@@ -975,7 +975,7 @@ function render(v) {
                 <div style={{ position: "absolute", left: "16px", bottom: "16px", display: "flex", gap: "6px", flexWrap: "wrap" }}>
                   {list(v.ctyBtns).map((c, $index) => (
                     <Fragment key={$index}>
-                      <button onClick={c?.pick} style={sx(`height:34px;padding:0 12px;border:1px solid #fff;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 13px 'Instrument Sans';cursor:pointer;`)}>
+                      <button onClick={c?.pick} style={sx(`height:34px;padding:0 12px;border:1px solid #fff;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 13px var(--f-body);cursor:pointer;`)}>
                         {txt(c?.name)}
                       </button>
                     </Fragment>
@@ -983,10 +983,10 @@ function render(v) {
                 </div>
               </div>
               <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>
                   {"COUNTRY PAVILION · "}{txt(v.cty?.pav)}{" · DEMO DATA"}
                 </span>
-                <h3 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "72px", lineHeight: "0.85", textTransform: "uppercase" }}>
+                <h3 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "50px", lineHeight: "0.85", textTransform: "uppercase" }}>
                   {txt(v.cty?.name)}
                 </h3>
                 <p style={{ margin: "0", fontSize: "18px", lineHeight: "1.4" }}>{txt(v.cty?.profile)}</p>
@@ -1000,13 +1000,13 @@ function render(v) {
                 </dl>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "6px", marginTop: "auto" }}>
                   <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
-                    VIEW PAVILION
+                    View pavilion
                   </a>
                   <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                    VIEW COMPANIES
+                    View companies
                   </a>
                   <a href={withBase("/connect")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
-                    REQUEST MEETING
+                    Request meeting
                   </a>
                 </div>
               </div>

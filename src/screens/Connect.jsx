@@ -53,15 +53,15 @@ class Component extends DCLogic {
       look: ['PRODUCT', 'SUPPLIER', 'PARTNER', 'INVESTMENT', 'DISTRIBUTOR', 'TECHNOLOGY'].map(t => ({ t, ...sel(t === s.look), pick: () => this.setState({ look: t }) })),
       filters: [['country', 'COUNTRY', ['Germany', 'United Kingdom', 'UAE', 'Japan', 'Any']], ['sector', 'SECTOR', ['Sports goods', 'Infrastructure', 'SportsTech', 'Apparel']], ['product', 'PRODUCT', ['Football equipment', 'Cricket equipment', 'Turf', 'Lighting']], ['opp', 'OPPORTUNITY', ['Distribution', 'Sourcing', 'Investment', 'Joint venture']]].map(([k, label, opts]) => ({ label, opts, value: s.f[k], set: e => this.setState({ f: { ...s.f, [k]: e.target.value } }) })),
       find: () => { this.setState({ loading: true, searched: false }); clearTimeout(this._l); this._l = setTimeout(() => this.setState({ loading: false, searched: true }), 1300); setTimeout(() => { const el = document.getElementById('matches'); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 70, behavior: 'smooth' }); }, 60); },
-      findLabel: s.loading ? 'MATCHING…' : 'FIND MATCHES →',
+      findLabel: s.loading ? 'Matching…' : 'Find matches →',
       loading: s.loading, showResults: s.searched && !s.loading,
       skeleton: ['Scoring product fit…', 'Checking market overlap…', 'Reading buyer requirements…', 'Comparing geographies…'],
       matchSummary: `${s.iam} → ${s.look} · ${s.f.country.toUpperCase()} · ${s.f.product.toUpperCase()} · ${all.length} MATCHES`,
       results: all.map((m, i) => ({ ...m, roleU: m.role.toUpperCase(), countryU: m.country.toUpperCase(), sc: m.score >= 85 ? '#0B6E4F' : m.score >= 70 ? '#0E0E0F' : '#8A877F',
         why: ['Product fit', 'Market fit', 'Buyer requirement', 'Geographic interest'].map(t => { const has = m.why.includes(t); const v = has ? Math.min(99, FACT[t] - (100 - m.score) / 3 | 0) : 20 + (i * 7) % 25; return { t, v: v + '', pct: v + '%', c: has ? '#0B6E4F' : '#BDB9B0' }; }),
-        reqLabel: reqd(m.name) ? '✓ REQUESTED' : 'REQUEST MEETING', reqBg: reqd(m.name) ? '#E3F1EB' : '#0E0E0F', reqFg: reqd(m.name) ? '#0B6E4F' : '#fff', request: request(m), profile: () => this.setState({ prof: i }) })),
+        reqLabel: reqd(m.name) ? '✓ Requested' : 'Request meeting', reqBg: reqd(m.name) ? '#E3F1EB' : '#0E0E0F', reqFg: reqd(m.name) ? '#0B6E4F' : '#fff', request: request(m), profile: () => this.setState({ prof: i }) })),
       profileOpen: !!pr, closeProfile: () => this.setState({ prof: null }), stop: e => e.stopPropagation(),
-      pr: pr ? { ...pr, roleU: pr.role.toUpperCase(), countryU: pr.country.toUpperCase(), reqLabel: reqd(pr.name) ? '✓ MEETING REQUESTED' : 'REQUEST MEETING', request: request(pr),
+      pr: pr ? { ...pr, roleU: pr.role.toUpperCase(), countryU: pr.country.toUpperCase(), reqLabel: reqd(pr.name) ? '✓ Meeting requested' : 'Request meeting', request: request(pr),
         rows: [{ k: 'Looking for', v: pr.seeking }, { k: 'Match score', v: pr.score + '% · ' + pr.why.join(', ') }, { k: 'Annual volume', v: pr.role === 'Investor' ? 'Ticket ₹5–40 Cr (sample)' : '€5–20M sourcing (sample)' }, { k: 'Markets', v: pr.country === 'Germany' ? 'DACH, Benelux' : pr.country }, { k: 'Attending', v: 'Day 1 – Day 3 · Hosted Buyer (sample)' }, { k: 'Availability', v: '6 open slots on Day 2' }] } : { rows: [] },
       mtypes: ['B2B', 'B2G', 'G2G', 'BUYER–SELLER', 'INVESTOR', 'FEDERATION', 'CEO / STRATEGIC'].map(t => ({ t, ...sel(t === s.mtype), pick: () => this.setState({ mtype: t }) })), mtype: s.mtype,
       flow: FLOW.map((x, i) => ({ t: x[0], n: String(i + 1).padStart(2, '0'), mark: i < s.step ? '✓' : '', bg: i === s.step ? '#0E0E0F' : i < s.step ? '#F6F4EF' : '#fff', fg: i === s.step ? '#fff' : i < s.step ? '#0E0E0F' : '#8A877F', go: () => this.setState({ step: i }) })),
@@ -105,56 +105,56 @@ function render(v) {
             <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href={withBase("/connect")} style={{ color: "#F07C12", textDecoration: "none" }}>CONNECT</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href={withBase("/programme#watch")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>Explore</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>Exhibit</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>Attend</a>
+            <a href={withBase("/connect")} style={{ color: "#F07C12", textDecoration: "none" }}>Connect</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
+            <a href={withBase("/programme#watch")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
           <a href={withBase("/attend#myexpo")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            MY EXPO
+            My Expo
           </a>
           <a href="#exchange" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px", whiteSpace: "nowrap" }}>
-            FIND MATCHES
+            Find matches
           </a>
         </header>
         <section id="exchange" data-screen-label="Business Exchange" style={{ scrollMarginTop: "60px", background: "#0E0E0F", color: "#fff", padding: "80px 28px 72px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,520px),1fr))", gap: "56px", alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>
                 ZONE D · INDIA SPORTS BUSINESS EXCHANGE
               </span>
-              <h1 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(64px,8vw,132px)", lineHeight: "0.84" }}>
-                BUILD THE
+              <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(64px,8vw,132px) * 0.72)", lineHeight: "0.84" }}>
+                Build the
                 <br />
-                BUSINESS
+                business
                 <br />
-                OF SPORT.
+                of sport.
               </h1>
               <p style={{ margin: "0", fontSize: "18px", lineHeight: "1.5", color: "#BDB9B0", maxWidth: "520px" }}>
                 Tell the Exchange who you are and what you need. Matches are scored on product, market, requirement and geography, then turned into meetings with a room, a time and an outcome.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", borderTop: "1px solid #3A3A3E", marginTop: "12px" }}>
                 <div style={{ padding: "16px 12px 0 0" }}>
-                  <span style={{ display: "block", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "48px", color: "#F07C12", lineHeight: "0.9" }}>
+                  <span style={{ display: "block", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "36px", color: "#F07C12", lineHeight: "0.9" }}>
                     3,200
                   </span>
                   <span style={{ fontSize: "13px", color: "#BDB9B0" }}>meetings targeted (demo)</span>
                 </div>
                 <div style={{ padding: "16px 12px 0 0" }}>
-                  <span style={{ display: "block", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "48px", lineHeight: "0.9" }}>40</span>
+                  <span style={{ display: "block", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "36px", lineHeight: "0.9" }}>40</span>
                   <span style={{ fontSize: "13px", color: "#BDB9B0" }}>B2B tables</span>
                 </div>
                 <div style={{ padding: "16px 12px 0 0" }}>
-                  <span style={{ display: "block", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "48px", lineHeight: "0.9" }}>6</span>
+                  <span style={{ display: "block", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "36px", lineHeight: "0.9" }}>6</span>
                   <span style={{ fontSize: "13px", color: "#BDB9B0" }}>MoU / deal rooms</span>
                 </div>
               </div>
             </div>
             <div style={{ background: "#fff", color: "#0E0E0F", padding: "28px", display: "flex", flexDirection: "column", gap: "22px" }}>
               <div>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>01 · I AM A</span>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>01 · I AM A</span>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", borderTop: "1px solid #0E0E0F", borderLeft: "1px solid #0E0E0F", marginTop: "8px" }}>
                   {list(v.iam).map((o, $index) => (
                     <Fragment key={$index}>
@@ -166,7 +166,7 @@ function render(v) {
                 </div>
               </div>
               <div>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>02 · I AM LOOKING FOR</span>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>02 · I AM LOOKING FOR</span>
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", borderTop: "1px solid #0E0E0F", borderLeft: "1px solid #0E0E0F", marginTop: "8px" }}>
                   {list(v.look).map((o, $index) => (
                     <Fragment key={$index}>
@@ -181,7 +181,7 @@ function render(v) {
                 {list(v.filters).map((f, $index) => (
                   <Fragment key={$index}>
                     <label style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(f?.label)}</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(f?.label)}</span>
                       <select value={val(f?.value)} onChange={f?.set} style={{ height: "46px", border: "1px solid #0E0E0F", background: "#fff", padding: "0 10px", fontSize: "15px" }}>
                         {list(f?.opts).map((o, $index) => (
                           <Fragment key={$index}>
@@ -201,10 +201,10 @@ function render(v) {
         </section>
         <section id="matches" data-screen-label="Matchmaking results" style={{ scrollMarginTop: "60px", padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              02 — YOUR MATCHES
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              02 — Your matches
             </h2>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.1em" }}>{txt(v.matchSummary)}</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.1em" }}>{txt(v.matchSummary)}</span>
           </div>
           {v.loading ? (
             <>
@@ -215,7 +215,7 @@ function render(v) {
                       <span style={{ height: "14px", width: "40%", background: "#F1EFEA" }} />
                       <span style={{ height: "36px", width: "80%", background: "#F1EFEA" }} />
                       <span style={{ height: "10px", width: "100%", background: "#F6F4EF" }} />
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(k)}</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(k)}</span>
                     </div>
                   </Fragment>
                 ))}
@@ -230,14 +230,14 @@ function render(v) {
                   <Fragment key={$index}>
                     <article style={{ display: "grid", gridTemplateColumns: "120px minmax(0,1.3fr) minmax(0,1fr) auto", gap: "28px", padding: "24px 0", borderBottom: "1px solid #E3E0D8", alignItems: "center" }}>
                       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                        <span style={sx(`font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:64px;line-height:0.85;color:${m?.sc ?? ""};`)}>{txt(m?.score)}%</span>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>MATCH</span>
+                        <span style={sx(`font-family:var(--f-display);font-stretch:62%;font-weight:900;font-size:45px;line-height:0.85;color:${m?.sc ?? ""};`)}>{txt(m?.score)}%</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>MATCH</span>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "6px", minWidth: "0" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                           {txt(m?.roleU)}{" · "}{txt(m?.countryU)}
                         </span>
-                        <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "36px", lineHeight: "0.9", textTransform: "uppercase" }}>
+                        <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "30px", lineHeight: "0.9", textTransform: "uppercase" }}>
                           {txt(m?.name)}
                         </b>
                         <span style={{ fontSize: "15px" }}>
@@ -246,7 +246,7 @@ function render(v) {
                         </span>
                       </div>
                       <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>WHY THIS MATCH</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>WHY THIS MATCH</span>
                         {list(m?.why).map((w, $index) => (
                           <Fragment key={$index}>
                             <div style={{ display: "grid", gridTemplateColumns: "130px 1fr 36px", gap: "10px", alignItems: "center", fontSize: "13px" }}>
@@ -254,7 +254,7 @@ function render(v) {
                               <span style={{ height: "6px", background: "#F1EFEA" }}>
                                 <span style={sx(`display:block;height:6px;width:${w?.pct ?? ""};background:${w?.c ?? ""};`)} />
                               </span>
-                              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", textAlign: "right" }}>{txt(w?.v)}</span>
+                              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", textAlign: "right" }}>{txt(w?.v)}</span>
                             </div>
                           </Fragment>
                         ))}
@@ -264,7 +264,7 @@ function render(v) {
                           {txt(m?.reqLabel)}
                         </button>
                         <button onClick={m?.profile} style={{ height: "44px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                          VIEW PROFILE
+                          View profile
                         </button>
                       </div>
                     </article>
@@ -277,8 +277,8 @@ function render(v) {
         <section id="meetings" data-screen-label="Meeting management" style={{ scrollMarginTop: "60px", background: "#F6F4EF", padding: "72px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-                03 — MEETINGS
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+                03 — Meetings
               </h2>
               <div style={{ display: "flex", gap: "0", border: "1px solid #0E0E0F", background: "#fff", flexWrap: "wrap" }}>
                 {list(v.mtypes).map((t, $index) => (
@@ -295,7 +295,7 @@ function render(v) {
                 <Fragment key={$index}>
                   <li>
                     <button onClick={f?.go} style={sx(`width:100%;height:72px;border:0;border-right:1px solid #E3E0D8;background:${f?.bg ?? ""};color:${f?.fg ?? ""};text-align:left;padding:10px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;`)}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px" }}>{txt(f?.n)}{" "}{txt(f?.mark)}</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "10px" }}>{txt(f?.n)}{" "}{txt(f?.mark)}</span>
                       <span style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.06em" }}>{txt(f?.t)}</span>
                     </button>
                   </li>
@@ -305,10 +305,10 @@ function render(v) {
             <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)", border: "1px solid #0E0E0F", borderTop: "0", background: "#fff" }}>
               <div style={{ padding: "32px", borderRight: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "20px", minHeight: "460px" }}>
                 <div>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#C2610B" }}>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#C2610B" }}>
                     {"STEP "}{txt(v.fs?.n)}{" OF 10 · "}{txt(v.mtype)}
                   </span>
-                  <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.88", marginTop: "6px" }}>
+                  <div style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.88", marginTop: "6px" }}>
                     {txt(v.fs?.title)}
                   </div>
                   <div style={{ fontSize: "15px", color: "#3A3A3E", marginTop: "8px", maxWidth: "600px" }}>{txt(v.fs?.d)}</div>
@@ -316,7 +316,7 @@ function render(v) {
                 {v.isSlot ? (
                   <>
                     <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <div style={{ display: "grid", gridTemplateColumns: "70px repeat(3,minmax(0,1fr))", gap: "4px", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>
+                      <div style={{ display: "grid", gridTemplateColumns: "70px repeat(3,minmax(0,1fr))", gap: "4px", fontFamily: "var(--f-label)", fontSize: "11px" }}>
                         <span />
                         <span style={{ textAlign: "center" }}>DAY 1</span>
                         <span style={{ textAlign: "center" }}>DAY 2</span>
@@ -326,7 +326,7 @@ function render(v) {
                             <span style={{ display: "flex", alignItems: "center" }}>{txt(r?.t)}</span>
                             {list(r?.cells).map((c, $index) => (
                               <Fragment key={$index}>
-                                <button onClick={c?.pick} disabled={c?.busy} style={sx(`height:38px;border:1px solid ${c?.bd ?? ""};background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:500 11px 'JetBrains Mono';cursor:pointer;`)}>
+                                <button onClick={c?.pick} disabled={c?.busy} style={sx(`height:38px;border:1px solid ${c?.bd ?? ""};background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:500 11px var(--f-label);cursor:pointer;`)}>
                                   {txt(c?.label)}
                                 </button>
                               </Fragment>
@@ -343,7 +343,7 @@ function render(v) {
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)", gap: "4px" }}>
                       {list(v.tables).map((t, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={t?.pick} style={sx(`aspect-ratio:1;border:1px solid ${t?.bd ?? ""};background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:500 11px 'JetBrains Mono';cursor:pointer;`)}>
+                          <button onClick={t?.pick} style={sx(`aspect-ratio:1;border:1px solid ${t?.bd ?? ""};background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:500 11px var(--f-label);cursor:pointer;`)}>
                             {txt(t?.n)}
                           </button>
                         </Fragment>
@@ -376,7 +376,7 @@ function render(v) {
                       {list(v.fs?.lines).map((l, $index) => (
                         <Fragment key={$index}>
                           <div style={{ display: "grid", gridTemplateColumns: "28px 1fr", gap: "10px", padding: "12px 0", borderBottom: "1px solid #E3E0D8", fontSize: "15px" }}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", color: "#0B6E4F" }}>{txt(l?.i)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", color: "#0B6E4F" }}>{txt(l?.i)}</span>
                             <span>{txt(l?.t)}</span>
                           </div>
                         </Fragment>
@@ -386,7 +386,7 @@ function render(v) {
                 ) : null}
                 <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", marginTop: "auto" }}>
                   <button onClick={v.prevStep} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                    ← BACK
+                    ← Back
                   </button>
                   <button onClick={v.nextStep} style={{ height: "50px", padding: "0 26px", border: "0", background: "#F07C12", color: "#0E0E0F", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
                     {txt(v.fs?.cta)}
@@ -394,12 +394,12 @@ function render(v) {
                 </div>
               </div>
               <aside style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "14px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>MEETING RECORD · MTG-27-01184</span>
-                <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "34px", lineHeight: "0.9" }}>
-                  APEX SPORTS INDIA
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>MEETING RECORD · MTG-27-01184</span>
+                <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "28px", lineHeight: "0.9" }}>
+                  Apex Sports India
                   <br />
                   <span style={{ color: "#8A877F" }}>×</span>
-                  {" GLOBAL SPORTS RETAIL"}
+                  {" Global Sports Retail"}
                 </span>
                 <dl style={{ margin: "0", display: "grid", gridTemplateColumns: "110px 1fr", fontSize: "14px", borderTop: "1px solid #E3E0D8" }}>
                   {list(v.record).map((r, $index) => (
@@ -415,10 +415,10 @@ function render(v) {
         </section>
         <section id="countries" data-screen-label="Country pavilions" style={{ scrollMarginTop: "60px", padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              04 — COUNTRY PAVILIONS
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              04 — Country pavilions
             </h2>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.1em" }}>ZONE D · 6 PAVILIONS · DELEGATIONS ILLUSTRATIVE</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.1em" }}>ZONE D · 6 PAVILIONS · DELEGATIONS ILLUSTRATIVE</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", border: "1px solid #0E0E0F" }}>
             <div role="group" aria-label="World map of participating countries" style={{ position: "relative", aspectRatio: "2/1", background: "#0E0E0F", overflow: "hidden" }}>
@@ -431,26 +431,26 @@ function render(v) {
               ))}
               <div style={sx(`position:absolute;left:${v.india?.x ?? ""};top:${v.india?.y ?? ""};transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:4px;`)}>
                 <span style={{ width: "16px", height: "16px", background: "#F07C12" }} />
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#F07C12" }}>NEW DELHI</span>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#F07C12" }}>NEW DELHI</span>
               </div>
               {list(v.ctyPins).map((c, $index) => (
                 <Fragment key={$index}>
                   <button onClick={c?.pick} aria-label={c?.name} style={sx(`position:absolute;left:${c?.x ?? ""};top:${c?.y ?? ""};transform:translate(-50%,-50%);border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px;`)}>
                     <span style={sx(`width:12px;height:12px;border:2px solid #fff;background:${c?.fill ?? ""};`)} />
-                    <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;color:#fff;white-space:nowrap;background:${c?.lbg ?? ""};padding:2px 4px;`)}>
+                    <span style={sx(`font-family:var(--f-label);font-size:10px;letter-spacing:0.12em;color:#fff;white-space:nowrap;background:${c?.lbg ?? ""};padding:2px 4px;`)}>
                       {txt(c?.nameU)}
                     </span>
                   </button>
                 </Fragment>
               ))}
               {" "}
-              <span style={{ position: "absolute", left: "14px", bottom: "12px", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#8A877F" }}>
+              <span style={{ position: "absolute", left: "14px", bottom: "12px", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#8A877F" }}>
                 SCHEMATIC PROJECTION · NOT TO SCALE
               </span>
             </div>
             <div style={{ padding: "28px", borderLeft: "1px solid #0E0E0F", display: "flex", flexDirection: "column", gap: "14px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{"PAVILION "}{txt(v.cty?.pav)}</span>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.85", textTransform: "uppercase" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{"PAVILION "}{txt(v.cty?.pav)}</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "45px", lineHeight: "0.85", textTransform: "uppercase" }}>
                 {txt(v.cty?.name)}
               </span>
               <span style={{ fontSize: "16px", lineHeight: "1.45" }}>{txt(v.cty?.profile)}</span>
@@ -464,13 +464,13 @@ function render(v) {
               </dl>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: "8px", marginTop: "auto" }}>
                 <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em" }}>
-                  VIEW PAVILION
+                  View pavilion
                 </a>
                 <a href={withBase("/exhibit#directory")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                  VIEW COMPANIES
+                  View companies
                 </a>
                 <button onClick={v.ctyMeet} style={{ height: "46px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                  REQUEST MEETING
+                  Request meeting
                 </button>
               </div>
             </div>
@@ -479,8 +479,8 @@ function render(v) {
             {list(v.ctyList).map((c, $index) => (
               <Fragment key={$index}>
                 <button onClick={c?.pick} style={sx(`border:0;border-right:1px solid #E3E0D8;background:${c?.bg ?? ""};color:${c?.fg ?? ""};padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;`)}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px", textTransform: "uppercase" }}>{txt(c?.name)}</span>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{txt(c?.pav)}{" · "}{txt(c?.companies)}{" cos."}</span>
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px", textTransform: "uppercase" }}>{txt(c?.name)}</span>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(c?.pav)}{" · "}{txt(c?.companies)}{" cos."}</span>
                 </button>
               </Fragment>
             ))}
@@ -488,19 +488,19 @@ function render(v) {
         </section>
         <section data-screen-label="Lounges" style={{ background: "#0E0E0F", color: "#fff", padding: "72px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-            <h2 style={{ margin: "0 0 28px", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              05 — PRIVATE SPACES
+            <h2 style={{ margin: "0 0 28px", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              05 — Private spaces
             </h2>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", borderTop: "1px solid #3A3A3E", borderLeft: "1px solid #3A3A3E" }}>
               {list(v.lounges).map((l, $index) => (
                 <Fragment key={$index}>
                   <div style={{ padding: "22px", borderRight: "1px solid #3A3A3E", borderBottom: "1px solid #3A3A3E", display: "flex", flexDirection: "column", gap: "8px", minHeight: "180px" }}>
-                    <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:${l?.c ?? ""};`)}>{txt(l?.access)}</span>
-                    <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "28px", lineHeight: "0.95", textTransform: "uppercase" }}>
+                    <span style={sx(`font-family:var(--f-label);font-size:10px;letter-spacing:0.14em;color:${l?.c ?? ""};`)}>{txt(l?.access)}</span>
+                    <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "23px", lineHeight: "0.95", textTransform: "uppercase" }}>
                       {txt(l?.t)}
                     </b>
                     <span style={{ fontSize: "14px", color: "#BDB9B0", lineHeight: "1.4" }}>{txt(l?.d)}</span>
-                    <span style={{ marginTop: "auto", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#8A877F" }}>{txt(l?.cap)}</span>
+                    <span style={{ marginTop: "auto", fontFamily: "var(--f-label)", fontSize: "11px", color: "#8A877F" }}>{txt(l?.cap)}</span>
                   </div>
                 </Fragment>
               ))}
@@ -512,12 +512,12 @@ function render(v) {
             <div role="dialog" aria-label="Profile" onClick={v.closeProfile} style={{ position: "fixed", inset: "0", zIndex: "100", background: "rgba(14,14,15,0.55)", display: "flex", justifyContent: "flex-end" }}>
               <div onClick={v.stop} style={{ width: "min(560px,94vw)", height: "100%", background: "#fff", overflow: "auto", padding: "32px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: "16px" }}>
                 <button onClick={v.closeProfile} style={{ alignSelf: "flex-end", border: "1px solid #0E0E0F", background: "none", height: "34px", padding: "0 12px", fontSize: "11px", fontWeight: "700", cursor: "pointer" }}>
-                  CLOSE ✕
+                  Close ✕
                 </button>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                   {txt(v.pr?.roleU)}{" PROFILE · "}{txt(v.pr?.countryU)}{" · DEMO ENTITY"}
                 </span>
-                <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "52px", lineHeight: "0.88", textTransform: "uppercase" }}>
+                <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "38px", lineHeight: "0.88", textTransform: "uppercase" }}>
                   {txt(v.pr?.name)}
                 </span>
                 <dl style={{ margin: "0", display: "grid", gridTemplateColumns: "140px 1fr", fontSize: "14px", borderTop: "1px solid #E3E0D8" }}>
