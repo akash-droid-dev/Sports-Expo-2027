@@ -3,7 +3,7 @@
 // drifting (or a local 360° panorama rotated continuously, see src/lib/venue.js).
 // It used to embed the official virtual tour live on computers: a full-screen third-party 3D
 // view, drawn under four glass cards, that made the end of the journey stutter and blank out
-// on laptops. The tour is now a link in the finale (VenueStage.jsx).
+// on laptops. The tour now opens on request in a full-screen viewer (TourViewer.jsx).
 import { useEffect, useState } from 'react';
 import { withBase } from '@/lib/base';
 import { VENUE_PANORAMA } from '@/lib/venue';
