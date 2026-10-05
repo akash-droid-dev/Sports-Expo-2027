@@ -1,0 +1,34 @@
+# Renders the still frames phones use for the Home Earth journey (scripts/journey/render-frames.mjs)
+# and publishes them to the `journey-frames` branch. Run it from the Actions tab, or by pushing to
+# the `journey-frames-request` branch. Copy the result into public/journey.
+name: Journey frames
+
+on:
+  push:
+    branches: [journey-frames-request]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  frames:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts && npm rebuild sharp
+      - run: npm i --no-save playwright@1.55.0 && npx playwright install --with-deps chromium
+      - run: node scripts/journey/render-frames.mjs
+      - name: Publish to journey-frames branch
+        run: |
+          cd journey-frames
+          git init -q -b journey-frames
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Journey frames from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" journey-frames
