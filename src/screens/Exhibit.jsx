@@ -80,7 +80,7 @@ class Component extends DCLogic {
       booth: { fw: fw + 'px', fd: fd + 'px', wh: wh + 'px', grid: scale + 'px', cam: cams[s.view], fascia: s.prod < 2 ? 'APEX SPORTS · B-SGM-017' : P.name.toUpperCase(), fasciaTop: '0px',
         furn: P.furn.map(f => ({ x: f.x * fw + 'px', y: f.y * fd + 'px', w: f.w * fw + 'px', d: f.d * fd + 'px', z: f.z + 'px', c: f.c })) },
       prod: { ...P, n: s.prod + 1, dims: P.size, scaleNote: 'GRID = 1 M · ' + (s.prod > 2 ? 'SAMPLE FOOTPRINT ' + P.w + ' × ' + P.d + ' M' : 'TO SCALE'), rows: [{ k: 'Capacity', v: P.cap }, { k: 'Branding surfaces', v: P.brand }, { k: 'Utilities', v: P.util }, { k: 'Available in', v: P.zones.map(z => 'Zone ' + z).join(', ') }, { k: 'Customisation', v: P.custom }] },
-      selectLabel: s.chosen === s.prod ? '✓ SELECTED — CHOOSE LOCATION ↓' : 'SELECT THIS PRODUCT',
+      selectLabel: s.chosen === s.prod ? '✓ Selected — choose location ↓' : 'Select this product',
       selectProduct: () => { this.setState({ chosen: s.prod, invZone: P.zones[0], invCluster: D.clusters.find(c => c.zone === P.zones[0]).id }); setTimeout(() => { const el = document.getElementById('inventory'); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 110, behavior: 'smooth' }); }, 80); },
       chosenName: chosenP ? chosenP.name.toUpperCase() : 'NONE YET',
       invZones: D.zones.map(z => ({ id: z.id, bg: s.invZone === z.id ? z.color : '#fff', fg: s.invZone === z.id ? '#fff' : z.color, pick: () => this.setState({ invZone: z.id, invCluster: D.clusters.find(c => c.zone === z.id).id, stall: null }) })),
@@ -95,19 +95,19 @@ class Component extends DCLogic {
       stallStatus: stallInfo ? statusOf(stallInfo.status)[0] : '', stallStatusColor: stallInfo ? statusOf(stallInfo.status)[1] : '',
       stallRows, stallUnavailable: stallInfo ? stallInfo.status !== 'available' : true,
       preferBg: stallInfo && stallInfo.status === 'available' ? '#F07C12' : '#E3E0D8',
-      preferLabel: !stallInfo ? '' : stallInfo.status !== 'available' ? 'NOT AVAILABLE' : s.preferred === stallInfo.id ? '✓ PREFERRED — CONTINUE TO REGISTER ↓' : 'SELECT PREFERRED LOCATION',
+      preferLabel: !stallInfo ? '' : stallInfo.status !== 'available' ? 'Not available' : s.preferred === stallInfo.id ? '✓ Preferred — continue to register ↓' : 'Select preferred location',
       preferStall: () => { if (stallInfo.status !== 'available') return; this.setState({ preferred: stallInfo.id, step: Math.max(s.step, 7) }); setTimeout(() => { const el = document.getElementById('register'); el && window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 110, behavior: 'smooth' }); }, 80); },
       dirTabs: [['ex', 'EXHIBITORS'], ['prod', 'PRODUCTS']].map(([id, t]) => ({ t, ...sel(id === s.dir), pick: () => this.setState({ dir: id }) })),
       dirEx: s.dir === 'ex', dirProd: s.dir === 'prod',
       exList: exs.map(e => ({ ...e, zc: D.Z[e.zone].color, bg: e.id === s.ex ? '#F6F4EF' : '#fff', pick: () => this.setState({ ex: e.id }) })),
-      ex: { ...E, logo: 'logo-' + E.id, saveLabel: s.saved[E.id] ? '✓ SAVED' : 'ADD TO MY EXPO', saveBg: s.saved[E.id] ? '#E3F1EB' : '#F6F4EF', save: () => this.setState(p => ({ saved: { ...p.saved, [E.id]: !p.saved[E.id] } })),
+      ex: { ...E, logo: 'logo-' + E.id, saveLabel: s.saved[E.id] ? '✓ Saved' : 'Add to My Expo', saveBg: s.saved[E.id] ? '#E3F1EB' : '#F6F4EF', save: () => this.setState(p => ({ saved: { ...p.saved, [E.id]: !p.saved[E.id] } })),
         prods: E.products.map(name => { const i = allProds.findIndex(p => p.name.includes(name.split(' ')[0]) && p.by === E.name); return { name, open: () => this.setState({ prodOpen: i >= 0 ? i : allProds.findIndex(p => p.by === E.name) >= 0 ? allProds.findIndex(p => p.by === E.name) : 0 }) }; }) },
       prodList: allProds.map((p, i) => ({ ...p, open: () => this.setState({ prodOpen: i }) })),
       prodOpen: s.prodOpen != null, pd, closeProd: () => this.setState({ prodOpen: null }), stop: e => e.stopPropagation(),
       wiz: W.map((w, i) => ({ n: String(i + 1).padStart(2, '0'), t: w.t, mark: i < s.step || s.submitted ? '✓' : '', bg: i === s.step && !s.submitted ? '#fff' : 'transparent', fg: i <= s.step || s.submitted ? '#0E0E0F' : '#6B6A66', weight: i === s.step && !s.submitted ? 700 : 500, go: () => this.setState({ step: i, submitted: false }) })),
       inWizard: !s.submitted, submitted: s.submitted, cur: { ...cur, n: s.step + 1 }, fields, wizPct: ((s.step + 1) / 11 * 100) + '%',
       back: () => this.setState({ step: Math.max(0, s.step - 1) }), next: () => s.step === 10 ? this.setState({ submitted: true, status: 'PENDING' }) : this.setState({ step: s.step + 1 }),
-      nextLabel: s.step === 10 ? 'SUBMIT APPLICATION' : 'CONTINUE →',
+      nextLabel: s.step === 10 ? 'Submit application' : 'Continue →',
       statusTabs: ['PENDING', 'QUERY', 'APPROVED', 'REJECTED', 'ALLOCATED'].map(t => ({ t, ...sel(t === s.status), pick: () => this.setState({ status: t }) })),
       status: ST[s.status], restart: () => this.setState({ submitted: false, step: 0 }),
       track: [['SUBMITTED', '12 MAR'], ['VERIFICATION', '13 MAR'], ['APPROVAL', '15 MAR'], ['PAYMENT', '18 MAR'], ['ALLOCATION', '22 MAR']].map(([t, date], i) => ({ t, date: i <= idx + (s.status === 'ALLOCATED' ? 1 : 0) ? date + ' (demo)' : '—', c: s.status === 'REJECTED' && i === 2 ? '#9E1B22' : i <= idx + (s.status === 'ALLOCATED' ? 1 : 0) ? '#0B6E4F' : '#E3E0D8' }))
@@ -124,25 +124,25 @@ function render(v) {
             <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href={withBase("/exhibit")} style={{ color: "#F07C12", textDecoration: "none" }}>EXHIBIT</a>
-            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>Explore</a>
+            <a href={withBase("/exhibit")} style={{ color: "#F07C12", textDecoration: "none" }}>Exhibit</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>Attend</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>Connect</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
           <a href={withBase("/portal")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            EXHIBITOR LOGIN
+            Exhibitor login
           </a>
           <a href="#register" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px", whiteSpace: "nowrap" }}>
-            APPLY
+            Apply
           </a>
         </header>
         <nav aria-label="Exhibit sections" style={{ position: "sticky", top: "60px", zIndex: "50", background: "#fff", borderBottom: "1px solid #0E0E0F", display: "flex", gap: "0", overflowX: "auto" }}>
           {list(v.steps).map((s, $index) => (
             <Fragment key={$index}>
               <a href={s?.href} style={sx(`text-decoration:none;color:${s?.fg ?? ""};padding:14px 22px;border-right:1px solid #E3E0D8;font-size:13px;font-weight:700;letter-spacing:0.08em;white-space:nowrap;display:flex;gap:8px;align-items:center;background:${s?.bg ?? ""};`)}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontWeight: "500" }}>{txt(s?.n)}</span>
+                <span style={{ fontFamily: "var(--f-label)", fontWeight: "500" }}>{txt(s?.n)}</span>
                 {txt(s?.t)}
               </a>
             </Fragment>
@@ -150,13 +150,13 @@ function render(v) {
         </nav>
         <section data-screen-label="Why exhibit" style={{ padding: "80px 28px 56px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px", alignItems: "end" }}>
           <div>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "20px" }}>
+            <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "20px" }}>
               EXHIBIT · HALL 2 · 213 STALLS · 25 PAVILIONS
             </div>
-            <h1 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(64px,9vw,148px)", lineHeight: "0.84" }}>
-              BUILD YOUR
+            <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(64px,9vw,148px) * 0.72)", lineHeight: "0.84" }}>
+              Build your
               <br />
-              PRESENCE.
+              presence.
             </h1>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "2px solid #0E0E0F" }}>
@@ -173,10 +173,10 @@ function render(v) {
         <section id="products" data-screen-label="Product architecture" style={{ scrollMarginTop: "110px", background: "#F6F4EF", padding: "72px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "28px" }}>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-                01 — EXHIBITION PRODUCT ARCHITECTURE
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+                01 — Exhibition product architecture
               </h2>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", background: "#fff", border: "1px solid #0E0E0F", padding: "6px 10px" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", background: "#fff", border: "1px solid #0E0E0F", padding: "6px 10px" }}>
                 DEMO / SAMPLE CONFIGURATION · NOT CONFIRMED COMMERCIAL SPECIFICATIONS
               </span>
             </div>
@@ -185,10 +185,10 @@ function render(v) {
                 <Fragment key={$index}>
                   <button role="tab" onClick={p?.pick} style={sx(`border:0;border-right:1px solid #0E0E0F;background:${p?.bg ?? ""};color:${p?.fg ?? ""};padding:16px 14px 14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;min-height:150px;`)}>
                     <span style={sx(`display:block;width:${p?.bw ?? ""};height:${p?.bh ?? ""};border:1.5px solid ${p?.fg ?? ""};background:${p?.fill ?? ""};box-shadow:5px -5px 0 -1.5px ${p?.bgc ?? ""}, 5px -5px 0 0 ${p?.fg ?? ""};`)} />
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "22px", lineHeight: "0.95", textTransform: "uppercase", marginTop: "8px" }}>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "20px", lineHeight: "0.95", textTransform: "uppercase", marginTop: "8px" }}>
                       {txt(p?.name)}
                     </span>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{txt(p?.size)}</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(p?.size)}</span>
                   </button>
                 </Fragment>
               ))}
@@ -198,7 +198,7 @@ function render(v) {
                 <div role="tablist" style={{ display: "flex", gap: "0", borderBottom: "1px solid #E3E0D8" }}>
                   {list(v.viewTabs).map((_v, $index) => (
                     <Fragment key={$index}>
-                      <button role="tab" onClick={_v?.pick} style={sx(`flex:1;height:42px;border:0;border-right:1px solid #E3E0D8;background:${_v?.bg ?? ""};color:${_v?.fg ?? ""};font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;`)}>
+                      <button role="tab" onClick={_v?.pick} style={sx(`flex:1;height:42px;border:0;border-right:1px solid #E3E0D8;background:${_v?.bg ?? ""};color:${_v?.fg ?? ""};font:700 12px var(--f-body);letter-spacing:0.1em;cursor:pointer;`)}>
                         {txt(_v?.t)}
                       </button>
                     </Fragment>
@@ -208,10 +208,10 @@ function render(v) {
                   <div style={sx(`position:relative;width:${v.booth?.fw ?? ""};height:${v.booth?.fd ?? ""};transform-style:preserve-3d;transform:${v.booth?.cam ?? ""};transition:transform 1s cubic-bezier(.2,.7,.2,1);`)}>
                     <div style={sx(`position:absolute;inset:0;background:repeating-linear-gradient(0deg,#E3E0D8 0 1px,transparent 1px ${v.booth?.grid ?? ""}),repeating-linear-gradient(90deg,#E3E0D8 0 1px,#fff 1px ${v.booth?.grid ?? ""});border:2px solid #0E0E0F;`)} />
                     <div style={sx(`position:absolute;left:0;top:0;width:100%;height:${v.booth?.wh ?? ""};background:#fff;border:1.5px solid #0E0E0F;transform-origin:top;transform:rotateX(-90deg);display:flex;align-items:flex-end;justify-content:center;box-sizing:border-box;`)}>
-                      <span style={{ marginBottom: "30%", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                      <span style={{ marginBottom: "30%", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                         BACK WALL · BRANDING
                       </span>
-                      <div style={{ position: "absolute", left: "-1px", right: "-1px", bottom: "-1px", height: "24px", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", font: "800 12px 'Archivo'", fontStretch: "75%", letterSpacing: "0.12em" }}>
+                      <div style={{ position: "absolute", left: "-1px", right: "-1px", bottom: "-1px", height: "24px", background: "#0E0E0F", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", font: "800 11px var(--f-display)", fontStretch: "75%", letterSpacing: "0.12em" }}>
                         {txt(v.booth?.fascia)}
                       </div>
                     </div>
@@ -223,19 +223,19 @@ function render(v) {
                     ))}
                   </div>
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 18px", borderTop: "1px solid #E3E0D8", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.1em", color: "#6B6A66" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", padding: "12px 18px", borderTop: "1px solid #E3E0D8", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.1em", color: "#6B6A66" }}>
                   <span>{txt(v.prod?.dims)}</span>
                   <span>{txt(v.prod?.scaleNote)}</span>
                 </div>
               </div>
               <div style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#C2610B" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#C2610B" }}>
                   {"PRODUCT "}{txt(v.prod?.n)}{" OF 7 · CUSTOMISATION "}{txt(v.prod?.custom)}
                 </span>
-                <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "72px", lineHeight: "0.85", textTransform: "uppercase" }}>
+                <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "50px", lineHeight: "0.85", textTransform: "uppercase" }}>
                   {txt(v.prod?.name)}
                 </span>
-                <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "700", fontSize: "28px" }}>{txt(v.prod?.dims)}</span>
+                <span style={{ fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "700", fontSize: "23px" }}>{txt(v.prod?.dims)}</span>
                 <span style={{ fontSize: "16px", lineHeight: "1.45" }}>
                   <b>Suitable for:</b>
                   {" "}{txt(v.prod?.suit)}
@@ -249,7 +249,7 @@ function render(v) {
                   ))}
                 </dl>
                 <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>INCLUDES</span>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>INCLUDES</span>
                   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                     {list(v.prod?.inc).map((i, $index) => (
                       <Fragment key={$index}>
@@ -258,7 +258,7 @@ function render(v) {
                     ))}
                   </div>
                 </div>
-                <button onClick={v.selectProduct} style={{ marginTop: "auto", height: "54px", border: "0", background: "#F07C12", color: "#0E0E0F", font: "700 14px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
+                <button onClick={v.selectProduct} style={{ marginTop: "auto", height: "54px", border: "0", background: "#F07C12", color: "#0E0E0F", font: "700 14px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
                   {txt(v.selectLabel)}
                 </button>
               </div>
@@ -267,10 +267,10 @@ function render(v) {
         </section>
         <section id="inventory" data-screen-label="Stall inventory" style={{ scrollMarginTop: "110px", padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              02 — AVAILABLE LOCATIONS
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              02 — Available locations
             </h2>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.1em" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.1em" }}>
               {"SELECTED PRODUCT · "}
               <b>{txt(v.chosenName)}</b>
               {" · LIVE INVENTORY (DEMO) · UPDATED 2 MIN AGO"}
@@ -278,11 +278,11 @@ function render(v) {
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "auto auto 1fr", gap: "24px", alignItems: "end", marginBottom: "20px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>SELECT ZONE</span>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>SELECT ZONE</span>
               <div style={{ display: "flex", border: "1px solid #0E0E0F" }}>
                 {list(v.invZones).map((z, $index) => (
                   <Fragment key={$index}>
-                    <button onClick={z?.pick} style={sx(`height:42px;width:56px;border:0;border-right:1px solid #0E0E0F;background:${z?.bg ?? ""};color:${z?.fg ?? ""};font:800 18px 'Archivo';font-stretch:62%;cursor:pointer;`)}>
+                    <button onClick={z?.pick} style={sx(`height:42px;width:56px;border:0;border-right:1px solid #0E0E0F;background:${z?.bg ?? ""};color:${z?.fg ?? ""};font:800 16px var(--f-display);font-stretch:62%;cursor:pointer;`)}>
                       {txt(z?.id)}
                     </button>
                   </Fragment>
@@ -290,8 +290,8 @@ function render(v) {
               </div>
             </div>
             <label style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>SELECT CLUSTER</span>
-              <select onChange={v.pickCluster} value={val(v.invCluster)} style={{ height: "44px", minWidth: "300px", border: "1px solid #0E0E0F", background: "#fff", font: "500 15px 'Instrument Sans'", padding: "0 10px" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>SELECT CLUSTER</span>
+              <select onChange={v.pickCluster} value={val(v.invCluster)} style={{ height: "44px", minWidth: "300px", border: "1px solid #0E0E0F", background: "#fff", font: "500 15px var(--f-body)", padding: "0 10px" }}>
                 {list(v.invClusters).map((c, $index) => (
                   <Fragment key={$index}>
                     <option value={val(c?.id)}>{str(c?.label)}</option>
@@ -321,7 +321,7 @@ function render(v) {
           <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 360px", gap: "0", border: "1px solid #0E0E0F" }}>
             <div style={{ padding: "24px", background: "#F6F4EF" }}>
               <HallPlan mode={"inventory"} activeZone={v.invZone} selectedCluster={v.invCluster} selectedStall={v.stallId} onStall={v.pickStall} onCluster={v.clusterClick} forceAvail={v.forceAvail} />
-              <div style={{ display: "flex", gap: "24px", fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", marginTop: "8px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: "24px", fontFamily: "var(--f-label)", fontSize: "12px", marginTop: "8px", flexWrap: "wrap" }}>
                 {list(v.invStats).map((s, $index) => (
                   <Fragment key={$index}>
                     <span>
@@ -336,10 +336,10 @@ function render(v) {
               {v.hasStall ? (
                 <>
                   <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                    <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:${v.stallStatusColor ?? ""};`)}>
+                    <span style={sx(`font-family:var(--f-label);font-size:11px;letter-spacing:0.16em;color:${v.stallStatusColor ?? ""};`)}>
                       {"● "}{txt(v.stallStatus)}
                     </span>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.85" }}>{txt(v.stallId)}</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.85" }}>{txt(v.stallId)}</span>
                     <dl style={{ margin: "0", display: "grid", gridTemplateColumns: "130px 1fr", fontSize: "14px", borderTop: "1px solid #E3E0D8" }}>
                       {list(v.stallRows).map((r, $index) => (
                         <Fragment key={$index}>
@@ -348,7 +348,7 @@ function render(v) {
                         </Fragment>
                       ))}
                     </dl>
-                    <button onClick={v.preferStall} disabled={v.stallUnavailable} style={sx(`height:52px;border:0;background:${v.preferBg ?? ""};color:#0E0E0F;font:700 13px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;`)}>
+                    <button onClick={v.preferStall} disabled={v.stallUnavailable} style={sx(`height:52px;border:0;background:${v.preferBg ?? ""};color:#0E0E0F;font:700 13px var(--f-body);letter-spacing:0.1em;cursor:pointer;`)}>
                       {txt(v.preferLabel)}
                     </button>
                   </div>
@@ -357,8 +357,8 @@ function render(v) {
               {v.noStall ? (
                 <>
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px", color: "#3A3A3E" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "40px", lineHeight: "0.9", color: "#0E0E0F" }}>
-                      SELECT A STALL
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "30px", lineHeight: "0.9", color: "#0E0E0F" }}>
+                      Select a stall
                     </span>
                     <span style={{ fontSize: "15px", lineHeight: "1.5" }}>{txt(v.invHint)}</span>
                     <span style={{ fontSize: "14px" }}>
@@ -375,13 +375,13 @@ function render(v) {
         <section id="directory" data-screen-label="Exhibitor directory" style={{ scrollMarginTop: "110px", background: "#F6F4EF", padding: "72px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-                {"03 — EXHIBITORS & PRODUCTS"}
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+                {"03 — Exhibitors & products"}
               </h2>
               <div role="tablist" style={{ display: "flex", border: "1px solid #0E0E0F", background: "#fff" }}>
                 {list(v.dirTabs).map((t, $index) => (
                   <Fragment key={$index}>
-                    <button onClick={t?.pick} style={sx(`height:42px;padding:0 18px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;`)}>
+                    <button onClick={t?.pick} style={sx(`height:42px;padding:0 18px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 12px var(--f-body);letter-spacing:0.1em;cursor:pointer;`)}>
                       {txt(t?.t)}
                     </button>
                   </Fragment>
@@ -400,7 +400,7 @@ function render(v) {
                             <span style={{ display: "block", fontWeight: "700", fontSize: "16px", color: "#0E0E0F" }}>{txt(e?.name)}</span>
                             <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(e?.city)}{" · "}{txt(e?.sector)}</span>
                           </span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", color: "#0E0E0F" }}>{txt(e?.stall)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", color: "#0E0E0F" }}>{txt(e?.stall)}</span>
                         </button>
                       </Fragment>
                     ))}
@@ -411,8 +411,8 @@ function render(v) {
                         <image-slot id={v.ex?.logo} shape="rect" placeholder="Logo" />
                       </div>
                       <div>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(v.ex?.stall)}{" · "}{txt(v.ex?.booth)}{" · ZONE "}{txt(v.ex?.zone)}</span>
-                        <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.86", textTransform: "uppercase" }}>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(v.ex?.stall)}{" · "}{txt(v.ex?.booth)}{" · ZONE "}{txt(v.ex?.zone)}</span>
+                        <div style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.86", textTransform: "uppercase" }}>
                           {txt(v.ex?.name)}
                         </div>
                         <span style={{ color: "#6B6A66" }}>{txt(v.ex?.city)}{" · "}{txt(v.ex?.type)}</span>
@@ -420,20 +420,20 @@ function render(v) {
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", borderTop: "1px solid #E3E0D8", paddingTop: "16px", fontSize: "15px" }}>
                       <div>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", display: "block" }}>SECTOR</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", display: "block" }}>SECTOR</span>
                         {txt(v.ex?.sector)}
                       </div>
                       <div>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", display: "block" }}>LOOKING FOR</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", display: "block" }}>LOOKING FOR</span>
                         {txt(v.ex?.seeking)}
                       </div>
                     </div>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>PRODUCTS</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>PRODUCTS</span>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(160px,1fr))", gap: "12px" }}>
                       {list(v.ex?.prods).map((p, $index) => (
                         <Fragment key={$index}>
                           <button onClick={p?.open} style={{ border: "1px solid #E3E0D8", background: "#fff", padding: "0", textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column" }}>
-                            <span style={{ aspectRatio: "1", background: "repeating-linear-gradient(135deg,#F1EFEA 0 8px,#F6F4EF 8px 16px)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#6B6A66" }}>
+                            <span style={{ aspectRatio: "1", background: "repeating-linear-gradient(135deg,#F1EFEA 0 8px,#F6F4EF 8px 16px)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--f-label)", fontSize: "10px", color: "#6B6A66" }}>
                               PRODUCT IMAGE
                             </span>
                             <span style={{ padding: "10px", fontWeight: "600", fontSize: "14px", color: "#0E0E0F" }}>{txt(p?.name)}</span>
@@ -443,15 +443,15 @@ function render(v) {
                     </div>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: "8px", marginTop: "auto" }}>
                       <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em" }}>
-                        BOOK MEETING
+                        Book meeting
                       </a>
                       <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                        VIEW ON MAP
+                        View on map
                       </a>
                       <a href={withBase("/explore")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "11px", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                        NAVIGATE
+                        Navigate
                       </a>
-                      <button onClick={v.ex?.save} style={sx(`border:0;background:${v.ex?.saveBg ?? ""};height:46px;font:700 11px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
+                      <button onClick={v.ex?.save} style={sx(`border:0;background:${v.ex?.saveBg ?? ""};height:46px;font:700 11px var(--f-body);letter-spacing:0.08em;cursor:pointer;`)}>
                         {txt(v.ex?.saveLabel)}
                       </button>
                     </div>
@@ -466,10 +466,10 @@ function render(v) {
                   {list(v.prodList).map((p, $index) => (
                     <Fragment key={$index}>
                       <button onClick={p?.open} style={{ border: "0", borderRight: "1px solid #0E0E0F", borderBottom: "1px solid #0E0E0F", background: "#fff", padding: "20px", textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: "10px" }}>
-                        <span style={{ aspectRatio: "4/3", background: "repeating-linear-gradient(135deg,#F1EFEA 0 8px,#F6F4EF 8px 16px)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#6B6A66" }}>
+                        <span style={{ aspectRatio: "4/3", background: "repeating-linear-gradient(135deg,#F1EFEA 0 8px,#F6F4EF 8px 16px)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--f-label)", fontSize: "10px", color: "#6B6A66" }}>
                           PRODUCT IMAGE
                         </span>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(p?.cat)}{" · "}{txt(p?.type)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(p?.cat)}{" · "}{txt(p?.type)}</span>
                         <span style={{ fontWeight: "700", fontSize: "17px", color: "#0E0E0F" }}>{txt(p?.name)}</span>
                         <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(p?.by)}{" · "}{txt(p?.stall)}</span>
                       </button>
@@ -482,18 +482,18 @@ function render(v) {
         </section>
         <section id="register" data-screen-label="Exhibitor registration" style={{ scrollMarginTop: "110px", padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "28px" }}>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              04 — EXHIBITOR REGISTRATION
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              04 — Exhibitor registration
             </h2>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.1em" }}>APPLICATION ISE27-EXH-0418 · AUTOSAVED</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.1em" }}>APPLICATION ISE27-EXH-0418 · AUTOSAVED</span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "280px minmax(0,1fr)", border: "1px solid #0E0E0F", minHeight: "640px" }}>
             <ol style={{ margin: "0", padding: "0", listStyle: "none", borderRight: "1px solid #0E0E0F", background: "#FBFAF7" }}>
               {list(v.wiz).map((w, $index) => (
                 <Fragment key={$index}>
                   <li>
-                    <button onClick={w?.go} style={sx(`width:100%;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:12px 18px;border:0;border-bottom:1px solid #E3E0D8;background:${w?.bg ?? ""};text-align:left;cursor:pointer;font:${w?.weight ?? ""} 14px 'Instrument Sans';color:${w?.fg ?? ""};`)}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(w?.n)}</span>
+                    <button onClick={w?.go} style={sx(`width:100%;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:12px 18px;border:0;border-bottom:1px solid #E3E0D8;background:${w?.bg ?? ""};text-align:left;cursor:pointer;font:${w?.weight ?? ""} 14px var(--f-body);color:${w?.fg ?? ""};`)}>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(w?.n)}</span>
                       <span>{txt(w?.t)}</span>
                       <span style={{ fontSize: "13px", color: "#0B6E4F" }}>{txt(w?.mark)}</span>
                     </button>
@@ -506,8 +506,8 @@ function render(v) {
                 <>
                   <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
                     <div>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{"STEP "}{txt(v.cur?.n)}{" OF 11"}</span>
-                      <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.88", textTransform: "uppercase", marginTop: "6px" }}>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{"STEP "}{txt(v.cur?.n)}{" OF 11"}</span>
+                      <div style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.88", textTransform: "uppercase", marginTop: "6px" }}>
                         {txt(v.cur?.t)}
                       </div>
                       <div style={{ fontSize: "15px", color: "#3A3A3E", marginTop: "8px", maxWidth: "640px" }}>{txt(v.cur?.d)}</div>
@@ -541,7 +541,7 @@ function render(v) {
                                 <span style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
                                   {list(f?.chips).map((c, $index) => (
                                     <Fragment key={$index}>
-                                      <button onClick={c?.pick} style={sx(`height:36px;padding:0 12px;border:1px solid #0E0E0F;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 13px 'Instrument Sans';cursor:pointer;`)}>
+                                      <button onClick={c?.pick} style={sx(`height:36px;padding:0 12px;border:1px solid #0E0E0F;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 13px var(--f-body);cursor:pointer;`)}>
                                         {txt(c?.t)}
                                       </button>
                                     </Fragment>
@@ -553,7 +553,7 @@ function render(v) {
                               <>
                                 <span style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", border: "1px dashed #0E0E0F", padding: "12px", fontSize: "14px" }}>
                                   <span>{txt(f?.value)}</span>
-                                  <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;color:${f?.stColor ?? ""};`)}>{txt(f?.st)}</span>
+                                  <span style={sx(`font-family:var(--f-label);font-size:11px;color:${f?.stColor ?? ""};`)}>{txt(f?.st)}</span>
                                 </span>
                               </>
                             ) : null}
@@ -567,10 +567,10 @@ function render(v) {
                       ))}
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", borderTop: "1px solid #E3E0D8", paddingTop: "20px" }}>
-                      <button onClick={v.back} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", font: "700 13px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
-                        ← BACK
+                      <button onClick={v.back} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", font: "700 13px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
+                        ← Back
                       </button>
-                      <button onClick={v.next} style={{ height: "50px", padding: "0 28px", border: "0", background: "#F07C12", color: "#0E0E0F", font: "700 13px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
+                      <button onClick={v.next} style={{ height: "50px", padding: "0 28px", border: "0", background: "#F07C12", color: "#0E0E0F", font: "700 13px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
                         {txt(v.nextLabel)}
                       </button>
                     </div>
@@ -580,30 +580,30 @@ function render(v) {
               {v.submitted ? (
                 <>
                   <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>
                       APPLICATION ISE27-EXH-0418 · APEX SPORTS INDIA · PREVIEW STATUS
                     </span>
                     <div role="tablist" style={{ display: "flex", border: "1px solid #0E0E0F", alignSelf: "flex-start" }}>
                       {list(v.statusTabs).map((t, $index) => (
                         <Fragment key={$index}>
-                          <button onClick={t?.pick} style={sx(`height:38px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 11px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;`)}>
+                          <button onClick={t?.pick} style={sx(`height:38px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 11px var(--f-body);letter-spacing:0.1em;cursor:pointer;`)}>
                             {txt(t?.t)}
                           </button>
                         </Fragment>
                       ))}
                     </div>
                     <div style={sx(`border-left:8px solid ${v.status?.color ?? ""};padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:10px;`)}>
-                      <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.16em;color:${v.status?.color ?? ""};`)}>
+                      <span style={sx(`font-family:var(--f-label);font-size:12px;letter-spacing:0.16em;color:${v.status?.color ?? ""};`)}>
                         {txt(v.status?.icon)}{" "}{txt(v.status?.k)}
                       </span>
-                      <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "64px", lineHeight: "0.86" }}>{txt(v.status?.t)}</span>
+                      <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "45px", lineHeight: "0.86" }}>{txt(v.status?.t)}</span>
                       <span style={{ fontSize: "16px", lineHeight: "1.5", maxWidth: "640px", color: "#3A3A3E" }}>{txt(v.status?.d)}</span>
                     </div>
                     <ol style={{ margin: "0", padding: "0", listStyle: "none", display: "grid", gridTemplateColumns: "repeat(5,1fr)", borderTop: "1px solid #E3E0D8" }}>
                       {list(v.track).map((t, $index) => (
                         <Fragment key={$index}>
                           <li style={sx(`padding:14px 10px 0 0;display:flex;flex-direction:column;gap:6px;border-top:4px solid ${t?.c ?? ""};margin-top:-1px;`)}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{txt(t?.date)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(t?.date)}</span>
                             <b style={{ fontSize: "14px" }}>{txt(t?.t)}</b>
                           </li>
                         </Fragment>
@@ -613,8 +613,8 @@ function render(v) {
                       <a href={v.status?.ctaHref} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "50px", display: "flex", alignItems: "center", padding: "0 22px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
                         {txt(v.status?.cta)}
                       </a>
-                      <button onClick={v.restart} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", font: "700 13px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
-                        EDIT APPLICATION
+                      <button onClick={v.restart} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", font: "700 13px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
+                        Edit application
                       </button>
                     </div>
                   </div>
@@ -627,23 +627,23 @@ function render(v) {
           <>
             <div role="dialog" aria-label="Product detail" onClick={v.closeProd} style={{ position: "fixed", inset: "0", zIndex: "100", background: "rgba(14,14,15,0.55)", display: "flex", justifyContent: "flex-end" }}>
               <div onClick={v.stop} style={{ width: "min(560px,94vw)", height: "100%", background: "#fff", overflow: "auto", padding: "32px", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: "16px" }}>
-                <button onClick={v.closeProd} style={{ alignSelf: "flex-end", border: "1px solid #0E0E0F", background: "none", height: "34px", padding: "0 12px", font: "700 11px 'Instrument Sans'", cursor: "pointer" }}>
-                  CLOSE ✕
+                <button onClick={v.closeProd} style={{ alignSelf: "flex-end", border: "1px solid #0E0E0F", background: "none", height: "34px", padding: "0 12px", font: "700 11px var(--f-body)", cursor: "pointer" }}>
+                  Close ✕
                 </button>
                 <div style={{ aspectRatio: "4/3", position: "relative" }}>
                   <image-slot id={v.pd?.slot} shape="rect" placeholder="Product hero image" />
                 </div>
-                <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                   {txt(v.pd?.cat)}{" · "}{txt(v.pd?.type)}{" · "}{txt(v.pd?.tag)}
                 </span>
-                <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "52px", lineHeight: "0.88", textTransform: "uppercase" }}>
+                <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "38px", lineHeight: "0.88", textTransform: "uppercase" }}>
                   {txt(v.pd?.name)}
                 </span>
                 <dl style={{ margin: "0", display: "grid", gridTemplateColumns: "130px 1fr", fontSize: "14px", borderTop: "1px solid #E3E0D8" }}>
                   <dt style={{ padding: "9px 0", borderBottom: "1px solid #E3E0D8", color: "#6B6A66" }}>Exhibitor</dt>
                   <dd style={{ margin: "0", padding: "9px 0", borderBottom: "1px solid #E3E0D8" }}>{txt(v.pd?.by)}</dd>
                   <dt style={{ padding: "9px 0", borderBottom: "1px solid #E3E0D8", color: "#6B6A66" }}>Stall</dt>
-                  <dd style={{ margin: "0", padding: "9px 0", borderBottom: "1px solid #E3E0D8", fontFamily: "'JetBrains Mono',monospace" }}>{txt(v.pd?.stall)}</dd>
+                  <dd style={{ margin: "0", padding: "9px 0", borderBottom: "1px solid #E3E0D8", fontFamily: "var(--f-label)" }}>{txt(v.pd?.stall)}</dd>
                   <dt style={{ padding: "9px 0", borderBottom: "1px solid #E3E0D8", color: "#6B6A66" }}>Order terms</dt>
                   <dd style={{ margin: "0", padding: "9px 0", borderBottom: "1px solid #E3E0D8" }}>{txt(v.pd?.moq)}{" · FOB Mundra (sample)"}</dd>
                   <dt style={{ padding: "9px 0", borderBottom: "1px solid #E3E0D8", color: "#6B6A66" }}>Live demo</dt>
@@ -651,10 +651,10 @@ function render(v) {
                 </dl>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", marginTop: "auto" }}>
                   <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
-                    REQUEST QUOTE / MEETING
+                    Request quote / meeting
                   </a>
-                  <button style={{ border: "1px solid #0E0E0F", background: "#fff", height: "48px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
-                    SAVE PRODUCT
+                  <button style={{ border: "1px solid #0E0E0F", background: "#fff", height: "48px", font: "700 12px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
+                    Save product
                   </button>
                 </div>
               </div>

@@ -66,7 +66,7 @@ function Screen({ D, z, n, active }) {
           ))}
         </div>
         <a className="zt-enter" href={withBase('/zones#zone-' + z.id.toLowerCase())}>
-          ENTER ZONE {z.id} →
+          Enter Zone {z.id} →
         </a>
       </div>
       <div className="zt-col zt-col-areas">
@@ -249,14 +249,14 @@ export default function ZoneTower() {
                   <button type="button" key={zz.id} className={'zt-face' + (i === zone ? ' is-front' : '')} style={{ '--fc': zz.color, '--i': i }} onClick={() => go(i)} tabIndex={-1} aria-hidden="true">
                     <span className="zt-face-led" />
                     <span className="zt-face-shade" />
-                    <span className="zt-face-top">ZONE</span>
+                    <span className="zt-face-top">Zone</span>
                     <span className="zt-face-letter">{zz.id}</span>
                     <span className="zt-face-name">{zz.name}</span>
                     <span className="zt-face-meta">
                       {d.cl.length} areas{d.stalls ? ' · ' + d.stalls + ' stalls' : ''}
                       {d.pav ? ' · ' + d.pav + ' pavilions' : ''}
                     </span>
-                    <span className="zt-face-foot">INDIA SPORTS EXPO 2027</span>
+                    <span className="zt-face-foot">India Sports Expo 2027</span>
                   </button>
                 );
               })}

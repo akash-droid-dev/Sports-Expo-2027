@@ -61,14 +61,14 @@ class Component extends DCLogic {
   journeyRef = React.createRef(); mapRef = React.createRef(); afterRef = React.createRef();
   KF = JOURNEY.keyframes;
   STAGES = [
-    { at: 0, label: 'EARTH', k: '01 / 08', t: 'EARTH', d: 'Every sporting economy on the planet, converging on one hall in New Delhi.' },
-    { at: 0.1, label: 'ASIA', k: '02 / 08', t: 'ASIA', d: 'The fastest-growing region for sport participation, media and manufacturing.' },
-    { at: 0.22, label: 'INDIA', k: '03 / 08', t: 'INDIA', d: 'A nation of 1.4 billion building the business of sport.' },
-    { at: 0.34, label: 'NEW DELHI', k: '04 / 08', t: 'NEW DELHI', d: 'The capital. Host city of India Sports Expo 2027.' },
-    { at: 0.45, label: 'DWARKA', k: '05 / 08', t: 'DWARKA', d: 'Sector 25, minutes from Indira Gandhi International Airport.' },
-    { at: 0.55, label: 'YASHOBHOOMI', k: '06 / 08', t: 'YASHOBHOOMI', d: 'India International Convention & Expo Centre. Home of India Sports Expo 2027.' },
-    { at: 0.62, label: 'HALL 2', k: '07 / 08', t: 'EXHIBITION HALL 2', d: 'Step inside the venue. One continuous exhibition floor, tied together by the Sports Boulevard.' },
-    { at: 0.74, label: 'FOUR ZONES', k: '08 / 08', t: 'FOUR EVENT ZONES', d: '' }
+    { at: 0, label: 'EARTH', k: '01 / 08', t: 'Earth', d: 'Every sporting economy on the planet, converging on one hall in New Delhi.' },
+    { at: 0.1, label: 'ASIA', k: '02 / 08', t: 'Asia', d: 'The fastest-growing region for sport participation, media and manufacturing.' },
+    { at: 0.22, label: 'INDIA', k: '03 / 08', t: 'India', d: 'A nation of 1.4 billion building the business of sport.' },
+    { at: 0.34, label: 'NEW DELHI', k: '04 / 08', t: 'New Delhi', d: 'The capital. Host city of India Sports Expo 2027.' },
+    { at: 0.45, label: 'DWARKA', k: '05 / 08', t: 'Dwarka', d: 'Sector 25, minutes from Indira Gandhi International Airport.' },
+    { at: 0.55, label: 'YASHOBHOOMI', k: '06 / 08', t: 'Yashobhoomi', d: 'India International Convention & Expo Centre. Home of India Sports Expo 2027.' },
+    { at: 0.62, label: 'HALL 2', k: '07 / 08', t: 'Exhibition Hall 2', d: 'Step inside the venue. One continuous exhibition floor, tied together by the Sports Boulevard.' },
+    { at: 0.74, label: 'FOUR ZONES', k: '08 / 08', t: 'Four event zones', d: '' }
   ];
   componentDidMount() {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -159,7 +159,7 @@ class Component extends DCLogic {
     const lit = reduced ? zoneOrder : zoneOrder.filter((z, i) => p >= zoneAt[i]);
     const lastLit = lit.length ? lit[lit.length - 1] : null;
     let stageText = stage.d, stageTitle = stage.t;
-    if (stage.label === 'FOUR ZONES' && D && lastLit && !reduced) { stageTitle = 'ZONE ' + lastLit; stageText = D.Z[lastLit].name; }
+    if (stage.label === 'FOUR ZONES' && D && lastLit && !reduced) { stageTitle = 'Zone ' + lastLit; stageText = D.Z[lastLit].name; }
     // The venue scene and the zone finale sit on a dark background, so captions stay light.
     const planOpacity = 0;
     const captionOpacity = reduced ? 0 : 1 - ramp(0.7, 0.74);
@@ -219,11 +219,11 @@ class Component extends DCLogic {
       ...base,
       results: groups, noResults: q.length >= 2 && !groups.length,
       intents: [
-        { n: '01', t: 'EXPLORE', s: 'Discover the venue', href: withBase('/explore') },
-        { n: '02', t: 'EXHIBIT', s: 'Build your presence', href: withBase('/exhibit') },
-        { n: '03', t: 'ATTEND', s: 'Experience the Expo', href: withBase('/attend') },
-        { n: '04', t: 'CONNECT', s: 'Do business', href: withBase('/connect') },
-        { n: '05', t: 'WATCH', s: 'Live & on demand', href: withBase('/programme') }
+        { n: '01', t: 'Explore', s: 'Discover the venue', href: withBase('/explore') },
+        { n: '02', t: 'Exhibit', s: 'Build your presence', href: withBase('/exhibit') },
+        { n: '03', t: 'Attend', s: 'Experience the Expo', href: withBase('/attend') },
+        { n: '04', t: 'Connect', s: 'Do business', href: withBase('/connect') },
+        { n: '05', t: 'Watch', s: 'Live & on demand', href: withBase('/programme') }
       ],
       metrics: [
         { v: '4', l: 'Event zones in Hall 2', src: 'HALL 2 LAYOUT' }, { v: '213', l: 'Exhibition stalls', src: 'HALL 2 LAYOUT LEGEND' },
@@ -240,7 +240,7 @@ class Component extends DCLogic {
       featured: D.exhibitors.slice(0, 1).concat(D.exhibitors.filter(e => ['turf', 'motion', 'velocity', 'hayate'].includes(e.id))).map(e => ({ ...e, zc: zc(e.zone) })),
       prods: D.products.map((x, i) => ({ ...x, slot: i < 4 ? 'home-prod-' + i : 'prod-detail-' + i })),
       matchPreview: D.matches.slice(0, 3),
-      stake: [{ t: 'ATHLETE', d: 'AI coaching · wearables · performance analytics' }, { t: 'COACH', d: 'Video analysis · tactical systems · data' }, { t: 'VENUE', d: 'IoT · smart stadium · security · operations' }, { t: 'EVENT', d: 'Registration · accreditation · workforce' }, { t: 'BROADCAST', d: 'AI production · streaming · graphics' }, { t: 'FAN', d: 'AR / VR · gamification · engagement' }],
+      stake: [{ t: 'Athlete', d: 'AI coaching · wearables · performance analytics' }, { t: 'Coach', d: 'Video analysis · tactical systems · data' }, { t: 'Venue', d: 'IoT · smart stadium · security · operations' }, { t: 'Event', d: 'Registration · accreditation · workforce' }, { t: 'Broadcast', d: 'AI production · streaming · graphics' }, { t: 'Fan', d: 'AR / VR · gamification · engagement' }],
       dayTabs: [1, 2, 3].map(d => ({ label: 'DAY ' + d, bg: this.state.day === d ? '#0E0E0F' : 'transparent', fg: this.state.day === d ? '#fff' : '#0E0E0F', pick: () => this.setState({ day: d }) })),
       daySessions: D.sessions.filter(s => s.day === this.state.day).map(s => ({ ...s, spk: spk(s), zc: zc(s.zone) })),
       upNext: D.sessions.filter(s => s.day === 2 && s.status === 'upcoming').slice(0, 4),
@@ -286,33 +286,33 @@ function render(v) {
             <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>Explore</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>Exhibit</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>Attend</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>Connect</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
-          <button onClick={v.openSearch} aria-label="Search" style={{ background: "transparent", border: "1px solid #3A3A3E", color: "#BDB9B0", height: "36px", padding: "0 14px", font: "500 13px 'Instrument Sans'", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", whiteSpace: "nowrap" }}>
+          <button onClick={v.openSearch} aria-label="Search" style={{ background: "transparent", border: "1px solid #3A3A3E", color: "#BDB9B0", height: "36px", padding: "0 14px", font: "500 13px var(--f-body)", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", whiteSpace: "nowrap" }}>
             ⌕
             <span>Search</span>
           </button>
           <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            MY EXPO
+            My Expo
           </a>
           <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
-            REGISTER
+            Register
           </a>
         </header>
         {v.live ? (
           <>
             <div style={{ background: "#9E1B22", color: "#fff", display: "flex", alignItems: "center", gap: "18px", padding: "10px 28px", fontSize: "14px", flexWrap: "wrap" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", letterSpacing: "0.14em", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px" }}>
+              <span style={{ fontFamily: "var(--f-label)", letterSpacing: "0.14em", fontWeight: "500", display: "flex", alignItems: "center", gap: "8px" }}>
                 <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#fff", animation: "iseBlink 1.2s infinite" }} />
                 DAY 2 — LIVE
               </span>
               <span style={{ opacity: "0.85" }}>Innovation Arena · The Future of AI Coaching</span>
-              <a href={withBase("/programme")} style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.08em" }}>WATCH →</a>
+              <a href={withBase("/programme")} style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.08em" }}>Watch →</a>
             </div>
           </>
         ) : null}
@@ -322,31 +322,31 @@ function render(v) {
             <img src={withBase(isLite() ? "/assets/hero-stadium-sm.webp" : "/assets/hero-stadium.webp")} alt="" decoding="async" fetchPriority="high" />
           </div>
           <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.22em", color: "#BDB9B0" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.22em", color: "#BDB9B0" }}>
               YASHOBHOOMI · NEW DELHI · DATES PROVISIONAL
             </span>
-            <h1 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(72px,13vw,220px)", lineHeight: "0.82", letterSpacing: "-0.01em" }}>
-              {"INDIA "}
-              <FoldWord text="SPORTS" when="load" delay={550} />
+            <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(72px,13vw,220px) * 0.72)", lineHeight: "0.82", letterSpacing: "-0.01em" }}>
+              {"India "}
+              <FoldWord text="Sports" when="load" delay={550} />
               <br />
-              {"EXPO "}
+              {"Expo "}
               <FoldWord text="2027" when="load" delay={1050} step={110} style={{ color: "#F07C12" }} />
             </h1>
-            <div style={{ display: "flex", gap: "28px", flexWrap: "wrap", fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "700", fontSize: "clamp(20px,2.2vw,32px)", letterSpacing: "0.02em" }}>
-              <span>PLAY INDIA.</span>
-              <span style={{ color: "#BDB9B0" }}>BUILD TOGETHER.</span>
-              <span style={{ color: "#BDB9B0" }}>STRONGER TOMORROW.</span>
+            <div style={{ display: "flex", gap: "28px", flexWrap: "wrap", fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "700", fontSize: "calc(clamp(20px,2.2vw,32px) * 0.72)", letterSpacing: "0.02em" }}>
+              <span>Play India.</span>
+              <span style={{ color: "#BDB9B0" }}>Build together.</span>
+              <span style={{ color: "#BDB9B0" }}>Stronger tomorrow.</span>
             </div>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", pointerEvents: "auto" }}>
-              <button onClick={v.enter} style={{ background: "#F07C12", color: "#0E0E0F", border: "0", height: "56px", padding: "0 28px", font: "700 15px 'Instrument Sans'", letterSpacing: "0.08em", cursor: "pointer" }}>
-                ENTER THE EXPO ↓
+              <button onClick={v.enter} style={{ background: "#F07C12", color: "#0E0E0F", border: "0", height: "56px", padding: "0 28px", font: "700 15px var(--f-body)", letterSpacing: "0.08em", cursor: "pointer" }}>
+                Enter the expo ↓
               </button>
-              <button onClick={v.skip} style={{ background: "transparent", color: "#fff", border: "1px solid #55555A", height: "56px", padding: "0 24px", font: "600 14px 'Instrument Sans'", letterSpacing: "0.08em", cursor: "pointer" }}>
-                SKIP INTRO
+              <button onClick={v.skip} style={{ background: "transparent", color: "#fff", border: "1px solid #55555A", height: "56px", padding: "0 24px", font: "600 14px var(--f-body)", letterSpacing: "0.08em", cursor: "pointer" }}>
+                Skip intro
               </button>
             </div>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#8A877F", position: "relative", zIndex: "1", pointerEvents: "none" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#8A877F", position: "relative", zIndex: "1", pointerEvents: "none" }}>
             <span>SCROLL TO TRAVEL · EARTH → INDIA → DELHI → YASHOBHOOMI → HALL 2</span>
             <span>28.5549° N · 77.0446° E</span>
           </div>
@@ -356,18 +356,18 @@ function render(v) {
         <div ref={v.afterRef} />
         <section data-screen-label="03 Intro" style={{ padding: "120px 28px 80px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "60px", alignItems: "end" }}>
           <div>
-            <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "24px" }}>
+            <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "24px" }}>
               EXHIBITION HALL 2 · YASHOBHOOMI · NEW DELHI
             </div>
-            <h2 data-anim="" style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(64px,9vw,148px)", lineHeight: "0.84" }}>
-              {"THE "}
-              <FoldWord text="GLOBAL" delay={100} />
+            <h2 data-anim="" style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(64px,9vw,148px) * 0.72)", lineHeight: "0.84" }}>
+              {"The "}
+              <FoldWord text="global" delay={100} />
               <br />
-              SPORTS ECONOMY
+              sports economy
               <br />
               <span style={{ color: "#C2610B" }}>
-                {"MEETS "}
-                <FoldWord text="INDIA" delay={650} step={90} />.
+                {"meets "}
+                <FoldWord text="India" delay={650} step={90} />.
               </span>
             </h2>
           </div>
@@ -377,10 +377,10 @@ function render(v) {
             </p>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <LockKeyLink href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px 0 16px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
-                BOOK A STALL
+                Book a stall
               </LockKeyLink>
               <a href={withBase("/attend")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
-                REGISTER TO VISIT
+                Register to visit
               </a>
             </div>
           </div>
@@ -393,30 +393,30 @@ function render(v) {
             <section data-screen-label="Live now" style={{ background: "#0E0E0F", color: "#fff", padding: "72px 28px" }}>
               <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,460px),1fr))", gap: "40px" }}>
                 <div style={{ position: "relative", aspectRatio: "16/9", background: "#1A1A1C", border: "1px solid #2A2A2D", display: "flex", alignItems: "flex-end", padding: "24px", boxSizing: "border-box" }}>
-                  <span style={{ position: "absolute", left: "20px", top: "20px", background: "#9E1B22", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", padding: "6px 10px" }}>
+                  <span style={{ position: "absolute", left: "20px", top: "20px", background: "#9E1B22", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", padding: "6px 10px" }}>
                     ● LIVE · INNOVATION ARENA
                   </span>
-                  <span style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", color: "#6B6A66", letterSpacing: "0.14em" }}>
+                  <span style={{ position: "absolute", inset: "0", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--f-label)", fontSize: "12px", color: "#6B6A66", letterSpacing: "0.14em" }}>
                     STREAM EMBED PLACEHOLDER
                   </span>
                   <div style={{ position: "relative" }}>
-                    <div style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "44px", lineHeight: "0.9" }}>THE FUTURE OF AI COACHING</div>
+                    <div style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "33px", lineHeight: "0.9" }}>The future of AI coaching</div>
                     <div style={{ color: "#BDB9B0", marginTop: "8px" }}>Arjun Mehta · Dr. Meera Raghavan · 1,842 watching (demo)</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-                  <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0", paddingBottom: "16px", borderBottom: "1px solid #2A2A2D" }}>
+                  <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0", paddingBottom: "16px", borderBottom: "1px solid #2A2A2D" }}>
                     UP NEXT · DAY 2
                   </div>
                   {list(v.upNext).map((s, $index) => (
                     <Fragment key={$index}>
                       <div style={{ display: "grid", gridTemplateColumns: "72px 1fr auto", gap: "16px", padding: "18px 0", borderBottom: "1px solid #2A2A2D", alignItems: "baseline" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "14px", color: "#F07C12" }}>{txt(s?.time)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "14px", color: "#F07C12" }}>{txt(s?.time)}</span>
                         <span>
                           <span style={{ display: "block", fontSize: "17px", fontWeight: "600" }}>{txt(s?.title)}</span>
                           <span style={{ fontSize: "13px", color: "#8A877F" }}>{txt(s?.stage)}</span>
                         </span>
-                        <a href={withBase("/programme")} style={{ color: "#fff", fontSize: "12px", letterSpacing: "0.1em", fontWeight: "700" }}>SAVE</a>
+                        <a href={withBase("/programme")} style={{ color: "#fff", fontSize: "12px", letterSpacing: "0.1em", fontWeight: "700" }}>Save</a>
                       </div>
                     </Fragment>
                   ))}
@@ -431,8 +431,8 @@ function render(v) {
         ) : null}
         <section data-screen-label="Metrics" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "16px", marginBottom: "40px" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>03 — THE EXPO IN NUMBERS</span>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", background: "#F6F4EF", padding: "6px 10px" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>03 — THE EXPO IN NUMBERS</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", background: "#F6F4EF", padding: "6px 10px" }}>
               {"STALL & PAVILION COUNTS FROM HALL 2 LAYOUT · OTHER FIGURES DEMO TARGETS"}
             </span>
           </div>
@@ -440,9 +440,9 @@ function render(v) {
             {list(v.metrics).map((m, $index) => (
               <Fragment key={$index}>
                 <div style={{ padding: "24px 20px 24px 0", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,6vw,96px)", lineHeight: "0.9" }}>{txt(m?.v)}</span>
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,6vw,96px) * 0.72)", lineHeight: "0.9" }}>{txt(m?.v)}</span>
                   <span style={{ fontSize: "15px", fontWeight: "600" }}>{txt(m?.l)}</span>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(m?.src)}</span>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>{txt(m?.src)}</span>
                 </div>
               </Fragment>
             ))}
@@ -451,21 +451,21 @@ function render(v) {
         <section data-screen-label="04 Explore Hall 2" style={{ background: "#F6F4EF", padding: "96px 28px", overflow: "hidden" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px", alignItems: "center" }}>
             <div>
-              <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "16px" }}>04 — EXPLORE HALL 2</div>
-              <h2 style={{ margin: "0 0 28px", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
-                ONE HALL.
+              <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "16px" }}>04 — EXPLORE HALL 2</div>
+              <h2 style={{ margin: "0 0 28px", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
+                One hall.
                 <br />
-                FOUR EVENT ZONES.
+                Four event zones.
               </h2>
               <p style={{ margin: "0 0 28px", fontSize: "18px", lineHeight: "1.5", color: "#3A3A3E", maxWidth: "520px" }}>
                 Open the zone guide: one spread for each zone, with its plan, every area, its stalls and the exhibitors already allocated. Turn the pages with Next; after Zone D the book closes itself.
               </p>
               <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
                 <a href={withBase("/explore")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 22px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
-                  OPEN 3D DIGITAL TWIN →
+                  Open 3D digital twin →
                 </a>
                 <a href={withBase("/zones")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 22px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
-                  ZONE EXPERIENCES →
+                  Zone experiences →
                 </a>
               </div>
             </div>
@@ -479,16 +479,16 @@ function render(v) {
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "24px", alignItems: "end", marginBottom: "48px" }}>
               <div>
-                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0", marginBottom: "16px" }}>
+                <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0", marginBottom: "16px" }}>
                   06 — EXHIBITION PRODUCT ARCHITECTURE
                 </div>
-                <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
-                  BUILD YOUR
+                <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
+                  Build your
                   <br />
-                  PRESENCE.
+                  presence.
                 </h2>
               </div>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", border: "1px solid #55555A", padding: "6px 10px", color: "#BDB9B0" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", border: "1px solid #55555A", padding: "6px 10px", color: "#BDB9B0" }}>
                 DEMO / SAMPLE CONFIGURATION
               </span>
             </div>
@@ -499,16 +499,16 @@ function render(v) {
               <span style={{ color: "#F07C12" }}>→</span>
             </div>
             <a href={withBase("/exhibit")} style={{ marginTop: "40px", display: "inline-flex", background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
-              COMPARE STALL PRODUCTS →
+              Compare stall products →
             </a>
           </div>
         </section>
         <section data-screen-label="07 Featured exhibitors" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "16px", marginBottom: "32px" }}>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              07 — FEATURED EXHIBITORS
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              07 — Featured exhibitors
             </h2>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", background: "#F6F4EF", padding: "6px 10px" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", background: "#F6F4EF", padding: "6px 10px" }}>
               DEMO ENTITIES · NOT CONFIRMED PARTICIPANTS
             </span>
           </div>
@@ -516,12 +516,12 @@ function render(v) {
             {list(v.featured).map((e, $index) => (
               <Fragment key={$index}>
                 <div style={{ display: "grid", gridTemplateColumns: "140px minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr) auto", gap: "24px", alignItems: "center", padding: "22px 0", borderBottom: "1px solid #E3E0D8" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "13px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "13px", display: "flex", alignItems: "center", gap: "8px" }}>
                     <span style={sx(`width:10px;height:10px;background:${e?.zc ?? ""};`)} />
                     {txt(e?.stall)}
                   </span>
                   <span>
-                    <span style={{ display: "block", fontFamily: "'Archivo',sans-serif", fontStretch: "75%", fontWeight: "800", fontSize: "28px", lineHeight: "1", textTransform: "uppercase" }}>
+                    <span style={{ display: "block", fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "800", fontSize: "23px", lineHeight: "1", textTransform: "uppercase" }}>
                       {txt(e?.name)}
                     </span>
                     <span style={{ fontSize: "14px", color: "#6B6A66" }}>{txt(e?.city)}</span>
@@ -531,15 +531,15 @@ function render(v) {
                     <span style={{ display: "block", color: "#6B6A66", fontSize: "13px" }}>{txt(e?.type)}</span>
                   </span>
                   <span style={{ fontSize: "14px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", display: "block" }}>LOOKING FOR</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", display: "block" }}>LOOKING FOR</span>
                     {txt(e?.seeking)}
                   </span>
                   <span style={{ display: "flex", gap: "8px" }}>
                     <a href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", padding: "0 14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
-                      VIEW
+                      View
                     </a>
                     <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "38px", display: "flex", alignItems: "center", padding: "0 14px", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>
-                      BOOK MEETING
+                      Book meeting
                     </a>
                   </span>
                 </div>
@@ -548,25 +548,25 @@ function render(v) {
           </div>
         </section>
         <section data-screen-label="08 Featured products" style={{ padding: "0 28px 96px", maxWidth: "1440px", margin: "0 auto" }}>
-          <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "24px" }}>08 — FEATURED PRODUCTS</div>
+          <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "24px" }}>08 — FEATURED PRODUCTS</div>
           <ProductShuffle items={list(v.prods)} />
         </section>
         <section data-screen-label="09 Business exchange" style={{ background: "#141416", color: "#fff", padding: "96px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))", gap: "56px", alignItems: "center" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>
                 09 — INDIA SPORTS BUSINESS EXCHANGE · ZONE D
               </span>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
-                BUILD THE
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
+                Build the
                 <br />
-                BUSINESS OF SPORT.
+                business of sport.
               </h2>
               <p style={{ margin: "0", fontSize: "18px", lineHeight: "1.5", color: "#BDB9B0", maxWidth: "480px" }}>
                 Tell us who you are and what you need. The Exchange matches exhibitors, buyers, investors, distributors and government delegations, then books the table.
               </p>
               <a href={withBase("/connect")} style={{ alignSelf: "flex-start", background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
-                FIND MATCHES →
+                Find matches →
               </a>
             </div>
             <div style={{ border: "1px solid #3A3A3E" }}>
@@ -577,13 +577,13 @@ function render(v) {
                       <span style={{ display: "block", fontSize: "18px", fontWeight: "600" }}>{txt(m?.name)}</span>
                       <span style={{ fontSize: "13px", color: "#8A877F" }}>{txt(m?.country)}{" · "}{txt(m?.role)}{" · Looking for "}{txt(m?.seeking)}</span>
                     </span>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "44px", lineHeight: "1", color: "#F07C12" }}>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "33px", lineHeight: "1", color: "#F07C12" }}>
                       {txt(m?.score)}%
                     </span>
                   </div>
                 </Fragment>
               ))}
-              <div style={{ padding: "14px 24px", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#8A877F" }}>
+              <div style={{ padding: "14px 24px", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#8A877F" }}>
                 SAMPLE MATCHES FOR APEX SPORTS INDIA · DEMO
               </div>
             </div>
@@ -591,25 +591,25 @@ function render(v) {
         </section>
         <section data-screen-label="10 SportsTech" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#0A62BF" }}>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#0A62BF" }}>
               {"10 — SPORTSTECH & INNOVATION · ZONE C"}
             </span>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
-              TECHNOLOGY
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
+              Technology
               <br />
-              FOR EVERY
+              for every
               <br />
-              STAKEHOLDER.
+              stakeholder.
             </h2>
             <a href={withBase("/zones")} style={{ alignSelf: "flex-start", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "48px", display: "flex", alignItems: "center", padding: "0 20px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.08em" }}>
-              EXPLORE ZONE C →
+              Explore Zone C →
             </a>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", borderTop: "1px solid #0E0E0F", borderLeft: "1px solid #0E0E0F" }}>
             {list(v.stake).map((s, $index) => (
               <Fragment key={$index}>
                 <div style={{ padding: "20px", borderRight: "1px solid #0E0E0F", borderBottom: "1px solid #0E0E0F", display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "30px", lineHeight: "0.9", color: "#0A62BF" }}>
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "25px", lineHeight: "0.9", color: "#0A62BF" }}>
                     {txt(s?.t)}
                   </span>
                   <span style={{ fontSize: "14px", color: "#3A3A3E" }}>{txt(s?.d)}</span>
@@ -621,13 +621,13 @@ function render(v) {
         <section data-screen-label="11 Programme" style={{ background: "#F6F4EF", padding: "96px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "24px", marginBottom: "32px" }}>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-                11 — PROGRAMME
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+                11 — Programme
               </h2>
               <div role="tablist" style={{ display: "flex", border: "1px solid #0E0E0F" }}>
                 {list(v.dayTabs).map((d, $index) => (
                   <Fragment key={$index}>
-                    <button role="tab" onClick={d?.pick} style={sx(`height:44px;padding:0 22px;border:0;background:${d?.bg ?? ""};color:${d?.fg ?? ""};font:700 13px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;`)}>
+                    <button role="tab" onClick={d?.pick} style={sx(`height:44px;padding:0 22px;border:0;background:${d?.bg ?? ""};color:${d?.fg ?? ""};font:700 13px var(--f-body);letter-spacing:0.1em;cursor:pointer;`)}>
                       {txt(d?.label)}
                     </button>
                   </Fragment>
@@ -638,7 +638,7 @@ function render(v) {
               {list(v.daySessions).map((s, $index) => (
                 <Fragment key={$index}>
                   <div style={{ display: "grid", gridTemplateColumns: "120px minmax(0,1fr) 220px auto", gap: "24px", alignItems: "center", padding: "20px 0", borderBottom: "1px solid #D6D2C8" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "15px" }}>{txt(s?.time)}–{txt(s?.end)}</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "15px" }}>{txt(s?.time)}–{txt(s?.end)}</span>
                     <span>
                       <span style={{ display: "block", fontSize: "20px", fontWeight: "600" }}>{txt(s?.title)}</span>
                       <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(s?.spk)}</span>
@@ -647,7 +647,7 @@ function render(v) {
                       <span style={sx(`width:8px;height:8px;background:${s?.zc ?? ""};`)} />
                       {txt(s?.stage)}·{txt(s?.topic)}
                     </span>
-                    <a href={withBase("/programme")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", color: "#0E0E0F" }}>ADD TO MY EXPO</a>
+                    <a href={withBase("/programme")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", color: "#0E0E0F" }}>Add to My Expo</a>
                   </div>
                 </Fragment>
               ))}
@@ -656,21 +656,21 @@ function render(v) {
         </section>
         <section data-screen-label="12 Watch" style={{ padding: "96px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "16px", marginBottom: "32px" }}>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(44px,5vw,80px)", lineHeight: "0.88" }}>
-              {"12 — LIVE & ON DEMAND"}
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
+              {"12 — Live & on demand"}
             </h2>
-            <a href={withBase("/programme")} style={{ fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>WATCH LIBRARY →</a>
+            <a href={withBase("/programme")} style={{ fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>Watch library →</a>
           </div>
           <WatchShuffle items={v.videos} />
         </section>
         <section data-screen-label="13 Plan your visit" style={{ borderTop: "1px solid #0E0E0F", padding: "96px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,440px),1fr))", gap: "48px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>13 — PLAN YOUR VISIT</span>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,6vw,96px)", lineHeight: "0.86" }}>
-                GETTING TO
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>13 — PLAN YOUR VISIT</span>
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
+                Getting to
                 <br />
-                YASHOBHOOMI.
+                Yashobhoomi.
               </h2>
               <p style={{ margin: "0", fontSize: "17px", lineHeight: "1.5", color: "#3A3A3E", maxWidth: "460px" }}>
                 Yashobhoomi sits in Sector 25, Dwarka, with its own underground station on the Delhi Airport Metro Express line.
@@ -683,50 +683,50 @@ function render(v) {
               {list(v.travel).map((t, $index) => (
                 <Fragment key={$index}>
                   <div style={{ display: "grid", gridTemplateColumns: "150px minmax(0,1fr) 110px", gap: "20px", padding: "22px 0", borderBottom: "1px solid #E3E0D8", alignItems: "baseline" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "26px", textTransform: "uppercase" }}>{txt(t?.mode)}</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "23px", textTransform: "uppercase" }}>{txt(t?.mode)}</span>
                     <span style={{ fontSize: "15px", lineHeight: "1.45", color: "#3A3A3E" }}>{txt(t?.how)}</span>
                     <span style={{ textAlign: "right" }}>
-                      <span style={{ display: "block", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "30px" }}>{txt(t?.time)}</span>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "9px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(t?.src)}</span>
+                      <span style={{ display: "block", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "25px" }}>{txt(t?.time)}</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "9px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(t?.src)}</span>
                     </span>
                   </div>
                 </Fragment>
               ))}
               <a href={withBase("/explore#getting-there")} style={{ marginTop: "24px", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
-                {"FULL VISITOR GUIDE & ROUTES →"}
+                {"Full visitor guide & routes →"}
               </a>
             </div>
           </div>
         </section>
         <section data-screen-label="14 CTA" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))" }}>
           <a href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>{"FOR BRANDS & MANUFACTURERS"}</span>
-            <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "96px", lineHeight: "0.85" }}>
-              EXHIBIT →
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>{"FOR BRANDS & MANUFACTURERS"}</span>
+            <span style={{ marginTop: "auto", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "67px", lineHeight: "0.85" }}>
+              Exhibit →
             </span>
           </a>
           <a href={withBase("/attend")} style={{ background: "#fff", color: "#0E0E0F", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box", borderTop: "1px solid #0E0E0F" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>{"FOR VISITORS & DELEGATES"}</span>
-            <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "96px", lineHeight: "0.85" }}>
-              ATTEND →
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>{"FOR VISITORS & DELEGATES"}</span>
+            <span style={{ marginTop: "auto", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "67px", lineHeight: "0.85" }}>
+              Attend →
             </span>
           </a>
           <a href={withBase("/connect")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", padding: "56px 28px", display: "flex", flexDirection: "column", gap: "16px", minHeight: "300px", boxSizing: "border-box" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>{"FOR BUYERS & INVESTORS"}</span>
-            <span style={{ marginTop: "auto", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "96px", lineHeight: "0.85" }}>
-              CONNECT →
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#BDB9B0" }}>{"FOR BUYERS & INVESTORS"}</span>
+            <span style={{ marginTop: "auto", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "67px", lineHeight: "0.85" }}>
+              Connect →
             </span>
           </a>
         </section>
         <footer style={{ background: "#0E0E0F", color: "#BDB9B0", padding: "56px 28px", fontSize: "14px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))", gap: "32px" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "28px", color: "#fff" }}>
-                {"INDIA SPORTS EXPO "}
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "23px", color: "#fff" }}>
+                {"India Sports Expo "}
                 <span style={{ color: "#F07C12" }}>2027</span>
               </span>
               <span>Exhibition Hall 2, Yashobhoomi (IICC), Sector 25, Dwarka, New Delhi</span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.12em" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em" }}>
                 {"PROTOTYPE · ALL PARTICIPANTS, DATES & FIGURES ARE DEMO UNLESS STATED"}
               </span>
             </div>
@@ -756,15 +756,15 @@ function render(v) {
               <div onClick={v.stop} style={{ background: "#fff", width: "min(880px,92vw)", maxHeight: "76vh", overflow: "auto", border: "1px solid #0E0E0F" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "0 24px", borderBottom: "2px solid #0E0E0F", height: "72px" }}>
                   <span style={{ fontSize: "22px" }}>⌕</span>
-                  <input value={val(v.q)} onChange={v.setQ} autoFocus={true} placeholder="Search exhibitors, products, sports, countries, sessions, speakers or stalls..." style={{ flex: "1", border: "0", outline: "none", font: "500 22px 'Instrument Sans'" }} />
-                  <button onClick={v.closeSearch} style={{ border: "1px solid #0E0E0F", background: "none", height: "32px", padding: "0 10px", font: "600 11px 'JetBrains Mono'", cursor: "pointer" }}>
-                    ESC
+                  <input value={val(v.q)} onChange={v.setQ} autoFocus={true} placeholder="Search exhibitors, products, sports, countries, sessions, speakers or stalls..." style={{ flex: "1", border: "0", outline: "none", font: "500 22px var(--f-body)" }} />
+                  <button onClick={v.closeSearch} style={{ border: "1px solid #0E0E0F", background: "none", height: "32px", padding: "0 10px", font: "600 11px var(--f-label)", cursor: "pointer" }}>
+                    Esc
                   </button>
                 </div>
                 {list(v.results).map((g, $index) => (
                   <Fragment key={$index}>
                     <div style={{ padding: "16px 24px 8px" }}>
-                      <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.18em", color: "#6B6A66", marginBottom: "6px" }}>
+                      <div style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.18em", color: "#6B6A66", marginBottom: "6px" }}>
                         {txt(g?.label)}{" · "}{txt(g?.count)}
                       </div>
                       {list(g?.items).map((r, $index) => (
@@ -774,7 +774,7 @@ function render(v) {
                               {txt(r?.t)}{" "}
                               <span style={{ fontWeight: "400", color: "#6B6A66", fontSize: "14px" }}>{txt(r?.s)}</span>
                             </span>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(r?.m)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(r?.m)}</span>
                           </a>
                         </Fragment>
                       ))}

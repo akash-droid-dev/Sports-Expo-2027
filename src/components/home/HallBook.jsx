@@ -334,7 +334,7 @@ export default function HallBook() {
           <span className="hb-b-pages" aria-hidden="true" />
           <span className="hb-b-top" aria-hidden="true" />
           <span className="hb-b-spine" aria-hidden="true">
-            <span>HALL 2 · ZONE GUIDE</span>
+            <span>Hall 2 · Zone guide</span>
           </span>
           <span className="hb-closed-cover">
             <span className="hb-closed-inside" aria-hidden="true" />

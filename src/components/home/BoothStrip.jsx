@@ -54,7 +54,7 @@ export default function BoothStrip({ items = [] }) {
             <span className="booth-n">{String(i + 1).padStart(2, '0')}</span>
             <span className="booth-name">{b.name}</span>
             <span className="booth-size">{b.size}</span>
-            <span className="booth-cta">VIEW →</span>
+            <span className="booth-cta">View →</span>
           </a>
         );
       }}

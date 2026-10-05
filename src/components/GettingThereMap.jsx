@@ -31,7 +31,7 @@ function openUrl(travel) {
   return `https://www.google.com/maps/dir/?api=1&origin=${q(r.from)}&destination=${q(VENUE)}&travelmode=${mode}`;
 }
 
-const mono = { fontFamily: "'JetBrains Mono',monospace", fontSize: '10px', letterSpacing: '0.14em' };
+const mono = { fontFamily: "var(--f-label)", fontSize: '10px', letterSpacing: '0.14em' };
 
 // Stand-in shown before a map is loaded on phones: a photo of the venue.
 function MapCover({ label, children }) {
@@ -82,7 +82,7 @@ export default function GettingThereMap({ travel, cityMapRef }) {
         rel="noopener noreferrer"
         style={{ ...mono, position: 'absolute', right: '16px', bottom: '16px', zIndex: 3, background: '#F07C12', color: '#0E0E0F', border: '1px solid #0E0E0F', padding: '8px 10px', textDecoration: 'none', fontWeight: 700 }}
       >
-        OPEN DIRECTIONS ↗
+        Open directions ↗
       </a>
     </div>
   );
@@ -97,7 +97,7 @@ export function VenueMap() {
       {!load ? (
         <MapCover label="YASHOBHOOMI · SECTOR 25, DWARKA">
           <button type="button" onClick={() => setLoad(true)} style={{ ...mono, background: '#fff', color: '#0E0E0F', border: '1px solid #0E0E0F', padding: '10px 12px', fontWeight: 700, cursor: 'pointer' }}>
-            LOAD GOOGLE MAP
+            Load Google map
           </button>
         </MapCover>
       ) : null}
@@ -115,7 +115,7 @@ export function VenueMap() {
         rel="noopener noreferrer"
         style={{ ...mono, position: 'absolute', right: '12px', top: '12px', zIndex: 2, background: '#F07C12', color: '#0E0E0F', border: '1px solid #0E0E0F', padding: '8px 10px', textDecoration: 'none', fontWeight: 700 }}
       >
-        OPEN IN GOOGLE MAPS ↗
+        Open in Google Maps ↗
       </a>
     </div>
   );

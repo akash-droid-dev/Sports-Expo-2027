@@ -1,7 +1,6 @@
-/* Sporty finish across the site, in the logo's colours (public/brand):
-   slanted display type like the logo's lettering, angled action buttons, a running-track stripe
-   under the header, speed lines and pitch markings, a stadium LED ticker and the logo's line
-   "Be a sport. Shape the future." in footers. */
+/* Brand finish across the site, in the logo's colours (public/brand), kept quiet for the
+   sleek theme (src/app/sleek.css): a thin colour line under the header, the logo's line
+   "Be a sport. Shape the future." in footers and a stadium LED ticker. */
 :root {
   --ise-navy: #2e3f8f;
   --ise-blue: #0a62bf;
@@ -9,101 +8,41 @@
   --ise-green: #00803f;
 }
 
-/* Display type leans forward, like the wordmark. */
-#dc-root [style*='font-stretch: 62%'],
-#dc-root h1,
-#dc-root h2,
-.vs-title,
-.vs-card-name,
-.hb-cover-title,
-.ibox-t,
-.booth-name,
-.mm-panel .mm-item:not(.is-cta) {
-  font-style: italic;
-}
-#dc-root [style*='font-stretch: 62%'] {
-  padding-right: 0.06em;
-}
-
-/* Primary actions: angled, like a sports kit stripe. */
-#dc-root a[style*='background: rgb(240, 124, 18)'],
-#dc-root button[style*='background: rgb(240, 124, 18)'],
-.lock-key,
-.mm-panel .mm-item.is-cta {
-  -webkit-clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
-  padding-left: max(22px, 1.4em) !important;
-  padding-right: max(22px, 1.4em) !important;
-}
-.lock-key {
-  padding-left: 22px !important;
-}
-
-/* A running-track stripe in the logo's colours along the bottom of the header, always moving. */
+/* A thin line in the logo's colours along the bottom of the header. */
 #dc-root header[style*='position: sticky']::after {
   content: '';
   position: absolute;
-  left: -198px;
+  left: 0;
   right: 0;
   bottom: 0;
-  height: 3px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--ise-orange) 0 60px,
-    #fff 60px 66px,
-    var(--ise-green) 66px 126px,
-    #fff 126px 132px,
-    var(--ise-blue) 132px 192px,
-    #fff 192px 198px
-  );
-  /* Moved with a transform (one pattern repeat per loop) so the header is never repainted. */
-  animation: lane 4s linear infinite;
-  will-change: transform;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ise-orange), #ffd23f 30%, var(--ise-green) 65%, var(--ise-blue));
+  opacity: 0.85;
   pointer-events: none;
 }
 #dc-root header[style*='position: sticky'] {
   overflow: hidden;
 }
-@keyframes lane {
-  to {
-    transform: translate3d(198px, 0, 0);
-  }
-}
 .scroll-progress {
   background: linear-gradient(90deg, var(--ise-orange), #ffd23f 35%, var(--ise-green) 70%, var(--ise-blue));
 }
 .curtain-line {
-  background: repeating-linear-gradient(90deg, var(--ise-orange) 0 40px, var(--ise-green) 40px 80px, var(--ise-blue) 80px 120px) !important;
-}
-
-/* Speed lines on the dark sections, pitch markings on the light feature sections. */
-#dc-root section[style*='background: rgb(14, 14, 15)'] {
-  background-image: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.028) 0 2px, transparent 2px 26px) !important;
-}
-section[data-screen-label='Intentions'],
-section[data-screen-label='04 Explore Hall 2'] {
-  position: relative;
-  background-image:
-    radial-gradient(circle at 50% 50%, transparent 0 139px, rgba(0, 128, 63, 0.16) 140px 142px, transparent 143px),
-    linear-gradient(90deg, transparent calc(50% - 1px), rgba(0, 128, 63, 0.16) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) !important;
+  background: linear-gradient(90deg, var(--ise-orange), var(--ise-green), var(--ise-blue)) !important;
+  border-radius: 2px;
 }
 
 /* The logo's line at the head of every footer. */
 #dc-root footer::before {
-  content: 'BE A SPORT. SHAPE THE FUTURE.';
+  content: 'Be a sport. Shape the future.';
   display: block;
-  margin-bottom: 28px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #2a2a2d;
-  font-family: 'Archivo', sans-serif;
-  font-stretch: 62%;
-  font-style: italic;
-  font-weight: 900;
-  font-size: clamp(30px, 4.4vw, 64px);
-  line-height: 0.95;
-  letter-spacing: 0.01em;
+  margin-bottom: 32px;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3.2vw, 46px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
   color: #fff;
-  background: linear-gradient(90deg, #fff 55%, var(--ise-orange));
+  background: linear-gradient(90deg, #fff 50%, var(--ise-orange));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -113,8 +52,6 @@ section[data-screen-label='04 Explore Hall 2'] {
 .led {
   position: relative;
   background: #060607;
-  border-top: 3px solid var(--ise-orange);
-  border-bottom: 3px solid var(--ise-orange);
   overflow: hidden;
 }
 /* The dot matrix of an LED panel. */
@@ -135,12 +72,10 @@ section[data-screen-label='04 Explore Hall 2'] {
   align-items: center;
   gap: 14px;
   padding: 14px 34px 14px 0;
-  font-family: 'Archivo', sans-serif;
-  font-stretch: 62%;
-  font-style: italic;
-  font-weight: 900;
-  font-size: 28px;
-  letter-spacing: 0.04em;
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.01em;
   color: #fff;
   white-space: nowrap;
   text-shadow: 0 0 10px rgba(255, 255, 255, 0.35);
@@ -155,21 +90,8 @@ section[data-screen-label='04 Explore Hall 2'] {
 }
 @media (max-width: 600px) {
   .led-item {
-    font-size: 20px;
+    font-size: 17px;
     padding: 10px 24px 10px 0;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #dc-root header[style*='position: sticky']::after {
-    animation: none;
-  }
-}
-
-/* The angled buttons clip outside outlines: draw the keyboard focus ring inside instead. */
-#dc-root a[style*='background: rgb(240, 124, 18)']:focus-visible,
-#dc-root button[style*='background: rgb(240, 124, 18)']:focus-visible,
-.lock-key:focus-visible {
-  outline: 2px solid #0e0e0f;
-  outline-offset: -6px;
-}

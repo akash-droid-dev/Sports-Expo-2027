@@ -25,7 +25,7 @@ class Component extends DCLogic {
     const open = id => () => this.setState({ open: id });
     const toggle = id => () => { this.setState({ saved: { ...s.saved, [id]: !s.saved[id] } }); if (!s.saved[id]) this.flash('Added to My Expo · reminder 15 min before'); };
     const spk = x => x.speakers.map(id => D.sp(id).name).join(', ');
-    const decorate = x => { const st = statusFor(x); return { ...x, zc: zc(x.zone), spk: spk(x), badge: BADGE[st][0], stc: BADGE[st][1], st, saveLabel: s.saved[x.id] ? '✓ IN MY EXPO' : 'ADD TO MY EXPO', saveBg: s.saved[x.id] ? '#E3F1EB' : '#fff', save: toggle(x.id), open: open(x.id), cta: st === 'live' ? 'WATCH LIVE' : st === 'ondemand' ? 'WATCH' : 'DETAILS' }; };
+    const decorate = x => { const st = statusFor(x); return { ...x, zc: zc(x.zone), spk: spk(x), badge: BADGE[st][0], stc: BADGE[st][1], st, saveLabel: s.saved[x.id] ? '✓ In My Expo' : 'Add to My Expo', saveBg: s.saved[x.id] ? '#E3F1EB' : '#fff', save: toggle(x.id), open: open(x.id), cta: st === 'live' ? 'WATCH LIVE' : st === 'ondemand' ? 'WATCH' : 'DETAILS' }; };
     const daySes = D.sessions.filter(x => x.day === s.day).map(decorate);
     const toMin = t => { const [h, m] = t.split(':').map(Number); return h * 60 + m; };
     const tlRows = D.stages.map(st => { const items = daySes.filter(x => x.stage === st); return { stage: st, meta: st === 'Plenary Hall' ? '1,200 seats' : st === 'Innovation Arena' ? '324 seats · Zone C' : '220 seats · Zone D', empty: items.length === 0, items: items.map(x => ({ ...x, l: ((toMin(x.time) - 540) / 480 * 100) + '%', w: ((toMin(x.end) - toMin(x.time)) / 480 * 100) + '%', bg: x.st === 'live' ? '#0E0E0F' : '#F6F4EF', fg: x.st === 'live' ? '#fff' : '#0E0E0F' })) }; });
@@ -59,7 +59,7 @@ class Component extends DCLogic {
       isLive: phase === 'live',
       happening: [{ t: 'Startup Village open pitches', where: 'Zone C · C-SUV', st: 'NOW', c: '#0B6E4F' }, { t: 'Hosted buyer briefing: Football', where: 'Zone D · Hosted Buyer Lounge', st: 'NOW', c: '#F07C12' }, { t: 'Archery Experience · 12 places left', where: 'Try Sport Arena', st: '10:30', c: '#C2610B' }],
       upNext: D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 3).map(x => ({ ...x, open: open(x.id) })),
-      openLive: open('x5'), toggleTranscript: () => this.setState({ transcript: !s.transcript }), showTranscript: s.transcript, transcriptLabel: s.transcript ? 'HIDE TRANSCRIPT' : 'LIVE TRANSCRIPT',
+      openLive: open('x5'), toggleTranscript: () => this.setState({ transcript: !s.transcript }), showTranscript: s.transcript, transcriptLabel: s.transcript ? 'Hide transcript' : 'Live transcript',
       days: [1, 2, 3].map(d => ({ t: 'DAY ' + d, ...sel(d === s.day), pick: () => this.setState({ day: d }) })),
       views: [['agenda', 'AGENDA'], ['timeline', 'TIMELINE'], ['stage', 'STAGE'], ['sector', 'SECTOR'], ['speaker', 'SPEAKER']].map(([id, t]) => ({ t, ...sel(id === s.view), pick: () => this.setState({ view: id }) })),
       vAgenda: s.view === 'agenda', vTimeline: s.view === 'timeline', vStage: s.view === 'stage', vSector: s.view === 'sector', vSpeaker: s.view === 'speaker',
@@ -71,7 +71,7 @@ class Component extends DCLogic {
       library: lib.map(x => ({ ...x, topicU: x.topic.toUpperCase(), badgeBg: x.st === 'live' ? '#9E1B22' : '#0E0E0F' })), libCount: lib.length, libEmpty: lib.length === 0,
       detailOpen: !!det, close: () => this.setState({ open: null }), stop: e => e.stopPropagation(),
       d: det ? { ...det, desc: DESC[det.topic] || '', hasPlayer: det.st !== 'upcoming', isAfter: det.st === 'ondemand', slot: 'player-' + det.id, playerPh: det.st === 'live' ? 'Live stream embed' : 'Full recording embed',
-        watchLabel: det.st === 'live' ? '● WATCH LIVE' : det.st === 'ondemand' ? '▶ PLAY RECORDING' : 'SET REMINDER', watch: () => this.flash(det.st === 'upcoming' ? 'Reminder set for 15 minutes before' : 'Playing in Expo player (demo)'),
+        watchLabel: det.st === 'live' ? '● Watch live' : det.st === 'ondemand' ? '▶ Play recording' : 'Set reminder', watch: () => this.flash(det.st === 'upcoming' ? 'Reminder set for 15 minutes before' : 'Playing in Expo player (demo)'),
         cal: () => this.flash('Calendar file downloaded (.ics, demo)'),
         chapters: [{ t: '00:00', d: 'Opening and context' }, { t: '06:20', d: 'Panel: what has changed since 2024' }, { t: '21:45', d: 'Case study from the floor' }, { t: '38:10', d: 'Audience Q&A' }],
         spks: det.speakers.map(id => ({ ...D.sp(id), slot: 'spk-' + id })),
@@ -92,22 +92,22 @@ function render(v) {
             <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>EXPLORE</a>
-            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href="#programme" style={{ color: "#F07C12", textDecoration: "none" }}>PROGRAMME</a>
-            <a href="#watch" style={{ color: "#F07C12", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#fff", textDecoration: "none" }}>Explore</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>Exhibit</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>Attend</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>Connect</a>
+            <a href="#programme" style={{ color: "#F07C12", textDecoration: "none" }}>Programme</a>
+            <a href="#watch" style={{ color: "#F07C12", textDecoration: "none" }}>Watch</a>
           </nav>
           <button onClick={v.openSearch} aria-label="Search" style={{ background: "transparent", border: "1px solid #3A3A3E", color: "#BDB9B0", height: "36px", padding: "0 14px", fontSize: "13px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", whiteSpace: "nowrap" }}>
             ⌕ Search the Expo
           </button>
           <a href={withBase("/attend#myexpo")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            MY EXPO
+            My Expo
           </a>
         </header>
         <div style={{ background: "#F6F4EF", borderBottom: "1px solid #0E0E0F", display: "flex", alignItems: "center", gap: "16px", padding: "10px 28px", flexWrap: "wrap" }}>
-          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>PROTOTYPE · EVENT PHASE</span>
+          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>PROTOTYPE · EVENT PHASE</span>
           <div role="tablist" style={{ display: "flex", border: "1px solid #0E0E0F", background: "#fff" }}>
             {list(v.phases).map((p, $index) => (
               <Fragment key={$index}>
@@ -124,11 +124,11 @@ function render(v) {
             <section data-screen-label="Live mode" style={{ background: "#0E0E0F", color: "#fff", padding: "40px 28px 56px" }}>
               <div style={{ maxWidth: "1440px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px" }}>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "20px", flexWrap: "wrap" }}>
-                  <h1 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,7vw,112px)", lineHeight: "0.85" }}>
-                    {"DAY 2 — "}
-                    <span style={{ color: "#F07C12" }}>LIVE</span>
+                  <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
+                    {"Day 2 — "}
+                    <span style={{ color: "#F07C12" }}>Live</span>
                   </h1>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.14em", color: "#BDB9B0" }}>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.14em", color: "#BDB9B0" }}>
                     10:18 IST · HALL 2 OPEN · 14,820 ON SITE (DEMO)
                   </span>
                 </div>
@@ -136,23 +136,23 @@ function render(v) {
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     <div style={{ aspectRatio: "16/9", background: "#1A1A1C", position: "relative", border: "1px solid #2A2A2D" }}>
                       <DemoVideo id="live" live />
-                      <span style={{ position: "absolute", left: "16px", top: "16px", background: "#9E1B22", color: "#fff", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", padding: "5px 10px", display: "flex", gap: "8px", alignItems: "center", pointerEvents: "none" }}>
+                      <span style={{ position: "absolute", left: "16px", top: "16px", background: "#9E1B22", color: "#fff", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", padding: "5px 10px", display: "flex", gap: "8px", alignItems: "center", pointerEvents: "none" }}>
                         <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#fff", animation: "iseBlink 1.4s infinite" }} />
                         LIVE · INNOVATION ARENA
                       </span>
                       <div style={{ position: "absolute", left: "0", right: "0", bottom: "0", padding: "14px 16px", background: "linear-gradient(transparent,rgba(14,14,15,0.9))", display: "flex", justifyContent: "space-between", alignItems: "center", pointerEvents: "none" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>00:18:42 · CC ENGLISH · हिन्दी</span>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>2,412 WATCHING</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>00:18:42 · CC ENGLISH · हिन्दी</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>2,412 WATCHING</span>
                       </div>
                     </div>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", gap: "16px", flexWrap: "wrap" }}>
                       <div>
-                        <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "40px", lineHeight: "0.9" }}>THE FUTURE OF AI COACHING</span>
+                        <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "30px", lineHeight: "0.9" }}>The future of AI coaching</span>
                         <div style={{ fontSize: "14px", color: "#BDB9B0", marginTop: "6px" }}>Arjun Mehta · Dr. Meera Raghavan · 10:00–10:45</div>
                       </div>
                       <div style={{ display: "flex", gap: "8px" }}>
                         <button onClick={v.openLive} style={{ height: "44px", padding: "0 16px", border: "1px solid #fff", background: "none", color: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                          SESSION PAGE
+                          Session page
                         </button>
                         <button onClick={v.toggleTranscript} style={{ height: "44px", padding: "0 16px", border: "1px solid #3A3A3E", background: "none", color: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
                           {txt(v.transcriptLabel)}
@@ -172,7 +172,7 @@ function render(v) {
                     ) : null}
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0", borderTop: "1px solid #3A3A3E" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0", padding: "12px 0" }}>WHAT'S HAPPENING</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0", padding: "12px 0" }}>WHAT'S HAPPENING</span>
                     {list(v.happening).map((h, $index) => (
                       <Fragment key={$index}>
                         <div style={{ display: "grid", gridTemplateColumns: "10px 1fr auto", gap: "12px", padding: "12px 0", borderTop: "1px solid #2A2A2D", alignItems: "center" }}>
@@ -181,15 +181,15 @@ function render(v) {
                             <b style={{ display: "block", fontSize: "15px" }}>{txt(h?.t)}</b>
                             <span style={{ fontSize: "12px", color: "#8A877F" }}>{txt(h?.where)}</span>
                           </span>
-                          <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;color:${h?.c ?? ""};`)}>{txt(h?.st)}</span>
+                          <span style={sx(`font-family:var(--f-label);font-size:11px;color:${h?.c ?? ""};`)}>{txt(h?.st)}</span>
                         </div>
                       </Fragment>
                     ))}
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0", padding: "20px 0 12px" }}>UP NEXT</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#BDB9B0", padding: "20px 0 12px" }}>UP NEXT</span>
                     {list(v.upNext).map((u, $index) => (
                       <Fragment key={$index}>
                         <button onClick={u?.open} style={{ display: "grid", gridTemplateColumns: "52px 1fr", gap: "12px", padding: "12px 0", border: "0", borderTop: "1px solid #2A2A2D", background: "none", color: "#fff", textAlign: "left", cursor: "pointer" }}>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "13px", color: "#F07C12" }}>{txt(u?.time)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "13px", color: "#F07C12" }}>{txt(u?.time)}</span>
                           <span>
                             <b style={{ display: "block", fontSize: "15px" }}>{txt(u?.title)}</b>
                             <span style={{ fontSize: "12px", color: "#8A877F" }}>{txt(u?.stage)}</span>
@@ -198,7 +198,7 @@ function render(v) {
                       </Fragment>
                     ))}
                     <div style={{ marginTop: "20px", background: "#F07C12", color: "#0E0E0F", padding: "14px 16px", display: "flex", flexDirection: "column", gap: "4px" }}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.16em" }}>ANNOUNCEMENT · 10:05</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.16em" }}>ANNOUNCEMENT · 10:05</span>
                       <b style={{ fontSize: "15px" }}>Startup Pitch Final moved to 11:45 on Day 3. Saved sessions updated automatically.</b>
                     </div>
                   </div>
@@ -210,11 +210,11 @@ function render(v) {
         <section id="programme" data-screen-label="Programme" style={{ scrollMarginTop: "60px", padding: "64px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
             <div>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66" }}>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66" }}>
                 PROGRAMME · 3 STAGES · 12 SESSIONS SHOWN (SAMPLE)
               </span>
-              <h2 style={{ margin: "8px 0 0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,6vw,104px)", lineHeight: "0.85" }}>
-                PROGRAMME
+              <h2 style={{ margin: "8px 0 0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,6vw,104px) * 0.72)", lineHeight: "0.85" }}>
+                Programme
               </h2>
             </div>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
@@ -244,13 +244,13 @@ function render(v) {
                 {list(v.daySessions).map((s, $index) => (
                   <Fragment key={$index}>
                     <div style={{ display: "grid", gridTemplateColumns: "120px 4px minmax(0,1fr) 200px auto", gap: "20px", padding: "20px 0", borderBottom: "1px solid #E3E0D8", alignItems: "center" }}>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "15px" }}>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "15px" }}>
                         {txt(s?.time)}
                         <span style={{ color: "#8A877F" }}>–{txt(s?.end)}</span>
                       </span>
                       <span style={sx(`align-self:stretch;background:${s?.zc ?? ""};`)} />
                       <button onClick={s?.open} style={{ border: "0", background: "none", padding: "0", textAlign: "left", cursor: "pointer", color: "#0E0E0F" }}>
-                        <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;color:${s?.stc ?? ""};`)}>{txt(s?.badge)}</span>
+                        <span style={sx(`font-family:var(--f-label);font-size:10px;letter-spacing:0.14em;color:${s?.stc ?? ""};`)}>{txt(s?.badge)}</span>
                         <b style={{ display: "block", fontSize: "20px", lineHeight: "1.2" }}>{txt(s?.title)}</b>
                         <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(s?.spk)}</span>
                       </button>
@@ -281,7 +281,7 @@ function render(v) {
                   <span style={{ borderBottom: "1px solid #0E0E0F" }} />
                   {list(v.hours).map((h, $index) => (
                     <Fragment key={$index}>
-                      <span style={{ gridColumn: "span 2", borderLeft: "1px solid #E3E0D8", borderBottom: "1px solid #0E0E0F", padding: "8px", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>
+                      <span style={{ gridColumn: "span 2", borderLeft: "1px solid #E3E0D8", borderBottom: "1px solid #0E0E0F", padding: "8px", fontFamily: "var(--f-label)", fontSize: "11px" }}>
                         {txt(h)}
                       </span>
                     </Fragment>
@@ -311,12 +311,12 @@ function render(v) {
                 {list(v.tlRows).map((r, $index) => (
                   <Fragment key={$index}>
                     <div style={{ borderRight: "1px solid #E3E0D8", padding: "16px 16px 16px 0", display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "30px", textTransform: "uppercase" }}>{txt(r?.stage)}</b>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(r?.meta)}</span>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "25px", textTransform: "uppercase" }}>{txt(r?.stage)}</b>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(r?.meta)}</span>
                       {list(r?.items).map((i, $index) => (
                         <Fragment key={$index}>
                           <button onClick={i?.open} style={sx(`border:1px solid #E3E0D8;border-left:4px solid ${i?.zc ?? ""};background:#fff;padding:12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:4px;`)}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(i?.time)}–{txt(i?.end)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(i?.time)}–{txt(i?.end)}</span>
                             <b style={{ fontSize: "15px", color: "#0E0E0F" }}>{txt(i?.title)}</b>
                           </button>
                         </Fragment>
@@ -339,12 +339,12 @@ function render(v) {
                 {list(v.sectors).map((g, $index) => (
                   <Fragment key={$index}>
                     <div style={sx(`border-top:4px solid ${g?.c ?? ""};padding-top:12px;display:flex;flex-direction:column;gap:6px;`)}>
-                      <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "30px", textTransform: "uppercase" }}>{txt(g?.t)}</b>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>{txt(g?.n)}{" SESSIONS · ALL DAYS"}</span>
+                      <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "25px", textTransform: "uppercase" }}>{txt(g?.t)}</b>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>{txt(g?.n)}{" SESSIONS · ALL DAYS"}</span>
                       {list(g?.items).map((i, $index) => (
                         <Fragment key={$index}>
                           <button onClick={i?.open} style={{ border: "0", borderBottom: "1px solid #E3E0D8", background: "none", padding: "10px 0", textAlign: "left", cursor: "pointer", display: "flex", flexDirection: "column", gap: "2px" }}>
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66" }}>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>
                               {"DAY "}{txt(i?.day)}{" · "}{txt(i?.time)}{" · "}{txt(i?.stage)}
                             </span>
                             <b style={{ fontSize: "15px", color: "#0E0E0F" }}>{txt(i?.title)}</b>
@@ -371,7 +371,7 @@ function render(v) {
                         <b style={{ fontSize: "17px", color: "#0E0E0F" }}>{txt(p?.name)}</b>
                         <span style={{ fontSize: "13px", color: "#3A3A3E" }}>{txt(p?.role)}</span>
                         <span style={{ fontSize: "12px", color: "#6B6A66" }}>{txt(p?.org)}</span>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#C2610B", marginTop: "4px" }}>{txt(p?.count)}{" SESSIONS"}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#C2610B", marginTop: "4px" }}>{txt(p?.count)}{" SESSIONS"}</span>
                       </span>
                     </button>
                   </Fragment>
@@ -383,27 +383,27 @@ function render(v) {
         <section id="arena" data-screen-label="Innovation Arena" style={{ background: "#E3F1EB", padding: "64px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1.4fr)", gap: "48px", alignItems: "start" }}>
             <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.16em", color: "#0B6E4F" }}>ZONE C · C-IAS · 324 SEATS</span>
-              <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,5vw,88px)", lineHeight: "0.86" }}>
-                INNOVATION
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.16em", color: "#0B6E4F" }}>ZONE C · C-IAS · 324 SEATS</span>
+              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,5vw,88px) * 0.72)", lineHeight: "0.86" }}>
+                Innovation
                 <br />
-                ARENA
+                Arena
               </h2>
               <span style={{ fontSize: "16px", lineHeight: "1.5", maxWidth: "440px" }}>{txt(v.arena?.d)}</span>
-              <a href={withBase("/zones")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>ZONE C EXPERIENCES →</a>
+              <a href={withBase("/zones")} style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.08em" }}>Zone C experiences →</a>
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "24px" }}>
               {list(v.arena?.cols).map((c, $index) => (
                 <Fragment key={$index}>
                   <div style={{ display: "flex", flexDirection: "column" }}>
-                    <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "24px", borderBottom: "1px solid #0E0E0F", paddingBottom: "8px", textTransform: "uppercase" }}>
+                    <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "22px", borderBottom: "1px solid #0E0E0F", paddingBottom: "8px", textTransform: "uppercase" }}>
                       {txt(c?.t)}
                     </b>
                     {list(c?.rows).map((r, $index) => (
                       <Fragment key={$index}>
                         <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: "10px", padding: "10px 0", borderBottom: "1px solid rgba(11,110,79,0.25)", fontSize: "14px" }}>
                           <span>{txt(r?.a)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#0B6E4F" }}>{txt(r?.b)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#0B6E4F" }}>{txt(r?.b)}</span>
                         </div>
                       </Fragment>
                     ))}
@@ -416,9 +416,9 @@ function render(v) {
         <section id="watch" data-screen-label="Watch library" style={{ scrollMarginTop: "60px", padding: "64px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "20px" }}>
             <div>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66" }}>WATCH · UPCOMING · LIVE · ON DEMAND</span>
-              <h2 style={{ margin: "8px 0 0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(56px,6vw,104px)", lineHeight: "0.85" }}>
-                WATCH
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.16em", color: "#6B6A66" }}>WATCH · UPCOMING · LIVE · ON DEMAND</span>
+              <h2 style={{ margin: "8px 0 0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,6vw,104px) * 0.72)", lineHeight: "0.85" }}>
+                Watch
               </h2>
             </div>
             <span style={{ fontSize: "13px", color: "#6B6A66" }}>{txt(v.libCount)}{" videos · captions and transcripts on every recording"}</span>
@@ -442,16 +442,16 @@ function render(v) {
                     {" "}
                     <span style={sx(`position:absolute;left:0;top:0;bottom:0;width:6px;background:${_v?.zc ?? ""};`)} />
                     {" "}
-                    <span style={sx(`position:absolute;left:16px;top:12px;background:${_v?.badgeBg ?? ""};color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;padding:4px 8px;`)}>
+                    <span style={sx(`position:absolute;left:16px;top:12px;background:${_v?.badgeBg ?? ""};color:#fff;font-family:var(--f-label);font-size:10px;letter-spacing:0.14em;padding:4px 8px;`)}>
                       {txt(_v?.badge)}
                     </span>
                     {" "}
-                    <span style={{ position: "absolute", right: "12px", bottom: "12px", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#fff", background: "rgba(14,14,15,0.8)", padding: "3px 6px" }}>
+                    <span style={{ position: "absolute", right: "12px", bottom: "12px", fontFamily: "var(--f-label)", fontSize: "11px", color: "#fff", background: "rgba(14,14,15,0.8)", padding: "3px 6px" }}>
                       {txt(_v?.dur)}
                     </span>
                     {" "}
                   </span>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>
                     {"DAY "}{txt(_v?.day)}{" · "}{txt(_v?.topicU)}{" · ZONE "}{txt(_v?.zone)}
                   </span>
                   <b style={{ fontSize: "18px", lineHeight: "1.25" }}>{txt(_v?.title)}</b>
@@ -463,7 +463,7 @@ function render(v) {
           {v.libEmpty ? (
             <>
               <div style={{ border: "1px dashed #BDB9B0", padding: "40px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                <b style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "800", fontSize: "30px" }}>NO VIDEOS MATCH THESE FILTERS</b>
+                <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "25px" }}>No videos match these filters</b>
                 <span style={{ color: "#6B6A66" }}>Recordings are published within 2 hours of each session ending.</span>
               </div>
             </>
@@ -474,11 +474,11 @@ function render(v) {
             <div role="dialog" aria-label="Session detail" onClick={v.close} style={{ position: "fixed", inset: "0", zIndex: "100", background: "rgba(14,14,15,0.6)", display: "flex", justifyContent: "flex-end" }}>
               <div onClick={v.stop} style={{ width: "min(760px,96vw)", height: "100%", background: "#fff", overflow: "auto", boxSizing: "border-box", display: "flex", flexDirection: "column" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 28px", borderBottom: "1px solid #E3E0D8" }}>
-                  <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;color:${v.d?.stc ?? ""};`)}>
+                  <span style={sx(`font-family:var(--f-label);font-size:11px;letter-spacing:0.14em;color:${v.d?.stc ?? ""};`)}>
                     {txt(v.d?.badge)}{" · SESSION PAGE"}
                   </span>
                   <button onClick={v.close} style={{ border: "1px solid #0E0E0F", background: "none", height: "34px", padding: "0 12px", fontSize: "11px", fontWeight: "700", cursor: "pointer" }}>
-                    CLOSE ✕
+                    Close ✕
                   </button>
                 </div>
                 {v.d?.hasPlayer ? (
@@ -489,10 +489,10 @@ function render(v) {
                   </>
                 ) : null}
                 <div style={{ padding: "28px", display: "flex", flexDirection: "column", gap: "18px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>
                     {"DAY "}{txt(v.d?.day)}{" · "}{txt(v.d?.time)}–{txt(v.d?.end)}{" · "}{txt(v.d?.stage)}{" · ZONE "}{txt(v.d?.zone)}
                   </span>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "52px", lineHeight: "0.88", textTransform: "uppercase" }}>
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "38px", lineHeight: "0.88", textTransform: "uppercase" }}>
                     {txt(v.d?.title)}
                   </span>
                   <span style={{ fontSize: "16px", lineHeight: "1.55", color: "#3A3A3E" }}>{txt(v.d?.desc)}</span>
@@ -501,10 +501,10 @@ function render(v) {
                       {txt(v.d?.saveLabel)}
                     </button>
                     <button onClick={v.d?.cal} style={{ height: "46px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
-                      ADD TO CALENDAR
+                      Add to calendar
                     </button>
                     <a href={withBase("/explore")} style={{ height: "46px", border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", boxSizing: "border-box" }}>
-                      NAVIGATE
+                      Navigate
                     </a>
                     <button onClick={v.d?.watch} style={{ height: "46px", border: "0", background: "#0E0E0F", color: "#fff", fontSize: "11px", fontWeight: "700", letterSpacing: "0.08em", cursor: "pointer" }}>
                       {txt(v.d?.watchLabel)}
@@ -513,13 +513,13 @@ function render(v) {
                   {v.d?.isAfter ? (
                     <>
                       <div style={{ display: "flex", flexDirection: "column" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", paddingBottom: "8px", borderBottom: "1px solid #0E0E0F" }}>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", paddingBottom: "8px", borderBottom: "1px solid #0E0E0F" }}>
                           HIGHLIGHTS · CHAPTERS
                         </span>
                         {list(v.d?.chapters).map((c, $index) => (
                           <Fragment key={$index}>
                             <div style={{ display: "grid", gridTemplateColumns: "70px 1fr", gap: "12px", padding: "10px 0", borderBottom: "1px solid #E3E0D8", fontSize: "14px" }}>
-                              <span style={{ fontFamily: "'JetBrains Mono',monospace", color: "#C2610B" }}>{txt(c?.t)}</span>
+                              <span style={{ fontFamily: "var(--f-label)", color: "#C2610B" }}>{txt(c?.t)}</span>
                               <span>{txt(c?.d)}</span>
                             </div>
                           </Fragment>
@@ -533,7 +533,7 @@ function render(v) {
                     </>
                   ) : null}
                   <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", paddingBottom: "8px", borderBottom: "1px solid #0E0E0F" }}>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66", paddingBottom: "8px", borderBottom: "1px solid #0E0E0F" }}>
                       SPEAKERS
                     </span>
                     {list(v.d?.spks).map((p, $index) => (
@@ -552,7 +552,7 @@ function render(v) {
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px" }}>
                     <div>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>RELATED SESSIONS</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>RELATED SESSIONS</span>
                       {list(v.d?.related).map((r, $index) => (
                         <Fragment key={$index}>
                           <button onClick={r?.open} style={{ display: "block", width: "100%", border: "0", borderBottom: "1px solid #E3E0D8", background: "none", padding: "10px 0", textAlign: "left", cursor: "pointer", fontSize: "14px", fontWeight: "600", color: "#0E0E0F" }}>
@@ -562,12 +562,12 @@ function render(v) {
                       ))}
                     </div>
                     <div>
-                      <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>RELATED COMPANIES</span>
+                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", color: "#6B6A66" }}>RELATED COMPANIES</span>
                       {list(v.d?.companies).map((c, $index) => (
                         <Fragment key={$index}>
                           <a href={withBase("/exhibit#directory")} style={{ display: "block", borderBottom: "1px solid #E3E0D8", padding: "10px 0", fontSize: "14px", fontWeight: "600", textDecoration: "none" }}>
                             {txt(c?.name)}{" "}
-                            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66", fontWeight: "400" }}>{txt(c?.stall)}</span>
+                            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66", fontWeight: "400" }}>{txt(c?.stall)}</span>
                           </a>
                         </Fragment>
                       ))}
@@ -590,14 +590,14 @@ function render(v) {
                   <span style={{ fontSize: "22px" }}>⌕</span>
                   <input autoFocus value={val(v.q)} onChange={v.setQ} placeholder="Search exhibitors, products, sports, countries, sessions, speakers or stalls..." style={{ flex: "1", height: "64px", border: "0", outline: "none", fontSize: "20px" }} />
                   <button onClick={v.closeSearch} style={{ border: "1px solid #0E0E0F", background: "none", height: "32px", padding: "0 10px", fontSize: "11px", fontWeight: "700", cursor: "pointer" }}>
-                    ESC
+                    Esc
                   </button>
                 </div>
                 <div style={{ padding: "8px 20px 20px", display: "flex", flexDirection: "column" }}>
                   {list(v.results).map((g, $index) => (
                     <Fragment key={$index}>
                       <div style={{ paddingTop: "14px" }}>
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{txt(g?.t)}{" · "}{txt(g?.n)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{txt(g?.t)}{" · "}{txt(g?.n)}</span>
                         {" "}
                         {list(g?.items).map((i, $index) => (
                           <Fragment key={$index}>
@@ -607,7 +607,7 @@ function render(v) {
                                 <b style={{ display: "block", fontSize: "15px" }}>{txt(i?.a)}</b>
                                 <span style={{ fontSize: "12px", color: "#6B6A66" }}>{txt(i?.b)}</span>
                               </span>
-                              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{txt(i?.c)}</span>
+                              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(i?.c)}</span>
                             </a>
                           </Fragment>
                         ))}

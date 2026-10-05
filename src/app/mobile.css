@@ -98,7 +98,7 @@
     background: none;
     color: #fff;
     text-decoration: none;
-    font-family: 'Archivo', sans-serif;
+    font-family: var(--f-display);
     font-weight: 900;
     font-size: 30px;
     line-height: 1;
@@ -117,7 +117,7 @@
     background: #f07c12;
     color: #0e0e0f;
     text-align: center;
-    font-family: 'Instrument Sans', sans-serif;
+    font-family: var(--f-body);
     font-weight: 700;
     font-size: 14px;
     font-stretch: normal;
@@ -126,7 +126,7 @@
   .mm-build {
     order: 99;
     margin-top: 28px;
-    font: 500 10px 'JetBrains Mono', monospace;
+    font: 500 10px var(--f-label);
     letter-spacing: 0.14em;
     color: #6b6a66;
   }

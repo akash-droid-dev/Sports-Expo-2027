@@ -1,0 +1,21 @@
+/* The site's two typefaces, served by the site itself (no third-party font requests):
+   Manrope for headlines and Inter for text and labels (variable weights, Latin character set;
+   other characters fall back to system fonts). From @fontsource-variable/manrope and
+   @fontsource-variable/inter, SIL Open Font License 1.1.
+   One face per family on purpose: the packages' own CSS splits each font into many
+   unicode-range faces, which made the browser's first layout of the long Home page about
+   2.5x slower on phones. */
+@font-face {
+  font-family: 'Inter Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url('./fonts/inter-latin-wght.woff2') format('woff2-variations'), url('./fonts/inter-latin-wght.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Manrope Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url('./fonts/manrope-latin-wght.woff2') format('woff2-variations'), url('./fonts/manrope-latin-wght.woff2') format('woff2');
+}

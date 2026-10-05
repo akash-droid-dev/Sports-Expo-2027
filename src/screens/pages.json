@@ -4,56 +4,56 @@
       "route": "/admin",
       "component": "AdminConsole",
       "title": "Admin & Command · India Sports Expo 2027",
-      "css": "body{margin:0;background:#F6F4EF;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}",
+      "css": "body{margin:0;background:#F6F4EF;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:var(--f-body)}",
       "defaults": {}
     },
     {
       "route": "/attend",
       "component": "AttendAndMyExpo",
       "title": "Attend & My Expo · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:var(--f-body)}",
       "defaults": {}
     },
     {
       "route": "/connect",
       "component": "Connect",
       "title": "Connect · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:var(--f-body)}",
       "defaults": {}
     },
     {
       "route": "/design-system",
       "component": "DesignSystem",
       "title": "Design System · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select{font-family:'Instrument Sans',sans-serif}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select{font-family:var(--f-body)}",
       "defaults": {}
     },
     {
       "route": "/exhibit",
       "component": "Exhibit",
       "title": "Exhibit · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:var(--f-body)}",
       "defaults": {}
     },
     {
       "route": "/portal",
       "component": "ExhibitorPortal",
       "title": "Exhibitor Control Centre · India Sports Expo 2027",
-      "css": "body{margin:0;background:#F6F4EF;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:'Instrument Sans',sans-serif}",
+      "css": "body{margin:0;background:#F6F4EF;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input,select,textarea{font-family:var(--f-body)}",
       "defaults": {}
     },
     {
       "route": "/explore",
       "component": "Hall2DigitalTwin",
       "title": "Hall 2 Digital Twin · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}",
       "defaults": {}
     },
     {
       "route": "/",
       "component": "Home",
       "title": "India Sports Expo 2027 · Yashobhoomi",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}.maplibregl-ctrl-attrib{font-size:10px}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}.maplibregl-ctrl-attrib{font-size:10px}",
       "defaults": {
         "liveMode": false,
         "journey": "scroll"
@@ -63,21 +63,21 @@
       "route": "/mobile",
       "component": "MobileApp",
       "title": "Mobile App · India Sports Expo 2027",
-      "css": "body{margin:0;background:#E9E6DF;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}",
+      "css": "body{margin:0;background:#E9E6DF;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}",
       "defaults": {}
     },
     {
       "route": "/programme",
       "component": "ProgrammeAndWatch",
       "title": "Programme & Watch · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input{font-family:'Instrument Sans',sans-serif}@keyframes iseBlink{50%{opacity:.25}}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}input{font-family:var(--f-body)}@keyframes iseBlink{50%{opacity:.25}}",
       "defaults": {}
     },
     {
       "route": "/zones",
       "component": "ZoneExperiences",
       "title": "Zone Experiences · India Sports Expo 2027",
-      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}",
+      "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}",
       "defaults": {}
     }
   ],

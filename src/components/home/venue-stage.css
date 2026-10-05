@@ -123,13 +123,13 @@
   gap: 6px;
 }
 .vs-kicker {
-  font: 500 12px 'JetBrains Mono', monospace;
+  font: 500 12px var(--f-label);
   letter-spacing: 0.2em;
   color: #f07c12;
 }
 .vs-title {
   margin: 0;
-  font-family: 'Archivo', sans-serif;
+  font-family: var(--f-display);
   font-stretch: 62%;
   font-weight: 900;
   font-size: clamp(40px, 5vw, 76px);
@@ -237,7 +237,7 @@
   color: var(--zone);
 }
 .vs-pip b {
-  font: 900 26px/0.9 'Archivo', sans-serif;
+  font: 900 26px/0.9 var(--f-display);
   font-stretch: 62%;
 }
 .vs-pip i {
@@ -260,7 +260,7 @@
   z-index: 1;
   left: 14px;
   bottom: 14px;
-  font: 500 11px 'JetBrains Mono', monospace;
+  font: 500 11px var(--f-label);
   letter-spacing: 0.2em;
   color: #fff;
 }
@@ -307,7 +307,7 @@
   position: absolute;
   right: 14px;
   top: 4px;
-  font-family: 'Archivo', sans-serif;
+  font-family: var(--f-display);
   font-stretch: 62%;
   font-weight: 900;
   font-size: 120px;
@@ -318,7 +318,7 @@
 }
 .vs-card-zone {
   margin-top: 4px;
-  font: 500 11px 'JetBrains Mono', monospace;
+  font: 500 11px var(--f-label);
   letter-spacing: 0.18em;
   color: #fff;
   opacity: 0.85;
@@ -333,7 +333,7 @@
   box-shadow: 0 0 8px var(--zone);
 }
 .vs-card-name {
-  font-family: 'Archivo', sans-serif;
+  font-family: var(--f-display);
   font-stretch: 62%;
   font-weight: 800;
   font-size: clamp(20px, 1.7vw, 26px);
@@ -346,7 +346,7 @@
   color: rgba(255, 255, 255, 0.92);
 }
 .vs-card-facts {
-  font: 500 11px 'JetBrains Mono', monospace;
+  font: 500 11px var(--f-label);
   letter-spacing: 0.08em;
   color: #ffd2a6;
 }

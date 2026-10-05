@@ -32,29 +32,29 @@ export function initBucky(opts = {}) {
   #bucky-bot iframe{position:absolute;left:0;top:0;width:1200px;height:800px;border:0;background:transparent;pointer-events:none;color-scheme:normal;transform-origin:0 0;transform:translate(-162px,-120px) scale(.4)}
   #bucky-bot button.bucky-hit{position:absolute;inset:14%;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0}
   #bucky-bot button.bucky-hit:focus-visible{outline:2px solid #F07C12;outline-offset:4px}
-  #bucky-tip{position:absolute;left:50%;bottom:100%;transform:translate(-50%,4px);background:#0E0E0F;color:#fff;font:700 11px/1 'Instrument Sans',sans-serif;letter-spacing:.1em;padding:8px 10px;white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none}
+  #bucky-tip{position:absolute;left:50%;bottom:100%;transform:translate(-50%,4px);background:#0E0E0F;color:#fff;font:700 11px/1 var(--f-body);letter-spacing:.1em;padding:8px 10px;white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none}
   #bucky-bot:hover #bucky-tip,#bucky-bot.bucky-hello #bucky-tip{opacity:1;transform:translate(-50%,-2px)}
-  #bucky-panel{position:fixed;z-index:9001;width:min(380px,calc(100vw - 24px));max-height:min(560px,calc(100vh - 100px));background:#fff;color:#0E0E0F;border:1px solid #0E0E0F;box-shadow:0 24px 60px -24px rgba(14,14,15,.55);display:none;flex-direction:column;font-family:'Instrument Sans',sans-serif}
+  #bucky-panel{position:fixed;z-index:9001;width:min(380px,calc(100vw - 24px));max-height:min(560px,calc(100vh - 100px));background:#fff;color:#0E0E0F;border:1px solid #0E0E0F;box-shadow:0 24px 60px -24px rgba(14,14,15,.55);display:none;flex-direction:column;font-family:var(--f-body)}
   #bucky-panel.open{display:flex}
   #bucky-panel header{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#0E0E0F;color:#fff}
-  #bucky-panel header b{font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:900;font-size:24px;letter-spacing:.01em}
-  #bucky-panel header span{font:500 10px 'JetBrains Mono',monospace;letter-spacing:.16em;color:#F07C12;display:flex;gap:6px;align-items:center}
+  #bucky-panel header b{font-family:var(--f-display);font-stretch:62%;font-weight:900;font-size:24px;letter-spacing:.01em}
+  #bucky-panel header span{font:500 10px var(--f-label);letter-spacing:.16em;color:#F07C12;display:flex;gap:6px;align-items:center}
   #bucky-panel header span i{width:7px;height:7px;border-radius:50%;background:#0B6E4F;display:inline-block}
-  #bucky-panel header button{border:1px solid #3A3A3E;background:none;color:#fff;height:28px;padding:0 10px;font:700 11px 'Instrument Sans';cursor:pointer}
+  #bucky-panel header button{border:1px solid #3A3A3E;background:none;color:#fff;height:28px;padding:0 10px;font:700 11px var(--f-body);cursor:pointer}
   #bucky-log{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:12px;min-height:160px}
   .bucky-m{display:flex;flex-direction:column;gap:5px;max-width:90%}
-  .bucky-m small{font:500 10px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#C2610B}
+  .bucky-m small{font:500 10px var(--f-label);letter-spacing:.14em;color:#C2610B}
   .bucky-m p{margin:0;font-size:14px;line-height:1.5;white-space:pre-wrap}
   .bucky-me{align-self:flex-end}.bucky-me small{color:#8A877F;text-align:right}.bucky-me p{background:#0E0E0F;color:#fff;padding:9px 12px}
   .bucky-links{display:flex;flex-wrap:wrap;gap:6px}
-  .bucky-links a{height:30px;padding:0 10px;background:#F07C12;color:#0E0E0F;text-decoration:none;display:flex;align-items:center;font:700 11px 'Instrument Sans';letter-spacing:.08em}
-  .bucky-busy{font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:#C2610B}
+  .bucky-links a{height:30px;padding:0 10px;background:#F07C12;color:#0E0E0F;text-decoration:none;display:flex;align-items:center;font:700 11px var(--f-body);letter-spacing:.08em}
+  .bucky-busy{font:500 11px var(--f-label);letter-spacing:.14em;color:#C2610B}
   #bucky-sug{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 10px}
-  #bucky-sug button{height:30px;padding:0 10px;border:1px solid #E3E0D8;background:#fff;font:500 12px 'Instrument Sans';cursor:pointer;color:#0E0E0F}
+  #bucky-sug button{height:30px;padding:0 10px;border:1px solid #E3E0D8;background:#fff;font:500 12px var(--f-body);cursor:pointer;color:#0E0E0F}
   #bucky-sug button:hover{border-color:#F07C12;color:#C2610B}
   #bucky-form{display:flex;border-top:1px solid #0E0E0F}
-  #bucky-form input{flex:1;height:50px;border:0;padding:0 14px;font:15px 'Instrument Sans',sans-serif;outline:none;min-width:0}
-  #bucky-form button{width:84px;border:0;background:#F07C12;color:#0E0E0F;font:700 12px 'Instrument Sans';letter-spacing:.1em;cursor:pointer}
+  #bucky-form input{flex:1;height:50px;border:0;padding:0 14px;font:15px var(--f-body);outline:none;min-width:0}
+  #bucky-form button{width:84px;border:0;background:#F07C12;color:#0E0E0F;font:700 12px var(--f-body);letter-spacing:.1em;cursor:pointer}
   #bucky-panel footer{padding:6px 14px 10px;font-size:11px;color:#8A877F}`;
   const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 

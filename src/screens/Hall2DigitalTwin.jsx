@@ -37,7 +37,7 @@ class Component extends DCLogic {
         m.addLayer({ id: 'r', type: 'line', source: 'r', paint: { 'line-color': '#F07C12', 'line-width': 4, 'line-dasharray': [2, 1] } });
         Object.entries(pts).forEach(([n, c]) => {
           const el = document.createElement('div'); const main = n === 'Yashobhoomi';
-          el.style.cssText = `font:600 12px 'Instrument Sans';background:${main ? '#0E0E0F' : '#fff'};color:${main ? '#fff' : '#0E0E0F'};border:1px solid #0E0E0F;padding:5px 8px;white-space:nowrap;`;
+          el.style.cssText = `font:600 12px var(--f-body);background:${main ? '#0E0E0F' : '#fff'};color:${main ? '#fff' : '#0E0E0F'};border:1px solid #0E0E0F;padding:5px 8px;white-space:nowrap;`;
           el.textContent = main ? '● YASHOBHOOMI · HALL 2' : n; new maplibregl.Marker({ element: el }).setLngLat(c).addTo(m);
         });
       });
@@ -100,8 +100,8 @@ class Component extends DCLogic {
       modeKicker: isRoute ? 'INDOOR ROUTING' : isLive ? 'LIVE VENUE' : is3d ? '3D EXPLORE · DIGITAL TWIN' : '2D MAP',
       headline: isRoute ? 'TO ' + dest.name.toUpperCase() : isLive ? 'WHERE IT’S HAPPENING' : C ? C.name.toUpperCase() : Z ? 'ZONE ' + Z.id + ' · ' + Z.name.toUpperCase() : 'EXHIBITION HALL 2',
       zoneBtns: D.zones.map(z => ({ id: z.id, color: z.color, bg: st.zone === z.id ? z.color : '#fff', fg: st.zone === z.id ? '#fff' : z.color, pick: () => this.setState({ zone: st.zone === z.id ? null : z.id, cluster: null, mode: st.mode === 'route' ? '3d' : st.mode }) })),
-      is3d, roof: is3d && st.roofOn ? 1 : 0, roofLabel: st.roofOn ? 'LIFT ROOF' : 'SHOW ROOF', toggleRoof: () => this.setState({ roofOn: !st.roofOn }),
-      listView: st.list, showMap: !st.list, listLabel: st.list ? 'MAP VIEW' : 'LIST VIEW', toggleList: () => this.setState({ list: !st.list }),
+      is3d, roof: is3d && st.roofOn ? 1 : 0, roofLabel: st.roofOn ? 'Lift roof' : 'Show roof', toggleRoof: () => this.setState({ roofOn: !st.roofOn }),
+      listView: st.list, showMap: !st.list, listLabel: st.list ? 'Map view' : 'List view', toggleList: () => this.setState({ list: !st.list }),
       camTransform: Z && !isRoute && !isLive ? 'scale(1.55)' : 'scale(1)', camOrigin: Z ? origin[Z.id] : '50% 50%',
       pickCluster: c => this.setState({ cluster: c.id, zone: c.zone, mode: st.mode === 'route' || st.mode === 'live' ? (st.mode === 'live' ? 'live' : '3d') : st.mode }),
       pins, heat: isLive ? heatVals : null, showRoute: isRoute, routePts: r.pts,
@@ -138,22 +138,22 @@ function render(v) {
             <BrandLogo className="site-logo" />
           </a>
           <nav aria-label="Primary" style={{ display: "flex", gap: "22px", flex: "1", minWidth: "0", overflowX: "auto", scrollbarWidth: "none", whiteSpace: "nowrap", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em" }}>
-            <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>EXPLORE</a>
-            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>EXHIBIT</a>
-            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>ATTEND</a>
-            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>CONNECT</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>PROGRAMME</a>
-            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>WATCH</a>
+            <a href={withBase("/explore")} style={{ color: "#F07C12", textDecoration: "none" }}>Explore</a>
+            <a href={withBase("/exhibit")} style={{ color: "#fff", textDecoration: "none" }}>Exhibit</a>
+            <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none" }}>Attend</a>
+            <a href={withBase("/connect")} style={{ color: "#fff", textDecoration: "none" }}>Connect</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
+            <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
           <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            MY EXPO
+            My Expo
           </a>
           <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
-            REGISTER
+            Register
           </a>
         </header>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap", padding: "14px 28px", borderBottom: "1px solid #E3E0D8" }}>
-          <nav aria-label="Breadcrumb" style={{ display: "flex", gap: "10px", alignItems: "center", fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.12em", flexWrap: "wrap" }}>
+          <nav aria-label="Breadcrumb" style={{ display: "flex", gap: "10px", alignItems: "center", fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.12em", flexWrap: "wrap" }}>
             <a href={withBase("/")} style={{ color: "#6B6A66", textDecoration: "none" }}>YASHOBHOOMI</a>
             <span style={{ color: "#A29E95" }}>→</span>
             <button onClick={v.resetZone} style={sx(`background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;cursor:pointer;color:${v.crumbHallColor ?? ""};`)}>
@@ -175,7 +175,7 @@ function render(v) {
           <div role="tablist" aria-label="Map mode" style={{ display: "flex", border: "1px solid #0E0E0F" }}>
             {list(v.modes).map((m, $index) => (
               <Fragment key={$index}>
-                <button role="tab" onClick={m?.pick} style={sx(`height:38px;padding:0 16px;border:0;border-right:1px solid #0E0E0F;background:${m?.bg ?? ""};color:${m?.fg ?? ""};font:700 12px 'Instrument Sans';letter-spacing:0.1em;cursor:pointer;display:flex;align-items:center;gap:6px;`)}>
+                <button role="tab" onClick={m?.pick} style={sx(`height:38px;padding:0 16px;border:0;border-right:1px solid #0E0E0F;background:${m?.bg ?? ""};color:${m?.fg ?? ""};font:700 12px var(--f-body);letter-spacing:0.1em;cursor:pointer;display:flex;align-items:center;gap:6px;`)}>
                   {txt(m?.label)}
                 </button>
               </Fragment>
@@ -184,26 +184,26 @@ function render(v) {
         </div>
         <section data-screen-label="Hall 2 twin" style={sx(`display:grid;grid-template-columns:${v.cols ?? ""};min-height:calc(100vh - 128px);`)}>
           <aside aria-label="Map filters" style={sx(`border-right:1px solid #E3E0D8;padding:20px;display:flex;flex-direction:${v.filterDir ?? ""};flex-wrap:wrap;gap:4px 18px;background:#FBFAF7;grid-column:${v.filterSpan ?? ""};`)}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", marginBottom: "8px" }}>SHOW ON MAP</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", marginBottom: "8px" }}>SHOW ON MAP</span>
             {list(v.filters).map((f, $index) => (
               <Fragment key={$index}>
-                <button onClick={f?.toggle} aria-pressed={f?.on} style={{ display: "flex", alignItems: "center", gap: "10px", height: "34px", border: "0", background: "none", padding: "0", cursor: "pointer", font: "500 14px 'Instrument Sans'", color: "#0E0E0F", textAlign: "left" }}>
+                <button onClick={f?.toggle} aria-pressed={f?.on} style={{ display: "flex", alignItems: "center", gap: "10px", height: "34px", border: "0", background: "none", padding: "0", cursor: "pointer", font: "500 14px var(--f-body)", color: "#0E0E0F", textAlign: "left" }}>
                   <span style={sx(`width:16px;height:16px;border:1.5px solid #0E0E0F;background:${f?.box ?? ""};display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;`)}>
                     {txt(f?.check)}
                   </span>
                   <span style={{ flex: "1" }}>{txt(f?.label)}</span>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", color: "#6B6A66" }}>{txt(f?.glyph)}</span>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", color: "#6B6A66" }}>{txt(f?.glyph)}</span>
                 </button>
               </Fragment>
             ))}
             <div style={sx(`margin-top:auto;padding-top:20px;border-top:1px solid #E3E0D8;display:${v.loadDisplay ?? ""};flex-direction:column;gap:8px;`)}>
               {" "}
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>LOADING</span>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>LOADING</span>
               {" "}
               {list(v.loadSteps).map((l, $index) => (
                 <Fragment key={$index}>
                   <span style={sx(`display:flex;gap:8px;align-items:center;font-size:12px;color:${l?.color ?? ""};`)}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", width: "14px" }}>{txt(l?.mark)}</span>
+                    <span style={{ fontFamily: "var(--f-label)", width: "14px" }}>{txt(l?.mark)}</span>
                     {txt(l?.label)}
                   </span>
                 </Fragment>
@@ -214,27 +214,27 @@ function render(v) {
           <div style={{ position: "relative", overflow: "hidden", background: "#F6F4EF", display: "flex", flexDirection: "column" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", padding: "24px 28px 0", gap: "16px", flexWrap: "wrap" }}>
               <div>
-                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.18em", color: "#6B6A66" }}>{txt(v.modeKicker)}</div>
-                <h1 style={{ margin: "6px 0 0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(40px,4vw,64px)", lineHeight: "0.9" }}>
+                <div style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.18em", color: "#6B6A66" }}>{txt(v.modeKicker)}</div>
+                <h1 style={{ margin: "6px 0 0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(40px,4vw,64px) * 0.72)", lineHeight: "0.9" }}>
                   {txt(v.headline)}
                 </h1>
               </div>
               <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
                 {list(v.zoneBtns).map((z, $index) => (
                   <Fragment key={$index}>
-                    <button onClick={z?.pick} style={sx(`height:40px;padding:0 14px;border:1px solid ${z?.color ?? ""};background:${z?.bg ?? ""};color:${z?.fg ?? ""};font:800 15px 'Archivo';font-stretch:75%;letter-spacing:0.04em;cursor:pointer;`)}>
-                      {"ZONE "}{txt(z?.id)}
+                    <button onClick={z?.pick} style={sx(`height:40px;padding:0 14px;border:1px solid ${z?.color ?? ""};background:${z?.bg ?? ""};color:${z?.fg ?? ""};font:800 14px var(--f-display);font-stretch:75%;letter-spacing:0.04em;cursor:pointer;`)}>
+                      {"Zone "}{txt(z?.id)}
                     </button>
                   </Fragment>
                 ))}
                 {v.is3d ? (
                   <>
-                    <button onClick={v.toggleRoof} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#0E0E0F", color: "#fff", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
+                    <button onClick={v.toggleRoof} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#0E0E0F", color: "#fff", font: "700 12px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
                       {txt(v.roofLabel)}
                     </button>
                   </>
                 ) : null}
-                <button onClick={v.toggleList} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#fff", color: "#0E0E0F", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
+                <button onClick={v.toggleList} style={{ height: "40px", padding: "0 14px", border: "1px solid #0E0E0F", background: "#fff", color: "#0E0E0F", font: "700 12px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
                   {txt(v.listLabel)}
                 </button>
               </div>
@@ -252,7 +252,7 @@ function render(v) {
               <>
                 <div style={{ flex: "1", padding: "24px 28px", overflow: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
-                    <caption style={{ textAlign: "left", fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", paddingBottom: "12px" }}>
+                    <caption style={{ textAlign: "left", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", paddingBottom: "12px" }}>
                       TEXT ALTERNATIVE TO THE HALL 2 MAP
                     </caption>
                     <thead>
@@ -275,11 +275,11 @@ function render(v) {
                             </td>
                             <td style={{ padding: "10px 8px", fontWeight: "600" }}>{txt(r?.name)}</td>
                             <td style={{ padding: "10px 8px" }}>{txt(r?.meta)}</td>
-                            <td style={{ padding: "10px 8px", fontFamily: "'JetBrains Mono',monospace" }}>{txt(r?.code)}</td>
+                            <td style={{ padding: "10px 8px", fontFamily: "var(--f-label)" }}>{txt(r?.code)}</td>
                             <td style={{ padding: "10px 8px" }}>{txt(r?.walk)}</td>
                             <td>
-                              <button onClick={r?.go} style={{ border: "1px solid #0E0E0F", background: "none", height: "30px", padding: "0 10px", font: "700 11px 'Instrument Sans'", letterSpacing: "0.08em", cursor: "pointer" }}>
-                                NAVIGATE
+                              <button onClick={r?.go} style={{ border: "1px solid #0E0E0F", background: "none", height: "30px", padding: "0 10px", font: "700 11px var(--f-body)", letterSpacing: "0.08em", cursor: "pointer" }}>
+                                Navigate
                               </button>
                             </td>
                           </tr>
@@ -303,7 +303,7 @@ function render(v) {
                   </span>
                 </Fragment>
               ))}
-              <span style={{ marginLeft: "auto", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.12em", color: "#6B6A66" }}>
+              <span style={{ marginLeft: "auto", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em", color: "#6B6A66" }}>
                 SCHEMATIC · DERIVED FROM HALL 2 LAYOUT DRAWING · NOT TO SCALE
               </span>
             </div>
@@ -312,27 +312,27 @@ function render(v) {
             {v.isRoute ? (
               <>
                 <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>MY ROUTE</span>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>MY ROUTE</span>
                   <div style={{ border: "1px solid #0E0E0F" }}>
                     <div style={{ padding: "14px 16px", borderBottom: "1px solid #E3E0D8", display: "flex", gap: "12px", alignItems: "center" }}>
                       <span style={{ width: "12px", height: "12px", borderRadius: "50%", background: "#F07C12", border: "2px solid #0E0E0F" }} />
                       <span>
-                        <span style={{ display: "block", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>YOU ARE HERE</span>
+                        <span style={{ display: "block", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>YOU ARE HERE</span>
                         <b>Main Entrance</b>
                       </span>
                     </div>
                     <div style={{ padding: "14px 16px", display: "flex", gap: "12px", alignItems: "center" }}>
                       <span style={{ width: "12px", height: "12px", background: "#0E0E0F" }} />
                       <span>
-                        <span style={{ display: "block", fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>DESTINATION</span>
+                        <span style={{ display: "block", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66" }}>DESTINATION</span>
                         <b>{txt(v.dest?.name)}</b>
                         {" "}
-                        <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px" }}>{txt(v.dest?.code)}</span>
+                        <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(v.dest?.code)}</span>
                       </span>
                     </div>
                   </div>
                   <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
-                    <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "72px", lineHeight: "0.85" }}>{txt(v.dest?.min)}{" MIN"}</span>
+                    <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "50px", lineHeight: "0.85" }}>{txt(v.dest?.min)}{" min"}</span>
                     <span style={{ color: "#6B6A66" }}>{"walk · "}{txt(v.dest?.m)}{" m · step-free"}</span>
                   </div>
                   <ol style={{ margin: "0", padding: "0", listStyle: "none", display: "flex", flexDirection: "column", borderLeft: "2px solid #F07C12", marginLeft: "5px" }}>
@@ -345,19 +345,19 @@ function render(v) {
                       </Fragment>
                     ))}
                   </ol>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", marginTop: "8px" }}>CHANGE DESTINATION</span>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", marginTop: "8px" }}>CHANGE DESTINATION</span>
                   <div style={{ display: "flex", flexDirection: "column" }}>
                     {list(v.destOpts).map((d, $index) => (
                       <Fragment key={$index}>
-                        <button onClick={d?.pick} style={sx(`text-align:left;border:0;border-bottom:1px solid #E3E0D8;background:${d?.bg ?? ""};padding:10px 8px;font:500 14px 'Instrument Sans';cursor:pointer;display:flex;justify-content:space-between;`)}>
+                        <button onClick={d?.pick} style={sx(`text-align:left;border:0;border-bottom:1px solid #E3E0D8;background:${d?.bg ?? ""};padding:10px 8px;font:500 14px var(--f-body);cursor:pointer;display:flex;justify-content:space-between;`)}>
                           <span>{txt(d?.name)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px" }}>{txt(d?.code)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(d?.code)}</span>
                         </button>
                       </Fragment>
                     ))}
                   </div>
                   <a href={withBase("/mobile")} style={{ background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "13px", letterSpacing: "0.1em" }}>
-                    SEND ROUTE TO MOBILE APP
+                    Send route to mobile app
                   </a>
                 </div>
               </>
@@ -365,11 +365,11 @@ function render(v) {
             {v.isLive ? (
               <>
                 <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                  <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.16em", color: "#9E1B22", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#9E1B22", display: "flex", alignItems: "center", gap: "8px" }}>
                     <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#9E1B22", animation: "iseBlink 1.2s infinite" }} />
                     LIVE · DAY 2 · 10:12 (DEMO)
                   </span>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "40px", lineHeight: "0.9" }}>HALL OCCUPANCY 6,420</span>
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "30px", lineHeight: "0.9" }}>Hall occupancy 6,420</span>
                   <span style={{ fontSize: "14px", color: "#3A3A3E" }}>Crowd density updates every 2 minutes from entry scans and Wi-Fi presence (demo data).</span>
                   <div style={{ borderTop: "1px solid #E3E0D8" }}>
                     {list(v.busiest).map((b, $index) => (
@@ -381,15 +381,15 @@ function render(v) {
                               <span style={sx(`display:block;height:4px;background:#9E1B22;width:${b?.pct ?? ""};`)} />
                             </span>
                           </span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", textAlign: "right" }}>{txt(b?.pct)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", textAlign: "right" }}>{txt(b?.pct)}</span>
                         </div>
                       </Fragment>
                     ))}
                   </div>
                   <div style={{ background: "#0E0E0F", color: "#fff", padding: "16px", display: "flex", flexDirection: "column", gap: "6px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "10px", letterSpacing: "0.14em", color: "#F07C12" }}>● LIVE NOW · INNOVATION ARENA</span>
+                    <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#F07C12" }}>● LIVE NOW · INNOVATION ARENA</span>
                     <b style={{ fontSize: "17px" }}>The Future of AI Coaching</b>
-                    <a href={withBase("/programme")} style={{ color: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em" }}>WATCH →</a>
+                    <a href={withBase("/programme")} style={{ color: "#fff", fontSize: "12px", fontWeight: "700", letterSpacing: "0.1em" }}>Watch →</a>
                   </div>
                 </div>
               </>
@@ -397,30 +397,30 @@ function render(v) {
             {v.isExplore ? (
               <>
                 <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                  <span style={sx(`font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.16em;color:${v.panel?.color ?? ""};`)}>{txt(v.panel?.kicker)}</span>
-                  <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "44px", lineHeight: "0.88", textTransform: "uppercase" }}>
+                  <span style={sx(`font-family:var(--f-label);font-size:11px;letter-spacing:0.16em;color:${v.panel?.color ?? ""};`)}>{txt(v.panel?.kicker)}</span>
+                  <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "33px", lineHeight: "0.88", textTransform: "uppercase" }}>
                     {txt(v.panel?.title)}
                   </span>
                   <span style={{ fontSize: "15px", lineHeight: "1.5", color: "#3A3A3E" }}>{txt(v.panel?.text)}</span>
                   <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #E3E0D8" }}>
                     {list(v.panel?.rows).map((r, $index) => (
                       <Fragment key={$index}>
-                        <button onClick={r?.pick} style={{ display: "flex", justifyContent: "space-between", gap: "12px", padding: "11px 0", border: "0", borderBottom: "1px solid #E3E0D8", background: "none", cursor: "pointer", textAlign: "left", font: "500 14px 'Instrument Sans'", color: "#0E0E0F" }}>
+                        <button onClick={r?.pick} style={{ display: "flex", justifyContent: "space-between", gap: "12px", padding: "11px 0", border: "0", borderBottom: "1px solid #E3E0D8", background: "none", cursor: "pointer", textAlign: "left", font: "500 14px var(--f-body)", color: "#0E0E0F" }}>
                           <span>{txt(r?.name)}</span>
-                          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", color: "#6B6A66", whiteSpace: "nowrap" }}>{txt(r?.meta)}</span>
+                          <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66", whiteSpace: "nowrap" }}>{txt(r?.meta)}</span>
                         </button>
                       </Fragment>
                     ))}
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                     <a href={v.panel?.zoneHref} style={{ gridColumn: "1 / -1", background: "#0E0E0F", color: "#fff", textDecoration: "none", height: "46px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em" }}>
-                      ENTER ZONE EXPERIENCE →
+                      Enter zone experience →
                     </a>
-                    <button onClick={v.navHere} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "44px", font: "700 12px 'Instrument Sans'", letterSpacing: "0.1em", cursor: "pointer" }}>
-                      NAVIGATE
+                    <button onClick={v.navHere} style={{ border: "1px solid #0E0E0F", background: "#fff", height: "44px", font: "700 12px var(--f-body)", letterSpacing: "0.1em", cursor: "pointer" }}>
+                      Navigate
                     </button>
                     <LockKeyLink href={withBase("/exhibit")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "700", fontSize: "12px", letterSpacing: "0.1em", boxSizing: "border-box" }}>
-                      BOOK A STALL
+                      Book a stall
                     </LockKeyLink>
                   </div>
                 </div>
@@ -430,30 +430,30 @@ function render(v) {
         </section>
         <section id="getting-there" data-screen-label="Getting there" style={{ borderTop: "2px solid #0E0E0F", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,460px),1fr))", minHeight: "640px" }}>
           <div style={{ padding: "56px 28px", display: "flex", flexDirection: "column", gap: "22px" }}>
-            <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "12px", letterSpacing: "0.2em" }}>PLAN YOUR VISIT · GETTING TO YASHOBHOOMI</span>
-            <h2 style={{ margin: "0", fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "clamp(48px,5vw,88px)", lineHeight: "0.86" }}>
-              SECTOR 25,
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>PLAN YOUR VISIT · GETTING TO YASHOBHOOMI</span>
+            <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,5vw,88px) * 0.72)", lineHeight: "0.86" }}>
+              Sector 25,
               <br />
-              DWARKA.
+              Dwarka.
             </h2>
             <div role="tablist" style={{ display: "flex", flexWrap: "wrap", border: "1px solid #0E0E0F", alignSelf: "flex-start" }}>
               {list(v.travelTabs).map((t, $index) => (
                 <Fragment key={$index}>
-                  <button role="tab" onClick={t?.pick} style={sx(`height:40px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 12px 'Instrument Sans';letter-spacing:0.08em;cursor:pointer;`)}>
+                  <button role="tab" onClick={t?.pick} style={sx(`height:40px;padding:0 14px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:700 12px var(--f-body);letter-spacing:0.08em;cursor:pointer;`)}>
                     {txt(t?.label)}
                   </button>
                 </Fragment>
               ))}
             </div>
             <div style={{ display: "flex", alignItems: "baseline", gap: "14px" }}>
-              <span style={{ fontFamily: "'Archivo',sans-serif", fontStretch: "62%", fontWeight: "900", fontSize: "80px", lineHeight: "0.85" }}>{txt(v.travel?.time)}</span>
-              <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: "11px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(v.travel?.src)}</span>
+              <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "56px", lineHeight: "0.85" }}>{txt(v.travel?.time)}</span>
+              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.12em", color: "#6B6A66" }}>{txt(v.travel?.src)}</span>
             </div>
             <ol style={{ margin: "0", padding: "0", listStyle: "none", borderTop: "1px solid #E3E0D8" }}>
               {list(v.travel?.steps).map((s, $index) => (
                 <Fragment key={$index}>
                   <li style={{ display: "grid", gridTemplateColumns: "32px 1fr", padding: "12px 0", borderBottom: "1px solid #E3E0D8", fontSize: "15px" }}>
-                    <span style={{ fontFamily: "'JetBrains Mono',monospace", color: "#C2610B" }}>{txt(s?.n)}</span>
+                    <span style={{ fontFamily: "var(--f-label)", color: "#C2610B" }}>{txt(s?.n)}</span>
                     {txt(s?.t)}
                   </li>
                 </Fragment>
@@ -479,7 +479,7 @@ function render(v) {
             {list(v.info).map((i, $index) => (
               <Fragment key={$index}>
                 <div style={{ padding: "24px 24px 24px 0", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "10px" }}>
-                  <span style={sx(`font-family:'Archivo',sans-serif;font-stretch:62%;font-weight:800;font-size:30px;text-transform:uppercase;color:${i?.color ?? ""};`)}>
+                  <span style={sx(`font-family:var(--f-display);font-stretch:62%;font-weight:800;font-size:25px;text-transform:uppercase;color:${i?.color ?? ""};`)}>
                     {txt(i?.t)}
                   </span>
                   <span style={{ fontSize: "15px", lineHeight: "1.5", color: "#3A3A3E" }}>{txt(i?.d)}</span>

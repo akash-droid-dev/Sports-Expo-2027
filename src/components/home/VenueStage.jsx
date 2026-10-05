@@ -111,13 +111,13 @@ export default function VenueStage({ p = 0, reduced = false }) {
                         <span className="vs-card-letter" aria-hidden="true">
                           {z.id}
                         </span>
-                        <span className="vs-card-zone">ZONE {z.id}</span>
+                        <span className="vs-card-zone">Zone {z.id}</span>
                         <span className="vs-card-name">{z.name}</span>
                         <span className="vs-card-blurb">{z.blurb}</span>
                         <span className="vs-card-facts">{facts}</span>
                         <span className="vs-card-list">{highlights.join(' · ')}</span>
                         <span className="vs-card-cta">
-                          <span className="vs-cta-more">EXPLORE </span>ZONE {z.id} →
+                          <span className="vs-cta-more">Explore </span>Zone {z.id} →
                         </span>
                       </span>
                     </span>
