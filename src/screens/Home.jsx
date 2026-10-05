@@ -79,9 +79,10 @@ class Component extends DCLogic {
     this.frames = framesMode();
     if (this.frames || this.reduced) return;
     import('@/lib/maplibre');
-    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); this.initMap(); this.journeyStore.notify(); } }, 100);
+    // The globe is built in the browser's first idle moment, after the page's own start-up work.
+    this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); const idle = window.requestIdleCallback || (cb => setTimeout(cb, 50)); idle(() => { if (this._unmounted) return; this.initMap(); this.journeyStore.notify(); }, { timeout: 800 }); } }, 100);
   }
-  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
+  componentWillUnmount() { this._unmounted = true; window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
   initMap() {
     try {
       this.map = new maplibregl.Map({

@@ -29,6 +29,19 @@
   overflow: hidden;
   background: #0e0e0f;
 }
+/* Asleep (faded out, see VenueScene.jsx): hidden and the tour moved off screen, which makes
+   browsers stop drawing it, and no drifting. */
+.vs-scene.is-asleep {
+  visibility: hidden;
+}
+.vs-scene.is-asleep .vs-tour {
+  left: -400vw;
+}
+.vs-scene.is-asleep .vs-tour,
+.vs-scene.is-asleep .vs-photo,
+.vs-scene.is-asleep .vs-pano {
+  animation: none;
+}
 .vs-pano {
   position: absolute;
   top: 0;
