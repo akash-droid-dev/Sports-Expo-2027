@@ -37,6 +37,29 @@
 .vs-scene.is-asleep .vs-pano {
   animation: none;
 }
+/* Asleep, the tour is also moved off screen, which makes browsers stop drawing it. */
+.vs-scene.is-asleep .vs-tour {
+  left: -400vw;
+}
+/* The live tour (computers): over the venue photo, faded in once it has drawn. */
+.vs-tour {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+.vs-tour.is-shown {
+  opacity: 1;
+}
+/* The photo underneath stops drifting once the tour covers it. */
+.vs-scene.tour-on .vs-photo {
+  animation: none;
+}
 .vs-pano {
   position: absolute;
   top: 0;
@@ -106,22 +129,6 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-}
-/* The official 360° tour, opened in a new tab. */
-.vs-tour-link {
-  align-self: flex-start;
-  margin-top: 6px;
-  padding: 8px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  font: 600 13px var(--f-body);
-  text-decoration: none;
-  transition: background-color 0.25s ease;
-}
-.vs-tour-link:hover,
-.vs-tour-link:focus-visible {
-  background: rgba(255, 255, 255, 0.22);
 }
 .vs-kicker {
   font: 500 12px var(--f-label);

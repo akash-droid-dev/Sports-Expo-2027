@@ -3,10 +3,8 @@
 // over the screen and four zone cards (A–D) are dealt like playing cards, sport photo up;
 // scrolling on turns each one over to its zone side (see-through glass).
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import VenueScene, { predecode } from './VenueScene';
-import { VENUE_TOUR_URL } from '@/lib/venue';
-import TourViewer from './TourViewer';
 import { withBase } from '@/lib/base';
 import '@/data/ise';
 import './venue-stage.css';
@@ -35,14 +33,6 @@ function zoneSummary(D, z) {
 
 export default function VenueStage({ p = 0, reduced = false }) {
   const [hover, setHover] = useState(null);
-  const [tour, setTour] = useState(false);
-  const openTour = (e) => {
-    // A plain click opens the tour in the page; ctrl/cmd/middle-click still open a new tab.
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    e.preventDefault();
-    setTour(true);
-  };
-  const closeTour = useCallback(() => setTour(false), []);
   const D = typeof window !== 'undefined' ? window.ISE : null;
 
   const venueOpacity = reduced ? 1 : ramp(p, 0.56, 0.62);
@@ -74,7 +64,7 @@ export default function VenueStage({ p = 0, reduced = false }) {
   return (
     <div className="vs-root" ref={rootRef}>
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
-        <VenueScene active={reduced || p > 0.3} visible={venueOpacity > 0} />
+        <VenueScene active={reduced || p > 0.3} warm={reduced || p > 0.5} visible={venueOpacity > 0} />
         <div className="vs-scrim" style={{ opacity: 0.45 + finale * 0.2 }} />
       </div>
 
@@ -86,9 +76,6 @@ export default function VenueStage({ p = 0, reduced = false }) {
           <h2 className="vs-title">
             Four event <span>zones</span>
           </h2>
-          <a className="vs-tour-link" href={VENUE_TOUR_URL} target="_blank" rel="noopener noreferrer" onClick={openTour} aria-haspopup="dialog" tabIndex={finale > 0.5 ? 0 : -1}>
-            Take the 360° venue tour
-          </a>
         </header>
 
         <div className="vs-cards" role="list">
@@ -147,7 +134,6 @@ export default function VenueStage({ p = 0, reduced = false }) {
             : null}
         </div>
       </div>
-      <TourViewer open={tour} onClose={closeTour} />
     </div>
   );
 }

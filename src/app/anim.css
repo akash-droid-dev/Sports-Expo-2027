@@ -10,75 +10,31 @@
   white-space: nowrap;
 }
 
-/* ---------- Fold and reveal words (FoldWord) ---------- */
+/* ---------- Rising words (FoldWord) ---------- */
 .fold-word {
   display: inline-block;
   white-space: nowrap;
 }
-.fw-space {
-  display: inline-block;
-  width: 0.28em;
-}
 .fw-l {
-  position: relative;
   display: inline-block;
-  perspective: 600px;
 }
-.fw-size {
-  visibility: hidden;
-}
-.fw-top,
-.fw-bot {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-/* The upper half stays put; the lower half is folded up behind it and swings down. */
-.fw-top {
-  -webkit-clip-path: inset(-10% -10% 50% -10%);
-  clip-path: inset(-10% -10% 50% -10%);
+/* Hidden only while motion is on (html.m-on, src/lib/motion.js), so the word is always there
+   without scripts. */
+html.m-on .fold-word:not(.is-on) .fw-l {
   opacity: 0;
-  transform: translateY(-0.12em);
+  transform: translateY(0.42em);
 }
-.fw-bot {
-  -webkit-clip-path: inset(50% -10% -10% -10%);
-  clip-path: inset(50% -10% -10% -10%);
-  transform-origin: 50% 50%;
-  opacity: 0;
+.fold-word.is-on .fw-l {
+  animation: fwRise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d) both;
 }
-/* Once unfolded, the plain letter takes over and the 3D halves go away (fewer GPU layers). */
-.fold-word.is-done .fw-top,
-.fold-word.is-done .fw-bot {
-  display: none;
-}
-.fold-word.is-done .fw-size {
-  visibility: visible;
-}
-.fold-word.is-done .fw-l {
-  perspective: none;
-}
-.fold-word.is-on .fw-top {
-  animation: fwTop 0.45s cubic-bezier(0.2, 0.7, 0.2, 1) var(--d) forwards;
-}
-.fold-word.is-on .fw-bot {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  animation: fwBot 0.9s cubic-bezier(0.3, 1.4, 0.4, 1) calc(var(--d) + 0.18s) forwards;
-}
-@keyframes fwTop {
+@keyframes fwRise {
+  from {
+    opacity: 0;
+    transform: translateY(0.42em);
+  }
   to {
     opacity: 1;
     transform: none;
-  }
-}
-@keyframes fwBot {
-  0% {
-    opacity: 1;
-    transform: rotateX(178deg);
-  }
-  100% {
-    opacity: 1;
-    transform: rotateX(0deg);
   }
 }
 
@@ -136,10 +92,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .fw-top,
-  .fw-bot {
-    opacity: 1;
-    transform: none;
+  .fw-l {
+    opacity: 1 !important;
+    transform: none !important;
     animation: none !important;
   }
   .hero-photo img {
