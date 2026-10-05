@@ -14,7 +14,8 @@ import { camAt, framePoints } from './camera.mjs';
 
 const J = JSON.parse(readFileSync('src/data/journey.json', 'utf8'));
 const OUT = 'journey-frames';
-const W = 1000, H = 1300; // covers a phone in portrait with room to zoom out, 1 image px = 1 CSS px
+// Two sizes, 1 image px = 1 CSS px: phones (portrait, with room to zoom out) and tablets.
+const SETS = [{ id: 'p', w: 1000, h: 1300, q: 52 }, { id: 't', w: 1500, h: 1500, q: 50 }];
 const DIST = 'node_modules/maplibre-gl/dist';
 
 const page = `<!doctype html><html><head><meta charset="utf-8">
@@ -47,22 +48,25 @@ const srv = createServer((req, res) => {
 rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 const b = await chromium.launch({ args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
-const p = await b.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
-p.on('console', (m) => m.type() === 'error' && console.log('page:', m.text().slice(0, 200)));
-await p.goto('http://localhost:4600/');
-await p.waitForFunction(() => !!window.map, null, { timeout: 60000 });
-await p.evaluate(() => Promise.race([window.ready, new Promise((r) => setTimeout(r, 30000))]));
-const frames = [];
 const points = framePoints(J);
-for (let i = 0; i < points.length; i++) {
-  const c = camAt(J.keyframes, points[i]);
-  await p.evaluate((c) => window.shoot({ center: [c.lon, c.lat], zoom: c.z, pitch: c.pitch, bearing: c.b }), c);
-  const png = await p.screenshot({ type: 'png' });
-  const file = `f-${String(i).padStart(2, '0')}.webp`;
-  await sharp(png).webp({ quality: 52, effort: 6 }).toFile(join(OUT, file));
-  frames.push({ p: points[i], z: +c.z.toFixed(3), lon: +c.lon.toFixed(5), lat: +c.lat.toFixed(5), file });
-  console.log(file, points[i], c.z.toFixed(2));
+const out = { sets: {}, frames: points.map((pt) => { const c = camAt(J.keyframes, pt); return { p: pt, z: +c.z.toFixed(3), lon: +c.lon.toFixed(5), lat: +c.lat.toFixed(5) }; }) };
+for (const set of SETS) {
+  const p = await b.newPage({ viewport: { width: set.w, height: set.h }, deviceScaleFactor: 1 });
+  p.on('console', (m) => m.type() === 'error' && !/AJAXError|Failed to load/.test(m.text()) && console.log('page:', m.text().slice(0, 200)));
+  await p.goto('http://localhost:4600/');
+  await p.waitForFunction(() => !!window.map, null, { timeout: 60000 });
+  await p.evaluate(() => Promise.race([window.ready, new Promise((r) => setTimeout(r, 30000))]));
+  for (let i = 0; i < points.length; i++) {
+    const c = camAt(J.keyframes, points[i]);
+    await p.evaluate((c) => window.shoot({ center: [c.lon, c.lat], zoom: c.z, pitch: c.pitch, bearing: c.b }), c);
+    const png = await p.screenshot({ type: 'png' });
+    const file = `${set.id}-${String(i).padStart(2, '0')}.webp`;
+    await sharp(png).webp({ quality: set.q, effort: 6 }).toFile(join(OUT, file));
+    console.log(file, points[i], c.z.toFixed(2));
+  }
+  out.sets[set.id] = { width: set.w, height: set.h };
+  await p.close();
 }
-writeFileSync(join(OUT, 'frames.json'), JSON.stringify({ width: W, height: H, frames }, null, 1) + '\n');
+writeFileSync(join(OUT, 'frames.json'), JSON.stringify(out, null, 1) + '\n');
 await b.close();
 srv.close();
