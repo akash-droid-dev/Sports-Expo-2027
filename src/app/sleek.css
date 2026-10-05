@@ -215,16 +215,13 @@ body {
 
 /* ---------- Sections: rounded sheets sliding over each other ---------- */
 
-#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='Intentions']):not([data-screen-label='Metrics']):not([data-screen-label='14 CTA']),
+#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']):not([data-screen-label='Intentions']):not([data-screen-label='Metrics']):not([data-screen-label='14 CTA']),
 #dc-root footer {
   position: relative;
   border-radius: var(--sheet) var(--sheet) 0 0;
   margin-top: calc(var(--sheet) * -1);
 }
-/* The Earth journey's sticky globe stays square inside its rounded top. */
-#dc-root section[data-screen-label='02 Earth journey'] {
-  overflow: clip;
-}
+/* (Not the Earth journey: it follows the live ticker strip, which an overlap would cover.) */
 
 /* ---------- Softer colours ---------- */
 

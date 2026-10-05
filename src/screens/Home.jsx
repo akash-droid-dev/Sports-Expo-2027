@@ -12,6 +12,7 @@ import FoldWord from '@/components/anim/FoldWord';
 import SportsTicker from '@/components/anim/SportsTicker';
 import LockKeyLink from '@/components/anim/LockKeyLink';
 import IntentBoxes from '@/components/home/IntentBoxes';
+import HeroTitle from '@/components/home/HeroTitle';
 import BoothStrip from '@/components/home/BoothStrip';
 import WatchShuffle from '@/components/home/WatchShuffle';
 import ProductShuffle from '@/components/home/ProductShuffle';
@@ -325,22 +326,8 @@ function render(v) {
             <img src={withBase(isLite() ? "/assets/hero-stadium-sm.webp" : "/assets/hero-stadium.webp")} alt="" decoding="async" fetchPriority="high" />
           </div>
           <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
-            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.22em", color: "#BDB9B0" }}>
-              YASHOBHOOMI · NEW DELHI · DATES PROVISIONAL
-            </span>
-            <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(72px,13vw,220px) * 0.72)", lineHeight: "0.82", letterSpacing: "-0.01em" }}>
-              {"India "}
-              <FoldWord text="Sports" when="load" delay={550} />
-              <br />
-              {"Expo "}
-              <FoldWord text="2027" when="load" delay={1050} step={110} style={{ color: "#F07C12" }} />
-            </h1>
-            <div style={{ display: "flex", gap: "28px", flexWrap: "wrap", fontFamily: "var(--f-display)", fontStretch: "75%", fontWeight: "700", fontSize: "calc(clamp(20px,2.2vw,32px) * 0.72)", letterSpacing: "0.02em" }}>
-              <span>Play India.</span>
-              <span style={{ color: "#BDB9B0" }}>Build together.</span>
-              <span style={{ color: "#BDB9B0" }}>Stronger tomorrow.</span>
-            </div>
-            <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", pointerEvents: "auto" }}>
+            <HeroTitle />
+            <div className="ht-actions" style={{ display: "flex", gap: "12px", flexWrap: "wrap", pointerEvents: "auto" }}>
               <button onClick={v.enter} style={{ background: "#F07C12", color: "#0E0E0F", border: "0", height: "56px", padding: "0 28px", font: "700 15px var(--f-body)", letterSpacing: "0.08em", cursor: "pointer" }}>
                 Enter the expo ↓
               </button>
