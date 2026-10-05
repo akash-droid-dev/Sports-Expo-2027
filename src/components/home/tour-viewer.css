@@ -1,0 +1,137 @@
+/* Full-screen viewer for the official 360° venue tour (TourViewer.jsx). */
+html.tour-open #bucky-bot,
+html.tour-open #bucky-panel {
+  display: none;
+}
+.tv {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  inset: 0;
+  z-index: 10002;
+  display: flex;
+  flex-direction: column;
+  background: #121317;
+  overscroll-behavior: contain;
+  animation: tvIn 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes tvIn {
+  from {
+    opacity: 0;
+  }
+}
+.tv-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: #121317 center / cover no-repeat;
+}
+.tv-frame {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  background: transparent;
+}
+.tv-frame.is-loaded {
+  opacity: 1;
+}
+.tv-wait {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 999px;
+  background: rgba(18, 19, 23, 0.78);
+  color: #fff;
+  font: 600 15px var(--f-body);
+  white-space: nowrap;
+}
+.tv-spin {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #f07c12;
+  animation: tvSpin 0.8s linear infinite;
+}
+@keyframes tvSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.tv-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+  background: #121317;
+  color: #fff;
+}
+.tv-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 700 15px var(--f-display);
+  letter-spacing: -0.02em;
+}
+.tv-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font: 600 14px var(--f-body);
+  text-decoration: none;
+  cursor: pointer;
+}
+.tv-btn:hover,
+.tv-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.22);
+}
+.tv-close {
+  background: #f07c12;
+  color: #0e0e0f;
+}
+.tv-close:hover,
+.tv-close:focus-visible {
+  background: #ff8f2a;
+}
+@media (max-width: 600px) {
+  .tv-title {
+    font-size: 13px;
+  }
+  .tv-btn {
+    height: 38px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv,
+  .tv-spin {
+    animation: none;
+  }
+  .tv-frame {
+    transition: none;
+  }
+}
