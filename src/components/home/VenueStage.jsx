@@ -1,6 +1,6 @@
 'use client';
 // End of the Home globe journey. After the map reaches Yashobhoomi, the venue scene takes
-// over the screen and four zone cards (A–D) are dealt like playing cards, sport photo up;
+// over the screen and four zone cards (A–D) are dealt like playing cards, illustration up;
 // scrolling on turns each one over to its zone side (see-through glass).
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
 import { useEffect, useRef, useState } from 'react';
@@ -13,12 +13,14 @@ const ramp = (p, a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
 // Scroll progress at which each card is dealt, then turned over.
 const CARD_AT = [0.79, 0.81, 0.83, 0.85];
 const FLIP_AT = [0.88, 0.905, 0.93, 0.955];
-// The face shown first: a sport photo for each zone (public/media).
+// The face shown first: a flat illustration of each zone in the poster's palette
+// (public/media/zones): A the gate and hockey, B stadium, ball and shoe, C phone, watch and VR,
+// D globe, rising chart and deal briefcase.
 const FACE = {
-  A: { img: '/media/video/cricket-club.webp' },
-  B: { img: '/media/football.webp' },
-  C: { img: '/media/video/hockey-goal.webp' },
-  D: { img: '/media/floodlights.webp' },
+  A: { img: '/media/zones/zone-a.svg' },
+  B: { img: '/media/zones/zone-b.svg' },
+  C: { img: '/media/zones/zone-c.svg' },
+  D: { img: '/media/zones/zone-d.svg' },
 };
 
 function zoneSummary(D, z) {
@@ -49,7 +51,7 @@ export default function VenueStage({ p = 0, reduced = false }) {
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  // The card photos are decoded while the venue fades in, so dealing the cards doesn't stall.
+  // The card faces are decoded while the venue fades in, so dealing the cards doesn't stall.
   const faces = useRef(false);
   useEffect(() => {
     if (faces.current || !(reduced || p > 0.5)) return;
