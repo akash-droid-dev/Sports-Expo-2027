@@ -67,7 +67,7 @@ class Component extends DCLogic {
         }
       };
     });
-    const zl = [{ id: 'A', l: 2, t: -5.5 }, { id: 'B', l: 54, t: -5.5 }, { id: 'D', l: 2, t: 101 }, { id: 'C', l: 72, t: 101 }];
+    const zl = [{ id: 'A', l: 2, t: -6.8 }, { id: 'B', l: 54, t: -6.8 }, { id: 'D', l: 2, t: 101 }, { id: 'C', l: 72, t: 101 }];
     const zoneLabels = p.zoneLabels === false ? [] : zl.map(o => ({ ...D.Z[o.id], style: { position: 'absolute', left: o.l + '%', top: o.t + '%', opacity: lit.includes(o.id) ? 1 : 0.25, transition: 'opacity .6s' } }));
     const cargo = [12, 30, 66, 86].map(l => ({ style: { position: 'absolute', left: l + '%', top: '-2.2%', width: '5%', height: '2.2%', background: '#E3E0D8', fontFamily: 'var(--f-label)', fontSize: '0.55cqw', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#6B6A66', letterSpacing: '.1em' } }));
     let routeLayer = null;

@@ -403,7 +403,7 @@ html .ibox:focus-visible .ibox-front {
 }
 
 /* Small tags (labels with a fill) are pills; small square colour markers are dots. */
-#dc-root span[style*='var(--f-label)'][style*='background'],
+#dc-root span[style*='var(--f-label)'][style*='background']:not([style*='aspect-ratio']),
 #dc-root div[style*='var(--f-label)'][style*='background'][style*='padding'] {
   border-radius: 999px !important;
 }
