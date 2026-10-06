@@ -86,7 +86,7 @@ html.has-back .pf-top {
   padding-left: 132px;
 }
 .pf-top .brand-logo {
-  height: 30px;
+  --logo-h: 34px;
   flex: none;
 }
 .pf-top-home {
@@ -935,7 +935,7 @@ html.has-back .pf-top {
   justify-content: space-between;
 }
 .pf-badge-top .brand-logo {
-  height: 30px;
+  --logo-h: 34px;
 }
 .pf-badge-band {
   height: 6px;

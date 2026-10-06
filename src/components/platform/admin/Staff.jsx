@@ -15,6 +15,61 @@ const ROLE_TEXT = {
   viewer: 'Can look, can’t change',
 };
 
+// Owner only: the shared test sign-in code (no emails) or real email codes.
+function SignInSetting({ show }) {
+  const { data, reload } = useLive(
+    'settings',
+    async (sb) => {
+      const { data, error } = await sb.from('app_settings').select('key,value').in('key', ['sign_in', 'test_code']);
+      if (error) throw error;
+      return Object.fromEntries(data.map((r) => [r.key, r.value]));
+    },
+    [{ table: 'app_settings' }],
+  );
+  const [code, setCode] = useState('');
+  if (!data) return null;
+  const on = data.sign_in?.test_code !== false;
+  const save = async (patch, msg) => {
+    try {
+      const sb = await getClient();
+      for (const [key, value] of Object.entries(patch)) {
+        const { error } = await sb.from('app_settings').update({ value, updated_by: null }).eq('key', key);
+        if (error) throw error;
+      }
+      show(msg);
+      reload();
+    } catch (x) {
+      show(errorText(x), true);
+    }
+  };
+  return (
+    <div className="pf-card" style={{ marginBottom: 22 }}>
+      <div className="pf-card-head">
+        <h2>Sign-in codes</h2>
+        <Pill status={on ? 'pending' : 'approved'}>{on ? 'Test code on' : 'Email codes'}</Pill>
+      </div>
+      <p className="pf-muted" style={{ marginBottom: 16 }}>
+        {on
+          ? `Test mode: no emails are sent and every email address signs in with the code ${data.test_code?.code || '123456'}. Anyone who knows an address can sign in as that person (including the team), so switch to email codes before going live.`
+          : 'Each person gets a one-time code by email. Needs the email sender (SMTP) set up in Supabase.'}
+      </p>
+      <div className="pf-row">
+        <button className="pf-btn" onClick={() => save({ sign_in: { test_code: !on } }, on ? 'Email codes on' : 'Test code on')}>
+          {on ? 'Switch to email codes' : 'Use the test code again'}
+        </button>
+        {on ? (
+          <>
+            <input className="pf-input" style={{ maxWidth: 160 }} inputMode="numeric" maxLength={6} placeholder={data.test_code?.code || '123456'} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))} />
+            <button className="pf-btn ghost" disabled={code.length !== 6} onClick={() => (save({ test_code: { code } }, 'Test code changed'), setCode(''))}>
+              Change code
+            </button>
+          </>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export default function Staff({ role, me, show }) {
   const [edit, setEdit] = useState(null);
   const admin = can(role, 'admin');
@@ -41,6 +96,7 @@ export default function Staff({ role, me, show }) {
           </button>
         ) : null}
       </div>
+      {role === 'owner' ? <SignInSetting show={show} /> : null}
       <div className="pf-grid four" style={{ marginBottom: 22 }}>
         {Object.entries(ROLE_TEXT).map(([r, t]) => (
           <div key={r} className="pf-card" style={{ padding: 18 }}>
