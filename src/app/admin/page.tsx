@@ -1,7 +1,12 @@
-import Page, { pageFor } from '@/components/Page';
+import '../platform.css';
+import AdminPage from '@/components/platform/admin/AdminPage';
 
-export const metadata = { title: pageFor('/admin').title };
+export const metadata = { title: 'Admin · India Sports Expo 2027', robots: { index: false } };
 
 export default function Route() {
-  return <Page route='/admin' />;
+  return (
+    <div id="dc-root">
+      <AdminPage />
+    </div>
+  );
 }

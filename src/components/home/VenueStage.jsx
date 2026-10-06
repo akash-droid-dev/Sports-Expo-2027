@@ -15,10 +15,10 @@ const CARD_AT = [0.79, 0.81, 0.83, 0.85];
 const FLIP_AT = [0.88, 0.905, 0.93, 0.955];
 // The face shown first: a sport photo for each zone (public/media).
 const FACE = {
-  A: { img: '/media/video/cricket-club.webp', sport: 'CRICKET' },
-  B: { img: '/media/football.webp', sport: 'FOOTBALL' },
-  C: { img: '/media/video/hockey-goal.webp', sport: 'HOCKEY' },
-  D: { img: '/media/floodlights.webp', sport: 'STADIUM' },
+  A: { img: '/media/video/cricket-club.webp' },
+  B: { img: '/media/football.webp' },
+  C: { img: '/media/video/hockey-goal.webp' },
+  D: { img: '/media/floodlights.webp' },
 };
 
 function zoneSummary(D, z) {
@@ -64,7 +64,7 @@ export default function VenueStage({ p = 0, reduced = false }) {
   return (
     <div className="vs-root" ref={rootRef}>
       <div className="vs-venue" style={{ opacity: venueOpacity }}>
-        <VenueScene active={reduced || p > 0.3} warm={reduced || p > 0.5} visible={venueOpacity > 0} />
+        <VenueScene active={reduced || p > 0.01} warm={reduced || p > 0.45} visible={venueOpacity > 0} />
         <div className="vs-scrim" style={{ opacity: 0.45 + finale * 0.2 }} />
       </div>
 
@@ -111,7 +111,6 @@ export default function VenueStage({ p = 0, reduced = false }) {
                           <b>{z.id}</b>
                           <i />
                         </span>
-                        <span className="vs-front-label">{face.sport}</span>
                       </span>
                       <span className="vs-face vs-back">
                         <span className="vs-card-bar" />

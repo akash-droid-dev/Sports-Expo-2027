@@ -301,11 +301,13 @@ function render(v) {
             ⌕
             <span>Search</span>
           </button>
-          <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            My Expo
+          <a href={withBase("/me/")} className="hdr-btn hdr-ghost">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">My Expo</span>
           </a>
-          <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
-            Register
+          <a href={withBase("/register/")} className="hdr-btn hdr-fill">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">Register</span>
           </a>
         </header>
         {v.live ? (

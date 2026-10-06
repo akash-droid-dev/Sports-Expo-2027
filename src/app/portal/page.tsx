@@ -1,7 +1,12 @@
-import Page, { pageFor } from '@/components/Page';
+import '../platform.css';
+import { PortalPage } from '@/components/platform/PortalPages';
 
-export const metadata = { title: pageFor('/portal').title };
+export const metadata = { title: 'Exhibitor portal · India Sports Expo 2027' };
 
 export default function Route() {
-  return <Page route='/portal' />;
+  return (
+    <div id="dc-root">
+      <PortalPage />
+    </div>
+  );
 }

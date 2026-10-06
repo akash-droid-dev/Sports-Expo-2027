@@ -20,7 +20,7 @@ class Component extends DCLogic {
   componentWillUnmount() { clearInterval(this._m); this.india && this.india.remove(); this.globe && this.globe.remove(); }
   marker(map, lngLat, text, onClick, dark) {
     const el = document.createElement('button');
-    el.style.cssText = `font:700 12px var(--f-body);background:${dark ? '#fff' : '#9E1B22'};color:${dark ? '#0E0E0F' : '#fff'};border:0;padding:6px 9px;cursor:pointer;white-space:nowrap;`;
+    el.style.cssText = `font:700 12px var(--f-body);background:${dark ? '#fff' : '#9E1B22'};color:${dark ? '#0E0E0F' : '#fff'};border:0;padding:6px 10px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(0,0,0,0.45);cursor:pointer;white-space:nowrap;`;
     el.textContent = text; el.onclick = onClick; new maplibregl.Marker({ element: el }).setLngLat(lngLat).addTo(map); return el;
   }
   initMaps() {
@@ -33,7 +33,9 @@ class Component extends DCLogic {
     } catch (e) {}
     try {
       this.globe = new maplibregl.Map({ container: this.globeRef.current, center: [70, 25], zoom: 1.2, scrollZoom: false, attributionControl: { compact: true },
-        style: { version: 8, projection: { type: 'globe' }, sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: 'Esri World Imagery' } }, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#000' } }, { id: 'sat', type: 'raster', source: 'sat' }] } });
+        style: { version: 8, projection: { type: 'globe' }, sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: 'Esri World Imagery' } }, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#16365a' } }, { id: 'sat', type: 'raster', source: 'sat' }],
+        // A soft atmosphere around the globe; outside it the page's light background shows through.
+        sky: { 'atmosphere-blend': 0.85 } } });
       D.countries.forEach(c => this.marker(this.globe, [c.lon, c.lat], c.name, () => this.pickCty(c.id), true));
     } catch (e) {}
   }
@@ -161,7 +163,7 @@ class Component extends DCLogic {
       arena: arenaPh[s.phase],
       tryList: tryList.map(([time, name, dur, cap, taken, loc, elig]) => { const b = s.booked[name]; const full = taken >= cap && !b; return { time, name, dur, loc, elig, cap: (cap - taken - (b ? 1 : 0)) + ' of ' + cap + ' left', pct: Math.round((taken + (b ? 1 : 0)) / cap * 100) + '%', bookLabel: b ? '✓ Booked' : full ? 'Waitlist' : 'Book', bookBg: b ? '#E4EEFA' : full ? '#E3E0D8' : '#0A62BF', bookFg: b ? '#0A62BF' : full ? '#0E0E0F' : '#fff', book: () => this.setState(p => ({ booked: { ...p.booked, [name]: !p.booked[name] } })) }; }),
       dSpaces: D.clusters.filter(c => c.zone === 'D').map(c => ({ code: 'D-' + c.id, name: c.name, meta: c.meta, access: /Invite|Accredited/.test(c.meta) ? '◆ RESTRICTED' : 'OPEN' })),
-      ctyBtns: D.countries.map(c => ({ name: c.name, bg: c.id === s.cty ? '#fff' : 'rgba(0,0,0,0.6)', fg: c.id === s.cty ? '#0E0E0F' : '#fff', pick: () => this.pickCty(c.id) })),
+      ctyBtns: D.countries.map(c => ({ name: c.name, bg: c.id === s.cty ? '#00803F' : '#fff', fg: c.id === s.cty ? '#fff' : '#0E0E0F', pick: () => this.pickCty(c.id) })),
       cty: { ...C, rows: [{ k: 'Pavilion location', v: 'Zone D · ' + C.pav }, { k: 'Delegation', v: 'Trade ministry + industry association (sample)' }, { k: 'Companies', v: C.companies + ' exhibiting (demo)' }, { k: 'Technologies', v: C.profile }, { k: 'Buyers', v: '4 hosted buyers (demo)' }, { k: 'Speakers', v: C.id === 'JP' ? 'Aiko Tanaka (demo)' : C.id === 'DE' ? 'Lukas Brandt (demo)' : 'TBC' }, { k: 'Sessions', v: 'Country briefing · Business Exchange Stage (sample)' }] }
     };
   }
@@ -183,11 +185,13 @@ function render(v) {
             <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
             <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
-          <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            My Expo
+          <a href={withBase("/me/")} className="hdr-btn hdr-ghost">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">My Expo</span>
           </a>
-          <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
-            Register
+          <a href={withBase("/register/")} className="hdr-btn hdr-fill">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">Register</span>
           </a>
         </header>
         <nav aria-label="Zones" style={{ position: "sticky", top: "60px", zIndex: "50", display: "grid", gridTemplateColumns: "repeat(4,1fr)", background: "#fff", borderBottom: "1px solid #0E0E0F" }}>
@@ -970,12 +974,12 @@ function render(v) {
               ))}
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)", border: "1px solid #E3E0D8", borderTop: "0", minHeight: "600px" }}>
-              <div style={{ position: "relative", background: "#000" }}>
+              <div style={{ position: "relative", background: "radial-gradient(circle at 50% 46%, #E4F2EA 0%, #EEF4EF 38%, #F6F4EF 72%)", overflow: "hidden" }}>
                 <div ref={v.globeRef} style={{ position: "absolute", inset: "0" }} />
                 <div style={{ position: "absolute", left: "16px", bottom: "16px", display: "flex", gap: "6px", flexWrap: "wrap" }}>
                   {list(v.ctyBtns).map((c, $index) => (
                     <Fragment key={$index}>
-                      <button onClick={c?.pick} style={sx(`height:34px;padding:0 12px;border:1px solid #fff;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 13px var(--f-body);cursor:pointer;`)}>
+                      <button onClick={c?.pick} style={sx(`height:34px;padding:0 12px;border:0;box-shadow:0 4px 14px -6px rgba(18,19,23,0.35);background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:600 13px var(--f-body);cursor:pointer;`)}>
                         {txt(c?.name)}
                       </button>
                     </Fragment>

@@ -21,6 +21,13 @@ function propsFromUrl(defaults: Props): Props {
 export default function Screen({ route, defaults = {} }: { route: string; defaults?: Props }) {
   const [props, setProps] = useState<Props | null>(null);
   useEffect(() => setProps(propsFromUrl(defaults)), [defaults]);
+  // Live website data arrived (src/lib/platform/live.js): draw the screen again with it.
+  const [rev, setRev] = useState(0);
+  useEffect(() => {
+    const bump = () => setRev((r) => r + 1);
+    window.addEventListener('ise:update', bump);
+    return () => window.removeEventListener('ise:update', bump);
+  }, []);
 
   // Screens render after load, so the browser's own jump to #anchor has already passed.
   // Wait for the target to render, then jump to it unless the screen or the visitor already scrolled.
@@ -41,5 +48,5 @@ export default function Screen({ route, defaults = {} }: { route: string; defaul
 
   const Component = (SCREENS as Record<string, ComponentType<Props>>)[route];
   if (!props || !Component) return null;
-  return <Component {...props} />;
+  return <Component {...props} __rev={rev} />;
 }

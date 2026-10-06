@@ -145,11 +145,13 @@ function render(v) {
             <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
             <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
-          <a href={withBase("/attend")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            My Expo
+          <a href={withBase("/me/")} className="hdr-btn hdr-ghost">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">My Expo</span>
           </a>
-          <a href={withBase("/attend")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px" }}>
-            Register
+          <a href={withBase("/register/")} className="hdr-btn hdr-fill">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">Register</span>
           </a>
         </header>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap", padding: "14px 28px", borderBottom: "1px solid #E3E0D8" }}>
