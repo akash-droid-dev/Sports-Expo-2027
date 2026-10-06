@@ -72,7 +72,7 @@ function FileInput({ field, file, existing, onFile }) {
       }}
     >
       <input type="file" accept={accept} onChange={(e) => e.target.files?.[0] && onFile(e.target.files[0])} />
-      <span className="pf-drop-thumb" style={thumb ? { backgroundImage: `url("${thumb}")` } : undefined}>
+      <span className="pf-drop-thumb" style={thumb ? { backgroundImage: `url("${thumb}")`, ...(/logo/.test(field.key) ? { backgroundSize: 'contain', backgroundColor: '#fff' } : null) } : undefined}>
         {thumb ? '' : field.type === 'image' ? 'IMG' : 'PDF'}
       </span>
       <span className="pf-drop-text">

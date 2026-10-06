@@ -1,7 +1,8 @@
 'use client';
 // Sign in with a one-time code sent by email. Renders `children(user)` once signed in.
 import { useEffect, useState } from 'react';
-import { errorText, getClient } from '@/lib/platform/client';
+import { sendCode, verifyCode } from '@/lib/platform/auth';
+import { errorText } from '@/lib/platform/client';
 import { useSession } from '@/lib/platform/hooks';
 import { Loading, Spinner } from './ui';
 
@@ -14,6 +15,7 @@ export function SignIn({ title = 'Sign in', text }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [wait, setWait] = useState(0);
+  const [test, setTest] = useState(false);
   useEffect(() => {
     if (!wait) return;
     const t = setTimeout(() => setWait((w) => w - 1), 1000);
@@ -27,13 +29,12 @@ export function SignIn({ title = 'Sign in', text }) {
     setBusy(true);
     setErr('');
     try {
-      const sb = await getClient();
-      const { error } = await sb.auth.signInWithOtp({ email: addr, options: { shouldCreateUser: true } });
-      if (error) throw error;
+      const r = await sendCode(addr);
+      setTest(r.test);
       setEmail(addr);
       setSent(true);
       setCode('');
-      setWait(RESEND_AFTER);
+      setWait(r.test ? 0 : RESEND_AFTER);
     } catch (x) {
       setErr(errorText(x));
     } finally {
@@ -47,9 +48,7 @@ export function SignIn({ title = 'Sign in', text }) {
     setBusy(true);
     setErr('');
     try {
-      const sb = await getClient();
-      const { error } = await sb.auth.verifyOtp({ email, token, type: 'email' });
-      if (error) throw error;
+      await verifyCode(email, token);
     } catch (x) {
       setErr(errorText(x));
       setBusy(false);
@@ -60,9 +59,13 @@ export function SignIn({ title = 'Sign in', text }) {
     <div className="pf-auth">
       <div className="pf-card">
         <span className="pf-kicker">India Sports Expo 2027</span>
-        <h1 style={{ fontSize: 30 }}>{sent ? 'Check your email' : title}</h1>
+        <h1 style={{ fontSize: 30 }}>{sent ? (test ? 'Enter your code' : 'Check your email') : title}</h1>
         <p className="pf-muted" style={{ margin: '10px 0 24px' }}>
-          {sent ? (
+          {sent && test ? (
+            <>
+              Enter the 6-digit sign-in code for <b style={{ color: 'var(--ink)' }}>{email}</b>.
+            </>
+          ) : sent ? (
             <>
               We sent a sign-in code to <b style={{ color: 'var(--ink)' }}>{email}</b>. It can take a minute; check spam too.
             </>
@@ -114,7 +117,7 @@ export function SignIn({ title = 'Sign in', text }) {
               <button type="button" className="pf-link" onClick={() => (setSent(false), setErr(''))}>
                 Use another email
               </button>
-              {wait ? (
+              {test ? null : wait ? (
                 <span className="pf-muted">New code in {wait}s</span>
               ) : (
                 <button type="button" className="pf-link" onClick={send}>
