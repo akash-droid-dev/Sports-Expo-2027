@@ -109,7 +109,7 @@ function RegisterInner({ user }) {
   if (data.ex) return <Loading />;
   return (
     <>
-      <div className="pf-head">
+      <div className="pf-head bgx-band">
         <div>
           <span className="pf-kicker">Exhibitor registration</span>
           <h1>Register your company</h1>
@@ -252,7 +252,7 @@ function PortalInner({ user }) {
   ];
   return (
     <>
-      <div className="pf-head">
+      <div className="pf-head bgx-band">
         <div className="pf-row" style={{ gap: 18, alignItems: 'center' }}>
           <div className="pf-thumb" style={{ width: 64, height: 64, borderRadius: 18, background: ex.logo_path ? `#fff url("${publicUrl('exhibitors', ex.logo_path)}") center/contain no-repeat` : 'var(--ink)' }} />
           <div>

@@ -45,7 +45,7 @@ function RegisterInner({ user }) {
   if (data.visitor) return <Loading />;
   return (
     <>
-      <div className="pf-head">
+      <div className="pf-head bgx-band">
         <div>
           <span className="pf-kicker">Visitor registration</span>
           <h1>Register to visit</h1>
@@ -95,7 +95,7 @@ function MeInner({ user }) {
   if (!v) {
     return (
       <>
-        <div className="pf-head">
+        <div className="pf-head bgx-band">
           <div>
             <span className="pf-kicker">Welcome</span>
             <h1>What brings you to the Expo?</h1>
@@ -132,7 +132,7 @@ function MeInner({ user }) {
   ];
   return (
     <>
-      <div className="pf-head">
+      <div className="pf-head bgx-band">
         <div>
           <span className="pf-kicker">My pass</span>
           <h1>Hello, {v.full_name.split(' ')[0]}</h1>

@@ -17,6 +17,7 @@ export default function Shell({ title, user, role, active, children, main = 'pf-
   }, [open]);
   const links = [
     ['/me', 'My pass'],
+    ['/meetings', 'Meetings'],
     ['/portal', 'Exhibitor portal'],
     ...(role ? [['/admin', 'Admin']] : []),
   ];

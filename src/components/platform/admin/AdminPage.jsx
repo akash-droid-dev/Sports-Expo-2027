@@ -10,13 +10,14 @@ import Catalog from './Catalog';
 import Exhibitors from './Exhibitors';
 import Forms from './Forms';
 import Media from './Media';
+import Meetings from './Meetings';
 import Overview from './Overview';
 import PageEdits from './PageEdits';
 import Staff from './Staff';
 import Visitors from './Visitors';
 
 const SECTIONS = [
-  ['People', [['overview', 'Overview'], ['visitors', 'Visitors'], ['exhibitors', 'Exhibitors']]],
+  ['People', [['overview', 'Overview'], ['visitors', 'Visitors'], ['exhibitors', 'Exhibitors'], ['meetings', 'Meetings']]],
   ['Website', [['pages', 'Edit pages'], ['catalog', 'Website content'], ['media', 'Media library']]],
   ['Settings', [['forms', 'Registration forms', 'admin'], ['staff', 'Team & roles']]],
 ];
@@ -73,6 +74,7 @@ function Panel({ user }) {
         {section === 'overview' ? <Overview {...props} /> : null}
         {section === 'visitors' ? <Visitors {...props} /> : null}
         {section === 'exhibitors' ? <Exhibitors {...props} /> : null}
+        {section === 'meetings' ? <Meetings {...props} /> : null}
         {section === 'pages' ? <PageEdits {...props} /> : null}
         {section === 'catalog' ? <Catalog {...props} /> : null}
         {section === 'media' ? <Media {...props} /> : null}

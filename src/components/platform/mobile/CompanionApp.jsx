@@ -14,7 +14,11 @@ import { useLive, useSession, useStaffRole } from '@/lib/platform/hooks';
 import { loadFields } from '@/lib/platform/records';
 import Badge from '../Badge';
 import VisitorForm from '../VisitorForm';
-import { Pill, Spinner } from '../ui';
+import BookForm from '../meetings/BookForm';
+import BookingCard from '../meetings/BookingCard';
+import BusinessPass from '../meetings/BusinessPass';
+import { profileOf, useMeetings } from '../meetings/data';
+import { Pill, Spinner, useToast } from '../ui';
 
 const SAVED_KEY = 'ise-app-saved';
 
@@ -370,12 +374,13 @@ function PassTab({ user, me, reload }) {
     [v.status === 'rejected' ? 'Not approved' : 'Card issued', v.status === 'approved' ? 'done' : ''],
   ];
   return (
-    <div className="ma-pad">
+    <div className="ma-pad ma-passbg">
       <div className="ma-row-head">
         <h1 className="ma-title">My pass</h1>
         <Pill status={v.status} />
       </div>
       <Badge visitor={v} />
+      <AppBusinessPass user={user} />
       <div className="ma-card" style={{ marginTop: 18 }}>
         <div className="pf-steps">
           {steps.map(([t, c]) => (
@@ -488,9 +493,94 @@ const VISIT = [
   ['Entry', 'Main Entrance and Registration; show your pass QR code'],
 ];
 
+/** The business pass, under the visitor card, once a booking is confirmed. */
+function AppBusinessPass({ user }) {
+  const { data } = useMeetings(user);
+  if (!data?.pass) return null;
+  const sessions = Object.fromEntries(data.sessions.map((s) => [s.id, s]));
+  const me = profileOf(data, user);
+  return (
+    <div style={{ marginTop: 22 }}>
+      <h2 className="ma-h">Business pass</h2>
+      <BusinessPass pass={data.pass} bookings={data.mine} sessions={sessions} name={me.requester_name} org={me.requester_org} />
+    </div>
+  );
+}
+
+/** More → Meetings: book, follow your bookings, answer requests to your company. */
+function AppMeetings({ user, go }) {
+  const { data, loading, reload } = useMeetings(user);
+  const [toast, show] = useToast();
+  const [view, setView] = useState('mine');
+  const back = (
+    <button className="pf-link" onClick={() => go('more')}>
+      ‹ More
+    </button>
+  );
+  if (!user) return <SignInPanel title="Meetings" text="Sign in to request meetings, conference seats, discussions and rooms." />;
+  if (loading && !data) return <div className="ma-center"><Spinner /></div>;
+  if (!data) return <div className="ma-pad">{back}<p className="ma-empty">Couldn’t load your bookings.</p></div>;
+  const sessions = Object.fromEntries(data.sessions.map((s) => [s.id, s]));
+  const waiting = data.incoming.filter((b) => b.status === 'requested').length;
+  const views = [['mine', `Mine${data.mine.length ? ' · ' + data.mine.length : ''}`], ['book', 'Book'], ...(data.exhibitor ? [['incoming', `To me${waiting ? ' · ' + waiting : ''}`]] : [])];
+  const scrollTop = () => document.querySelector('.ma-scroll')?.scrollTo(0, 0);
+  return (
+    <div className="ma-pad">
+      {back}
+      <h1 className="ma-title">Meetings</h1>
+      <div className="pf-tabs" role="tablist" style={{ marginBottom: 16 }}>
+        {views.map(([id, t]) => (
+          <button key={id} role="tab" aria-selected={view === id} onClick={() => (setView(id), scrollTop())}>
+            {t}
+          </button>
+        ))}
+      </div>
+      {view === 'book' ? (
+        <div className="ma-card">
+          <BookForm user={user} data={data} show={show} onDone={() => (reload(), setView('mine'), scrollTop())} />
+        </div>
+      ) : null}
+      {view === 'mine' ? (
+        data.mine.length ? (
+          <div className="mt-cards">
+            {data.mine.map((b) => (
+              <BookingCard key={b.id} b={b} session={sessions[b.session_id]} show={show} onChange={reload} />
+            ))}
+          </div>
+        ) : (
+          <div className="ma-card" style={{ textAlign: 'center' }}>
+            <p className="ma-sub">No bookings yet. Ask for a meeting, a conference seat, an open discussion or a room.</p>
+            <button className="pf-btn orange block" style={{ marginTop: 14 }} onClick={() => setView('book')}>
+              Book now
+            </button>
+          </div>
+        )
+      ) : null}
+      {view === 'incoming' ? (
+        data.incoming.length ? (
+          <div className="mt-cards">
+            {data.incoming.map((b) => (
+              <BookingCard key={b.id} b={b} session={sessions[b.session_id]} side="incoming" show={show} onChange={reload} />
+            ))}
+          </div>
+        ) : (
+          <p className="ma-empty">No requests to {data.exhibitor.company} yet.</p>
+        )
+      ) : null}
+      {data.pass ? (
+        <button className="pf-btn ghost block" style={{ marginTop: 18 }} onClick={() => go('pass')}>
+          Show my business pass
+        </button>
+      ) : null}
+      {toast}
+    </div>
+  );
+}
+
 function More({ D, user, me, sub, go }) {
   const { role } = useStaffRole(user);
   if (sub === 'exhibitors') return <Exhibitors D={D} back={() => go('more')} />;
+  if (sub === 'meetings') return <AppMeetings user={user} go={go} />;
   if (sub === 'visit')
     return (
       <div className="ma-pad">
@@ -513,6 +603,7 @@ function More({ D, user, me, sub, go }) {
     );
   const ex = me?.exhibitor;
   const rows = [
+    ['Meetings & bookings', 'One-to-one meetings, conference seats, discussions, rooms', () => go('more', 'meetings')],
     ['Exhibitors', `${D.exhibitors.length} companies`, () => go('more', 'exhibitors')],
     ['Plan your visit', 'Metro, parking, entry', () => go('more', 'visit')],
     ex
