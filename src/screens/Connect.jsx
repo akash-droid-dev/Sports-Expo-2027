@@ -6,8 +6,12 @@ import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc
 import { withBase } from '@/lib/base';
 import BrandLogo from '@/components/BrandLogo';
 import '@/data/ise';
+import MeetingsOverview from '@/components/platform/meetings/MeetingsOverview';
 
 /* global maplibregl */
+// "Request meeting" opens the Meetings portal with the company and a fitting meeting type filled in.
+const TYPE_FOR_ROLE = { Buyer: 'Buyer–Seller', Distributor: 'B2B', Investor: 'Investor', Government: 'B2G', Federation: 'Federation' };
+const bookingLink = (q) => withBase('/meetings/') + '?' + new URLSearchParams({ kind: 'meeting', ...q }).toString();
 class Component extends DCLogic {
   state = { iam: 'EXHIBITOR', look: 'DISTRIBUTOR', f: { country: 'Germany', sector: 'Sports goods', product: 'Football equipment', opp: 'Distribution' }, loading: false, searched: true, req: {}, prof: null, mtype: 'BUYER–SELLER', step: 2, slot: '2-11:00', table: 14, out: ['Lead', 'LoI'], cty: 'DE', toast: null };
   componentDidMount() { if (!window.ISE) this._t = setInterval(() => { if (window.ISE) { clearInterval(this._t); this.forceUpdate(); } }, 60); }
@@ -25,7 +29,7 @@ class Component extends DCLogic {
     const FACT = { 'Product fit': 96, 'Market fit': 88, 'Buyer requirement': 91, 'Geographic interest': 84 };
     const pr = s.prof != null ? all[s.prof] : null;
     const reqd = n => s.req[n];
-    const request = (m) => () => { this.setState({ req: { ...s.req, [m.name]: true } }); this.flash('Meeting request sent to ' + m.name); };
+    const request = (m) => () => { location.href = bookingLink({ with: m.name, country: m.country, type: TYPE_FOR_ROLE[m.role] || 'B2B' }); };
     const FLOW = [
       ['REQUEST', 'Request sent', 'Apex Sports India requested a meeting with Global Sports Retail GmbH through the Exchange.', [['✓', 'Purpose: European distribution of match and training footballs'], ['✓', 'Suggested duration: 30 min'], ['✓', 'Message attached with catalogue link']], 'MARK ACCEPTED →'],
       ['ACCEPT', 'Request accepted', 'Lukas Brandt accepted. Both calendars are now compared for mutual availability.', [['✓', 'Accepted by Lukas Brandt · 08 May 14:20 (demo)'], ['✓', 'Second attendee added: Simran Kaur, Export Manager']], 'CHOOSE SLOT →'],
@@ -81,7 +85,7 @@ class Component extends DCLogic {
       arcs: C.map(c => { const x1 = px(c), y1 = py(c), x2 = px(IN), y2 = py(IN); const dx = (x2 - x1), dy = (y2 - y1) / 2; const len = Math.sqrt(dx * dx + dy * dy); return { x: x1 + '%', y: y1 + '%', w: len + '%', r: Math.atan2(dy, dx) + 'rad', c: c.id === s.cty ? '#F07C12' : '#55555A', o: c.id === s.cty ? 1 : 0.6 }; }),
       ctyPins: C.map(c => ({ ...c, nameU: c.name.toUpperCase(), x: px(c) + '%', y: py(c) + '%', fill: c.id === s.cty ? '#F07C12' : '#0E0E0F', lbg: c.id === s.cty ? '#C2610B' : 'transparent', pick: () => this.setState({ cty: c.id }) })),
       cty, ctyRows: [{ k: 'Location', v: 'Zone D · International / Country Pavilions · ' + cty.pav }, { k: 'Delegation', v: DEL[0] }, { k: 'Technologies', v: DEL[1] }, { k: 'Companies', v: cty.companies + ' exhibiting · incl. ' + DEL[2] }, { k: 'Buyers', v: Math.round(cty.companies * 1.6) + ' hosted buyers (sample)' }, { k: 'Speaker', v: DEL[3] }],
-      ctyMeet: () => this.flash('Meeting request sent to the ' + cty.name + ' delegation desk'),
+      ctyMeet: () => { location.href = bookingLink({ with: cty.name + ' pavilion delegation', country: cty.name, type: 'B2G' }); },
       ctyList: C.map(c => ({ ...c, ...sel(c.id === s.cty), pick: () => this.setState({ cty: c.id }) })),
       lounges: [
         { t: 'Hosted Buyer Lounge', access: 'INVITE ONLY', c: '#F07C12', d: 'Concierge, private tables and buyer briefings.', cap: '80 seats' },
@@ -278,141 +282,7 @@ function render(v) {
         </section>
         <section id="meetings" data-screen-label="Meeting management" style={{ scrollMarginTop: "60px", background: "#F6F4EF", padding: "72px 28px" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
-              <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(44px,5vw,80px) * 0.72)", lineHeight: "0.88" }}>
-                03 — Meetings
-              </h2>
-              <div style={{ display: "flex", gap: "0", border: "1px solid #0E0E0F", background: "#fff", flexWrap: "wrap" }}>
-                {list(v.mtypes).map((t, $index) => (
-                  <Fragment key={$index}>
-                    <button onClick={t?.pick} style={sx(`height:38px;padding:0 12px;border:0;border-right:1px solid #0E0E0F;background:${t?.bg ?? ""};color:${t?.fg ?? ""};font-size:11px;font-weight:700;letter-spacing:0.08em;cursor:pointer;`)}>
-                      {txt(t?.t)}
-                    </button>
-                  </Fragment>
-                ))}
-              </div>
-            </div>
-            <ol aria-label="Meeting lifecycle" style={{ margin: "0", padding: "0", listStyle: "none", display: "grid", gridTemplateColumns: "repeat(10,minmax(0,1fr))", background: "#fff", border: "1px solid #0E0E0F" }}>
-              {list(v.flow).map((f, $index) => (
-                <Fragment key={$index}>
-                  <li>
-                    <button onClick={f?.go} style={sx(`width:100%;height:72px;border:0;border-right:1px solid #E3E0D8;background:${f?.bg ?? ""};color:${f?.fg ?? ""};text-align:left;padding:10px;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;`)}>
-                      <span style={{ fontFamily: "var(--f-label)", fontSize: "10px" }}>{txt(f?.n)}{" "}{txt(f?.mark)}</span>
-                      <span style={{ fontSize: "12px", fontWeight: "700", letterSpacing: "0.06em" }}>{txt(f?.t)}</span>
-                    </button>
-                  </li>
-                </Fragment>
-              ))}
-            </ol>
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.25fr) minmax(0,1fr)", border: "1px solid #0E0E0F", borderTop: "0", background: "#fff" }}>
-              <div style={{ padding: "32px", borderRight: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "20px", minHeight: "460px" }}>
-                <div>
-                  <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#C2610B" }}>
-                    {"STEP "}{txt(v.fs?.n)}{" OF 10 · "}{txt(v.mtype)}
-                  </span>
-                  <div style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.88", marginTop: "6px" }}>
-                    {txt(v.fs?.title)}
-                  </div>
-                  <div style={{ fontSize: "15px", color: "#3A3A3E", marginTop: "8px", maxWidth: "600px" }}>{txt(v.fs?.d)}</div>
-                </div>
-                {v.isSlot ? (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                      <div style={{ display: "grid", gridTemplateColumns: "70px repeat(3,minmax(0,1fr))", gap: "4px", fontFamily: "var(--f-label)", fontSize: "11px" }}>
-                        <span />
-                        <span style={{ textAlign: "center" }}>DAY 1</span>
-                        <span style={{ textAlign: "center" }}>DAY 2</span>
-                        <span style={{ textAlign: "center" }}>DAY 3</span>
-                        {list(v.slots).map((r, $index) => (
-                          <Fragment key={$index}>
-                            <span style={{ display: "flex", alignItems: "center" }}>{txt(r?.t)}</span>
-                            {list(r?.cells).map((c, $index) => (
-                              <Fragment key={$index}>
-                                <button onClick={c?.pick} disabled={c?.busy} style={sx(`height:38px;border:1px solid ${c?.bd ?? ""};background:${c?.bg ?? ""};color:${c?.fg ?? ""};font:500 11px var(--f-label);cursor:pointer;`)}>
-                                  {txt(c?.label)}
-                                </button>
-                              </Fragment>
-                            ))}
-                          </Fragment>
-                        ))}
-                      </div>
-                      <span style={{ fontSize: "12px", color: "#6B6A66" }}>Hatched = busy for either party. Mutual availability shown only.</span>
-                    </div>
-                  </>
-                ) : null}
-                {v.isRoom ? (
-                  <>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(8,1fr)", gap: "4px" }}>
-                      {list(v.tables).map((t, $index) => (
-                        <Fragment key={$index}>
-                          <button onClick={t?.pick} style={sx(`aspect-ratio:1;border:1px solid ${t?.bd ?? ""};background:${t?.bg ?? ""};color:${t?.fg ?? ""};font:500 11px var(--f-label);cursor:pointer;`)}>
-                            {txt(t?.n)}
-                          </button>
-                        </Fragment>
-                      ))}
-                    </div>
-                  </>
-                ) : null}
-                {v.isOutcome ? (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                      <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
-                        {list(v.outcomes).map((o, $index) => (
-                          <Fragment key={$index}>
-                            <button onClick={o?.pick} style={sx(`height:40px;padding:0 14px;border:1px solid #0E0E0F;background:${o?.bg ?? ""};color:${o?.fg ?? ""};font-size:13px;font-weight:600;cursor:pointer;`)}>
-                              {txt(o?.mark)}{txt(o?.t)}
-                            </button>
-                          </Fragment>
-                        ))}
-                      </div>
-                      <label style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                        <span style={{ fontSize: "13px", fontWeight: "600" }}>Notes</span>
-                        <textarea style={{ minHeight: "90px", border: "1px solid #0E0E0F", padding: "10px", fontSize: "14px" }} defaultValue={"Agreed sample order of 2,000 FQ-5 match balls for spring trial in 40 stores. Pricing sheet by Day 3."} />
-                      </label>
-                    </div>
-                  </>
-                ) : null}
-                {v.isGeneric ? (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", borderTop: "1px solid #E3E0D8" }}>
-                      {list(v.fs?.lines).map((l, $index) => (
-                        <Fragment key={$index}>
-                          <div style={{ display: "grid", gridTemplateColumns: "28px 1fr", gap: "10px", padding: "12px 0", borderBottom: "1px solid #E3E0D8", fontSize: "15px" }}>
-                            <span style={{ fontFamily: "var(--f-label)", color: "#0B6E4F" }}>{txt(l?.i)}</span>
-                            <span>{txt(l?.t)}</span>
-                          </div>
-                        </Fragment>
-                      ))}
-                    </div>
-                  </>
-                ) : null}
-                <div style={{ display: "flex", justifyContent: "space-between", gap: "10px", marginTop: "auto" }}>
-                  <button onClick={v.prevStep} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                    ← Back
-                  </button>
-                  <button onClick={v.nextStep} style={{ height: "50px", padding: "0 26px", border: "0", background: "#F07C12", color: "#0E0E0F", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                    {txt(v.fs?.cta)}
-                  </button>
-                </div>
-              </div>
-              <aside style={{ padding: "32px", display: "flex", flexDirection: "column", gap: "14px" }}>
-                <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>MEETING RECORD · MTG-27-01184</span>
-                <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "28px", lineHeight: "0.9" }}>
-                  Apex Sports India
-                  <br />
-                  <span style={{ color: "#8A877F" }}>×</span>
-                  {" Global Sports Retail"}
-                </span>
-                <dl style={{ margin: "0", display: "grid", gridTemplateColumns: "110px 1fr", fontSize: "14px", borderTop: "1px solid #E3E0D8" }}>
-                  {list(v.record).map((r, $index) => (
-                    <Fragment key={$index}>
-                      <dt style={{ padding: "8px 0", borderBottom: "1px solid #E3E0D8", color: "#6B6A66" }}>{txt(r?.k)}</dt>
-                      <dd style={sx(`margin:0;padding:8px 0;border-bottom:1px solid #E3E0D8;color:${r?.c ?? ""};`)}>{txt(r?.v)}</dd>
-                    </Fragment>
-                  ))}
-                </dl>
-              </aside>
-            </div>
+            <MeetingsOverview />
           </div>
         </section>
         <section id="countries" data-screen-label="Country pavilions" style={{ scrollMarginTop: "60px", padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>

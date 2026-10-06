@@ -1,21 +1,23 @@
 'use client';
 // Dashboard: live counts and the latest registrations.
 import { useLive } from '@/lib/platform/hooks';
+import { needsOrganisers } from './Meetings';
 import { Loading, Pill, fmtDate } from '../ui';
 
 export default function Overview({ go }) {
   const { data, loading } = useLive(
     'overview',
     async (sb) => {
-      const [v, e, p, c] = await Promise.all([
+      const [v, e, p, c, b] = await Promise.all([
         sb.from('visitors').select('id,full_name,category,status,created_at').order('created_at', { ascending: false }).limit(2000),
         sb.from('exhibitors').select('id,company,status,listed,stall_code,created_at').order('created_at', { ascending: false }),
         sb.from('products').select('id', { count: 'exact', head: true }),
         sb.from('content').select('page', { count: 'exact', head: true }),
+        sb.from('bookings').select('id,kind,status,counterpart_exhibitor_id').limit(5000),
       ]);
-      return { visitors: v.data || [], exhibitors: e.data || [], products: p.count || 0, edits: c.count || 0 };
+      return { visitors: v.data || [], exhibitors: e.data || [], products: p.count || 0, edits: c.count || 0, bookings: b.data || [] };
     },
-    [{ table: 'visitors' }, { table: 'exhibitors' }, { table: 'products' }, { table: 'content' }],
+    [{ table: 'visitors' }, { table: 'exhibitors' }, { table: 'products' }, { table: 'content' }, { table: 'bookings' }],
   );
   if (loading && !data) return <Loading />;
   const V = data.visitors;
@@ -29,6 +31,8 @@ export default function Overview({ go }) {
     ['Listed on website', E.filter((x) => x.listed).length, 'exhibitors'],
     ['Exhibitor products', data.products, 'exhibitors'],
     ['Page changes', data.edits, 'pages'],
+    ['Meetings to confirm', data.bookings.filter(needsOrganisers).length, 'meetings', 'var(--green)'],
+    ['Confirmed bookings', data.bookings.filter((x) => x.status === 'approved').length, 'meetings'],
   ];
   const cats = {};
   V.forEach((x) => (cats[x.category] = (cats[x.category] || 0) + 1));

@@ -1,0 +1,286 @@
+/* Brand backgrounds: the four key visuals with their text and logos taken out
+   (scripts/brand/backgrounds.mjs). Each sits on its own layer (::before) behind the content,
+   softened by a veil or a scrim wherever text sits on it.
+     01  cream, sprinter          platform pages (softened), Home "Attend" tile, app pass screen
+     02  green → yellow, India    Connect Business Exchange, Home "Connect" tile, business pass
+     03  yellow, footballer       platform page headers, Attend registration
+     04  orange → red, stage      accreditation card, Exhibit registration, Home "Exhibit" tile, app home
+   Phones load the 828px files, laptops 1440px, large screens 2560px. */
+:root {
+  --bg-01: url('./bg/bg-01-1440.webp');
+  --bg-02: url('./bg/bg-02-1440.webp');
+  --bg-03: url('./bg/bg-03-1440.webp');
+  --bg-04: url('./bg/bg-04-1440.webp');
+}
+@media (max-width: 700px) {
+  :root {
+    --bg-01: url('./bg/bg-01-828.webp');
+    --bg-02: url('./bg/bg-02-828.webp');
+    --bg-03: url('./bg/bg-03-828.webp');
+    --bg-04: url('./bg/bg-04-828.webp');
+  }
+}
+@media (min-width: 1700px) {
+  :root {
+    --bg-01: url('./bg/bg-01-2560.webp');
+    --bg-02: url('./bg/bg-02-2560.webp');
+    --bg-03: url('./bg/bg-03-2560.webp');
+    --bg-04: url('./bg/bg-04-2560.webp');
+  }
+}
+
+/* ---------- Platform pages (.pf): 01 behind everything, softened ---------- */
+.sc-host.pf:not(.ma) {
+  position: relative;
+  isolation: isolate;
+}
+.sc-host.pf:not(.ma)::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(246, 244, 239, 0.86), rgba(246, 244, 239, 0.86)),
+    var(--bg-01) 70% 100% / cover no-repeat;
+}
+@media (max-width: 700px) {
+  .sc-host.pf:not(.ma)::before {
+    background:
+      linear-gradient(rgba(246, 244, 239, 0.88), rgba(246, 244, 239, 0.88)),
+      var(--bg-01) 62% 100% / cover no-repeat;
+  }
+}
+
+/* Page header band on /register, /me, /portal, /meetings: 03, full colour, footballer on the
+   right (mirrored), yellow wash under the text on the left. */
+.pf-head.bgx-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  align-items: center;
+  min-height: 168px;
+  padding: 28px clamp(20px, 3vw, 36px);
+  border-radius: calc(var(--r) + 6px);
+  background: #fed700;
+  box-shadow: var(--shadow);
+}
+.pf-head.bgx-band::before,
+.pf-head.bgx-band::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.pf-head.bgx-band::before {
+  left: auto;
+  width: min(48%, 520px);
+  background: var(--bg-03) 0% 62% / auto 260% no-repeat;
+  transform: scaleX(-1);
+  -webkit-mask-image: linear-gradient(270deg, transparent 0%, #000 34%);
+  mask-image: linear-gradient(270deg, transparent 0%, #000 34%);
+}
+.pf-head.bgx-band::after {
+  display: none;
+}
+.pf-head.bgx-band > div:first-child {
+  max-width: min(100%, 560px);
+}
+.pf-head.bgx-band p {
+  color: #2b2a26;
+}
+.pf-head.bgx-band .pf-kicker {
+  color: #0e0e0f;
+}
+@media (max-width: 700px) {
+  .pf-head.bgx-band {
+    min-height: 0;
+    padding: 22px 20px;
+  }
+  .pf-head.bgx-band::before {
+    width: 60%;
+    opacity: 0.35;
+  }
+}
+
+/* ---------- Accreditation card: 04 behind a dark scrim, QR stays on white ---------- */
+.pf-badge {
+  isolation: isolate;
+}
+.pf-badge::before,
+.pf-badge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.pf-badge::before {
+  background: var(--bg-04) 76% 50% / cover no-repeat;
+}
+.pf-badge::after {
+  background: linear-gradient(180deg, rgba(14, 14, 15, 0.42) 0%, rgba(14, 14, 15, 0.7) 34%, rgba(14, 14, 15, 0.86) 100%);
+}
+/* Business pass: 02 (green → yellow), same build. */
+.pf-badge.is-biz::before {
+  background: var(--bg-02) 82% 40% / cover no-repeat;
+}
+.pf-badge.is-biz::after {
+  background: linear-gradient(180deg, rgba(4, 40, 22, 0.4) 0%, rgba(4, 40, 22, 0.74) 34%, rgba(6, 22, 14, 0.9) 100%);
+}
+
+/* ---------- Public pages ---------- */
+/* Shared layer for the section banners below. */
+section[data-screen-label='Visitor registration'],
+section[data-screen-label='Exhibitor registration'],
+section[data-screen-label='Business Exchange'],
+section[data-screen-label='14 CTA'] > a {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+section[data-screen-label='Visitor registration']::before,
+section[data-screen-label='Exhibitor registration']::before,
+section[data-screen-label='Business Exchange']::before,
+section[data-screen-label='14 CTA'] > a::before,
+section[data-screen-label='Visitor registration']::after,
+section[data-screen-label='Exhibitor registration']::after,
+section[data-screen-label='Business Exchange']::after,
+section[data-screen-label='14 CTA'] > a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Attend → Registration: 03, footballer at the left, a light veil so the heading reads. */
+section[data-screen-label='Visitor registration']::before {
+  background: var(--bg-03) 0% 78% / cover no-repeat;
+  transform: scaleX(-1);
+}
+section[data-screen-label='Visitor registration']::after {
+  background: linear-gradient(180deg, rgba(255, 233, 0, 0.35), rgba(255, 233, 0, 0.12) 40%, rgba(255, 233, 0, 0.12));
+}
+
+/* Exhibit → Exhibitor registration: 04 in a rounded panel, scrim under the heading. */
+section[data-screen-label='Exhibitor registration'] {
+  color: #fff;
+}
+section[data-screen-label='Exhibitor registration']::before {
+  background: var(--bg-04) 90% 60% / cover no-repeat;
+}
+section[data-screen-label='Exhibitor registration']::after {
+  background: linear-gradient(180deg, rgba(14, 14, 15, 0.45), rgba(14, 14, 15, 0.12) 46%, rgba(14, 14, 15, 0.12));
+}
+@media (min-width: 1500px) {
+  section[data-screen-label='Exhibitor registration'] {
+    border-radius: 32px;
+    margin-top: 24px !important;
+    margin-bottom: 24px !important;
+  }
+}
+
+/* Connect → Business Exchange: 02 behind the dark header, darker under the text. */
+section[data-screen-label='Business Exchange']::before {
+  background: var(--bg-02) 100% 50% / cover no-repeat;
+}
+section[data-screen-label='Business Exchange']::after {
+  background: linear-gradient(90deg, rgba(14, 14, 15, 0.9) 0%, rgba(14, 14, 15, 0.8) 40%, rgba(14, 14, 15, 0.42) 100%);
+}
+@media (max-width: 700px) {
+  section[data-screen-label='Business Exchange']::after {
+    background: linear-gradient(180deg, rgba(14, 14, 15, 0.86), rgba(14, 14, 15, 0.7));
+  }
+}
+
+/* Home → the three closing tiles. */
+section[data-screen-label='14 CTA'] > a > * {
+  position: relative;
+}
+/* The artwork spans the top of each tile and fades into the tile colour, so the big
+   words at the bottom always sit on a solid colour. */
+section[data-screen-label='14 CTA'] > a::before {
+  background-size: 100% auto !important;
+  background-position: 100% 0 !important;
+  background-repeat: no-repeat !important;
+}
+section[data-screen-label='14 CTA'] > a:nth-child(1)::before {
+  background-image: var(--bg-04);
+}
+section[data-screen-label='14 CTA'] > a:nth-child(1)::after {
+  background: linear-gradient(0deg, #f07c12 0%, #f07c12 46%, rgba(240, 124, 18, 0) 64%), linear-gradient(90deg, rgba(240, 124, 18, 0.9), rgba(240, 124, 18, 0) 45%) !important;
+}
+section[data-screen-label='14 CTA'] > a:nth-child(2)::before {
+  background-image: var(--bg-01);
+}
+section[data-screen-label='14 CTA'] > a:nth-child(2)::after {
+  background: linear-gradient(0deg, #fff 0%, #fff 46%, rgba(255, 255, 255, 0) 64%), linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 45%) !important;
+}
+section[data-screen-label='14 CTA'] > a:nth-child(3)::before {
+  background-image: var(--bg-02);
+}
+section[data-screen-label='14 CTA'] > a:nth-child(3)::after {
+  background: linear-gradient(0deg, #0e0e0f 0%, #0e0e0f 46%, rgba(14, 14, 15, 0) 64%), linear-gradient(90deg, rgba(14, 14, 15, 0.85), rgba(14, 14, 15, 0) 45%) !important;
+}
+/* motion.css gives saffron links a hover sweep on ::after; on these tiles ::after is the scrim. */
+html #dc-root section[data-screen-label='14 CTA'] > a::after {
+  inset: 0 !important;
+  width: auto !important;
+  transform: none !important;
+  transition: none !important;
+}
+section[data-screen-label='14 CTA'] > a::before {
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+section[data-screen-label='14 CTA'] > a:hover::before {
+  transform: scale(1.04);
+}
+
+/* ---------- Companion app ---------- */
+.ma-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.ma-hero::before,
+.ma-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+.ma-hero::before {
+  background: var(--bg-04) 88% 30% / cover no-repeat;
+}
+.ma-hero::after {
+  background: linear-gradient(180deg, rgba(14, 14, 15, 0.72) 0%, rgba(14, 14, 15, 0.55) 45%, rgba(14, 14, 15, 0.82) 100%);
+}
+.ma-hero .ma-passcard {
+  background: rgba(14, 14, 15, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.ma-passbg {
+  position: relative;
+  isolation: isolate;
+  min-height: 100%;
+}
+.ma-passbg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(246, 244, 239, 0.7), rgba(246, 244, 239, 0.9)),
+    var(--bg-01) 64% 100% / cover no-repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  section[data-screen-label='14 CTA'] > a::before {
+    transition: none;
+  }
+}
