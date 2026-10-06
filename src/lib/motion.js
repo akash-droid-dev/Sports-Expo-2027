@@ -245,8 +245,9 @@ function startHeroParallax() {
   // Delegated, so it keeps working when Home is left and visited again.
   let moved = null;
   const parts = (hero) => {
-    const title = hero.querySelector('h1');
-    const scene = hero.querySelector('.hero-photo');
+    // The poster banner keeps its words on the artwork; only the artwork drifts.
+    const title = hero.querySelector('h1:not(.ph-h1)');
+    const scene = hero.querySelector('.hero-photo, .ph-art');
     [title, scene].forEach((el) => el && !el.hasAttribute('data-parallax') && el.setAttribute('data-parallax', ''));
     return { title, scene };
   };
