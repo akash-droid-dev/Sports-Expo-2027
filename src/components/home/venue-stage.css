@@ -41,13 +41,16 @@
 .vs-scene.is-asleep .vs-tour {
   left: -400vw;
 }
-/* The live tour (computers). */
+/* The live tour (computers). The frame is larger than the scene and the scene clips it, so the
+   tour's own control bar (bottom) and map toggle (right-hand corner) sit outside the visible area
+   while the tour itself plays as before. The crop is a little wider on the right and bottom, where
+   those controls are, and kept modest on the top and left so the view stays centred. */
 .vs-tour {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -50px;
+  left: -90px;
+  width: calc(100% + 210px);
+  height: calc(100% + 180px);
   border: 0;
   pointer-events: none;
 }
