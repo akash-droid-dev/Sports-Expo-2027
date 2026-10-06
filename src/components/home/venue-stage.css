@@ -201,9 +201,9 @@
   backface-visibility: hidden;
 }
 
-/* Photo side: a playing card with the zone letter in two corners. */
+/* Illustrated side: a playing card with the zone letter in two corners. */
 .vs-front {
-  background: #0e0e0f;
+  background: #fcf7ee;
   border: 6px solid #fff;
   box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.9);
 }
@@ -215,7 +215,6 @@
   left: 0;
   inset: 0;
   background: center / cover no-repeat;
-  transform: scale(1.06);
 }
 .vs-front::after {
   content: '';
@@ -225,7 +224,7 @@
   bottom: 0;
   left: 0;
   inset: 0;
-  /* Just a whisper of shade at the edge: the photo shows as it is. */
+  /* Just a hairline at the edge: the illustration shows as it is. */
   box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
 }
 .vs-pip {

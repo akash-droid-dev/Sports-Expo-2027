@@ -11,7 +11,9 @@ export function initBucky(opts = {}) {
   if (window.__bucky) return; window.__bucky = true;
   // Smaller on phones and tablets, where he would otherwise take up too much of the screen.
   const phone = isLite() && innerWidth < 600, tablet = isLite() && !phone;
-  const SIZE = phone ? 72 : tablet ? 104 : 150, EDGE = phone ? 8 : 18, PAD = 16, TOP_SAFE = 72;
+  // K: overall scale, kept compact so he reads as a chat guide rather than a mascot.
+  const K = 0.75;
+  const SIZE = Math.round((phone ? 72 : tablet ? 104 : 150) * K), EDGE = phone ? 8 : 18, PAD = 16, TOP_SAFE = 72;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const css = `
   #bucky-bot{position:fixed;left:0;top:0;width:${SIZE}px;height:${SIZE}px;z-index:9000;will-change:transform;}
@@ -29,7 +31,7 @@ export function initBucky(opts = {}) {
   #bucky-crop{transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s ease}
   #bucky-bot.bucky-tucked #bucky-crop{transform:translateX(58%) scale(.82);opacity:.55}
   #bucky-bot.bucky-tucked #bucky-tip{opacity:0}
-  #bucky-bot iframe{position:absolute;left:0;top:0;width:1200px;height:800px;border:0;background:transparent;pointer-events:none;color-scheme:normal;transform-origin:0 0;transform:translate(-162px,-120px) scale(.4)}
+  #bucky-bot iframe{position:absolute;left:0;top:0;width:1200px;height:800px;border:0;background:transparent;pointer-events:none;color-scheme:normal;transform-origin:0 0;transform:translate(${-162 * K}px,${-120 * K}px) scale(${(0.4 * K).toFixed(3)})}
   #bucky-bot button.bucky-hit{position:absolute;inset:14%;border:0;background:transparent;border-radius:50%;cursor:pointer;padding:0}
   #bucky-bot button.bucky-hit:focus-visible{outline:2px solid #F07C12;outline-offset:4px}
   #bucky-tip{position:absolute;left:50%;bottom:100%;transform:translate(-50%,4px);background:#0E0E0F;color:#fff;font:700 11px/1 var(--f-body);letter-spacing:.1em;padding:8px 10px;white-space:nowrap;opacity:0;transition:opacity .2s,transform .2s;pointer-events:none}
@@ -85,9 +87,9 @@ export function initBucky(opts = {}) {
   const loadScene = () => {
     const f = scene = document.createElement('iframe');
     const u = new URL((window.__resources && window.__resources.buckyScene) || withBase('/bucky-scene.html') + (opts.localScene ? '?scene=local' : ''), location.href);
-    // The scene frame is shown at 0.4 x (see #bucky-bot iframe), so it renders at 0.4 x the screen's
-    // pixel density: as sharp as it appears, with about a sixth of the pixels to draw.
-    u.searchParams.set('pr', String(Math.round(Math.min(2, Math.max(0.25, 0.4 * (window.devicePixelRatio || 1))) * 100) / 100));
+    // The scene frame is shown at 0.4K x (see #bucky-bot iframe), so it renders at that fraction of
+    // the screen's pixel density: as sharp as it appears, with far fewer pixels to draw.
+    u.searchParams.set('pr', String(Math.round(Math.min(2, Math.max(0.25, 0.4 * K * (window.devicePixelRatio || 1))) * 100) / 100));
     f.src = u.href; f.title = ''; f.setAttribute('aria-hidden', 'true'); f.tabIndex = -1; bot.querySelector('#bucky-crop').appendChild(f);
   };
   // He stands still while the page scrolls, so his scene stops drawing until scrolling ends,

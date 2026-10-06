@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400"><!-- Zone A · India Sports & Heritage: the gate, the sun, crossed hockey sticks -->
+<rect width="300" height="400" fill="#fcf7ee"/>
+<path d="M0 0h86a86 86 0 0 1-86 86z" fill="#ffd400"/>
+<path d="M300 0v70a70 70 0 0 1-70-70z" fill="#028443"/>
+<circle cx="150" cy="205" r="112" fill="#ef7f1a"/>
+<circle cx="150" cy="205" r="84" fill="#f59a2e"/>
+<rect y="300" width="300" height="100" fill="#028443"/>
+<path d="M0 400v-74a74 74 0 0 1 74 74z" fill="#ffd400"/>
+<path d="M300 400v-84a84 84 0 0 0-84 84z" fill="#e31e24"/>
+<g fill="#28438b">
+<rect x="132" y="86" width="36" height="14" rx="2"/>
+<rect x="114" y="98" width="72" height="16"/>
+<rect x="82" y="112" width="136" height="12" rx="3"/>
+<rect x="92" y="122" width="116" height="20"/>
+<rect x="98" y="142" width="104" height="160"/>
+</g>
+<path d="M126 302v-80a24 24 0 0 1 48 0v80z" fill="#fcf7ee"/>
+<g fill="none" stroke="#28438b" stroke-width="2.5"><circle cx="150" cy="244" r="15"/><path d="M150 229v30M135 244h30M139.4 233.4l21.2 21.2M160.6 233.4l-21.2 21.2"/></g>
+<g fill="#fcf7ee"><rect x="104" y="128" width="92" height="4" rx="2"/><rect x="104" y="160" width="14" height="128" rx="2" opacity=".18"/><rect x="182" y="160" width="14" height="128" rx="2" opacity=".18"/></g>
+<g fill="none" stroke-linecap="round"><path d="M66 226L204 344q10 8 22-2" stroke="#fff" stroke-width="8"/><path d="M234 226L96 344q-10 8-22-2" stroke="#fff" stroke-width="8"/><path d="M66 226l22 19M234 226l-22 19" stroke="#e31e24" stroke-width="10"/></g>
+<circle cx="150" cy="370" r="10" fill="#fff" stroke="#28438b" stroke-width="2"/>
+</svg>
