@@ -60,6 +60,8 @@ const SKIP = [
   '#bucky-panel',
   // Pieces with their own animation (src/components/anim).
   '[data-anim]',
+  // The platform pages (registration, dashboards, admin) are working screens: no reveals.
+  '.pf',
 ].join(',');
 
 const seen = new WeakSet();

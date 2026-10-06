@@ -65,6 +65,12 @@ function fitGrids(root, vw) {
       // More rows now: a fixed height or row template would make them overlap what follows.
       if (el.style.height && el.style.height !== 'auto') { el.style.minHeight = el.style.height; el.style.height = 'auto'; }
       if (el.style.gridTemplateRows) el.style.gridTemplateRows = 'none';
+      // A cell drawn only by absolutely placed layers (a map, a globe) has no height of its own
+      // once it gets a row to itself: give it one, so its overlays don't spill onto its neighbours.
+      if (k === 1)
+        for (const kid of el.children)
+          if (kid.offsetHeight < 40 && getComputedStyle(kid).position === 'relative' && [...kid.children].some((g) => getComputedStyle(g).position === 'absolute'))
+            (kid.style.minHeight = '360px'), (kid.style.minHeight = 'min(100vw, 440px)');
       el.dataset.fit = String(k);
     }
     changed++;
