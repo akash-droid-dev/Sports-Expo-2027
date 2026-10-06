@@ -112,11 +112,13 @@ function render(v) {
             <a href={withBase("/programme")} style={{ color: "#fff", textDecoration: "none" }}>Programme</a>
             <a href={withBase("/programme#watch")} style={{ color: "#fff", textDecoration: "none" }}>Watch</a>
           </nav>
-          <a href={withBase("/attend#myexpo")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            My Expo
+          <a href={withBase("/me/")} className="hdr-btn hdr-ghost">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">My Expo</span>
           </a>
-          <a href="#exchange" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px", whiteSpace: "nowrap" }}>
-            Find matches
+          <a href="#exchange" className="hdr-btn hdr-fill">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">Find matches</span>
           </a>
         </header>
         <section id="exchange" data-screen-label="Business Exchange" style={{ scrollMarginTop: "60px", background: "#0E0E0F", color: "#fff", padding: "80px 28px 72px" }}>

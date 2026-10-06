@@ -6,7 +6,7 @@ import { BASE, withBase } from '@/lib/base';
 import { leavePage } from '@/lib/motion';
 
 // Pages with a left rail instead of the top header: the button sits at the top of the rail.
-const RAIL_PAGES = ['/portal', '/admin'];
+const RAIL_PAGES: string[] = [];
 // Pages with neither: content moves down to make room.
 const BARE_PAGES = ['/mobile'];
 

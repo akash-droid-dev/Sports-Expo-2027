@@ -9,6 +9,7 @@ import { initMotion } from '@/lib/motion';
 import { initMobileFit } from '@/lib/mobile-fit';
 import { initLegacyCss } from '@/lib/legacy-css';
 import { initPageAnim } from '@/lib/page-anim';
+import { initPublicPlatform } from '@/lib/platform/public';
 
 declare global {
   interface Window {
@@ -38,6 +39,7 @@ export default function ClientInit({ localBucky = false }: { localBucky?: boolea
     initMobileFit();
     initPageAnim();
     initBucky({ localScene: localBucky });
+    initPublicPlatform();
   }, [localBucky]);
   return null;
 }

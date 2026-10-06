@@ -102,8 +102,9 @@ function render(v) {
           <button onClick={v.openSearch} aria-label="Search" style={{ background: "transparent", border: "1px solid #3A3A3E", color: "#BDB9B0", height: "36px", padding: "0 14px", fontSize: "13px", display: "flex", alignItems: "center", gap: "10px", cursor: "pointer", whiteSpace: "nowrap" }}>
             ⌕ Search the Expo
           </button>
-          <a href={withBase("/attend#myexpo")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
-            My Expo
+          <a href={withBase("/me/")} className="hdr-btn hdr-ghost">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">My Expo</span>
           </a>
         </header>
         <div style={{ background: "#F6F4EF", borderBottom: "1px solid #0E0E0F", display: "flex", alignItems: "center", gap: "16px", padding: "10px 28px", flexWrap: "wrap" }}>

@@ -14,6 +14,7 @@ import './mobile.css';
 import './anim.css';
 import './sporty.css';
 import './sleek.css';
+import './liquid.css';
 import BackButton from '@/components/BackButton';
 import MobileMenu from '@/components/MobileMenu';
 import BrandLogo from '@/components/BrandLogo';

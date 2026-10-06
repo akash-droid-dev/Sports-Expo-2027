@@ -134,8 +134,9 @@ function render(v) {
           <a href={withBase("/portal")} style={{ color: "#fff", textDecoration: "none", fontSize: "13px", fontWeight: "600", letterSpacing: "0.08em", whiteSpace: "nowrap" }}>
             Exhibitor login
           </a>
-          <a href="#register" style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", fontSize: "13px", fontWeight: "700", letterSpacing: "0.08em", height: "36px", display: "flex", alignItems: "center", padding: "0 16px", whiteSpace: "nowrap" }}>
-            Apply
+          <a href={withBase("/portal/register/")} className="hdr-btn hdr-fill">
+            <span className="hdr-liq" aria-hidden="true" />
+            <span className="hdr-t">Apply</span>
           </a>
         </header>
         <nav aria-label="Exhibit sections" style={{ position: "sticky", top: "60px", zIndex: "50", background: "#fff", borderBottom: "1px solid #0E0E0F", display: "flex", gap: "0", overflowX: "auto" }}>
