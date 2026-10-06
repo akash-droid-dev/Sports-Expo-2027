@@ -172,3 +172,118 @@ html {
     height: 96px !important;
   }
 }
+
+/* ---------- Explore: Hall 2 plan on phones and tablets ----------
+   The plan's labels scale with its width (cqw), so on a narrow screen they shrank to a few pixels
+   and ran into each other. On phones and tablets the plan keeps a readable size and pans sideways
+   inside its frame instead; the section no longer reserves a full screen of empty height. */
+@media (max-width: 1024px) {
+  #dc-root [data-screen-label='Hall 2 twin'] {
+    min-height: 0 !important;
+  }
+  #dc-root [data-screen-label='Hall 2 twin'] div[style*='padding: 28px'][style*='overflow: hidden'] {
+    position: relative;
+    display: block !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 34px 20px 24px !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  #dc-root [data-screen-label='Hall 2 twin'] div[style*='max-width: 1100px'] {
+    width: 1120px !important;
+    max-width: none !important;
+  }
+  #dc-root [data-screen-label='Hall 2 twin'] div[style*='padding: 28px'][style*='overflow: hidden']::before {
+    content: '← Swipe to move around the plan →';
+    position: sticky;
+    left: 0;
+    display: block;
+    width: max-content;
+    margin: -22px 0 8px;
+    font: 600 11px/1 var(--f-label, var(--f-body));
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b6a66;
+  }
+  /* "SHOW ON MAP" heads its own line above the filter chips. */
+  #dc-root aside[aria-label='Map filters'] > span:first-child {
+    flex-basis: 100%;
+    margin-bottom: 2px !important;
+  }
+}
+
+/* Exhibit: an exhibitor's products sit two to a row on phones (one tall tile each was a long scroll). */
+@media (max-width: 600px) {
+  #dc-root div[style*='minmax(160px, 1fr)'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+}
+
+/* Attend: the "pass appears after accreditation" cover hides the sample pass beneath it fully,
+   so its headline never sits over the pass's own lettering. */
+#dc-root [data-screen-label='Accreditation and digital pass'] div[style*='rgba(14, 14, 15, 0.86)'] {
+  background: rgba(14, 14, 15, 0.94) !important;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* Connect: the country map gets more height on phones so its city labels stop colliding. */
+@media (max-width: 700px) {
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'][style*='aspect-ratio: 2 / 1'] {
+    aspect-ratio: 4 / 3 !important;
+  }
+  /* Neighbouring pins label on different sides. */
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='United Kingdom'] {
+    flex-direction: column-reverse !important;
+  }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='UAE'] {
+    flex-direction: row-reverse !important;
+  }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button span:last-child,
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] > div span:last-child {
+    font-size: 8.5px !important;
+    letter-spacing: 0.08em !important;
+  }
+}
+
+/* Connect › Business Exchange: on phones the "I am a" / "I am looking for" options wrap as compact
+   chips instead of a column of full-width bars. */
+@media (max-width: 700px) {
+  #dc-root [data-screen-label='Business Exchange'] div[style*='repeat(3, 1fr)'][style*='border-top'] {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    border: 0 !important;
+    margin-top: 12px !important;
+  }
+  #dc-root [data-screen-label='Business Exchange'] div[style*='repeat(3, 1fr)'][style*='border-top'] > button {
+    flex: 0 0 auto;
+    width: auto !important;
+    height: 40px !important;
+    padding: 0 16px !important;
+    border: 1px solid #d9d5cc !important;
+    border-radius: 999px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* Short pill tab tracks stay on one line on phones and slide sideways, rather than wrapping into
+   a lopsided two-line pill. */
+@media (max-width: 600px) {
+  #dc-root div:has(> button[role='tab']:is([style*=' height: '], [style^='height: '])) {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  #dc-root div:has(> button[role='tab']:is([style*=' height: '], [style^='height: ']))::-webkit-scrollbar {
+    display: none;
+  }
+  #dc-root button[role='tab']:is([style*=' height: '], [style^='height: ']) {
+    flex: 0 0 auto;
+  }
+}

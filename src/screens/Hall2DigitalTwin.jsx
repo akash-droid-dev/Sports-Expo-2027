@@ -13,7 +13,8 @@ import LockKeyLink from '@/components/anim/LockKeyLink';
 
 /* global maplibregl */
 class Component extends DCLogic {
-  state = { w: window.innerWidth, mode: '3d', zone: null, cluster: null, roofOn: false, list: false, dest: 'apex', filters: { Food: true, Toilets: true, Information: true, Accessibility: true, Emergency: false, Stages: true, 'Meeting Rooms': false, Lounges: false }, load: 0, travel: 'Metro' };
+  state = { w: window.innerWidth, mode: window.innerWidth <= 1024 ? '2d' : '3d', // phones and tablets open on the flat plan, which reads at their size
+    zone: null, cluster: null, roofOn: false, list: false, dest: 'apex', filters: { Food: true, Toilets: true, Information: true, Accessibility: true, Emergency: false, Stages: true, 'Meeting Rooms': false, Lounges: false }, load: 0, travel: 'Metro' };
   cityMapRef = React.createRef();
   componentDidMount() {
     this._rs = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this._rs);

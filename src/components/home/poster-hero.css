@@ -46,7 +46,9 @@
 }
 .ph-stage {
   position: absolute;
-  left: calc((100vw - var(--sw)) * 0.5);
+  /* Centred; on squarer landscape screens (4:3 tablets) it slides right so the words on the
+     left stay on screen and only the artwork's right edge is cropped. */
+  left: max(calc((100vw - var(--sw)) * 0.5), calc(var(--sw) * -0.055));
   top: calc((var(--hh) - var(--sh)) * 0.35);
   width: var(--sw);
   height: var(--sh);
@@ -71,7 +73,8 @@
 /* Top strip (where the poster's partner logos were). */
 .ph-strip {
   left: 7.6%;
-  right: 7%;
+  /* Kept inside the screen when the stage is wider than it (see .ph-stage). */
+  right: max(7%, calc(var(--sw) * 0.945 - 100vw + 24px));
   top: 3.6%;
   display: flex;
   justify-content: space-between;
@@ -166,7 +169,7 @@
   gap: calc(var(--u) * 0.16);
 }
 .ph-fig b {
-  font: 400 calc(var(--u) * 3.1) / 0.9 'Poster Condensed', var(--f-display), sans-serif;
+  font: 400 calc(var(--u) * 3.1) / 1 'Poster Condensed', var(--f-display), sans-serif;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
   color: var(--navy);
