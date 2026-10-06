@@ -5,14 +5,13 @@ import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
 import BrandLogo from '@/components/BrandLogo';
-import { isLite } from '@/lib/device';
 import DemoVideo from '@/components/DemoVideo';
 import { VenueMap } from '@/components/GettingThereMap';
 import FoldWord from '@/components/anim/FoldWord';
 import SportsTicker from '@/components/anim/SportsTicker';
 import LockKeyLink from '@/components/anim/LockKeyLink';
 import IntentBoxes from '@/components/home/IntentBoxes';
-import HeroTitle from '@/components/home/HeroTitle';
+import PosterHero from '@/components/home/PosterHero';
 import BoothStrip from '@/components/home/BoothStrip';
 import WatchShuffle from '@/components/home/WatchShuffle';
 import ProductShuffle from '@/components/home/ProductShuffle';
@@ -322,27 +321,7 @@ function render(v) {
             </div>
           </>
         ) : null}
-        <section data-screen-label="01 Entry" style={{ height: "calc(100vh - 60px)", minHeight: "560px", background: "#0E0E0F", color: "#fff", display: "grid", gridTemplateRows: "1fr auto", padding: "48px 28px 32px", boxSizing: "border-box", position: "relative", overflow: "hidden" }}>
-          {/* Stadium photo behind the headline (public/assets/hero-stadium*.webp). */}
-          <div className="hero-photo" aria-hidden="true">
-            <img src={withBase(isLite() ? "/assets/hero-stadium-sm.webp" : "/assets/hero-stadium.webp")} alt="" decoding="async" fetchPriority="high" />
-          </div>
-          <div style={{ alignSelf: "center", display: "flex", flexDirection: "column", gap: "28px", maxWidth: "1400px", position: "relative", zIndex: "1", pointerEvents: "none" }}>
-            <HeroTitle />
-            <div className="ht-actions" style={{ display: "flex", gap: "12px", flexWrap: "wrap", pointerEvents: "auto" }}>
-              <button onClick={v.enter} style={{ background: "#F07C12", color: "#0E0E0F", border: "0", height: "56px", padding: "0 28px", font: "700 15px var(--f-body)", letterSpacing: "0.08em", cursor: "pointer" }}>
-                Enter the expo ↓
-              </button>
-              <button onClick={v.skip} style={{ background: "transparent", color: "#fff", border: "1px solid #55555A", height: "56px", padding: "0 24px", font: "600 14px var(--f-body)", letterSpacing: "0.08em", cursor: "pointer" }}>
-                Skip intro
-              </button>
-            </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", flexWrap: "wrap", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#8A877F", position: "relative", zIndex: "1", pointerEvents: "none" }}>
-            <span>SCROLL TO TRAVEL · EARTH → INDIA → DELHI → YASHOBHOOMI → HALL 2</span>
-            <span>28.5549° N · 77.0446° E</span>
-          </div>
-        </section>
+        <PosterHero enter={v.enter} skip={v.skip} />
         <SportsTicker />
         <HomeJourney store={v.journeyStore} vals={v.journeyVals} />
         <div ref={v.afterRef} />

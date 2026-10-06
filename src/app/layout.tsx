@@ -88,7 +88,7 @@ if(!lite&&!nogpu&&!/[?&]gpu=1/.test(q)){try{var cv=document.createElement('canva
 if(!gl)nogpu=true;else{var ri=gl.getExtension('WEBGL_debug_renderer_info'),rn=ri?String(gl.getParameter(ri.UNMASKED_RENDERER_WEBGL)):'';
 if(/swiftshader|llvmpipe|softpipe|software|basic render/i.test(rn))nogpu=true;var lc=gl.getExtension('WEBGL_lose_context');if(lc)lc.loseContext()}}catch(e){}}
 if(nogpu)d.classList.add('no-gpu');
-if(home)add('preload',lite?'/assets/hero-stadium-sm.webp':'/assets/hero-stadium.webp','image',1);
+if(home){var pl=document.createElement('link'),hp=b+'/assets/hero-poster-';pl.rel='preload';pl.as='image';pl.setAttribute('imagesrcset',hp+'828.webp 828w,'+hp+'1440.webp 1440w,'+hp+'2560.webp 2560w');pl.setAttribute('imagesizes','(max-aspect-ratio: 6/5) 190vw, max(100vw, (100vh - 60px) * 1.78)');pl.setAttribute('fetchpriority','high');h.appendChild(pl)}
 if(lite||nogpu)return;
 add('modulepreload','/vendor/spline/runtime.js');
 ${localBucky ? "add('preload','/assets/bucky.splinecode','fetch');" : ''}

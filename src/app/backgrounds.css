@@ -284,3 +284,95 @@ section[data-screen-label='14 CTA'] > a:hover::before {
     transition: none;
   }
 }
+
+/* ---------- Main background: 01, soft, behind every page ----------
+   The page is the poster's cream; the sprinter artwork sits under a cream veil (about 15%
+   visible, clearer toward the edges than in the middle where the text is). It is a fixed layer
+   under all content: dark sections, cards and the banner cover it, empty space shows it.
+   (Each page's own styles set a body colour, hence the stronger selector; the app page keeps its own.) */
+html:not(.app-page) body {
+  background: #fbf8f2;
+}
+html:not(.app-page) body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 95% at 45% 40%, rgba(251, 248, 242, 0.95) 0%, rgba(251, 248, 242, 0.89) 58%, rgba(251, 248, 242, 0.8) 100%),
+    var(--bg-01) 62% 100% / cover no-repeat;
+}
+@media (max-aspect-ratio: 4/5) {
+  /* Portrait screens: the artwork rests at the foot of the screen, at a calm size. */
+  html:not(.app-page) body::before {
+    background:
+      linear-gradient(180deg, rgba(251, 248, 242, 0.96) 0%, rgba(251, 248, 242, 0.92) 55%, rgba(251, 248, 242, 0.84) 100%),
+      var(--bg-01) 58% 100% / 210% auto no-repeat;
+  }
+}
+/* Full-width light bands let it through. */
+#dc-root section[style*='background: rgb(246, 244, 239)'] {
+  background-color: rgba(246, 244, 239, 0.62) !important;
+}
+
+/* ---------- One more visual per page, on its full-width light bands ----------
+   A layer under the band (z-index -1, so it sits beneath the band's own translucent paper),
+   anchored bottom right and fading out in every direction, so it never shows an edge and never
+   sits under the headings. */
+:root {
+  --bgx-size: min(66%, 1100px) auto;
+  --bgx-pos: 100% 96%;
+  --bgx-op: 0.4;
+}
+.sc-host[data-sc-name='Home'] section:is([data-screen-label='04 Explore Hall 2'], [data-screen-label='11 Programme']),
+.sc-host[data-sc-name='Hall 2 Digital Twin'] section[data-screen-label='Getting there'],
+.sc-host[data-sc-name='Zone Experiences'] section:is([data-screen-label='Zone B'], [data-screen-label='Zone D']),
+.sc-host[data-sc-name='Exhibit'] section:is([data-screen-label='Product architecture'], [data-screen-label='Exhibitor directory']),
+.sc-host[data-sc-name='Attend and My Expo'] section[data-screen-label='My Expo dashboard'],
+.sc-host[data-sc-name='Connect'] section[data-screen-label='Meeting management'],
+.sc-host[data-sc-name='Programme and Watch'] section[data-screen-label='Innovation Arena'] {
+  background-color: rgba(246, 244, 239, 0.6) !important;
+}
+.sc-host[data-sc-name='Home'] section:is([data-screen-label='04 Explore Hall 2'], [data-screen-label='11 Programme'])::before,
+.sc-host[data-sc-name='Hall 2 Digital Twin'] section[data-screen-label='Getting there']::before,
+.sc-host[data-sc-name='Zone Experiences'] section:is([data-screen-label='Zone B'], [data-screen-label='Zone D'])::before,
+.sc-host[data-sc-name='Exhibit'] section:is([data-screen-label='Product architecture'], [data-screen-label='Exhibitor directory'])::before,
+.sc-host[data-sc-name='Attend and My Expo'] section[data-screen-label='My Expo dashboard']::before,
+.sc-host[data-sc-name='Connect'] section[data-screen-label='Meeting management']::before,
+.sc-host[data-sc-name='Programme and Watch'] section[data-screen-label='Innovation Arena']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--bgx-img) var(--bgx-pos) / var(--bgx-size) no-repeat;
+  opacity: var(--bgx-op);
+  -webkit-mask-image: linear-gradient(0deg, transparent 0%, #000 22%), radial-gradient(ellipse 72% 80% at 100% 92%, #000 30%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(0deg, transparent 0%, #000 22%), radial-gradient(ellipse 72% 80% at 100% 92%, #000 30%, transparent 100%);
+  mask-composite: intersect;
+}
+.sc-host[data-sc-name='Home'] section:is([data-screen-label='04 Explore Hall 2'], [data-screen-label='11 Programme']),
+.sc-host[data-sc-name='Zone Experiences'] section:is([data-screen-label='Zone B'], [data-screen-label='Zone D']),
+.sc-host[data-sc-name='Attend and My Expo'] section[data-screen-label='My Expo dashboard'] {
+  --bgx-img: var(--bg-03);
+}
+.sc-host[data-sc-name='Hall 2 Digital Twin'] section[data-screen-label='Getting there'],
+.sc-host[data-sc-name='Connect'] section[data-screen-label='Meeting management'] {
+  --bgx-img: var(--bg-02);
+}
+.sc-host[data-sc-name='Exhibit'] section:is([data-screen-label='Product architecture'], [data-screen-label='Exhibitor directory']) {
+  --bgx-img: var(--bg-04);
+}
+.sc-host[data-sc-name='Programme and Watch'] section[data-screen-label='Innovation Arena'] {
+  --bgx-img: var(--bg-04);
+  background-color: rgba(227, 241, 235, 0.72) !important;
+}
+@media (max-width: 700px) {
+  /* Phones: wider, at the foot of the band below the content. */
+  :root {
+    --bgx-size: 170% auto;
+    --bgx-op: 0.32;
+  }
+}
