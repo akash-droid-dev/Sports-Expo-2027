@@ -479,3 +479,143 @@ html.app-page.lite .mm-btn {
     grid-template-columns: 1fr 1fr;
   }
 }
+
+/* Key figures and countdown on the app's home (as on the website's Home banner). */
+.ma-figs {
+  margin: 0 0 14px;
+  padding: 16px 16px 14px;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: var(--shadow);
+}
+.ma-figs-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.ma-figs-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.ma-figs-row b {
+  font: 400 32px/1 'Poster Condensed', var(--f-display), sans-serif;
+  font-variant-numeric: tabular-nums;
+  color: #28438b;
+}
+.ma-figs-row div:nth-child(2) b {
+  color: #ef7f1a;
+}
+.ma-figs-row div:nth-child(3) b {
+  color: #028443;
+}
+.ma-figs-row div:nth-child(4) b {
+  color: #e31e24;
+}
+.ma-figs-row span {
+  font: italic 600 9.5px/1 'Poster Sans', var(--f-body), sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5d5a54;
+}
+.ma-count {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 0.35em;
+  margin: 12px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid rgba(14, 14, 15, 0.08);
+  font: italic 600 10.5px/1.5 'Poster Sans', var(--f-body), sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.ma-count b {
+  font: 400 17px/1 'Poster Condensed', var(--f-display), sans-serif;
+  color: #28438b;
+}
+.ma-count i {
+  align-self: center;
+  width: 7px;
+  height: 7px;
+  margin-right: 2px;
+  border-radius: 50%;
+  background: #028443;
+  animation: maPulse 2.4s ease-out infinite;
+}
+@keyframes maPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(2, 132, 67, 0.5);
+  }
+  70%,
+  100% {
+    box-shadow: 0 0 0 8px rgba(2, 132, 67, 0);
+  }
+}
+
+/* Zone tiles: the zone's illustration (public/media/zones) above its letter and name. */
+.ma-zones button {
+  gap: 6px;
+  padding: 0 0 12px;
+  overflow: hidden;
+}
+.ma-zones button > span,
+.ma-zones button > b {
+  padding: 0 12px;
+}
+.ma-zone-art {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin-bottom: 4px;
+}
+
+/* Main actions are filled with the same saffron-and-green liquid as the website's header
+   buttons (src/app/liquid.css): two rounded squares turn under the button's edge. */
+.ma .pf-btn.orange {
+  --lvl: 32%;
+  isolation: isolate;
+  overflow: hidden;
+  background: #016b36;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+.ma .pf-btn.orange::before,
+.ma .pf-btn.orange::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: var(--lvl);
+  width: max(230%, 420px);
+  aspect-ratio: 1;
+  margin-left: calc(max(230%, 420px) / -2);
+  border-radius: 43%;
+  background: linear-gradient(100deg, #ef7f1a 0%, #f59a2e 55%, #ef7f1a 100%);
+  animation: hdrLiq 6s linear infinite;
+  transition: top 0.7s cubic-bezier(0.3, 0.9, 0.3, 1);
+  pointer-events: none;
+}
+.ma .pf-btn.orange::before {
+  margin-top: -10px;
+  border-radius: 40%;
+  background: linear-gradient(100deg, #028443 0%, #12a05a 60%, #028443 100%);
+  animation-duration: 9s;
+  animation-direction: reverse;
+}
+.ma .pf-btn.orange:hover,
+.ma .pf-btn.orange:focus-visible {
+  --lvl: -20%;
+  box-shadow: 0 6px 22px rgba(2, 132, 67, 0.35), 0 2px 10px rgba(239, 127, 26, 0.3);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ma .pf-btn.orange::before,
+  .ma .pf-btn.orange::after,
+  .ma-count i {
+    animation: none;
+  }
+}

@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import BrandLogo from '@/components/BrandLogo';
 import HallPlan from '@/screens/HallPlan';
 import { withBase } from '@/lib/base';
+import { FIGURES, pad2, useCount, useCountdown } from '@/lib/expo-figures';
 import { sendCode, verifyCode } from '@/lib/platform/auth';
 import { errorText, getClient } from '@/lib/platform/client';
 import { useLive, useSession, useStaffRole } from '@/lib/platform/hooks';
@@ -170,7 +171,7 @@ function SignInPanel({ title = 'Sign in', text }) {
           <form onSubmit={verify} className="ma-stack">
             <input className="pf-input pf-code" inputMode="numeric" autoComplete="one-time-code" maxLength={6} placeholder="••••••" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))} autoFocus />
             {err ? <span className="pf-err">{err}</span> : null}
-            <button className="pf-btn block" disabled={busy}>
+            <button className="pf-btn orange block" disabled={busy}>
               {busy ? <Spinner /> : null}Sign in
             </button>
             <button type="button" className="pf-link" onClick={() => (setStep('email'), setErr(''))}>
@@ -184,6 +185,43 @@ function SignInPanel({ title = 'Sign in', text }) {
 }
 
 /* ---------------------------------------------------------------- Tabs */
+function AppFigure({ f, i }) {
+  const v = useCount(f.n, true, 250 + i * 120);
+  return (
+    <div>
+      <b>
+        {v}
+        {f.plus ? '+' : ''}
+      </b>
+      <span>{f.label}</span>
+    </div>
+  );
+}
+
+/** The Expo's key figures counting up, and the countdown to opening (as on the website's Home). */
+function AppFigures() {
+  const cd = useCountdown();
+  return (
+    <div className="ma-figs" aria-label="Key figures">
+      <div className="ma-figs-row">
+        {FIGURES.map((f, i) => (
+          <AppFigure key={f.label} f={f} i={i} />
+        ))}
+      </div>
+      <p className="ma-count">
+        <i aria-hidden="true" />
+        {cd ? (
+          <>
+            Opens in <b>{cd.d}</b> days <b>{pad2(cd.h)}</b> hrs <b>{pad2(cd.m)}</b> min
+          </>
+        ) : (
+          <>Opens 15 October 2027</>
+        )}
+      </p>
+    </div>
+  );
+}
+
 function Home({ D, user, me, go, saved, toggle }) {
   const v = me?.visitor;
   const name = v?.full_name?.split(' ')[0];
@@ -219,6 +257,7 @@ function Home({ D, user, me, go, saved, toggle }) {
         </button>
       </div>
       <div className="ma-pad">
+        <AppFigures />
         <div className="ma-quick">
           {[
             ['pass', 'My pass', ICONS.pass],
@@ -248,6 +287,7 @@ function Home({ D, user, me, go, saved, toggle }) {
         <div className="ma-zones">
           {D.zones.map((z) => (
             <button key={z.id} style={{ '--z': z.color, '--t': z.tint }} onClick={() => go('map', z.id)}>
+              <img className="ma-zone-art" src={withBase(`/media/zones/zone-${z.id.toLowerCase()}.svg`)} alt="" loading="lazy" />
               <span>{z.id}</span>
               <b>{z.name}</b>
             </button>
