@@ -18,10 +18,10 @@ class Component extends DCLogic {
     const h = location.hash; if (h) setTimeout(() => { const el = document.querySelector(h); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + scrollY - 110 }); }, 400);
   }
   componentWillUnmount() { clearInterval(this._m); this.india && this.india.remove(); this.globe && this.globe.remove(); }
-  marker(map, lngLat, text, onClick, dark) {
+  marker(map, lngLat, text, onClick, dark, anchor = 'center') {
     const el = document.createElement('button');
     el.style.cssText = `font:700 12px var(--f-body);background:${dark ? '#fff' : '#9E1B22'};color:${dark ? '#0E0E0F' : '#fff'};border:0;padding:6px 10px;border-radius:999px;box-shadow:0 4px 12px -4px rgba(0,0,0,0.45);cursor:pointer;white-space:nowrap;`;
-    el.textContent = text; el.onclick = onClick; new maplibregl.Marker({ element: el }).setLngLat(lngLat).addTo(map); return el;
+    el.textContent = text; el.onclick = onClick; new maplibregl.Marker({ element: el, anchor }).setLngLat(lngLat).addTo(map); return el;
   }
   initMaps() {
     const D = window.ISE;
@@ -29,14 +29,15 @@ class Component extends DCLogic {
       this.india = new maplibregl.Map({ container: this.indiaRef.current, center: [80, 22], zoom: 3.8, scrollZoom: false, attributionControl: { compact: true },
         style: { version: 8, sources: { t: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: 'Esri, HERE, Garmin' } }, layers: [{ id: 't', type: 'raster', source: 't' }] } });
       D.states.forEach(s => this.marker(this.india, this.CAP[s.id], s.name, () => this.setState({ state: s.id })));
-      this.marker(this.india, [77.0446, 28.5549], '● YASHOBHOOMI', () => {}, true).style.background = '#0E0E0F';
+      { const y = this.marker(this.india, [77.0446, 28.5549], '● YASHOBHOOMI', () => {}, true); y.style.background = '#0E0E0F'; y.style.color = '#fff'; }
     } catch (e) {}
     try {
       this.globe = new maplibregl.Map({ container: this.globeRef.current, center: [70, 25], zoom: 1.2, scrollZoom: false, attributionControl: { compact: true },
         style: { version: 8, projection: { type: 'globe' }, sources: { sat: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: 'Esri World Imagery' } }, layers: [{ id: 'bg', type: 'background', paint: { 'background-color': '#16365a' } }, { id: 'sat', type: 'raster', source: 'sat' }],
         // A soft atmosphere around the globe; outside it the page's light background shows through.
         sky: { 'atmosphere-blend': 0.85 } } });
-      D.countries.forEach(c => this.marker(this.globe, [c.lon, c.lat], c.name, () => this.pickCty(c.id), true));
+      // Neighbours (UK and Germany) would sit on top of each other: one label above its point, one below.
+      D.countries.forEach(c => this.marker(this.globe, [c.lon, c.lat], c.name, () => this.pickCty(c.id), true, { GB: 'bottom', DE: 'top' }[c.id] || 'center'));
     } catch (e) {}
   }
   pickCty(id) { this.setState({ cty: id }); const c = window.ISE.countries.find(x => x.id === id); this.globe && this.globe.flyTo({ center: [c.lon, c.lat], zoom: 2.2, duration: 1600 }); }
@@ -521,7 +522,7 @@ function render(v) {
                       <Fragment key={$index}>
                         <div style={{ display: "grid", gridTemplateColumns: "96px minmax(0,1fr) minmax(0,1fr)", gap: "20px", padding: "20px 0", borderBottom: "1px solid #E3E0D8" }}>
                           <div style={{ width: "96px", height: "96px", position: "relative" }}>
-                            <image-slot id={e?.logo} shape="rect" placeholder="Logo" />
+                            <image-slot id={e?.logo} src={e?.logoUrl || undefined} shape="rect" fit="contain" placeholder="Logo" />
                           </div>
                           <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
                             <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{"STALL "}{txt(e?.stall)}</span>

@@ -4,6 +4,7 @@
 import React, { Fragment } from 'react';
 import { DCLogic, defineDC, txt, str, sx, val, chk, list, hostStyle } from '@/dc/runtime';
 import { withBase } from '@/lib/base';
+import RegisterCta from '@/components/platform/RegisterCta';
 import BrandLogo from '@/components/BrandLogo';
 import '@/data/ise';
 import HallPlan from './HallPlan';
@@ -277,143 +278,10 @@ function render(v) {
                 02 — Registration
               </h2>
               <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.1em" }}>
-                {"REG ISE27-V-20931 · "}{txt(v.ptypeUpper)}{" · AUTOSAVED"}
+                {"OPEN NOW · EVERY REGISTRATION IS REVIEWED"}
               </span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "260px minmax(0,1fr)", border: "1px solid #0E0E0F", background: "#fff", minHeight: "600px" }}>
-              <ol style={{ margin: "0", padding: "0", listStyle: "none", borderRight: "1px solid #0E0E0F", background: "#FBFAF7" }}>
-                {list(v.wiz).map((w, $index) => (
-                  <Fragment key={$index}>
-                    <li>
-                      <button onClick={w?.go} style={sx(`width:100%;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;padding:13px 18px;border:0;border-bottom:1px solid #E3E0D8;background:${w?.bg ?? ""};text-align:left;cursor:pointer;font-size:14px;font-weight:${w?.weight ?? ""};color:${w?.fg ?? ""};`)}>
-                        <span style={{ fontFamily: "var(--f-label)", fontSize: "12px" }}>{txt(w?.n)}</span>
-                        <span>{txt(w?.t)}</span>
-                        <span style={{ color: "#0B6E4F" }}>{txt(w?.mark)}</span>
-                      </button>
-                    </li>
-                  </Fragment>
-                ))}
-                <li style={{ padding: "16px 18px", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#6B6A66", lineHeight: "1.6" }}>
-                  AFTER SUBMIT
-                  <br />
-                  VERIFICATION → APPROVAL → ACCREDITATION → DIGITAL CREDENTIAL
-                </li>
-              </ol>
-              <div style={{ padding: "36px", display: "flex", flexDirection: "column", gap: "22px" }}>
-                {v.inWizard ? (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
-                      <div>
-                        <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>{"STEP "}{txt(v.cur?.n)}{" OF 8"}</span>
-                        <div style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "41px", lineHeight: "0.88", textTransform: "uppercase", marginTop: "6px" }}>
-                          {txt(v.cur?.t)}
-                        </div>
-                        <div style={{ fontSize: "15px", color: "#3A3A3E", marginTop: "8px", maxWidth: "640px" }}>{txt(v.cur?.d)}</div>
-                      </div>
-                      <div style={{ height: "4px", background: "#E3E0D8" }}>
-                        <div style={sx(`height:4px;background:#F07C12;width:${v.wizPct ?? ""};transition:width .4s;`)} />
-                      </div>
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(2,minmax(0,1fr))", gap: "18px 24px" }}>
-                        {list(v.fields).map((f, $index) => (
-                          <Fragment key={$index}>
-                            <label style={sx(`display:flex;flex-direction:column;gap:6px;grid-column:${f?.span ?? ""};`)}>
-                              <span style={{ fontSize: "13px", fontWeight: "600" }}>{txt(f?.label)}</span>
-                              {f?.isText ? (
-                                <>
-                                  <input value={val(f?.value)} onChange={f?.set} style={{ height: "46px", border: "1px solid #0E0E0F", padding: "0 12px", fontSize: "15px", background: "#fff" }} />
-                                </>
-                              ) : null}
-                              {f?.isSelect ? (
-                                <>
-                                  <select value={val(f?.value)} onChange={f?.set} style={{ height: "46px", border: "1px solid #0E0E0F", padding: "0 10px", fontSize: "15px", background: "#fff" }}>
-                                    {list(f?.opts).map((o, $index) => (
-                                      <Fragment key={$index}>
-                                        <option>{str(o)}</option>
-                                      </Fragment>
-                                    ))}
-                                  </select>
-                                </>
-                              ) : null}
-                              {f?.isChips ? (
-                                <>
-                                  <span style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                                    {list(f?.chips).map((c, $index) => (
-                                      <Fragment key={$index}>
-                                        <button onClick={c?.pick} aria-pressed={c?.on} style={sx(`height:36px;padding:0 12px;border:1px solid #0E0E0F;background:${c?.bg ?? ""};color:${c?.fg ?? ""};font-size:13px;font-weight:600;cursor:pointer;`)}>
-                                          {txt(c?.mark)}{txt(c?.t)}
-                                        </button>
-                                      </Fragment>
-                                    ))}
-                                  </span>
-                                </>
-                              ) : null}
-                              {f?.isCheck ? (
-                                <>
-                                  <button onClick={f?.toggle} style={{ display: "flex", gap: "12px", alignItems: "flex-start", border: "1px solid #E3E0D8", background: "#fff", padding: "14px", textAlign: "left", cursor: "pointer", fontSize: "14px", lineHeight: "1.45", color: "#0E0E0F" }}>
-                                    <span style={sx(`flex:none;width:20px;height:20px;border:1.5px solid #0E0E0F;background:${f?.boxBg ?? ""};color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;`)}>
-                                      {txt(f?.tick)}
-                                    </span>
-                                    <span>{txt(f?.value)}</span>
-                                  </button>
-                                </>
-                              ) : null}
-                              {f?.isInfo ? (
-                                <>
-                                  <span style={{ background: "#F6F4EF", padding: "14px", fontSize: "15px", lineHeight: "1.5" }}>{txt(f?.value)}</span>
-                                </>
-                              ) : null}
-                            </label>
-                          </Fragment>
-                        ))}
-                      </div>
-                      <div style={{ display: "flex", justifyContent: "space-between", gap: "12px", borderTop: "1px solid #E3E0D8", paddingTop: "20px" }}>
-                        <button onClick={v.back} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                          ← Back
-                        </button>
-                        <button onClick={v.next} style={{ height: "50px", padding: "0 28px", border: "0", background: "#F07C12", color: "#0E0E0F", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                          {txt(v.nextLabel)}
-                        </button>
-                      </div>
-                    </div>
-                  </>
-                ) : null}
-                {v.regDone ? (
-                  <>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-                      <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66" }}>
-                        {"REGISTRATION SUBMITTED · LUKAS BRANDT · "}{txt(v.ptypeUpper)}
-                      </span>
-                      <div style={sx(`border-left:8px solid ${v.stage?.color ?? ""};padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:10px;`)}>
-                        <span style={sx(`font-family:var(--f-label);font-size:12px;letter-spacing:0.16em;color:${v.stage?.color ?? ""};`)}>
-                          {txt(v.stage?.icon)}{" "}{txt(v.stage?.k)}
-                        </span>
-                        <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "45px", lineHeight: "0.86" }}>{txt(v.stage?.t)}</span>
-                        <span style={{ fontSize: "16px", lineHeight: "1.5", maxWidth: "640px", color: "#3A3A3E" }}>{txt(v.stage?.d)}</span>
-                      </div>
-                      <ol style={{ margin: "0", padding: "0", listStyle: "none", display: "grid", gridTemplateColumns: "repeat(5,1fr)" }}>
-                        {list(v.regTrack).map((t, $index) => (
-                          <Fragment key={$index}>
-                            <li style={sx(`padding:14px 10px 0 0;display:flex;flex-direction:column;gap:6px;border-top:4px solid ${t?.c ?? ""};`)}>
-                              <span style={{ fontFamily: "var(--f-label)", fontSize: "11px" }}>{txt(t?.date)}</span>
-                              <b style={{ fontSize: "14px" }}>{txt(t?.t)}</b>
-                            </li>
-                          </Fragment>
-                        ))}
-                      </ol>
-                      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                        <button onClick={v.advance} style={{ height: "50px", padding: "0 24px", border: "0", background: "#0E0E0F", color: "#fff", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                          {txt(v.advanceLabel)}
-                        </button>
-                        <button onClick={v.restartReg} style={{ height: "50px", padding: "0 22px", border: "1px solid #0E0E0F", background: "#fff", fontSize: "13px", fontWeight: "700", letterSpacing: "0.1em", cursor: "pointer" }}>
-                          Edit registration
-                        </button>
-                      </div>
-                      <span style={{ fontSize: "13px", color: "#6B6A66" }}>Prototype control: the dark button simulates the organiser moving your registration to the next stage.</span>
-                    </div>
-                  </>
-                ) : null}
-              </div>
-            </div>
+            <RegisterCta kind="visitor" />
           </div>
         </section>
         <section id="accreditation" data-screen-label="Accreditation and digital pass" style={{ scrollMarginTop: "110px", padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>

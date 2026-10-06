@@ -161,3 +161,14 @@
 html {
   -webkit-tap-highlight-color: transparent;
 }
+
+/* Exhibitor detail (Exhibit page): logo above the name on phones, so the name has the full width. */
+@media (max-width: 600px) {
+  #dc-root div[style*='grid-template-columns: 120px 1fr'] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+  #dc-root div[style*='grid-template-columns: 120px 1fr'] > div[style*='width: 120px'] {
+    width: 96px !important;
+    height: 96px !important;
+  }
+}

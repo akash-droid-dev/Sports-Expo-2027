@@ -46,8 +46,12 @@ To build the static copy locally: `STATIC_EXPORT=1 NEXT_PUBLIC_BASE_PATH=/Sports
 | `/attend` | Why attend, visitor registration, digital pass, My Expo, plan my day |
 | `/connect` | Business exchange, matchmaking, meetings, country pavilions, lounges |
 | `/programme` | Live mode, programme, Innovation Arena, watch library, search |
-| `/portal` | Exhibitor control centre |
-| `/admin` | Organiser admin and command console (super admin) |
+| `/register` | Visitor registration (sign in with an email code, short form, photo and ID) |
+| `/me` | My pass: registration status and the accreditation card with its QR code |
+| `/portal/register` | Exhibitor registration |
+| `/portal` | Exhibitor dashboard (opens once the company is registered) |
+| `/admin` | Super Admin: approvals, exhibitors, website content, page edits, media, forms, team |
+| `/verify` | Card check that the QR code opens |
 | `/mobile` | Companion app prototype |
 | `/design-system` | Design system and prototype map |
 
@@ -108,9 +112,35 @@ The design's tweakable props can be set from the URL: `/?liveMode=true` shows th
   - The Spline runtime, its Draco mesh decoder (`vendor/draco`) and the scenes are served by the site, preloaded and cached.
   - The Earth journey's camera eases toward the scroll position each frame instead of jumping with every scroll event, keeps loading imagery while zooming and caps its render resolution on high-density screens.
 
-## Admin
+## Platform (registration, dashboards, Super Admin)
 
-The organiser console is at `/admin` (on GitHub Pages: https://akash-droid-dev.github.io/Sports-Expo-2027/admin/). It opens signed in as "Super Admin" and covers the command centre, CMS, registrations, exhibitors, programme and alerts. It is also linked from the footer's prototype map. Like the rest of the prototype it has no real sign-in yet: add authentication before launch.
+The site runs on a Supabase project ("India Sports Expo 2027", ref `adqmcpbwevpvybyolygm`, Mumbai region): sign-in, database, file storage and realtime. The browser talks to it directly with the publishable key in `src/lib/platform/config.js` (set `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_KEY` at build time to use another project). Who can read or change what is enforced in the database by row-level security: `supabase/migrations/`.
+
+**How it works**
+
+- **Sign in** everywhere with an email and a one-time code (no passwords).
+- **Visitors** register at `/register` with a short form, a photo and an ID document. Every registration waits for an admin. Once approved, `/me` shows the accreditation card with a QR code (save as PDF / print); the code opens `/verify` at the gate. Visitors can edit while their registration is pending or when changes were requested.
+- **Exhibitors** register at `/portal/register`; their dashboard at `/portal` opens at once: company profile and logo, products with photos, team, documents. Admins allocate the stall, list the company on the website and can suspend it. Listed exhibitors and their listed products appear on the public pages (Exhibit, Zones, search).
+- **Super Admin** at `/admin`, by role: **owner** (akash@beyondthearena.co, can't be removed), **admin** (everything, incl. approvals, forms and team), **editor** (website content, exhibitors, programme, media), **viewer** (read-only). Invite people under Team & roles; they sign in at `/admin` with their email.
+  - Visitors: review photo and ID, approve (issues the card), request changes or reject with a message; CSV export.
+  - Exhibitors: stall code, zone, listing, suspend, documents (accept / reject), profile and products; CSV export.
+  - Website content: every list the public pages are built from (programme sessions, speakers, stages, zones, hall areas, featured exhibitors and products, startups, state and country pavilions, buyer matches): edit, add, hide, reorder, delete.
+  - Edit pages: opens any public page with the organiser bar. Click a text to retype it, a picture, video or background to swap it (link, upload or media library), a link to change its target, or hide anything. Every change can be undone.
+  - Media library, and the registration form builder (add, relabel, reorder, require or switch off questions; core fields stay).
+- **Live:** the dashboards and the admin panel update by themselves (Supabase realtime). Public pages pick up content changes while open on computers, and when brought back into view on phones and tablets (which don't keep a live connection, to stay light). Public pages render from the bundled data first and never wait for the database.
+
+**Code:** `src/lib/platform/` (client, hooks, storage, live catalogue, page edits, editor), `src/components/platform/` (pages, forms, card, admin sections), `src/app/platform.css`.
+
+**Database:** `supabase/migrations/0001_platform.sql` (tables, rules, storage, realtime) and `0002_harden.sql` (helpers moved out of the public API, faster policies); `supabase/seed.sql` is generated by `node scripts/platform/make-seed.cjs` from `src/data/ise.js` (catalogue and default form fields). All three are already applied to the project.
+
+### To do in the Supabase dashboard before launch
+
+These settings can't be changed from code:
+
+1. **Email template with the code.** Authentication → Emails → Templates → *Magic Link*: put the code in the message, e.g. `Your India Sports Expo sign-in code is {{ .Token }}`. Without `{{ .Token }}` people get a link instead of a code.
+2. **Your own email sender (SMTP).** Authentication → Emails → SMTP settings. Supabase's built-in sender only delivers to your own team's addresses and a few emails an hour, so visitors won't receive codes until this is set (any provider: Resend, SendGrid, Amazon SES, Zoho, Gmail Workspace…). Then raise the email rate limit under Authentication → Rate limits.
+3. **Site URL and redirect URLs.** Authentication → URL configuration: the site's address (for example `https://akash-droid-dev.github.io/Sports-Expo-2027/`) and any other address it is served from (Netlify).
+4. **Backups / plan** as needed for an event of this size.
 
 ## Demo media
 
@@ -150,9 +180,8 @@ This overwrites `src/screens/`. The screens have been edited by hand since (logo
 
 - **Demo data:** names, figures, dates and stall IDs in `src/data/ise.js` and in the screens are samples (marked SAMPLE, DEMO or PROVISIONAL in the UI).
 - **Photos and videos:** the demo media above. Each `<image-slot>` has an id; point it at an official image in `public/media/media.json`, for example `{ "twin-yasho-hall": { "src": "hall-2.webp" } }`, and swap clips in `public/media/videos.json`.
-- **QR codes** are decorative and encode nothing. Generate real ones server-side.
+- **QR codes** on the Attend page's sample pass are decorative; the real cards at `/me` carry a working QR code.
 
 ## Known gaps carried over from the design
 
-- Portal, Admin and My Expo are desktop layouts; on phones they are reflowed to fit but are best used on a larger screen.
 - On desktop, the Earth journey's satellite imagery still sharpens a moment after a fast zoom.

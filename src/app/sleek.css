@@ -222,6 +222,11 @@ body {
   margin-top: calc(var(--sheet) * -1);
 }
 /* (Not the Earth journey: it follows the live ticker strip, which an overlap would cover.) */
+/* Room at the foot of each section for the next sheet to slide over, so it never covers the
+   section's last line (a transparent border is painted with the section's own background). */
+#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']) {
+  border-bottom: var(--sheet) solid transparent;
+}
 
 /* ---------- Softer colours ---------- */
 

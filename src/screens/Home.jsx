@@ -33,7 +33,7 @@ class Component extends DCLogic {
     const ex = D.exhibitors.find(e => t.includes(e.name.toLowerCase().split(' ')[0]) || t.includes(e.stall.toLowerCase()));
     if (ex) return { text: `${ex.name} is at stall ${ex.stall}, Zone ${ex.zone} (${D.cl(ex.cluster).name}). From the Main Entrance, follow the Sports Boulevard into Zone ${ex.zone}. About 4 minutes on foot. They make ${ex.products.slice(0, 3).join(', ')} and are looking for ${ex.seeking}.`, links: [{ t: 'NAVIGATE', href: withBase('/explore') }, { t: 'BOOK MEETING', href: withBase('/connect#meetings') }] };
     if (/live|now|watch|stream/.test(t)) { const s = D.sessions.find(x => x.status === 'live'); return { text: `Live now in the ${s.stage}: “${s.title}”, ${s.time}–${s.end}. Up next: ${D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 2).map(x => x.time + ' ' + x.title).join('; ')}.`, links: [{ t: 'WATCH LIVE', href: withBase('/programme#watch') }] }; }
-    if (/register|pass|ticket|badge|accredit/.test(t)) return { text: 'Register once as a visitor, buyer, investor, media or another participant type. After verification and approval you receive accreditation and a digital pass with a QR code, on the web and in the app.', links: [{ t: 'REGISTER', href: withBase('/attend#register') }] };
+    if (/register|pass|ticket|badge|accredit/.test(t)) return { text: 'Register once as a visitor, buyer, investor, media or another participant type. After verification and approval you receive accreditation and a digital pass with a QR code, on the web and in the app.', links: [{ t: 'REGISTER', href: withBase('/register/') }] };
     if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'Seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Choose a product, then pick an available stall on the live Hall 2 inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: withBase('/exhibit#products') }, { t: 'AVAILABLE STALLS', href: withBase('/exhibit#inventory') }] };
     if (/metro|airport|get there|reach|parking|hotel|travel/.test(t)) return { text: 'Yashobhoomi is in Dwarka Sector 25, New Delhi. The Airport Express metro line serves the venue; by car from IGI Airport is roughly 20–30 minutes (sample estimate). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: withBase('/explore#getting-there') }] };
     if (/buyer|match|meet|distribut|invest/.test(t)) return { text: 'The India Sports Business Exchange in Zone D matches exhibitors, buyers, investors and distributors, then books a table, a time and a reminder. Top sample match: Global Sports Retail GmbH, 94%.', links: [{ t: 'FIND MATCHES', href: withBase('/connect') }] };
@@ -371,7 +371,7 @@ function render(v) {
               <LockKeyLink href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px 0 16px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 Book a stall
               </LockKeyLink>
-              <a href={withBase("/attend")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
+              <a href={withBase("/register/")} style={{ border: "1px solid #0E0E0F", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
                 Register to visit
               </a>
             </div>
@@ -719,26 +719,29 @@ function render(v) {
               </span>
               <span>Exhibition Hall 2, Yashobhoomi (IICC), Sector 25, Dwarka, New Delhi</span>
               <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em" }}>
-                {"PROTOTYPE · ALL PARTICIPANTS, DATES & FIGURES ARE DEMO UNLESS STATED"}
+                {"PARTICIPANTS, DATES & FIGURES SHOWN ARE SAMPLES UNTIL CONFIRMED"}
               </span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>PROTOTYPE MAP</span>
+              <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>EXPLORE</span>
               <a href={withBase("/explore")} style={{ color: "#BDB9B0" }}>{"Hall 2 digital twin & map"}</a>
               <a href={withBase("/zones")} style={{ color: "#BDB9B0" }}>Zone experiences A–D</a>
               <a href={withBase("/exhibit")} style={{ color: "#BDB9B0" }}>{"Exhibit & stall booking"}</a>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }} />
+              <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>TAKE PART</span>
               <a href={withBase("/attend")} style={{ color: "#BDB9B0" }}>{"Attend, pass & My Expo"}</a>
               <a href={withBase("/connect")} style={{ color: "#BDB9B0" }}>{"Business Exchange & meetings"}</a>
               <a href={withBase("/programme")} style={{ color: "#BDB9B0" }}>{"Programme & Watch"}</a>
-              <a href={withBase("/portal")} style={{ color: "#BDB9B0" }}>Exhibitor control centre</a>
+              <a href={withBase("/portal/")} style={{ color: "#BDB9B0" }}>Exhibitor portal</a>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-              <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }} />
+              <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>YOUR ACCOUNT</span>
+              <a href={withBase("/register/")} style={{ color: "#BDB9B0" }}>Register to visit</a>
+              <a href={withBase("/portal/register/")} style={{ color: "#BDB9B0" }}>Register as an exhibitor</a>
+              <a href={withBase("/me/")} style={{ color: "#BDB9B0" }}>My pass</a>
               <a href={withBase("/mobile")} style={{ color: "#BDB9B0" }}>Mobile app</a>
-              <a href={withBase("/admin")} style={{ color: "#BDB9B0" }}>{"Super admin · Admin, CMS & command"}</a>
+              <a href={withBase("/admin/")} style={{ color: "#BDB9B0" }}>Organisers</a>
             </div>
           </div>
         </footer>
