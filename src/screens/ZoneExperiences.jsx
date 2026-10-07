@@ -12,6 +12,7 @@ import '@/lib/maplibre';
 class Component extends DCLogic {
   state = { a: 'states', state: 'OD', saved: {}, room: 0, sport: 'Hockey', b: 'market', sports: ['Football'], exportOnly: false, layer: 4, shoe: 2, surf: 'Hockey', c: 'tech', stake: 'ATHLETE', node: 'Heart / Endurance', phase: 'during', booked: {}, cty: 'JP' };
   indiaRef = React.createRef(); globeRef = React.createRef();
+  SIDE = { KA: 'right', TN: 'left' };
   CAP = { GJ: [72.65, 23.22], OD: [85.82, 20.30], HR: [76.78, 30.73], MH: [72.88, 19.08], TN: [80.27, 13.08], KA: [77.59, 12.97] };
   componentDidMount() {
     this._m = setInterval(() => { if (window.maplibregl && window.ISE && this.indiaRef.current && this.globeRef.current) { clearInterval(this._m); this.initMaps(); this.forceUpdate(); } }, 150);
@@ -28,7 +29,10 @@ class Component extends DCLogic {
     try {
       this.india = new maplibregl.Map({ container: this.indiaRef.current, center: [80, 22], zoom: 3.8, scrollZoom: false, attributionControl: { compact: true },
         style: { version: 8, sources: { t: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: 'Esri, HERE, Garmin' } }, layers: [{ id: 't', type: 'raster', source: 't' }] } });
-      D.states.forEach(s => this.marker(this.india, this.CAP[s.id], s.name, () => this.setState({ state: s.id })));
+      D.states.forEach(s => this.marker(this.india, this.CAP[s.id], s.name, () => this.setState({ state: s.id }), false, this.SIDE[s.id]));
+      // Narrow maps: frame all the state pins (re-run once the phone layout settles, until a state is picked).
+      const fit = () => { const el = this.india.getContainer(); if (!this._picked && el.clientWidth > 0 && el.clientWidth < 640) this.india.fitBounds([[71, 11.5], [87, 31.5]], { padding: { top: 40, bottom: 40, left: 60, right: 60 }, duration: 0 }); };
+      fit(); this.india.on('resize', fit);
       { const y = this.marker(this.india, [77.0446, 28.5549], '● YASHOBHOOMI', () => {}, true); y.style.background = '#0E0E0F'; y.style.color = '#fff'; }
     } catch (e) {}
     try {
@@ -41,7 +45,7 @@ class Component extends DCLogic {
     } catch (e) {}
   }
   pickCty(id) { this.setState({ cty: id }); const c = window.ISE.countries.find(x => x.id === id); this.globe && this.globe.flyTo({ center: [c.lon, c.lat], zoom: 2.2, duration: 1600 }); }
-  pickState(id) { this.setState({ state: id }); this.india && this.india.flyTo({ center: this.CAP[id], zoom: 5.4, duration: 1200 }); }
+  pickState(id) { this._picked = true; this.setState({ state: id }); this.india && this.india.flyTo({ center: this.CAP[id], zoom: 5.4, duration: 1200 }); }
   renderVals() {
     const D = window.ISE; const s = this.state;
     const empty = { indiaRef: this.indiaRef, globeRef: this.globeRef, aDest: [], stateBtns: [], st: { rows: [] }, rooms: [], room: {}, sports: [], fed: { rows: [] }, timeline: [], trad: [], ministry: [], bTiles: [], sportChips: [], facetGroups: [], market: [], layers: [], layer: { groups: [] }, shoe: [], shoeSel: {}, materials: [], chain: [], surfTabs: [], surf: { layers: [] }, cTiles: [], stakeTabs: [], stakeItems: [], startups: [], nodes: [], node: { rows: [] }, phaseTabs: [], arena: { list: [] }, tryList: [], dSpaces: [], ctyBtns: [], cty: { rows: [] } };

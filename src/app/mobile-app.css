@@ -573,15 +573,14 @@ html.app-page.lite .mm-btn {
   margin-bottom: 4px;
 }
 
-/* Main actions are filled with the same saffron-and-green liquid as the website's header
-   buttons (src/app/liquid.css): two rounded squares turn under the button's edge. */
+/* Main actions are filled with the same saffron liquid as the website's Register button
+   (src/app/liquid.css): two close tones turn under the button's edge. */
 .ma .pf-btn.orange {
-  --lvl: 32%;
+  --lvl: 30%;
   isolation: isolate;
   overflow: hidden;
-  background: #016b36;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.28);
+  background: #e2700f;
+  color: #0e0e0f;
   -webkit-mask-image: -webkit-radial-gradient(white, black);
 }
 .ma .pf-btn.orange::before,
@@ -595,7 +594,7 @@ html.app-page.lite .mm-btn {
   aspect-ratio: 1;
   margin-left: calc(max(230%, 420px) / -2);
   border-radius: 43%;
-  background: linear-gradient(100deg, #ef7f1a 0%, #f59a2e 55%, #ef7f1a 100%);
+  background: #ef7f1a;
   animation: hdrLiq 6s linear infinite;
   transition: top 0.7s cubic-bezier(0.3, 0.9, 0.3, 1);
   pointer-events: none;
@@ -603,14 +602,14 @@ html.app-page.lite .mm-btn {
 .ma .pf-btn.orange::before {
   margin-top: -10px;
   border-radius: 40%;
-  background: linear-gradient(100deg, #028443 0%, #12a05a 60%, #028443 100%);
+  background: #f6a04a;
   animation-duration: 9s;
   animation-direction: reverse;
 }
 .ma .pf-btn.orange:hover,
 .ma .pf-btn.orange:focus-visible {
   --lvl: -20%;
-  box-shadow: 0 6px 22px rgba(2, 132, 67, 0.35), 0 2px 10px rgba(239, 127, 26, 0.3);
+  box-shadow: 0 6px 20px rgba(239, 127, 26, 0.32);
 }
 @media (prefers-reduced-motion: reduce) {
   .ma .pf-btn.orange::before,
