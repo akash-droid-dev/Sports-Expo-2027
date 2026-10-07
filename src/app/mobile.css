@@ -230,17 +230,74 @@ html {
   backdrop-filter: blur(3px);
 }
 
+/* Zones › State pavilions map and Zone D globe: below desktop their buttons sit under the map,
+   not over its pins and attribution. */
+@media (max-width: 1024px) {
+  #dc-root [data-screen-label='Zone A'] div[style*='min-height: 620px'] > div:first-child,
+  #dc-root [data-screen-label='Zone D'] div[style*='min-height: 600px'] > div:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+  #dc-root [data-screen-label='Zone A'] div[style*='min-height: 620px'] > div:first-child > div:first-child,
+  #dc-root [data-screen-label='Zone D'] div[style*='min-height: 600px'] > div:first-child > div:first-child {
+    position: relative !important;
+    inset: auto !important;
+    flex: 1 1 auto;
+    min-height: 340px;
+  }
+  #dc-root [data-screen-label='Zone A'] div[style*='min-height: 620px'] > div:first-child > div:nth-child(2),
+  #dc-root [data-screen-label='Zone D'] div[style*='min-height: 600px'] > div:first-child > div:nth-child(2) {
+    position: static !important;
+    max-width: none !important;
+    padding: 14px 16px 16px;
+    border-top: 1px solid #E3E0D8;
+    background: #FAF8F4;
+  }
+}
+
 /* Connect: the country map gets more height on phones so its city labels stop colliding. */
 @media (max-width: 700px) {
   #dc-root [data-screen-label='Country pavilions'] div[role='group'][style*='aspect-ratio: 2 / 1'] {
     aspect-ratio: 4 / 3 !important;
   }
-  /* Neighbouring pins label on different sides. */
-  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='United Kingdom'] {
-    flex-direction: column-reverse !important;
+}
+/* Close neighbours label on opposite sides (UK left, Germany right, UAE left, New Delhi above),
+   with each pin kept on its own coordinate. */
+#dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='United Kingdom'],
+#dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='UAE'] {
+  flex-direction: row-reverse !important;
+  transform: translate(calc(-100% + 12px), -50%) !important;
+}
+#dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='Germany'] {
+  flex-direction: row !important;
+  transform: translate(-12px, -50%) !important;
+}
+#dc-root [data-screen-label='Country pavilions'] div[role='group'] > div:has(> span[style*='width: 16px']) {
+  flex-direction: column-reverse !important;
+  transform: translate(-50%, calc(-100% + 8px)) !important;
+}
+@media (max-width: 700px) {
+  /* Phones: New Delhi labels to its right, so Japan's label moves above its pin. */
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] > div:has(> span[style*='width: 16px']) {
+    flex-direction: row !important;
+    transform: translate(-8px, -50%) !important;
   }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='Japan'] {
+    flex-direction: column-reverse !important;
+    transform: translate(-50%, calc(-100% + 12px)) !important;
+  }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button {
+    padding: 2px !important;
+  }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='United Kingdom'],
   #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='UAE'] {
-    flex-direction: row-reverse !important;
+    transform: translate(calc(-100% + 8px), -50%) !important;
+  }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='Germany'] {
+    transform: translate(-8px, -50%) !important;
+  }
+  #dc-root [data-screen-label='Country pavilions'] div[role='group'] button[aria-label='Japan'] {
+    transform: translate(-50%, calc(-100% + 8px)) !important;
   }
   #dc-root [data-screen-label='Country pavilions'] div[role='group'] button span:last-child,
   #dc-root [data-screen-label='Country pavilions'] div[role='group'] > div span:last-child {

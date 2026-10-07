@@ -215,16 +215,24 @@ body {
 
 /* ---------- Sections: rounded sheets sliding over each other ---------- */
 
-#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']):not([data-screen-label='Intentions']):not([data-screen-label='Metrics']):not([data-screen-label='14 CTA']),
-#dc-root footer {
+/* A section only slides over the section (or footer) directly before it. After anything else
+   (a page's breadcrumb and mode bar, a sub-navigation strip, a ticker) it starts below it, so the
+   sheet never covers controls or text that are not part of a section. */
+#dc-root section[data-screen-label] + section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']):not([data-screen-label='Intentions']):not([data-screen-label='Metrics']):not([data-screen-label='14 CTA']),
+#dc-root section[data-screen-label] + footer {
   position: relative;
   border-radius: var(--sheet) var(--sheet) 0 0;
   margin-top: calc(var(--sheet) * -1);
 }
+#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']):not([data-screen-label='Intentions']):not([data-screen-label='Metrics']):not([data-screen-label='14 CTA']),
+#dc-root footer {
+  position: relative;
+  border-radius: var(--sheet) var(--sheet) 0 0;
+}
 /* (Not the Earth journey: it follows the live ticker strip, which an overlap would cover.) */
-/* Room at the foot of each section for the next sheet to slide over, so it never covers the
+/* Room at the foot of a section for the next sheet to slide over, so it never covers the
    section's last line (a transparent border is painted with the section's own background). */
-#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']) {
+#dc-root section[data-screen-label]:not([data-screen-label='01 Entry']):not([data-screen-label='02 Earth journey']):has(+ section[data-screen-label], + footer) {
   border-bottom: var(--sheet) solid transparent;
 }
 
