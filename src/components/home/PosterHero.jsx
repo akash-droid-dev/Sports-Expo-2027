@@ -82,7 +82,7 @@ export default function PosterHero({ enter, skip }) {
 
         <p className="ph-strip ph-rise" style={{ '--d': 100 }}>
           <span>SCROLL TO TRAVEL · EARTH → INDIA → NEW DELHI → PRAGATI MAIDAN → BHARAT MANDAPAM</span>
-          <span>28.5549° N · 77.0446° E</span>
+          <span>28.6194° N · 77.2425° E</span>
         </p>
 
         <div className="ph-word">

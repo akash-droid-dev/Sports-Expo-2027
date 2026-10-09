@@ -344,3 +344,15 @@ html {
     flex: 0 0 auto;
   }
 }
+
+/* Home journey on phones: the caption needs the full width, so the coordinate readout in the
+   bottom-right corner (decoration) steps aside instead of running into it. */
+@media (max-width: 700px) {
+  #dc-root [data-screen-label='02 Earth journey'] div[style*='right: 28px'][style*='bottom: 32px'] {
+    display: none;
+  }
+  #dc-root [data-screen-label='02 Earth journey'] div[style*='left: 28px'][style*='bottom: 32px'] {
+    right: 20px;
+    left: 20px !important;
+  }
+}

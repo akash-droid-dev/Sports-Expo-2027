@@ -1,14 +1,14 @@
 // Where the Home journey's venue scene comes from: a muted, looping film of Bharat Mandapam
-// behind the zone cards (src/components/home/VenueScene.jsx). Each screen loads only the file
-// it needs; the poster is the film's first frame and shows until it plays (and for visitors
-// who prefer reduced motion).
+// behind the zone cards (src/components/home/VenueScene.jsx). Each screen loads only the cut
+// it needs, as VP9 WebM where the browser plays it (smaller) or H.264 MP4 otherwise; the poster
+// is the film's first frame and shows until it plays (and for visitors who prefer reduced motion).
 export const VENUE_VIDEO = {
   // Landscape computers and large tablets.
-  wide: { src: '/media/venue/bharat-mandapam-1920.mp4', poster: '/media/venue/bharat-mandapam-1920.webp' },
+  wide: { webm: '/media/venue/bharat-mandapam-1920.webm', src: '/media/venue/bharat-mandapam-1920.mp4', poster: '/media/venue/bharat-mandapam-1920.webp' },
   // Landscape phones and tablets, small laptops, slow connections.
-  mid: { src: '/media/venue/bharat-mandapam-1280.mp4', poster: '/media/venue/bharat-mandapam-1280.webp' },
+  mid: { webm: '/media/venue/bharat-mandapam-1280.webm', src: '/media/venue/bharat-mandapam-1280.mp4', poster: '/media/venue/bharat-mandapam-1280.webp' },
   // Portrait phones and tablets: the centre of the frame, cut for a tall screen.
-  tall: { src: '/media/venue/bharat-mandapam-portrait.mp4', poster: '/media/venue/bharat-mandapam-portrait.webp' }
+  tall: { webm: '/media/venue/bharat-mandapam-portrait.webm', src: '/media/venue/bharat-mandapam-portrait.mp4', poster: '/media/venue/bharat-mandapam-portrait.webp' }
 };
 
 // Picks the venue film for this screen.
