@@ -9,7 +9,7 @@ const FEATURES = [
   ['Same account as the website', 'Sign in with your email and the one-time code; registrations, passes and exhibitor accounts are shared.'],
   ['Register and get the pass', 'Register in the app with a photo and ID. Once approved, the accreditation card with its QR code appears in Pass.'],
   ['Live programme', 'Sessions, stages and speakers from the organisers’ live programme. Save sessions to My Expo with ☆.'],
-  ['Hall 2 map', 'The Hall 2 plan by zone; tap an area to see who exhibits there.'],
+  ['Venue map', 'The expo floor plan by zone; tap an area to see who exhibits there.'],
   ['Exhibitors', 'Every listed company, with stall, products and what they are looking for.'],
   ['Updates by itself', 'Approvals, stall allocations and programme changes made by the organisers show up straight away.'],
 ];
@@ -44,7 +44,7 @@ export default function MobilePage() {
             ← India Sports Expo 2027
           </a>
           <h1>Companion app</h1>
-          <p className="ma-lead">The Expo in your pocket: your pass, the programme and the Hall 2 map, on the same accounts and live data as the website. Try it here; on a phone this page opens the app full screen.</p>
+          <p className="ma-lead">The Expo in your pocket: your pass, the programme and the venue map, on the same accounts and live data as the website. Try it here; on a phone this page opens the app full screen.</p>
           <div className="ma-feats">
             {FEATURES.map(([t, d]) => (
               <div key={t}>

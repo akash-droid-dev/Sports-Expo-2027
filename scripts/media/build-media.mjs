@@ -16,7 +16,11 @@ import sharp from 'sharp';
 const SRC = process.argv[2];
 if (!SRC) throw new Error('Pass the media candidates folder');
 const OUT = 'public/media';
-rmSync(OUT, { recursive: true, force: true });
+// public/media/venue (the Bharat Mandapam film, its posters and stills) and public/media/zones
+// are not built here and are kept.
+for (const f of (await import('node:fs')).readdirSync(OUT, { withFileTypes: true })) {
+  if (!(f.isDirectory() && (f.name === 'venue' || f.name === 'zones'))) rmSync(join(OUT, f.name), { recursive: true, force: true });
+}
 mkdirSync(join(OUT, 'video'), { recursive: true });
 
 const meta = (kind, key) => JSON.parse(readFileSync(join(SRC, kind, key + '.json'), 'utf8'));
@@ -25,11 +29,9 @@ const slots = {};
 const credits = [];
 
 // ---------- Photos ----------
-// slot id(s) → candidate. Venue photos are Yashobhoomi itself; the rest are close matches.
+// slot id(s) → candidate (close matches). The venue photos are stills from the Bharat Mandapam
+// film in public/media/venue (VENUE_STILLS below), not candidates.
 const PHOTOS = {
-  'yasho-exterior': ['venue-exterior/0', ['twin-yasho-hall']],
-  'yasho-plaza': ['venue-exterior/1', ['twin-yasho-foyer']],
-  'yasho-metro': ['venue-metro/0', ['twin-yasho-metro']],
   'football': ['prod-football/4', ['home-prod-0', 'prod-detail-0']],
   'goal': ['prod-goal/4', ['home-prod-1', 'prod-detail-1']],
   'cricket-bats': ['prod-cricket-bat/2', ['home-prod-2', 'prod-detail-2']],
@@ -48,6 +50,16 @@ for (const [name, [key, ids]] of Object.entries(PHOTOS)) {
   await sharp(join(SRC, 'images', key + '.webp')).resize({ width: 1400, withoutEnlargement: true }).webp({ quality: 68 }).toFile(join(OUT, name + '.webp'));
   for (const id of ids) slots[id] = { src: name + '.webp', credit: creditOf(m), href: m.link };
   credits.push({ file: `media/${name}.webp`, title: m.title, author: m.author, license: m.license, licenseUrl: m.licenseUrl, source: m.link });
+}
+
+const VENUE_STILLS = {
+  'twin-venue-exterior': 'venue/bharat-mandapam-exterior.webp',
+  'twin-venue-plaza': 'venue/bharat-mandapam-plaza.webp',
+  'twin-venue-aerial': 'venue/pragati-maidan-aerial.webp',
+};
+for (const [id, src] of Object.entries(VENUE_STILLS)) {
+  slots[id] = { src, credit: 'Bharat Mandapam venue film' };
+  credits.push({ file: `media/${src}`, title: 'Bharat Mandapam (still from the venue film)', author: 'Venue film supplied by the organisers', license: 'Used with permission', source: '' });
 }
 
 // ---------- Videos ----------

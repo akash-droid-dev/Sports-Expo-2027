@@ -26,20 +26,21 @@ class Component extends DCLogic {
   componentWillUnmount() { clearInterval(this._l); clearInterval(this._m); this.city && this.city.remove(); }
   initCity() {
     if (document.documentElement.classList.contains('legacy')) return;
-    const Y = [77.044636, 28.554862];
-    const pts = { 'Yashobhoomi': Y, 'IGI Airport T3': [77.0880, 28.5555], 'Aerocity': [77.1210, 28.5490], 'New Delhi Rly Stn': [77.2194, 28.6430], 'Dwarka Sec 21 Metro': [77.0587, 28.5523] };
+    const Y = [77.2425, 28.6194];
+    const pts = { 'Bharat Mandapam': Y, 'IGI Airport T3': [77.0880, 28.5555], 'New Delhi Rly Stn': [77.2194, 28.6430], 'Rajiv Chowk': [77.2197, 28.6328], 'Supreme Court Metro': [77.2432, 28.6235] };
     try {
-      const m = this.city = new maplibregl.Map({ container: this.cityMapRef.current, interactive: true, scrollZoom: false, center: [77.11, 28.585], zoom: 11.2,
+      const m = this.city = new maplibregl.Map({ container: this.cityMapRef.current, interactive: true, scrollZoom: false, center: [77.165, 28.592], zoom: 11.2,
         style: { version: 8, sources: { st: { type: 'raster', tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}'], tileSize: 256, attribution: 'Esri, HERE, Garmin, © OpenStreetMap contributors' } }, layers: [{ id: 'st', type: 'raster', source: 'st' }] } });
       m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
       m.on('load', () => {
-        const lines = [[pts['New Delhi Rly Stn'], pts['Aerocity'], pts['IGI Airport T3'], pts['Dwarka Sec 21 Metro'], Y]];
+        // Airport Express from T3 to New Delhi, then the Yellow and Blue Lines to Supreme Court.
+        const lines = [[pts['IGI Airport T3'], [77.1210, 28.5490], [77.1588, 28.5911], pts['New Delhi Rly Stn'], pts['Rajiv Chowk'], [77.2343, 28.6258], pts['Supreme Court Metro'], Y]];
         m.addSource('r', { type: 'geojson', data: { type: 'Feature', geometry: { type: 'LineString', coordinates: lines[0] } } });
         m.addLayer({ id: 'r', type: 'line', source: 'r', paint: { 'line-color': '#F07C12', 'line-width': 4, 'line-dasharray': [2, 1] } });
         Object.entries(pts).forEach(([n, c]) => {
-          const el = document.createElement('div'); const main = n === 'Yashobhoomi';
+          const el = document.createElement('div'); const main = n === 'Bharat Mandapam';
           el.style.cssText = `font:600 12px var(--f-body);background:${main ? '#0E0E0F' : '#fff'};color:${main ? '#fff' : '#0E0E0F'};border:1px solid #0E0E0F;padding:5px 8px;white-space:nowrap;`;
-          el.textContent = main ? '● YASHOBHOOMI · HALL 2' : n; new maplibregl.Marker({ element: el }).setLngLat(c).addTo(m);
+          el.textContent = main ? '● BHARAT MANDAPAM' : n; new maplibregl.Marker({ element: el }).setLngLat(c).addTo(m);
         });
       });
     } catch (e) {}
@@ -80,11 +81,11 @@ class Component extends DCLogic {
     const zoneHref = withBase('/zones#zone-') + ((C ? C.zone : st.zone) || 'b').toLowerCase();
     const walk = c => Math.max(1, Math.round(this.route(c).len * 0.62 / 80)) + ' min';
     const travelDefs = {
-      Metro: { time: '~21 MIN', src: 'NEW DELHI → SECTOR 25 · PMO', steps: ['Board the Airport Express Line (orange) at New Delhi', 'Ride through Shivaji Stadium, Dhaula Kuan, Aerocity, IGI T3', 'Change at Dwarka Sector 21 only if your train terminates there', 'Exit at Yashobhoomi Dwarka Sector 25 — underground, inside the venue'] },
-      Airport: { time: '15 MIN', src: 'SAMPLE · FROM IGI T3', steps: ['Follow signs to Airport Express Metro at Terminal 3', 'Board southbound towards Yashobhoomi Dwarka Sector 25', 'Exit to the Hall 2 concourse', 'International delegate desk at Main Entrance'] },
-      'Car / Taxi': { time: '45 MIN', src: 'SAMPLE · FROM CONNAUGHT PLACE', steps: ['Take NH-48 towards the airport', 'Exit to Dwarka Expressway / UER-II', 'Follow Yashobhoomi Hall 2 signage', 'Drop-off at Hall 2 forecourt, Gate 3 (sample)'] },
-      'Hotel Shuttle': { time: '25 MIN', src: 'SAMPLE · DEMO SERVICE', steps: ['Aerocity hotel cluster pick-up, every 20 minutes', 'First departure 08:15, last return 19:30', 'Show your digital pass to board', 'Arrives at Hall 2 forecourt'] },
-      Parking: { time: 'P2', src: 'SAMPLE', steps: ['Pre-book a slot in My Expo', 'Scan the QR at the P2 barrier', 'Accessible bays nearest the Hall 2 lift core', 'Covered walkway to Main Entrance — 4 min'] }
+      Metro: { time: '~20 MIN', src: 'SAMPLE · FROM NEW DELHI STN', steps: ['Take the Yellow Line one stop south from New Delhi to Rajiv Chowk', 'Change to the Blue Line towards Vaishali / Noida Electronic City', 'Ride three stops via Barakhamba Road and Mandi House to Supreme Court (formerly Pragati Maidan)', 'Leave by Gate 3 towards Bharat Mandapam (exit only, 08:00–17:00) or Gate 2 on Mathura Road'] },
+      Airport: { time: '~55 MIN', src: 'SAMPLE · FROM IGI T3', steps: ['Follow signs to the Airport Express Metro at Terminal 3', 'Ride the Airport Express to New Delhi', 'Change to the Yellow Line to Rajiv Chowk, then the Blue Line to Supreme Court', 'International delegate desk at the Main Entrance'] },
+      'Car / Taxi': { time: '15 MIN', src: 'SAMPLE · FROM CONNAUGHT PLACE', steps: ['Head east on Barakhamba Road towards Mandi House', 'Continue on Bhairon Marg or Mathura Road to Pragati Maidan', 'Take the Pragati Maidan tunnel to the underground car parks', 'Drop-off at the Bharat Mandapam forecourt (sample)'] },
+      'Hotel Shuttle': { time: '40 MIN', src: 'SAMPLE · DEMO SERVICE', steps: ['Pick-ups at the Aerocity and Connaught Place hotel clusters, every 20 minutes', 'First departure 08:15, last return 19:30', 'Show your digital pass to board', 'Arrives at the Bharat Mandapam forecourt'] },
+      Parking: { time: 'P2', src: 'SAMPLE', steps: ['Pre-book a slot in My Expo', 'Drive in through the Pragati Maidan tunnel and scan the QR at the P2 barrier', 'Accessible bays nearest the lift cores', 'Lifts up to the Main Entrance — about 4 min'] }
     };
     const tv = travelDefs[st.travel];
     return {
@@ -97,9 +98,9 @@ class Component extends DCLogic {
         const on = !!st.filters[k]; const g = pinDefs[k] ? pinDefs[k][0][2] : '';
         return { label: k, on, glyph: g, box: on ? '#0E0E0F' : '#fff', check: on ? '✓' : '', toggle: () => this.setState(s => ({ filters: { ...s.filters, [k]: !s.filters[k] } })) };
       }),
-      loadSteps: ['Page shell', 'Earth', 'Yashobhoomi assets', 'Hall 2 model', 'Zone detail', 'Stall model — on demand'].map((l, i) => ({ label: l, mark: i < st.load ? '✓' : i === st.load ? '…' : '·', color: i <= st.load ? '#0E0E0F' : '#A29E95' })),
+      loadSteps: ['Page shell', 'Earth', 'Bharat Mandapam assets', 'Venue model', 'Zone detail', 'Stall model — on demand'].map((l, i) => ({ label: l, mark: i < st.load ? '✓' : i === st.load ? '…' : '·', color: i <= st.load ? '#0E0E0F' : '#A29E95' })),
       modeKicker: isRoute ? 'INDOOR ROUTING' : isLive ? 'LIVE VENUE' : is3d ? '3D EXPLORE · DIGITAL TWIN' : '2D MAP',
-      headline: isRoute ? 'TO ' + dest.name.toUpperCase() : isLive ? 'WHERE IT’S HAPPENING' : C ? C.name.toUpperCase() : Z ? 'ZONE ' + Z.id + ' · ' + Z.name.toUpperCase() : 'EXHIBITION HALL 2',
+      headline: isRoute ? 'TO ' + dest.name.toUpperCase() : isLive ? 'WHERE IT’S HAPPENING' : C ? C.name.toUpperCase() : Z ? 'ZONE ' + Z.id + ' · ' + Z.name.toUpperCase() : 'BHARAT MANDAPAM',
       zoneBtns: D.zones.map(z => ({ id: z.id, color: z.color, bg: st.zone === z.id ? z.color : '#fff', fg: st.zone === z.id ? '#fff' : z.color, pick: () => this.setState({ zone: st.zone === z.id ? null : z.id, cluster: null, mode: st.mode === 'route' ? '3d' : st.mode }) })),
       is3d, roof: is3d && st.roofOn ? 1 : 0, roofLabel: st.roofOn ? 'Lift roof' : 'Show roof', toggleRoof: () => this.setState({ roofOn: !st.roofOn }),
       listView: st.list, showMap: !st.list, listLabel: st.list ? 'Map view' : 'List view', toggleList: () => this.setState({ list: !st.list }),
@@ -114,15 +115,15 @@ class Component extends DCLogic {
       navHere: () => this.setState({ mode: 'route', dest: C ? (C.id === 'SGM' ? 'apex' : 'cl:' + C.id) : 'apex' }),
       panel: C ? { color: D.Z[C.zone].color, kicker: `ZONE ${C.zone} · ${C.zone}-${C.id}`, title: C.name, text: `${C.meta}. ${walk(C)} walk from Main Entrance.`, zoneHref, rows: (D.exhibitors.filter(e => e.cluster === C.id).map(e => ({ name: e.name, meta: e.stall, pick: () => {} }))).concat(D.exhibitors.some(e => e.cluster === C.id) ? [] : [{ name: 'Exhibitor list publishes after allocation', meta: 'PENDING', pick: () => {} }]) }
         : Z ? { color: Z.color, kicker: 'ZONE ' + Z.id, title: Z.name, text: Z.blurb, zoneHref, rows: D.clusters.filter(c => c.zone === Z.id).map(c => ({ name: c.name, meta: c.meta, pick: () => this.setState({ cluster: c.id }) })) }
-        : { color: '#0E0E0F', kicker: 'EXHIBITION HALL 2 · YASHOBHOOMI', title: 'Four event zones', text: 'Select a zone or click any cluster on the plan. The Sports Boulevard connects every zone to the Main Entrance.', zoneHref, rows: D.zones.map(z => ({ name: 'Zone ' + z.id + ' · ' + z.name, meta: D.clusters.filter(c => c.zone === z.id).length + ' areas', pick: () => this.setState({ zone: z.id }) })) },
+        : { color: '#0E0E0F', kicker: 'BHARAT MANDAPAM · PRAGATI MAIDAN', title: 'Four event zones', text: 'Select a zone or click any cluster on the plan. The Sports Boulevard connects every zone to the Main Entrance.', zoneHref, rows: D.zones.map(z => ({ name: 'Zone ' + z.id + ' · ' + z.name, meta: D.clusters.filter(c => c.zone === z.id).length + ' areas', pick: () => this.setState({ zone: z.id }) })) },
       travelTabs: Object.keys(travelDefs).map(k => ({ label: k.toUpperCase(), bg: st.travel === k ? '#0E0E0F' : '#fff', fg: st.travel === k ? '#fff' : '#0E0E0F', pick: () => this.setState({ travel: k }) })),
       travelKey: st.travel,
       travel: { ...tv, steps: tv.steps.map((t, i) => ({ n: String(i + 1).padStart(2, '0'), t })) },
       info: [
         { t: 'Food', color: '#C2610B', d: 'Three food courts on the Sports Boulevard and the Networking Café in Zone D. Vegetarian, vegan and Jain options marked. (sample)' },
-        { t: 'Accessibility', color: '#1F4E9E', d: 'Step-free routes throughout Hall 2, accessible toilets at every core, wheelchair loan at Information, quiet room near the Main Entrance.' },
+        { t: 'Accessibility', color: '#1F4E9E', d: 'Step-free routes throughout the venue, accessible toilets at every core, wheelchair loan at Information, quiet room near the Main Entrance.' },
         { t: 'Registration', color: '#0E0E0F', d: 'Collect nothing — your digital pass is your entry. Badge printing desks for exhibitors and VIPs at the Registration Area.' },
-        { t: 'Hotels', color: '#0E0E0F', d: 'Partner rates in Aerocity and Dwarka with a dedicated shuttle loop. (demo partners)' },
+        { t: 'Hotels', color: '#0E0E0F', d: 'Partner rates in Aerocity and around Connaught Place with a dedicated shuttle loop. (demo partners)' },
         { t: 'FAQ', color: '#0E0E0F', d: 'Entry age, bag policy, re-entry, Wi-Fi, lost and found, media access. 42 answers in the Helpdesk.' },
         { t: 'Emergency', color: '#9E1B22', d: 'Medical post beside Information. Emergency exits on all four façades. Push alerts override all app notifications.' }
       ]
@@ -157,10 +158,10 @@ function render(v) {
         </header>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap", padding: "14px 28px", borderBottom: "1px solid #E3E0D8" }}>
           <nav aria-label="Breadcrumb" style={{ display: "flex", gap: "10px", alignItems: "center", fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.12em", flexWrap: "wrap" }}>
-            <a href={withBase("/")} style={{ color: "#6B6A66", textDecoration: "none" }}>YASHOBHOOMI</a>
+            <a href={withBase("/")} style={{ color: "#6B6A66", textDecoration: "none" }}>BHARAT MANDAPAM</a>
             <span style={{ color: "#A29E95" }}>→</span>
             <button onClick={v.resetZone} style={sx(`background:none;border:0;padding:0;font:inherit;letter-spacing:inherit;cursor:pointer;color:${v.crumbHallColor ?? ""};`)}>
-              EXHIBITION HALL 2
+              EXPO FLOOR
             </button>
             {v.hasZone ? (
               <>
@@ -256,7 +257,7 @@ function render(v) {
                 <div style={{ flex: "1", padding: "24px 28px", overflow: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
                     <caption style={{ textAlign: "left", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.16em", color: "#6B6A66", paddingBottom: "12px" }}>
-                      TEXT ALTERNATIVE TO THE HALL 2 MAP
+                      TEXT ALTERNATIVE TO THE EXPO FLOOR MAP
                     </caption>
                     <thead>
                       <tr style={{ borderBottom: "2px solid #0E0E0F", textAlign: "left" }}>
@@ -307,7 +308,7 @@ function render(v) {
                 </Fragment>
               ))}
               <span style={{ marginLeft: "auto", fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em", color: "#6B6A66" }}>
-                SCHEMATIC · DERIVED FROM HALL 2 LAYOUT DRAWING · NOT TO SCALE
+                SCHEMATIC · DERIVED FROM THE EXPO LAYOUT DRAWING · NOT TO SCALE
               </span>
             </div>
           </div>
@@ -433,11 +434,11 @@ function render(v) {
         </section>
         <section id="getting-there" data-screen-label="Getting there" style={{ borderTop: "2px solid #0E0E0F", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,460px),1fr))", minHeight: "640px" }}>
           <div style={{ padding: "56px 28px", display: "flex", flexDirection: "column", gap: "22px" }}>
-            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>PLAN YOUR VISIT · GETTING TO YASHOBHOOMI</span>
+            <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>PLAN YOUR VISIT · GETTING TO BHARAT MANDAPAM</span>
             <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,5vw,88px) * 0.72)", lineHeight: "0.86" }}>
-              Sector 25,
+              Pragati Maidan,
               <br />
-              Dwarka.
+              New Delhi.
             </h2>
             <div role="tablist" style={{ display: "flex", flexWrap: "wrap", border: "1px solid #0E0E0F", alignSelf: "flex-start" }}>
               {list(v.travelTabs).map((t, $index) => (
@@ -469,13 +470,13 @@ function render(v) {
         <section data-screen-label="Visitor info" style={{ padding: "72px 28px", maxWidth: "1440px", margin: "0 auto" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: "24px", marginBottom: "40px" }}>
             <div style={{ aspectRatio: "3/2", position: "relative" }}>
-              <image-slot id="twin-yasho-hall" shape="rect" placeholder="Official photograph — Exhibition Hall 2 interior" />
+              <image-slot id="twin-venue-exterior" shape="rect" placeholder="Official photograph — Bharat Mandapam" />
             </div>
             <div style={{ aspectRatio: "3/2", position: "relative" }}>
-              <image-slot id="twin-yasho-foyer" shape="rect" placeholder="Official photograph — Grand Foyer" />
+              <image-slot id="twin-venue-plaza" shape="rect" placeholder="Official photograph — Fountain plaza" />
             </div>
             <div style={{ aspectRatio: "3/2", position: "relative" }}>
-              <image-slot id="twin-yasho-metro" shape="rect" placeholder="Official photograph — Sector 25 metro concourse" />
+              <image-slot id="twin-venue-aerial" shape="rect" placeholder="Official photograph — Pragati Maidan, aerial" />
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", borderTop: "2px solid #0E0E0F" }}>

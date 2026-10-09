@@ -37,11 +37,11 @@ function render(v) {
             <a href={withBase("/")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#C2610B" }}>01 · PUBLIC</span>
               <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "23px" }}>Home</b>
-              <span style={{ fontSize: "13px", color: "#6B6A66" }}>Earth → Yashobhoomi journey, 14 sections, live mode banner, search</span>
+              <span style={{ fontSize: "13px", color: "#6B6A66" }}>Earth → Bharat Mandapam journey, 14 sections, live mode banner, search</span>
             </a>
             <a href={withBase("/explore")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
               <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", color: "#C2610B" }}>02 · EXPLORE</span>
-              <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "23px" }}>Hall 2 digital twin</b>
+              <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "23px" }}>Venue digital twin</b>
               <span style={{ fontSize: "13px", color: "#6B6A66" }}>Roof removal, zones, map modes, indoor routing, getting there</span>
             </a>
             <a href={withBase("/zones")} style={{ textDecoration: "none", padding: "18px", borderRight: "1px solid #E3E0D8", borderBottom: "1px solid #E3E0D8", display: "flex", flexDirection: "column", gap: "6px" }}>
@@ -205,7 +205,7 @@ function render(v) {
               Inter · 15–19
             </span>
             <span style={{ padding: "16px 0", borderBottom: "1px solid #E3E0D8", fontSize: "18px", lineHeight: "1.5", maxWidth: "680px" }}>
-              Three days of exhibition, business matchmaking and programme across four event zones inside Exhibition Hall 2.
+              Three days of exhibition, business matchmaking and programme across four event zones at Bharat Mandapam.
             </span>
             <span style={{ padding: "16px 0", borderBottom: "1px solid #E3E0D8", fontFamily: "var(--f-label)", fontSize: "11px", color: "#6B6A66" }}>
               UI LABEL
@@ -394,7 +394,7 @@ function render(v) {
             </div>
             <div style={{ borderTop: "2px solid #0E0E0F", paddingTop: "12px", display: "flex", flexDirection: "column", gap: "8px", fontSize: "14px", lineHeight: "1.5" }}>
               <b style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "22px" }}>Progressive loading</b>
-              <span>Page shell → Earth → Yashobhoomi assets → Hall 2 model → zone detail → stall model on demand. Mobile gets the 2D plan first and 3D on request.</span>
+              <span>Page shell → Earth → Bharat Mandapam assets → venue model → zone detail → stall model on demand. Mobile gets the 2D plan first and 3D on request.</span>
             </div>
           </div>
         </section>

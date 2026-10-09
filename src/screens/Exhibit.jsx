@@ -153,7 +153,7 @@ function render(v) {
         <section data-screen-label="Why exhibit" style={{ padding: "80px 28px 56px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px", alignItems: "end" }}>
           <div>
             <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "20px" }}>
-              EXHIBIT · HALL 2 · 213 STALLS · 25 PAVILIONS
+              EXHIBIT · BHARAT MANDAPAM · 213 STALLS · 25 PAVILIONS
             </div>
             <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(64px,9vw,148px) * 0.72)", lineHeight: "0.84" }}>
               Build your

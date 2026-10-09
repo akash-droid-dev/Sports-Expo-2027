@@ -179,11 +179,11 @@ function render(v) {
           <div style={sx(v.roofStyle)}>
             <div style={{ position: "absolute", inset: "0", background: "repeating-linear-gradient(90deg,transparent 0 6.2%,rgba(255,255,255,0.08) 6.2% 6.5%),repeating-linear-gradient(0deg,transparent 0 12%,rgba(255,255,255,0.06) 12% 12.6%)" }} />
             <span style={{ position: "absolute", left: "3%", top: "6%", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "800", fontSize: "calc(4cqw * 0.82)", color: "#fff", letterSpacing: "0.01em" }}>
-              Exhibition Hall 2
+              Bharat Mandapam
             </span>
             {" "}
             <span style={{ position: "absolute", left: "3%", top: "20%", fontFamily: "var(--f-label)", fontSize: "0.9cqw", color: "#BDB9B0", letterSpacing: "0.2em" }}>
-              YASHOBHOOMI · IICC DWARKA · ROOF
+              BHARAT MANDAPAM · PRAGATI MAIDAN · ROOF
             </span>
             {" "}
           </div>

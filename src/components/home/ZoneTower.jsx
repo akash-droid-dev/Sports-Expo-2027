@@ -81,7 +81,7 @@ function Screen({ D, z, n, active }) {
         </ol>
       </div>
       <div className="zt-col zt-col-side">
-        <span className="zt-label">IN HALL 2</span>
+        <span className="zt-label">AT BHARAT MANDAPAM</span>
         <MiniPlan D={D} z={z} />
         <span className="zt-label">FEATURED</span>
         <ul className="zt-feat">

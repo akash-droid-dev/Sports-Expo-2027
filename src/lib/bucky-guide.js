@@ -115,7 +115,7 @@ export function initBucky(opts = {}) {
     if (links && links.length) { const l = document.createElement('div'); l.className = 'bucky-links'; links.forEach(k => { const a = document.createElement('a'); a.href = withBase(k.href); a.textContent = k.t; l.appendChild(a); }); d.appendChild(l); }
     log.appendChild(d); log.scrollTop = log.scrollHeight;
   };
-  add(false, 'Namaste. I am Bucky, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. Ask me anything: exhibitors, stalls, sessions, meetings, routes or travel.');
+  add(false, 'Namaste. I am Bucky, your guide to India Sports Expo 2027 at Bharat Mandapam, New Delhi. Ask me anything: exhibitors, stalls, sessions, meetings, routes or travel.');
   const SUG = ['Where is Apex Sports?', 'What is live now?', 'How do I book a stall?', 'How do I get there?', 'Find me buyers'];
   const sug = panel.querySelector('#bucky-sug');
   SUG.forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.textContent = t; b.onclick = () => ask(t); sug.appendChild(b); });
@@ -130,8 +130,8 @@ export function initBucky(opts = {}) {
       if (z) return { text: `Zone ${z.id} · ${z.name}. ${z.blurb}`, links: [{ t: 'EXPLORE ZONE ' + z.id, href: '/zones' }] };
     }
     if (/register|pass|ticket|badge|accredit/.test(t)) return { text: 'Register once as a visitor, buyer, investor, media or another participant type. After verification and approval you receive accreditation and a digital pass with a QR code on the web and in the app.', links: [{ t: 'REGISTER', href: '/attend#register' }] };
-    if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'There are seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Pick a product, then choose an available stall on the live Hall 2 inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: '/exhibit#products' }, { t: 'AVAILABLE STALLS', href: '/exhibit#inventory' }] };
-    if (/metro|airport|get there|reach|parking|hotel|travel|direction/.test(t)) return { text: 'Yashobhoomi is in Dwarka Sector 25, New Delhi. The Airport Express metro line serves the venue; by car from IGI Airport is roughly 20–30 minutes (sample estimate). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: '/explore#getting-there' }] };
+    if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'There are seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Pick a product, then choose an available stall on the live stall inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: '/exhibit#products' }, { t: 'AVAILABLE STALLS', href: '/exhibit#inventory' }] };
+    if (/metro|airport|get there|reach|parking|hotel|travel|direction/.test(t)) return { text: 'Bharat Mandapam is at Pragati Maidan, on Mathura Road in central New Delhi. The nearest metro is Supreme Court on the Blue Line (formerly Pragati Maidan); by car it is roughly 40–50 minutes from IGI Airport and about 15 from Connaught Place (sample estimates). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: '/explore#getting-there' }] };
     if (/buyer|match|meet|distribut|invest|partner/.test(t)) return { text: 'The India Sports Business Exchange in Zone D matches exhibitors, buyers, investors and distributors, then books a table, a time and reminders.', links: [{ t: 'FIND MATCHES', href: '/connect' }] };
     if (/programme|program|session|agenda|speaker/.test(t)) return { text: 'Three days across the Plenary Hall, Innovation Arena and Business Exchange Stage. You can view by agenda, timeline, stage, sector or speaker and save sessions to My Expo.', links: [{ t: 'PROGRAMME', href: '/programme#programme' }] };
     return null;
@@ -140,16 +140,16 @@ export function initBucky(opts = {}) {
   async function ask(q) {
     q = (q || '').trim(); if (!q || busy) return; busy = true; input.value = '';
     add(true, q);
-    const b = document.createElement('div'); b.className = 'bucky-busy'; b.textContent = 'BUCKY IS CHECKING HALL 2…'; log.appendChild(b); log.scrollTop = log.scrollHeight;
+    const b = document.createElement('div'); b.className = 'bucky-busy'; b.textContent = 'BUCKY IS CHECKING THE EXPO…'; log.appendChild(b); log.scrollTop = log.scrollHeight;
     let r = local(q);
     if (!r && window.claude && window.claude.complete) {
       try {
         const D = window.ISE; const ctx = D ? JSON.stringify({ zones: D.zones.map(z => z.id + ' ' + z.name), clusters: D.clusters.map(c => c.id + ' ' + c.name + ' (Zone ' + c.zone + ')'), exhibitors: D.exhibitors.map(e => e.name + ' · ' + e.stall + ' · ' + e.sector), sessions: D.sessions.map(s => 'Day ' + s.day + ' ' + s.time + ' ' + s.title + ' @ ' + s.stage) }) : '';
-        const txt = await window.claude.complete(`You are Bucky, the friendly, concise guide for India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi (IICC), Dwarka, New Delhi. Answer in at most 3 short sentences of plain text, no markdown. Prefer the demo data below; for anything unconfirmed say it is provisional and suggest the helpdesk. Demo data: ${ctx}\n\nVisitor: ${q}`);
+        const txt = await window.claude.complete(`You are Bucky, the friendly, concise guide for India Sports Expo 2027 at Bharat Mandapam, Pragati Maidan, New Delhi. Answer in at most 3 short sentences of plain text, no markdown. Prefer the demo data below; for anything unconfirmed say it is provisional and suggest the helpdesk. Demo data: ${ctx}\n\nVisitor: ${q}`);
         r = { text: String(txt).trim() };
       } catch (e) { r = null; }
     }
-    if (!r) r = { text: 'I can help with exhibitors, stalls, sessions, live streams, registration, meetings and getting to Yashobhoomi. Try “Where is Apex Sports?”', links: [{ t: 'HELPDESK', href: '/attend#myexpo' }] };
+    if (!r) r = { text: 'I can help with exhibitors, stalls, sessions, live streams, registration, meetings and getting to Bharat Mandapam. Try “Where is Apex Sports?”', links: [{ t: 'HELPDESK', href: '/attend#myexpo' }] };
     b.remove(); add(false, r.text, r.links); busy = false;
   }
   panel.querySelector('#bucky-form').addEventListener('submit', e => { e.preventDefault(); ask(input.value); });

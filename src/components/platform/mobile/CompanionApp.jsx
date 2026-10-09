@@ -244,7 +244,7 @@ function Home({ D, user, me, go, saved, toggle }) {
         <div className="ma-hero-top">
           <BrandLogo />
           <span className="ma-day">
-            <i className="ma-live" /> 2027 · YASHOBHOOMI
+            <i className="ma-live" /> 2027 · BHARAT MANDAPAM
           </span>
         </div>
         <h1 className="ma-hello">{name ? `Hello, ${name}` : 'Welcome to the Expo'}</h1>
@@ -330,7 +330,7 @@ function MapTab({ D, zone: zone0 }) {
   const exs = cluster ? D.exhibitors.filter((e) => e.cluster === cluster.id) : [];
   return (
     <div className="ma-pad">
-      <h1 className="ma-title">Hall 2</h1>
+      <h1 className="ma-title">Expo floor</h1>
       <div className="ma-chips">
         <button className="pf-chip" aria-pressed={!zone} onClick={() => (setZone(null), setCl(null))}>
           All
@@ -526,10 +526,10 @@ function Exhibitors({ D, back }) {
 }
 
 const VISIT = [
-  ['Venue', 'Exhibition Hall 2, Yashobhoomi (IICC), Sector 25, Dwarka, New Delhi'],
-  ['Metro', 'Airport Express Line to Yashobhoomi Dwarka Sector 25; covered walkway to the hall'],
-  ['Airport', 'IGI Airport, about 20–30 minutes by car'],
-  ['Parking', 'P2, closest to Hall 2; accessible bays by the lift core'],
+  ['Venue', 'Bharat Mandapam (IECC), Pragati Maidan, Mathura Road, New Delhi 110001'],
+  ['Metro', 'Blue Line to Supreme Court (formerly Pragati Maidan), then a short walk to the venue'],
+  ['Airport', 'IGI Airport, about 40–50 minutes by car (sample)'],
+  ['Parking', 'P2 underground, via the Pragati Maidan tunnel; accessible bays by the lift cores'],
   ['Entry', 'Main Entrance and Registration; show your pass QR code'],
 ];
 
@@ -636,7 +636,7 @@ function More({ D, user, me, sub, go }) {
             </div>
           </div>
         ))}
-        <a className="pf-btn ghost block" style={{ marginTop: 16 }} href="https://maps.google.com/?q=Yashobhoomi+IICC+Dwarka+Sector+25" target="_blank" rel="noreferrer">
+        <a className="pf-btn ghost block" style={{ marginTop: 16 }} href="https://maps.google.com/?q=Bharat+Mandapam+Pragati+Maidan+New+Delhi" target="_blank" rel="noreferrer">
           Directions in Google Maps
         </a>
       </div>
@@ -650,7 +650,7 @@ function More({ D, user, me, sub, go }) {
       ? ['Exhibitor portal', `${ex.company} · ${ex.stall_code || 'stall to be allocated'}`, withBase('/portal/')]
       : ['Exhibit at the Expo', 'Register your company', withBase('/portal/register/')],
     ...(role ? [['Admin', `Signed in as ${role}`, withBase('/admin/')]] : []),
-    ['Full website', 'Hall 2 twin, zones, business exchange', withBase('/')],
+    ['Full website', 'Venue twin, zones, business exchange', withBase('/')],
   ];
   return (
     <div className="ma-pad">

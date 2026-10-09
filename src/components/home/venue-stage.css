@@ -29,73 +29,32 @@
   overflow: hidden;
   background: #0e0e0f;
 }
-/* Asleep (faded out, see VenueScene.jsx): hidden, and no drifting. */
+/* Asleep (faded out, see VenueScene.jsx): hidden, and the film is paused. */
 .vs-scene.is-asleep {
   visibility: hidden;
 }
-.vs-scene.is-asleep .vs-photo,
-.vs-scene.is-asleep .vs-pano {
-  animation: none;
-}
-/* Asleep, the tour is also moved off screen, which makes browsers stop drawing it. */
-.vs-scene.is-asleep .vs-tour {
-  left: -400vw;
-}
-/* The live tour (computers). The frame is larger than the scene and the scene clips it, so the
-   tour's own control bar (bottom) and map toggle (right-hand corner) sit outside the visible area
-   while the tour itself plays as before. The crop is a little wider on the right and bottom, where
-   those controls are, and kept modest on the top and left so the view stays centred. */
-.vs-tour {
-  position: absolute;
-  top: -50px;
-  left: -90px;
-  width: calc(100% + 210px);
-  height: calc(100% + 180px);
-  border: 0;
-  pointer-events: none;
-}
-/* The photo underneath stops drifting once the tour covers it. */
-.vs-scene.tour-on .vs-photo {
-  animation: none;
-}
-.vs-pano {
+/* The film's first frame, shown until it plays (and instead of it with reduced motion). */
+.vs-still,
+.vs-film {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   inset: 0;
-  background-repeat: repeat-x;
-  background-size: auto 100%;
-  transform: scale(1.06);
-  /* An equirectangular image is twice as wide as it is tall: one loop = one full turn. */
-  animation: vsPan 140s linear infinite;
+  width: 100%;
+  height: 100%;
 }
-@keyframes vsPan {
-  from {
-    background-position: 0 50%;
-  }
-  to {
-    background-position: calc(-2 * (100vh - 60px)) 50%;
-  }
-}
-.vs-photo {
-  position: absolute;
-  top: -4%;
-  right: -4%;
-  bottom: -4%;
-  left: -4%;
-  inset: -4%;
+.vs-still {
   background: center / cover no-repeat;
-  animation: vsDrift 48s ease-in-out infinite alternate;
 }
-@keyframes vsDrift {
-  from {
-    transform: scale(1.02) translateX(-2%);
-  }
-  to {
-    transform: scale(1.1) translateX(2%);
-  }
+.vs-film {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.vs-scene.film-on .vs-film {
+  opacity: 1;
 }
 .vs-scrim {
   position: absolute;
@@ -204,79 +163,58 @@
   backface-visibility: hidden;
 }
 
-/* Illustrated side: a playing card with the zone letter in two corners. */
+/* Both sides are clear glass over the venue film: a light tint and a bright edge, no live blur
+   (a blur behind each card has to be redrawn on every frame of the film, which stutters). */
+.vs-front,
+.vs-back {
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03) 55%);
+  background-color: rgba(14, 14, 15, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 30px 60px -32px rgba(0, 0, 0, 0.8);
+}
+/* Before the turn: only the zone letter. */
 .vs-front {
-  background: #fcf7ee;
-  border: 6px solid #fff;
-  box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.9);
-}
-.vs-front-img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  inset: 0;
-  background: center / cover no-repeat;
-}
-.vs-front::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  inset: 0;
-  /* Just a hairline at the edge: the illustration shows as it is. */
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
-}
-.vs-pip {
-  position: absolute;
-  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  padding: 6px 7px;
-  background: #fff;
-  border-radius: 8px;
-  color: var(--zone);
+  justify-content: center;
+  gap: 6px;
+  color: #fff;
 }
-.vs-pip b {
-  font: 900 26px/0.9 var(--f-display);
+.vs-front-kicker {
+  font: 500 12px var(--f-label);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.vs-front-letter {
+  font-family: var(--f-display);
   font-stretch: 62%;
+  font-weight: 900;
+  font-size: clamp(96px, 11vw, 168px);
+  line-height: 0.82;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
 }
-.vs-pip i {
-  width: 12px;
-  height: 12px;
+.vs-front-letter::after {
+  content: '';
+  display: block;
+  width: 36%;
+  height: 5px;
+  margin: 14px auto 0;
   background: var(--zone);
-  transform: rotate(45deg);
+  box-shadow: 0 0 16px var(--zone);
 }
-.vs-pip-top {
-  left: 8px;
-  top: 8px;
-}
-.vs-pip-bot {
-  right: 8px;
-  bottom: 8px;
-  transform: rotate(180deg);
-}
-/* Zone side: see-through glass over the venue, text kept crisp and readable. */
+/* After the turn: the zone's name and one line, text kept crisp over the film. */
 .vs-back {
   transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 24px 22px 20px;
-  /* Tinted glass rather than a live blur: a blur behind each card has to be redrawn on every
-     frame the drifting venue moves, which stuttered on laptops. */
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
-  background-color: rgba(18, 19, 23, 0.62);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 30px 60px -30px rgba(0, 0, 0, 0.9);
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.55);
+  gap: 8px;
+  padding: 26px 22px 20px;
+  background-color: rgba(14, 14, 15, 0.34);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
 }
 .vs-card:focus-visible {
   outline: none;
@@ -298,19 +236,6 @@
 .vs-card.is-in:hover .vs-card-bar,
 .vs-card.is-hover .vs-card-bar {
   height: 10px;
-}
-.vs-card-letter {
-  position: absolute;
-  right: 14px;
-  top: 4px;
-  font-family: var(--f-display);
-  font-stretch: 62%;
-  font-weight: 900;
-  font-size: 120px;
-  line-height: 1;
-  color: #fff;
-  opacity: 0.12;
-  pointer-events: none;
 }
 .vs-card-zone {
   margin-top: 4px;
@@ -341,16 +266,6 @@
   line-height: 1.45;
   color: rgba(255, 255, 255, 0.92);
 }
-.vs-card-facts {
-  font: 500 11px var(--f-label);
-  letter-spacing: 0.08em;
-  color: #ffd2a6;
-}
-.vs-card-list {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.4;
-}
 .vs-card-cta {
   margin-top: auto;
   padding-top: 6px;
@@ -363,11 +278,6 @@
   color: #f07c12;
 }
 
-@media (max-height: 820px) {
-  .vs-card-list {
-    display: none;
-  }
-}
 @media (max-width: 900px) {
   /* Phones: the heading on one line, the four cards filling exactly the space left below it. */
   .vs-final {
@@ -406,15 +316,9 @@
   .vs-face {
     border-radius: 12px;
   }
-  .vs-front {
-    border-width: 4px;
-  }
   .vs-back {
     gap: 4px;
     padding: 14px 12px 12px;
-  }
-  .vs-card-letter {
-    display: none;
   }
   .vs-card-zone {
     font-size: 10px;
@@ -426,14 +330,15 @@
     overflow-wrap: normal;
     word-break: normal;
   }
-  .vs-card-facts {
-    display: block;
-    font-size: 9px;
-    letter-spacing: 0.04em;
+  .vs-card-blurb {
+    font-size: 11.5px;
+    line-height: 1.35;
   }
-  .vs-card-blurb,
-  .vs-card-list {
-    display: none;
+  .vs-front-letter {
+    font-size: clamp(64px, 20vw, 110px);
+  }
+  .vs-front-kicker {
+    font-size: 10px;
   }
   .vs-card-cta {
     font-size: 10px;
@@ -441,17 +346,6 @@
   }
   .vs-cta-more {
     display: none;
-  }
-  .vs-pip {
-    padding: 4px 5px;
-    border-radius: 6px;
-  }
-  .vs-pip b {
-    font-size: 16px;
-  }
-  .vs-pip i {
-    width: 7px;
-    height: 7px;
   }
   /* Bucky steps aside while the cards are up. */
   html.vs-cards-on #bucky-bot {
@@ -468,16 +362,15 @@
   .vs-card-name {
     font-size: clamp(12px, 1.9vw, 16px);
   }
-  .vs-card-facts {
+  .vs-card-blurb {
     display: none;
+  }
+  .vs-front-letter {
+    font-size: clamp(56px, 12vw, 96px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vs-pano,
-  .vs-photo {
-    animation: none;
-  }
   .vs-card,
   .vs-card-inner {
     transition: none;

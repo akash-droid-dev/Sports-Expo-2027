@@ -27,7 +27,7 @@ class Component extends DCLogic {
       live: { t: 'LIVE', isLive: true, rows: [{ a: 'The Future of AI Coaching', b: 'Innovation Arena · now', c: '● LIVE', cc: '#9E1B22' }, ...D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 3).map(x => ({ a: x.title, b: x.time + ' · ' + x.stage, c: 'UP NEXT', cc: '#6B6A66' }))] },
       notifications: { t: 'NOTIFICATIONS', rows: [{ a: 'Meeting in 15 min', b: 'Apex Sports India · Table 14', c: '10:45', cc: '#0B6E4F' }, { a: 'Buyer meeting request', b: 'Stridewell Footwear', c: '08:40', cc: '#C2610B' }, { a: 'Route changed', b: 'Zone B aisle 4 closed', c: '08:12', cc: '#3A3A3E' }] },
       helpdesk: { t: 'HELPDESK', rows: [{ a: 'Chat with the help desk', b: 'Average reply 2 min (sample)', c: 'OPEN', cc: '#0B6E4F' }, { a: 'HD-10482 · Visa letter', b: 'Resolved', c: 'RESOLVED', cc: '#0B6E4F' }, { a: 'HD-10511 · Change table', b: 'Waiting for exhibitor', c: 'WAITING', cc: '#C2610B' }, { a: 'Info desks', b: 'Main Entrance · Boulevard centre', c: '2', cc: '#0E0E0F' }, { a: 'Emergency', b: 'First aid next to Zone D lounges', c: 'SOS', cc: '#9E1B22' }] },
-      visit: { t: 'PLAN YOUR VISIT', rows: [{ a: 'Metro', b: 'Airport Express Line to Yashobhoomi Dwarka Sector 25', c: 'SAMPLE', cc: '#6B6A66' }, { a: 'Airport', b: 'IGI Airport · approx. 20–30 min by car', c: 'SAMPLE', cc: '#6B6A66' }, { a: 'Hotel shuttle', b: 'Every 30 min from partner hotels', c: 'SAMPLE', cc: '#6B6A66' }, { a: 'Parking', b: 'Venue parking, pre-book in app', c: 'SAMPLE', cc: '#6B6A66' }] }
+      visit: { t: 'PLAN YOUR VISIT', rows: [{ a: 'Metro', b: 'Blue Line to Supreme Court (formerly Pragati Maidan)', c: 'SAMPLE', cc: '#6B6A66' }, { a: 'Airport', b: 'IGI Airport · approx. 40–50 min by car', c: 'SAMPLE', cc: '#6B6A66' }, { a: 'Hotel shuttle', b: 'Every 30 min from partner hotels', c: 'SAMPLE', cc: '#6B6A66' }, { a: 'Parking', b: 'Venue parking, pre-book in app', c: 'SAMPLE', cc: '#6B6A66' }] }
     };
     const PUSH = [
       ['MEETING', 'Meeting in 15 min', 'Apex Sports India · Table 14 · 4 min walk', '#0B6E4F'], ['SESSION', 'Your session begins soon', 'AI in Sport · Plenary Hall · 14:00', '#0E0E0F'], ['ROUTE', 'Route changed', 'Zone B aisle 4 closed. New route: +1 min.', '#3A3A3E'], ['TRANSPORT', 'Transport update', 'Shuttle 3 delayed 10 min at Aerocity (sample)', '#1F4E9E'],
@@ -186,7 +186,7 @@ function render(v) {
                             <span>DAY 1–3</span>
                           </div>
                         </div>
-                        <span style={{ fontSize: "12px", color: "#BDB9B0", lineHeight: "1.5" }}>Access: Hall 2 · Business Exchange · Hosted Buyer Lounge · B2B Zone. Works offline.</span>
+                        <span style={{ fontSize: "12px", color: "#BDB9B0", lineHeight: "1.5" }}>Access: Expo floor · Business Exchange · Hosted Buyer Lounge · B2B Zone. Works offline.</span>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
                           <button onClick={v.wallet} style={{ height: "46px", border: "1px solid #fff", background: "none", color: "#fff", fontSize: "12px", fontWeight: "700", cursor: "pointer" }}>
                             {txt(v.walletLabel)}
