@@ -1,0 +1,5 @@
+:HL["/Sports-Expo-2027/_next/static/css/bdc6396c0995fc89.css","style"]
+:HL["/Sports-Expo-2027/_next/static/css/928dbc01f28fca3f.css","style"]
+:HL["/Sports-Expo-2027/brand/ring.png","image"]
+:HL["/Sports-Expo-2027/brand/wordmark-on-dark.png","image"]
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"exhibit","param":null,"prefetchHints":4160,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}},"staleTime":300,"buildId":"Sk_dmmJ1KBZwaOpn6KIfB"}

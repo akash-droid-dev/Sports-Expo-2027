@@ -1,0 +1,21 @@
+1:"$Sreact.fragment"
+2:I[2622,["7434","static/chunks/app/verify/page-0fb4f3043342db53.js"],"default"]
+3:I[484,[],"OutletBoundary"]
+4:"$Sreact.suspense"
+8:I[484,[],"ViewportBoundary"]
+9:I[484,[],"MetadataBoundary"]
+b:I[7121,[],""]
+c:I[4581,[],""]
+:HL["/Sports-Expo-2027/_next/static/css/0e445d964c9907aa.css","style"]
+7:X
+e:X
+e:C
+0:{"buildId":"Sk_dmmJ1KBZwaOpn6KIfB","data":[{"rsc":["$","$1","c",{"children":[["$","div",null,{"id":"dc-root","children":["$","$L2",null,{}]}],[["$","link","0",{"rel":"stylesheet","href":"/Sports-Expo-2027/_next/static/css/0e445d964c9907aa.css","precedence":"next"}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":"$@6","staleTime":"$7","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$L8",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$L9",null,{"children":["$","$4",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Card check · India Sports Expo 2027"}],["$","meta","1",{"name":"description","content":"India Sports Expo 2027 at Bharat Mandapam, Pragati Maidan, New Delhi. Explore the venue, exhibit, attend, connect and watch."}],["$","meta","2",{"name":"robots","content":"noindex"}]]}]}]}],null]}],"isPartial":"$@a","staleTime":"$7","varyParams":null},{"rsc":["$","$1","c",{"children":[null,["$","$Lb",null,{"parallelRouterKey":"children","template":["$","$Lc",null,{}]}]]}],"isPartial":"$@d","staleTime":"$7","varyParams":"$e"}],"isUpgradeableISRFallback":false,"a":"$@f","rootVaryParams":null,"needsRuntimeRequest":"$@10"}
+5:null
+10:true
+7:300
+7:C
+f:0
+a:"$undefined"
+d:"$undefined"
+6:"$undefined"
