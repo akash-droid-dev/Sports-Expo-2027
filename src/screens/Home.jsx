@@ -22,6 +22,8 @@ import HomeJourney from '@/components/home/HomeJourney';
 import { framesMode } from '@/components/home/JourneyFrames';
 import { camAt } from '@/lib/journey-camera.mjs';
 import JOURNEY from '@/data/journey.json';
+import { trackElement } from '@/lib/geo';
+import { scrollTop, viewH } from '@/lib/viewport';
 
 /* global maplibregl */
 class Component extends DCLogic {
@@ -73,6 +75,8 @@ class Component extends DCLogic {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     this._onScroll = () => { if (this._raf) return; this._raf = requestAnimationFrame(() => { this._raf = null; this.tick(); }); };
     window.addEventListener('scroll', this._onScroll, { passive: true });
+    // The journey's position is measured when the layout changes, not on every scroll frame.
+    if (this.journeyRef.current) this._geo = trackElement(this.journeyRef.current, () => this._onScroll());
     // Phones, tablets and older browsers get the still-frame journey (JourneyFrames) and never
     // download the map library; everything else loads it here and flies the live globe.
     this.frames = framesMode();
@@ -81,7 +85,7 @@ class Component extends DCLogic {
     // The globe is built in the browser's first idle moment, after the page's own start-up work.
     this._init = setInterval(() => { if (window.maplibregl && window.ISE && this.mapRef.current) { clearInterval(this._init); const idle = window.requestIdleCallback || (cb => setTimeout(cb, 50)); idle(() => { if (this._unmounted) return; this.initMap(); this.journeyStore.notify(); }, { timeout: 800 }); } }, 100);
   }
-  componentWillUnmount() { this._unmounted = true; window.removeEventListener('scroll', this._onScroll); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
+  componentWillUnmount() { this._unmounted = true; window.removeEventListener('scroll', this._onScroll); this._geo && this._geo.stop(); clearInterval(this._init); cancelAnimationFrame(this._camRaf); this.map && this.map.remove(); this.map = null; }
   initMap() {
     try {
       this.map = new maplibregl.Map({
@@ -100,9 +104,12 @@ class Component extends DCLogic {
     } catch (e) { this.map = null; }
   }
   progress() {
-    const el = this.journeyRef.current; if (!el) return 0;
-    const r = el.getBoundingClientRect(); const span = r.height - (window.innerHeight - 60);
-    return Math.max(0, Math.min(1, (60 - r.top) / span));
+    const g = this._geo && this._geo.g;
+    let top, height;
+    if (g) { top = g.top - scrollTop(); height = g.height; }
+    else { const el = this.journeyRef.current; if (!el) return 0; const r = el.getBoundingClientRect(); top = r.top; height = r.height; }
+    const span = height - (viewH() - 60);
+    return Math.max(0, Math.min(1, (60 - top) / span));
   }
   // Journey progress lives in a small store so scrolling re-renders only the journey
   // (src/components/home/HomeJourney.jsx), not the whole page.
