@@ -45,14 +45,14 @@
     {
       "route": "/explore",
       "component": "Hall2DigitalTwin",
-      "title": "Hall 2 Digital Twin · India Sports Expo 2027",
+      "title": "Explore the Venue · India Sports Expo 2027",
       "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}",
       "defaults": {}
     },
     {
       "route": "/",
       "component": "Home",
-      "title": "India Sports Expo 2027 · Yashobhoomi",
+      "title": "India Sports Expo 2027 · Bharat Mandapam",
       "css": "body{margin:0;background:#fff;color:#0E0E0F;font-family:var(--f-body);-webkit-font-smoothing:antialiased}a{color:#0E0E0F}a:hover{color:#C2610B}@keyframes iseBlink{50%{opacity:.25}}.maplibregl-ctrl-attrib{font-size:10px}",
       "defaults": {
         "liveMode": false,

@@ -1,10 +1,10 @@
 'use client';
-// End of the Home globe journey. After the map reaches Yashobhoomi, the venue scene takes
-// over the screen and four zone cards (A–D) are dealt like playing cards, illustration up;
-// scrolling on turns each one over to its zone side (see-through glass).
+// End of the Home globe journey. After the map reaches Bharat Mandapam, the venue film takes
+// over the screen and four clear glass cards are dealt like playing cards, showing only their
+// zone letter (A–D); scrolling on turns each one over to the zone's name and a short line.
 // `p` is the journey's scroll progress (0–1); the stage stays pinned until the journey ends.
 import { useEffect, useRef, useState } from 'react';
-import VenueScene, { predecode } from './VenueScene';
+import VenueScene from './VenueScene';
 import { withBase } from '@/lib/base';
 import '@/data/ise';
 import './venue-stage.css';
@@ -13,25 +13,6 @@ const ramp = (p, a, b) => Math.max(0, Math.min(1, (p - a) / (b - a)));
 // Scroll progress at which each card is dealt, then turned over.
 const CARD_AT = [0.79, 0.81, 0.83, 0.85];
 const FLIP_AT = [0.88, 0.905, 0.93, 0.955];
-// The face shown first: a flat illustration of each zone in the poster's palette
-// (public/media/zones): A the gate and hockey, B stadium, ball and shoe, C phone, watch and VR,
-// D globe, rising chart and deal briefcase.
-const FACE = {
-  A: { img: '/media/zones/zone-a.svg' },
-  B: { img: '/media/zones/zone-b.svg' },
-  C: { img: '/media/zones/zone-c.svg' },
-  D: { img: '/media/zones/zone-d.svg' },
-};
-
-function zoneSummary(D, z) {
-  const clusters = D.clusters.filter((c) => c.zone === z.id);
-  const stalls = clusters.filter((c) => c.kind === 'stalls').reduce((n, c) => n + c.n, 0);
-  const pavilions = clusters.filter((c) => c.kind === 'pav').reduce((n, c) => n + c.n, 0);
-  const facts = [clusters.length + ' areas'];
-  if (stalls) facts.push(stalls + ' stalls');
-  if (pavilions) facts.push(pavilions + ' pavilions');
-  return { facts: facts.join(' · '), highlights: clusters.slice(0, 3).map((c) => c.name) };
-}
 
 export default function VenueStage({ p = 0, reduced = false }) {
   const [hover, setHover] = useState(null);
@@ -51,13 +32,6 @@ export default function VenueStage({ p = 0, reduced = false }) {
     io.observe(el);
     return () => io.disconnect();
   }, []);
-  // The card faces are decoded while the venue fades in, so dealing the cards doesn't stall.
-  const faces = useRef(false);
-  useEffect(() => {
-    if (faces.current || !(reduced || p > 0.5)) return;
-    faces.current = true;
-    predecode(Object.values(FACE).map((f) => f.img));
-  }, [p, reduced]);
   const cardsOn = finale > 0.5 && onScreen;
   useEffect(() => {
     document.documentElement.classList.toggle('vs-cards-on', cardsOn);
@@ -73,7 +47,7 @@ export default function VenueStage({ p = 0, reduced = false }) {
       <div className="vs-final" style={{ opacity: finale, pointerEvents: finale > 0.5 ? 'auto' : 'none' }}>
         <header className="vs-head">
           <span className="vs-kicker">
-            08 / 08 · EXHIBITION HALL 2<span className="vs-kicker-more"> · YASHOBHOOMI</span>
+            07 / 07 · BHARAT MANDAPAM<span className="vs-kicker-more"> · PRAGATI MAIDAN, NEW DELHI</span>
           </span>
           <h2 className="vs-title">
             Four event <span>zones</span>
@@ -85,8 +59,6 @@ export default function VenueStage({ p = 0, reduced = false }) {
             ? D.zones.map((z, i) => {
                 const shown = reduced || p >= CARD_AT[i];
                 const flipped = reduced || p >= FLIP_AT[i];
-                const { facts, highlights } = zoneSummary(D, z);
-                const face = FACE[z.id] || FACE.A;
                 return (
                   <a
                     key={z.id}
@@ -104,26 +76,14 @@ export default function VenueStage({ p = 0, reduced = false }) {
                   >
                     <span className="vs-card-inner">
                       <span className="vs-face vs-front" aria-hidden="true">
-                        <span className="vs-front-img" style={{ backgroundImage: `url("${withBase(face.img)}")` }} />
-                        <span className="vs-pip vs-pip-top">
-                          <b>{z.id}</b>
-                          <i />
-                        </span>
-                        <span className="vs-pip vs-pip-bot">
-                          <b>{z.id}</b>
-                          <i />
-                        </span>
+                        <span className="vs-front-kicker">Zone</span>
+                        <span className="vs-front-letter">{z.id}</span>
                       </span>
                       <span className="vs-face vs-back">
                         <span className="vs-card-bar" />
-                        <span className="vs-card-letter" aria-hidden="true">
-                          {z.id}
-                        </span>
                         <span className="vs-card-zone">Zone {z.id}</span>
                         <span className="vs-card-name">{z.name}</span>
                         <span className="vs-card-blurb">{z.blurb}</span>
-                        <span className="vs-card-facts">{facts}</span>
-                        <span className="vs-card-list">{highlights.join(' · ')}</span>
                         <span className="vs-card-cta">
                           <span className="vs-cta-more">Explore </span>Zone {z.id} →
                         </span>

@@ -25,7 +25,7 @@ import JOURNEY from '@/data/journey.json';
 
 /* global maplibregl */
 class Component extends DCLogic {
-  state = { day: 2, zone: null, sel: null, searchOpen: false, q: 'football', gq: '', gmsgs: [{ me: false, text: 'Namaste. I am Bucky, your guide to India Sports Expo 2027 in Hall 2, Yashobhoomi. What are you looking for?' }], gbusy: false };
+  state = { day: 2, zone: null, sel: null, searchOpen: false, q: 'football', gq: '', gmsgs: [{ me: false, text: 'Namaste. I am Bucky, your guide to India Sports Expo 2027 at Bharat Mandapam, New Delhi. What are you looking for?' }], gbusy: false };
   guideLogRef = React.createRef();
   guideLocal(q) {
     const D = window.ISE; const t = q.toLowerCase(); if (!D) return null;
@@ -33,8 +33,8 @@ class Component extends DCLogic {
     if (ex) return { text: `${ex.name} is at stall ${ex.stall}, Zone ${ex.zone} (${D.cl(ex.cluster).name}). From the Main Entrance, follow the Sports Boulevard into Zone ${ex.zone}. About 4 minutes on foot. They make ${ex.products.slice(0, 3).join(', ')} and are looking for ${ex.seeking}.`, links: [{ t: 'NAVIGATE', href: withBase('/explore') }, { t: 'BOOK MEETING', href: withBase('/connect#meetings') }] };
     if (/live|now|watch|stream/.test(t)) { const s = D.sessions.find(x => x.status === 'live'); return { text: `Live now in the ${s.stage}: “${s.title}”, ${s.time}–${s.end}. Up next: ${D.sessions.filter(x => x.day === 2 && x.status === 'upcoming').slice(0, 2).map(x => x.time + ' ' + x.title).join('; ')}.`, links: [{ t: 'WATCH LIVE', href: withBase('/programme#watch') }] }; }
     if (/register|pass|ticket|badge|accredit/.test(t)) return { text: 'Register once as a visitor, buyer, investor, media or another participant type. After verification and approval you receive accreditation and a digital pass with a QR code, on the web and in the app.', links: [{ t: 'REGISTER', href: withBase('/register/') }] };
-    if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'Seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Choose a product, then pick an available stall on the live Hall 2 inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: withBase('/exhibit#products') }, { t: 'AVAILABLE STALLS', href: withBase('/exhibit#inventory') }] };
-    if (/metro|airport|get there|reach|parking|hotel|travel/.test(t)) return { text: 'Yashobhoomi is in Dwarka Sector 25, New Delhi. The Airport Express metro line serves the venue; by car from IGI Airport is roughly 20–30 minutes (sample estimate). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: withBase('/explore#getting-there') }] };
+    if (/stall|booth|exhibit|space|pavilion/.test(t)) return { text: 'Seven exhibition products, from a Standard Booth (3 × 3 m, sample) to a Hero Experience (500+ m², sample). Choose a product, then pick an available stall on the live stall inventory.', links: [{ t: 'EXHIBITION PRODUCTS', href: withBase('/exhibit#products') }, { t: 'AVAILABLE STALLS', href: withBase('/exhibit#inventory') }] };
+    if (/metro|airport|get there|reach|parking|hotel|travel/.test(t)) return { text: 'Bharat Mandapam is at Pragati Maidan, on Mathura Road in central New Delhi. The nearest metro is Supreme Court on the Blue Line (formerly Pragati Maidan); by car it is roughly 40–50 minutes from IGI Airport and about 15 from Connaught Place (sample estimates). Shuttles run from partner hotels.', links: [{ t: 'GETTING THERE', href: withBase('/explore#getting-there') }] };
     if (/buyer|match|meet|distribut|invest/.test(t)) return { text: 'The India Sports Business Exchange in Zone D matches exhibitors, buyers, investors and distributors, then books a table, a time and a reminder. Top sample match: Global Sports Retail GmbH, 94%.', links: [{ t: 'FIND MATCHES', href: withBase('/connect') }] };
     const z = D.zones.find(z => t.includes(z.short.toLowerCase()) || t.includes('zone ' + z.id.toLowerCase()));
     if (z) return { text: `Zone ${z.id} · ${z.name}: ${z.blurb} Clusters: ${D.clusters.filter(c => c.zone === z.id).map(c => c.name).join(', ')}.`, links: [{ t: 'EXPLORE ZONE ' + z.id, href: withBase('/zones') }] };
@@ -50,25 +50,24 @@ class Component extends DCLogic {
       try {
         const D = window.ISE;
         const ctx = JSON.stringify({ zones: D.zones.map(z => ({ id: z.id, name: z.name })), clusters: D.clusters.map(c => c.id + ' ' + c.name + ' (Zone ' + c.zone + ')'), exhibitors: D.exhibitors.map(e => e.name + ' · ' + e.stall + ' · ' + e.sector), sessions: D.sessions.map(s => 'Day ' + s.day + ' ' + s.time + ' ' + s.title + ' @ ' + s.stage) });
-        const text = await window.claude.complete(`You are Bucky, the concise expo guide for India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi, New Delhi. Answer in at most 3 short sentences, plain text, no markdown. Only use this demo data; if unsure, say so and suggest the helpdesk. Data: ${ctx}\n\nVisitor: ${q}`);
+        const text = await window.claude.complete(`You are Bucky, the concise expo guide for India Sports Expo 2027 at Bharat Mandapam, Pragati Maidan, New Delhi. Answer in at most 3 short sentences, plain text, no markdown. Only use this demo data; if unsure, say so and suggest the helpdesk. Data: ${ctx}\n\nVisitor: ${q}`);
         reply = { text: text.trim(), links: [] };
       } catch (e) { reply = null; }
     }
-    if (!reply) reply = { text: 'I can help with exhibitors, stalls, sessions, live streams, registration, meetings and getting to Yashobhoomi. Try “Where is Apex Sports?”', links: [] };
+    if (!reply) reply = { text: 'I can help with exhibitors, stalls, sessions, live streams, registration, meetings and getting to Bharat Mandapam. Try “Where is Apex Sports?”', links: [] };
     this.setState({ gmsgs: [...msgs, { me: false, ...reply }], gbusy: false }, () => this.guideScroll());
   }
   guideScroll() { const el = this.guideLogRef.current; if (el) el.scrollTop = el.scrollHeight; }
   journeyRef = React.createRef(); mapRef = React.createRef(); afterRef = React.createRef();
   KF = JOURNEY.keyframes;
   STAGES = [
-    { at: 0, label: 'EARTH', k: '01 / 08', t: 'Earth', d: 'Every sporting economy on the planet, converging on one hall in New Delhi.' },
-    { at: 0.1, label: 'ASIA', k: '02 / 08', t: 'Asia', d: 'The fastest-growing region for sport participation, media and manufacturing.' },
-    { at: 0.22, label: 'INDIA', k: '03 / 08', t: 'India', d: 'A nation of 1.4 billion building the business of sport.' },
-    { at: 0.34, label: 'NEW DELHI', k: '04 / 08', t: 'New Delhi', d: 'The capital. Host city of India Sports Expo 2027.' },
-    { at: 0.45, label: 'DWARKA', k: '05 / 08', t: 'Dwarka', d: 'Sector 25, minutes from Indira Gandhi International Airport.' },
-    { at: 0.55, label: 'YASHOBHOOMI', k: '06 / 08', t: 'Yashobhoomi', d: 'India International Convention & Expo Centre. Home of India Sports Expo 2027.' },
-    { at: 0.62, label: 'HALL 2', k: '07 / 08', t: 'Exhibition Hall 2', d: 'Step inside the venue. One continuous exhibition floor, tied together by the Sports Boulevard.' },
-    { at: 0.74, label: 'FOUR ZONES', k: '08 / 08', t: 'Four event zones', d: '' }
+    { at: 0, label: 'EARTH', k: '01 / 07', t: 'Earth', d: 'Every sporting economy on the planet, converging on one venue in New Delhi.' },
+    { at: 0.1, label: 'ASIA', k: '02 / 07', t: 'Asia', d: 'The fastest-growing region for sport participation, media and manufacturing.' },
+    { at: 0.22, label: 'INDIA', k: '03 / 07', t: 'India', d: 'A nation of 1.4 billion building the business of sport.' },
+    { at: 0.34, label: 'NEW DELHI', k: '04 / 07', t: 'New Delhi', d: 'The capital. Host city of India Sports Expo 2027.' },
+    { at: 0.45, label: 'PRAGATI MAIDAN', k: '05 / 07', t: 'Pragati Maidan', d: 'The capital’s landmark exhibition grounds, minutes from India Gate and Connaught Place.' },
+    { at: 0.55, label: 'BHARAT MANDAPAM', k: '06 / 07', t: 'Bharat Mandapam', d: 'International Exhibition-cum-Convention Centre and host of the 2023 G20 Leaders’ Summit. Home of India Sports Expo 2027.' },
+    { at: 0.74, label: 'FOUR ZONES', k: '07 / 07', t: 'Four event zones', d: '' }
   ];
   componentDidMount() {
     this.reduced = this.props.journey === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -182,7 +181,7 @@ class Component extends DCLogic {
       arrivalScrim: reduced ? 0 : Math.min(0.35, ramp(0.56, 0.6) * 0.35),
       showPin: !reduced && p > 0.5 && p < 0.62, pinOpacity: Math.min(ramp(0.5, 0.55), 1 - ramp(0.58, 0.61)),
       journeyP: p, journeyReduced: reduced, captionOpacity, readoutOpacity: reduced ? 0 : 1 - ramp(0.58, 0.62),
-      crumbs, stageKicker: stage.k + (stage.label === 'YASHOBHOOMI' ? ' · NEW DELHI' : ''), stageTitle, stageText,
+      crumbs, stageKicker: stage.k + (stage.label === 'BHARAT MANDAPAM' ? ' · NEW DELHI' : ''), stageTitle, stageText,
       captionColor: planOpacity > 0.5 ? '#0E0E0F' : '#fff',
       coordText: `${curCenter.lat.toFixed(4)}° N · ${curCenter.lng.toFixed(4)}° E`, altText: alt > 1000 ? Math.round(alt / 1000).toLocaleString() + ' KM' : alt + ' M'
     };
@@ -229,8 +228,8 @@ class Component extends DCLogic {
         { n: '05', t: 'Watch', s: 'Live & on demand', href: withBase('/programme') }
       ],
       metrics: [
-        { v: '4', l: 'Event zones in Hall 2', src: 'HALL 2 LAYOUT' }, { v: '213', l: 'Exhibition stalls', src: 'HALL 2 LAYOUT LEGEND' },
-        { v: '25', l: 'Pavilions', src: 'HALL 2 LAYOUT LEGEND' }, { v: '324', l: 'Innovation Arena seats', src: 'HALL 2 LAYOUT' },
+        { v: '4', l: 'Event zones', src: 'EXPO LAYOUT' }, { v: '213', l: 'Exhibition stalls', src: 'EXPO LAYOUT LEGEND' },
+        { v: '25', l: 'Pavilions', src: 'EXPO LAYOUT LEGEND' }, { v: '324', l: 'Innovation Arena seats', src: 'EXPO LAYOUT' },
         { v: '40+', l: 'Countries', src: 'DEMO TARGET' }, { v: '3,000', l: 'B2B meetings', src: 'DEMO TARGET' }
       ],
       zoneTabs: D.zones.map(z => ({ id: z.id, color: z.color, bg: panelZ.id === z.id ? z.color : '#fff', fg: panelZ.id === z.id ? '#fff' : z.color, pick: () => this.setState({ zone: z.id, sel: null }) })),
@@ -249,11 +248,11 @@ class Component extends DCLogic {
       upNext: D.sessions.filter(s => s.day === 2 && s.status === 'upcoming').slice(0, 4),
       videos: D.sessions.filter(s => s.status !== 'upcoming').sort((a, b) => (b.status === 'live') - (a.status === 'live')).map(s => ({ ...s, spk: spk(s), badge: s.status === 'live' ? '● LIVE' : 'ON DEMAND', badgeBg: s.status === 'live' ? '#9E1B22' : '#0E0E0F' })),
       travel: [
-        { mode: 'Metro', how: 'Airport Express Line to Yashobhoomi Dwarka Sector 25 — an underground station inside the venue perimeter.', time: '~21 MIN', src: 'FROM NEW DELHI STN · PMO' },
-        { mode: 'Airport', how: 'IGI Terminal 3 → Airport Express Line, southbound to Sector 25.', time: '15 MIN', src: 'SAMPLE · UNVERIFIED' },
-        { mode: 'Car / Taxi', how: 'Via Dwarka Expressway / UER-II. Drop-off at the Hall 2 forecourt.', time: '45 MIN', src: 'SAMPLE · FROM CENTRAL DELHI' },
-        { mode: 'Shuttle', how: 'Official hotel shuttle loop from Aerocity every 20 minutes.', time: '25 MIN', src: 'SAMPLE · DEMO SERVICE' },
-        { mode: 'Parking', how: 'Pre-booked visitor parking with QR entry. Accessible bays at Hall 2.', time: 'P2', src: 'SAMPLE' }
+        { mode: 'Metro', how: 'Blue Line to Supreme Court station (formerly Pragati Maidan), then a short walk to the Bharat Mandapam gates.', time: '~20 MIN', src: 'SAMPLE · FROM NEW DELHI STN' },
+        { mode: 'Airport', how: 'IGI Terminal 3 → Airport Express to New Delhi, Yellow Line to Rajiv Chowk, Blue Line to Supreme Court.', time: '~55 MIN', src: 'SAMPLE · ESTIMATE' },
+        { mode: 'Car / Taxi', how: 'Via Mathura Road or Bhairon Marg and the Pragati Maidan tunnel. Drop-off at the Bharat Mandapam forecourt.', time: '15 MIN', src: 'SAMPLE · FROM CONNAUGHT PLACE' },
+        { mode: 'Shuttle', how: 'Official hotel shuttle loop from Aerocity and Connaught Place every 20 minutes.', time: '40 MIN', src: 'SAMPLE · DEMO SERVICE' },
+        { mode: 'Parking', how: 'Pre-booked underground parking with QR entry, reached through the Pragati Maidan tunnel. Accessible bays by the lift cores.', time: 'P2', src: 'SAMPLE' }
       ]
     };
   }
@@ -328,7 +327,7 @@ function render(v) {
         <section data-screen-label="03 Intro" style={{ padding: "120px 28px 80px", maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "60px", alignItems: "end" }}>
           <div>
             <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "24px" }}>
-              EXHIBITION HALL 2 · YASHOBHOOMI · NEW DELHI
+              BHARAT MANDAPAM · PRAGATI MAIDAN · NEW DELHI
             </div>
             <h2 data-anim="" style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(64px,9vw,148px) * 0.72)", lineHeight: "0.84" }}>
               {"The "}
@@ -344,7 +343,7 @@ function render(v) {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "24px", maxWidth: "520px" }}>
             <p style={{ margin: "0", fontSize: "20px", lineHeight: "1.5", textWrap: "pretty" }}>
-              Three days of exhibition, business matchmaking and programme across four event zones inside Exhibition Hall 2 — from India's sporting heritage to the manufacturers, technologists and investors building what comes next.
+              Three days of exhibition, business matchmaking and programme across four event zones at Bharat Mandapam — from India's sporting heritage to the manufacturers, technologists and investors building what comes next.
             </p>
             <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
               <LockKeyLink href={withBase("/exhibit")} style={{ background: "#F07C12", color: "#0E0E0F", textDecoration: "none", height: "52px", display: "flex", alignItems: "center", padding: "0 24px 0 16px", fontWeight: "700", fontSize: "14px", letterSpacing: "0.08em" }}>
@@ -404,7 +403,7 @@ function render(v) {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", flexWrap: "wrap", gap: "16px", marginBottom: "40px" }}>
             <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em" }}>03 — THE EXPO IN NUMBERS</span>
             <span style={{ fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", background: "#F6F4EF", padding: "6px 10px" }}>
-              {"STALL & PAVILION COUNTS FROM HALL 2 LAYOUT · OTHER FIGURES DEMO TARGETS"}
+              {"STALL & PAVILION COUNTS FROM THE EXPO LAYOUT · OTHER FIGURES DEMO TARGETS"}
             </span>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", borderTop: "2px solid #0E0E0F" }}>
@@ -422,9 +421,9 @@ function render(v) {
         <section data-screen-label="04 Explore Hall 2" style={{ background: "#F6F4EF", padding: "96px 28px", overflow: "hidden" }}>
           <div style={{ maxWidth: "1440px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,420px),1fr))", gap: "48px", alignItems: "center" }}>
             <div>
-              <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "16px" }}>04 — EXPLORE HALL 2</div>
+              <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", marginBottom: "16px" }}>04 — EXPLORE THE VENUE</div>
               <h2 style={{ margin: "0 0 28px", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
-                One hall.
+                One venue.
                 <br />
                 Four event zones.
               </h2>
@@ -641,10 +640,10 @@ function render(v) {
               <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(48px,6vw,96px) * 0.72)", lineHeight: "0.86" }}>
                 Getting to
                 <br />
-                Yashobhoomi.
+                Bharat Mandapam.
               </h2>
               <p style={{ margin: "0", fontSize: "17px", lineHeight: "1.5", color: "#3A3A3E", maxWidth: "460px" }}>
-                Yashobhoomi sits in Sector 25, Dwarka, with its own underground station on the Delhi Airport Metro Express line.
+                Bharat Mandapam sits in Pragati Maidan, on Mathura Road in the heart of New Delhi, a short walk from Supreme Court station on the Delhi Metro Blue Line.
               </p>
               <div style={{ aspectRatio: "16/10", position: "relative" }}>
                 <VenueMap />
@@ -696,14 +695,14 @@ function render(v) {
                 {"India Sports Expo "}
                 <span style={{ color: "#F07C12" }}>2027</span>
               </span>
-              <span>Exhibition Hall 2, Yashobhoomi (IICC), Sector 25, Dwarka, New Delhi</span>
+              <span>Bharat Mandapam (IECC), Pragati Maidan, Mathura Road, New Delhi 110001</span>
               <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em" }}>
                 {"PARTICIPANTS, DATES & FIGURES SHOWN ARE SAMPLES UNTIL CONFIRMED"}
               </span>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               <span style={{ color: "#fff", fontWeight: "700", letterSpacing: "0.1em", fontSize: "12px" }}>EXPLORE</span>
-              <a href={withBase("/explore")} style={{ color: "#BDB9B0" }}>{"Hall 2 digital twin & map"}</a>
+              <a href={withBase("/explore")} style={{ color: "#BDB9B0" }}>{"Venue digital twin & map"}</a>
               <a href={withBase("/zones")} style={{ color: "#BDB9B0" }}>Zone experiences A–D</a>
               <a href={withBase("/exhibit")} style={{ color: "#BDB9B0" }}>{"Exhibit & stall booking"}</a>
             </div>

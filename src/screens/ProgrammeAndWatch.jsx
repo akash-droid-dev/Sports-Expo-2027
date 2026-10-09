@@ -130,7 +130,7 @@ function render(v) {
                     <span style={{ color: "#F07C12" }}>Live</span>
                   </h1>
                   <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.14em", color: "#BDB9B0" }}>
-                    10:18 IST · HALL 2 OPEN · 14,820 ON SITE (DEMO)
+                    10:18 IST · EXPO FLOOR OPEN · 14,820 ON SITE (DEMO)
                   </span>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1.6fr) minmax(0,1fr)", gap: "24px" }}>

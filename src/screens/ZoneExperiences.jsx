@@ -33,7 +33,7 @@ class Component extends DCLogic {
       // Narrow maps: frame all the state pins (re-run once the phone layout settles, until a state is picked).
       const fit = () => { const el = this.india.getContainer(); if (!this._picked && el.clientWidth > 0 && el.clientWidth < 640) this.india.fitBounds([[71, 11.5], [87, 31.5]], { padding: { top: 40, bottom: 40, left: 60, right: 60 }, duration: 0 }); };
       fit(); this.india.on('resize', fit);
-      { const y = this.marker(this.india, [77.0446, 28.5549], '● YASHOBHOOMI', () => {}, true); y.style.background = '#0E0E0F'; y.style.color = '#fff'; }
+      { const y = this.marker(this.india, [77.2425, 28.6194], '● BHARAT MANDAPAM', () => {}, true); y.style.background = '#0E0E0F'; y.style.color = '#fff'; }
     } catch (e) {}
     try {
       this.globe = new maplibregl.Map({ container: this.globeRef.current, center: [70, 25], zoom: 1.2, scrollZoom: false, attributionControl: { compact: true },
@@ -141,7 +141,7 @@ class Component extends DCLogic {
       room: rooms[s.room], prevRoom: () => this.setState({ room: (s.room + 4) % 5 }), nextRoom: () => this.setState({ room: (s.room + 1) % 5 }),
       sports: sportsList.map(x => ({ name: x, ...sel(x === s.sport, '#9E1B22'), pick: () => this.setState({ sport: x }) })),
       fed: { name: s.sport + ' Federation of India (sample)', loc: 'A-FED-P' + (sportsList.indexOf(s.sport) % 2 + 1), rows: [{ k: 'Initiatives', v: 'Grassroots leagues, coach education, talent ID (sample)' }, { k: 'Key events', v: 'National championships · international qualifiers (sample)' }, { k: 'Representatives', v: '3 delegates attending (names TBC)' }, { k: 'Sessions', v: 'Federations & the Grassroots Pipeline · Day 3 10:00' }, { k: 'Expo location', v: 'Zone A · Federations & Institutions' }] },
-      timeline: [['1928', 'OLYMPIC', 'First Olympic hockey gold, Amsterdam'], ['1951', 'HOSTING', 'New Delhi hosts the first Asian Games'], ['1983', 'CRICKET', 'Cricket World Cup won at Lord’s'], ['2008', 'OLYMPIC', 'First individual Olympic gold — shooting, Beijing'], ['2010', 'HOSTING', 'Commonwealth Games, Delhi'], ['2020', 'PARALYMPIC', 'Record Paralympic medal haul at Tokyo'], ['2020', 'OLYMPIC', 'Javelin gold at Tokyo — first in athletics'], ['2027', 'EXPO', 'India Sports Expo at Yashobhoomi']].map(([y, k, t]) => ({ y, k, t })),
+      timeline: [['1928', 'OLYMPIC', 'First Olympic hockey gold, Amsterdam'], ['1951', 'HOSTING', 'New Delhi hosts the first Asian Games'], ['1983', 'CRICKET', 'Cricket World Cup won at Lord’s'], ['2008', 'OLYMPIC', 'First individual Olympic gold — shooting, Beijing'], ['2010', 'HOSTING', 'Commonwealth Games, Delhi'], ['2020', 'PARALYMPIC', 'Record Paralympic medal haul at Tokyo'], ['2020', 'OLYMPIC', 'Javelin gold at Tokyo — first in athletics'], ['2027', 'EXPO', 'India Sports Expo at Bharat Mandapam']].map(([y, k, t]) => ({ y, k, t })),
       trad: ['Kabaddi', 'Kho-kho', 'Mallakhamb', 'Kalaripayattu', 'Gatka', 'Silambam'],
       ministry: [{ code: 'A-MYS-P1', t: 'National schemes', d: 'Athlete support, infrastructure and grassroots programmes.' }, { code: 'A-MYS-P2', t: 'Athlete pathways', d: 'Talent identification to podium, presented as an interactive journey.' }, { code: 'A-MYS · DESK', t: 'Policy & investment desk', d: 'Meetings with Ministry officials via the Business Exchange.' }],
       bTiles, bMarket: s.b === 'market', bInfra: s.b === 'infra', bApparel: s.b === 'apparel', bOem: s.b === 'oem', bSurf: s.b === 'surf',
@@ -223,7 +223,7 @@ function render(v) {
               <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>A</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
-                  HALL 2 · NORTH-WEST QUADRANT · 11 PAVILIONS
+                  BHARAT MANDAPAM · NORTH-WEST QUADRANT · 11 PAVILIONS
                 </span>
                 <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
                   India Sports
@@ -457,7 +457,7 @@ function render(v) {
               <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>B</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
-                  HALL 2 · NORTH-EAST QUADRANT · 119 STALLS · 5 PAVILIONS
+                  BHARAT MANDAPAM · NORTH-EAST QUADRANT · 119 STALLS · 5 PAVILIONS
                 </span>
                 <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
                   Sports Goods
@@ -726,7 +726,7 @@ function render(v) {
               <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>C</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
-                  HALL 2 · SOUTH-EAST QUADRANT · 94 STALLS · 324-SEAT ARENA
+                  BHARAT MANDAPAM · SOUTH-EAST QUADRANT · 94 STALLS · 324-SEAT ARENA
                 </span>
                 <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
                   Sports Tech
@@ -953,7 +953,7 @@ function render(v) {
               <span style={{ fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "154px", lineHeight: "0.75" }}>D</span>
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <span style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", opacity: "0.85" }}>
-                  HALL 2 · SOUTH-WEST QUADRANT · 6 COUNTRY PAVILIONS · 7 BUSINESS SPACES
+                  BHARAT MANDAPAM · SOUTH-WEST QUADRANT · 6 COUNTRY PAVILIONS · 7 BUSINESS SPACES
                 </span>
                 <h2 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(56px,7vw,112px) * 0.72)", lineHeight: "0.85" }}>
                   Sports Business

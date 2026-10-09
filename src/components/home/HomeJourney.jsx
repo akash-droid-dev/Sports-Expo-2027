@@ -1,5 +1,5 @@
 'use client';
-// The Home "Earth journey": a scroll-driven globe zoom from Earth to Yashobhoomi, then the
+// The Home "Earth journey": a scroll-driven globe zoom from Earth to Bharat Mandapam, then the
 // venue finale. Split out of Home.jsx so scrolling re-renders only this section.
 // `store` holds the scroll progress; `vals(p)` (Home's logic) turns it into what to show.
 import { Fragment, useSyncExternalStore } from 'react';
@@ -21,7 +21,7 @@ export default function HomeJourney({ store, vals }) {
           <>
             <div style={sx(`position:absolute;left:50%;top:50%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;pointer-events:none;opacity:${v.pinOpacity ?? ""};`)}>
               <span style={{ background: "#F07C12", color: "#0E0E0F", fontFamily: "var(--f-label)", fontSize: "11px", letterSpacing: "0.14em", padding: "6px 10px", fontWeight: "500", whiteSpace: "nowrap" }}>
-                YASHOBHOOMI · IICC
+                BHARAT MANDAPAM · PRAGATI MAIDAN
               </span>
               <span style={{ width: "2px", height: "40px", background: "#F07C12" }} />
               <span style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#F07C12", boxShadow: "0 0 0 6px rgba(240,124,18,0.3)" }} />

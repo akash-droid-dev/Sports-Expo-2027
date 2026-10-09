@@ -81,7 +81,7 @@ export default function PosterHero({ enter, skip }) {
         </div>
 
         <p className="ph-strip ph-rise" style={{ '--d': 100 }}>
-          <span>SCROLL TO TRAVEL · EARTH → INDIA → DELHI → YASHOBHOOMI → HALL 2</span>
+          <span>SCROLL TO TRAVEL · EARTH → INDIA → NEW DELHI → PRAGATI MAIDAN → BHARAT MANDAPAM</span>
           <span>28.5549° N · 77.0446° E</span>
         </p>
 
@@ -152,7 +152,7 @@ export default function PosterHero({ enter, skip }) {
 
         <p className="ph-date ph-draw" style={{ '--d': 1500 }}>
           <span>15-16-17 October, 2027</span>
-          <span>Yashobhoomi, Delhi</span>
+          <span>Bharat Mandapam, New Delhi</span>
         </p>
 
         <div className="ph-actions ph-rise" style={{ '--d': 1700 }}>

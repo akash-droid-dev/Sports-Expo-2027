@@ -34,7 +34,7 @@ export const TYPE_COLOURS = {
 export const colourOf = (b) => TYPE_COLOURS[b.kind === 'meeting' ? b.type : b.kind] || '#8A8780';
 export const labelOf = (b) => (b.kind === 'meeting' ? b.type : KIND[b.kind]?.short || b.kind);
 
-// Expo days (Yashobhoomi, 15–17 October 2027) and opening hours.
+// Expo days (Bharat Mandapam, 15–17 October 2027) and opening hours.
 export const DAYS = [
   { n: 1, label: 'Day 1', date: 'Fri 15 Oct' },
   { n: 2, label: 'Day 2', date: 'Sat 16 Oct' },

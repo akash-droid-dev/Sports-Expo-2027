@@ -1,18 +1,15 @@
 {
- "twin-yasho-hall": {
-  "src": "yasho-exterior.webp",
-  "credit": "Ayush Raj · CC BY-SA 4.0",
-  "href": "https://commons.wikimedia.org/wiki/File:Yashobhoomi_%E2%80%93_India_International_Convention_and_Expo_Centre,_Delhi.jpg"
+ "twin-venue-exterior": {
+  "src": "venue/bharat-mandapam-exterior.webp",
+  "credit": "Bharat Mandapam venue film"
  },
- "twin-yasho-foyer": {
-  "src": "yasho-plaza.webp",
-  "credit": "VartamanVarta · CC BY-SA 4.0",
-  "href": "https://commons.wikimedia.org/wiki/File:Yashobhoomi_-_IICC.jpg"
+ "twin-venue-plaza": {
+  "src": "venue/bharat-mandapam-plaza.webp",
+  "credit": "Bharat Mandapam venue film"
  },
- "twin-yasho-metro": {
-  "src": "yasho-metro.webp",
-  "credit": "AutobotIndian · CC BY 4.0",
-  "href": "https://commons.wikimedia.org/wiki/File:Yashobhoomi_Dwarka_Sec-25_metro_station_(Gate_no._1).jpg"
+ "twin-venue-aerial": {
+  "src": "venue/pragati-maidan-aerial.webp",
+  "credit": "Bharat Mandapam venue film"
  },
  "home-prod-0": {
   "src": "football.webp",

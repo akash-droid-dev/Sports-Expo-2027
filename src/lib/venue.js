@@ -1,8 +1,22 @@
-// Where the Home journey's venue scene comes from.
-// On computers the official Yashobhoomi virtual tour is embedded live behind the zone cards;
-// phones and tablets show a photo of the venue (src/components/home/VenueScene.jsx).
-// To use a still of the tour's opening scene instead, save it as an equirectangular 360° image
-// (2:1) in public/, e.g. public/venue/opening.jpg, and set VENUE_PANORAMA to its path:
-// it is then shown full-screen and rotated continuously.
-export const VENUE_TOUR_URL = 'https://www.iiccnewdelhi.com/YashobhoomiAVT/index.html';
-export const VENUE_PANORAMA = '';
+// Where the Home journey's venue scene comes from: a muted, looping film of Bharat Mandapam
+// behind the zone cards (src/components/home/VenueScene.jsx). Each screen loads only the file
+// it needs; the poster is the film's first frame and shows until it plays (and for visitors
+// who prefer reduced motion).
+export const VENUE_VIDEO = {
+  // Landscape computers and large tablets.
+  wide: { src: '/media/venue/bharat-mandapam-1920.mp4', poster: '/media/venue/bharat-mandapam-1920.webp' },
+  // Landscape phones and tablets, small laptops, slow connections.
+  mid: { src: '/media/venue/bharat-mandapam-1280.mp4', poster: '/media/venue/bharat-mandapam-1280.webp' },
+  // Portrait phones and tablets: the centre of the frame, cut for a tall screen.
+  tall: { src: '/media/venue/bharat-mandapam-portrait.mp4', poster: '/media/venue/bharat-mandapam-portrait.webp' }
+};
+
+// Picks the venue film for this screen.
+export function venueVideoFor() {
+  if (typeof window === 'undefined') return VENUE_VIDEO.mid;
+  const w = window.innerWidth, h = window.innerHeight;
+  if (h > w) return VENUE_VIDEO.tall;
+  const c = navigator.connection;
+  const slow = c && (c.saveData || /(^|-)2g|3g/.test(c.effectiveType || ''));
+  return !slow && w > 1100 ? VENUE_VIDEO.wide : VENUE_VIDEO.mid;
+}

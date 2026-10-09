@@ -51,7 +51,7 @@ const ITEMS = [
   ['shuttle', '25 PAVILIONS'],
   ['runner', '40+ COUNTRIES'],
   ['trophy', 'BE A SPORT. SHAPE THE FUTURE.'],
-  ['football', 'YASHOBHOOMI · NEW DELHI'],
+  ['football', 'BHARAT MANDAPAM · NEW DELHI'],
   ['cricket', '3,000 B2B MEETINGS'],
 ];
 

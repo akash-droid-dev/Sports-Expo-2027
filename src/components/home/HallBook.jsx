@@ -61,7 +61,7 @@ function Page({ page, D, left, onJump }) {
         <div className="hb-bookplate">
           <span className="hb-bp-ex">Ex Libris</span>
           <BrandLogo className="hb-bp-logo" onDark={false} />
-          <span className="hb-bp-line">A guide for every visitor to Exhibition Hall 2</span>
+          <span className="hb-bp-line">A guide for every visitor to Bharat Mandapam</span>
         </div>
       </div>
     );
@@ -70,12 +70,12 @@ function Page({ page, D, left, onJump }) {
     return (
       <div className="hb-paper hb-titlepage">
         <span className="hb-tp-pre">India Sports Expo 2027</span>
-        <span className="hb-tp-title">Hall 2</span>
+        <span className="hb-tp-title">Expo</span>
         <span className="hb-tp-title is-sub">Zone Guide</span>
         <span className="hb-orn" aria-hidden="true">
           ❦
         </span>
-        <span className="hb-tp-place">Exhibition Hall 2 · Yashobhoomi · New Delhi</span>
+        <span className="hb-tp-place">Bharat Mandapam · Pragati Maidan · New Delhi</span>
         <span className="hb-toc-h">Contents</span>
         <ol className="hb-toc">
           {D.zones.map((z, i) => (
@@ -106,7 +106,7 @@ function Page({ page, D, left, onJump }) {
         <span className="hb-rule" />
         <p className="hb-text">
           <span className="hb-dropcap">{z.blurb.charAt(0)}</span>
-          {z.blurb.slice(1)} One of four event zones in Exhibition Hall 2, reached along the Sports Boulevard.
+          {z.blurb.slice(1)} One of four event zones at Bharat Mandapam, reached along the Sports Boulevard.
         </p>
         <dl className="hb-facts">
           <div>
@@ -129,7 +129,7 @@ function Page({ page, D, left, onJump }) {
         <figure className="hb-fig">
           <ZonePlan cl={cl} color={z.color} id={z.id} />
           <figcaption>
-            <b>Fig. {z.id}.</b> Zone {z.id} within Exhibition Hall 2 (schematic, not to scale).
+            <b>Fig. {z.id}.</b> Zone {z.id} on the expo floor (schematic, not to scale).
           </figcaption>
         </figure>
         <Folio n={page.folio} />
@@ -138,7 +138,7 @@ function Page({ page, D, left, onJump }) {
   }
   return (
     <div className="hb-paper" style={{ '--zone': z.color }}>
-      <RunningHead left={left}>Hall 2 · Zone Guide</RunningHead>
+      <RunningHead left={left}>Expo · Zone Guide</RunningHead>
       <span className="hb-chapter">Zone {z.id} · Areas and stalls</span>
       <ol className="hb-list">
         {cl.map((c) => {
@@ -180,7 +180,7 @@ function Cover({ small = false }) {
       <span className="hb-foil hb-cover-pre">India Sports Expo 2027</span>
       <BrandLogo className="hb-cover-logo" />
       <span className="hb-foil hb-cover-title">
-        HALL 2
+        EXPO
         <br />
         ZONE GUIDE
       </span>
@@ -328,13 +328,13 @@ export default function HallBook() {
 
   return (
     <div data-anim="" className="hb">
-      <button type="button" className={'hb-closed' + (bounce ? ' is-bounce' : '') + (open ? ' is-away' : '')} onClick={start} aria-label="Open the Hall 2 zone guide">
+      <button type="button" className={'hb-closed' + (bounce ? ' is-bounce' : '') + (open ? ' is-away' : '')} onClick={start} aria-label="Open the expo zone guide">
         <span className="hb-closed-book">
           <span className="hb-b-back" aria-hidden="true" />
           <span className="hb-b-pages" aria-hidden="true" />
           <span className="hb-b-top" aria-hidden="true" />
           <span className="hb-b-spine" aria-hidden="true">
-            <span>Hall 2 · Zone guide</span>
+            <span>Expo · Zone guide</span>
           </span>
           <span className="hb-closed-cover">
             <span className="hb-closed-inside" aria-hidden="true" />
@@ -348,7 +348,7 @@ export default function HallBook() {
       </button>
 
       {open ? (
-        <div className={'hb-modal hb-' + phase + (single ? ' is-single' : '') + (fast ? ' is-riffle' : '')} role="dialog" aria-modal="true" aria-label="Hall 2 zone guide" style={{ '--turn': turnMs + 'ms' }}>
+        <div className={'hb-modal hb-' + phase + (single ? ' is-single' : '') + (fast ? ' is-riffle' : '')} role="dialog" aria-modal="true" aria-label="Expo zone guide" style={{ '--turn': turnMs + 'ms' }}>
           <div className="hb-backdrop" onClick={close} />
           <div className="hb-big">
             <div className="hb-spread" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>

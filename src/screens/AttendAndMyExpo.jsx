@@ -65,7 +65,7 @@ class Component extends DCLogic {
     ];
     const stage = s.regDone ? STG[s.stage] : { k: 'NOT SUBMITTED', color: '#6B6A66' };
     const issued = s.regDone && s.stage === 3;
-    const ACC = { Buyer: ['#F07C12', 'Hall 2 · Business Exchange · Hosted Buyer Lounge · B2B Zone'], Visitor: ['#FFFFFF', 'Hall 2 · Public programme'], Delegate: ['#0B6E4F', 'Hall 2 · All programme stages'], Investor: ['#C9A227', 'Hall 2 · Investor Lounge · Deal Rooms'], Government: ['#9E1B22', 'Hall 2 · Federation & CEO Lounges · Deal Rooms'], Media: ['#1F4E9E', 'Hall 2 · Media Centre · Stage pits'] };
+    const ACC = { Buyer: ['#F07C12', 'Expo floor · Business Exchange · Hosted Buyer Lounge · B2B Zone'], Visitor: ['#FFFFFF', 'Expo floor · Public programme'], Delegate: ['#0B6E4F', 'Expo floor · All programme stages'], Investor: ['#C9A227', 'Expo floor · Investor Lounge · Deal Rooms'], Government: ['#9E1B22', 'Expo floor · Federation & CEO Lounges · Deal Rooms'], Media: ['#1F4E9E', 'Expo floor · Media Centre · Stage pits'] };
     const accKey = s.acc || (ACC[s.ptype] ? s.ptype : 'Visitor');
     const [band, access] = ACC[accKey];
     // QR pattern
@@ -77,7 +77,7 @@ class Component extends DCLogic {
       else { h = (h * 1103515245 + 12345) & 0x7fffffff; on = (h >> 8) % 2 === 0; }
       qr.push(on ? '#0E0E0F' : '#fff');
     }
-    const ACCESS = [['Hall 2 exhibition floor', true], ['Programme stages', accKey !== 'Visitor' || true], ['India Sports Business Exchange', ['Buyer', 'Investor', 'Government', 'Delegate'].includes(accKey)], ['Hosted Buyer Lounge', accKey === 'Buyer'], ['Investor Lounge & Deal Rooms', ['Investor', 'Government'].includes(accKey)], ['Federation & CEO Lounges', accKey === 'Government'], ['Media Centre', accKey === 'Media']];
+    const ACCESS = [['Exhibition floor', true], ['Programme stages', accKey !== 'Visitor' || true], ['India Sports Business Exchange', ['Buyer', 'Investor', 'Government', 'Delegate'].includes(accKey)], ['Hosted Buyer Lounge', accKey === 'Buyer'], ['Investor Lounge & Deal Rooms', ['Investor', 'Government'].includes(accKey)], ['Federation & CEO Lounges', accKey === 'Government'], ['Media Centre', accKey === 'Media']];
     // My Expo
     const role = s.role;
     const saved = s.saved || { ex: ['apex', 'turf', 'lumen', 'motion', 'stride', 'origin'], prod: [0, 1, 3, 6], ses: ['x5', 'x7', 'x8', 'x9'], expx: ['Sprint Timing Experience'] };
@@ -163,7 +163,7 @@ class Component extends DCLogic {
         { time: '09:10', k: 'MEETING', t: 'Meeting in 15 min — not yet', d: 'Apex Sports India at 11:00 · Table 14. Reminder set for 10:45.', c: '#0B6E4F', cta: 'VIEW', href: withBase('/connect#meetings'), bg: '#FBFAF7' },
         { time: '09:02', k: 'LIVE', t: 'Live session starting', d: 'The Future of AI Coaching begins at 10:00 in the Innovation Arena.', c: '#9E1B22', cta: 'WATCH', href: withBase('/programme#watch'), bg: '#FBFAF7' },
         { time: '08:40', k: 'BUYER REQUEST', t: 'New meeting request', d: 'Stridewell Footwear wants to meet you on Day 2 or Day 3.', c: '#C2610B', cta: 'RESPOND', href: withBase('/connect#meetings'), bg: '#FBFAF7' },
-        { time: '08:15', k: 'TRANSPORT', t: 'Transport update', d: 'Airport Express Line running every 10 min to Yashobhoomi Dwarka Sector 25 (sample).', c: '#1F4E9E', cta: 'DETAILS', href: withBase('/explore#getting-there'), bg: '#fff' },
+        { time: '08:15', k: 'TRANSPORT', t: 'Transport update', d: 'Blue Line running every 4 min to Supreme Court, the venue’s metro station (sample).', c: '#1F4E9E', cta: 'DETAILS', href: withBase('/explore#getting-there'), bg: '#fff' },
         { time: 'YEST.', k: 'EXHIBITOR', t: 'Exhibitor response', d: 'TurfLine Systems accepted your request. Choose a slot.', c: '#0B6E4F', cta: 'CHOOSE SLOT', href: withBase('/connect#meetings'), bg: '#fff' },
         { time: 'YEST.', k: 'ROUTE', t: 'Route changed', d: 'Aisle 4 in Zone B is closed for build-up until 09:00. Your route avoids it.', c: '#3A3A3E', cta: 'VIEW ROUTE', href: withBase('/explore'), bg: '#fff' }
       ],
@@ -236,7 +236,7 @@ function render(v) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,460px),1fr))", gap: "48px", alignItems: "end" }}>
             <div>
               <div style={{ fontFamily: "var(--f-label)", fontSize: "12px", letterSpacing: "0.2em", color: "#6B6A66", marginBottom: "20px" }}>
-                ATTEND · 3 DAYS · HALL 2 · YASHOBHOOMI, NEW DELHI
+                ATTEND · 3 DAYS · BHARAT MANDAPAM, NEW DELHI
               </div>
               <h1 style={{ margin: "0", fontFamily: "var(--f-display)", fontStretch: "62%", fontWeight: "900", fontSize: "calc(clamp(64px,9vw,148px) * 0.72)", lineHeight: "0.84" }}>
                 Experience
@@ -245,7 +245,7 @@ function render(v) {
               </h1>
             </div>
             <p style={{ margin: "0", fontSize: "19px", lineHeight: "1.5", maxWidth: "560px", textWrap: "pretty" }}>
-              One registration gives you a verified digital pass, a personal schedule and a route through Hall 2. Choose how you are attending; the registration adapts to you.
+              One registration gives you a verified digital pass, a personal schedule and a route through the venue. Choose how you are attending; the registration adapts to you.
             </p>
           </div>
           <div>
@@ -317,7 +317,7 @@ function render(v) {
                   <span style={{ color: "#F07C12" }}>2027</span>
                 </span>
                 <span style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.14em", color: "#BDB9B0", textAlign: "right" }}>
-                  YASHOBHOOMI
+                  BHARAT MANDAPAM
                   <br />
                   NEW DELHI
                 </span>
@@ -355,7 +355,7 @@ function render(v) {
                   <dt style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em", color: "#8A877F" }}>ACCESS</dt>
                   <dd style={{ margin: "0" }}>{txt(v.pass?.access)}</dd>
                   <dt style={{ fontFamily: "var(--f-label)", fontSize: "10px", letterSpacing: "0.12em", color: "#8A877F" }}>ENTRY</dt>
-                  <dd style={{ margin: "0" }}>Main Entrance · Hall 2</dd>
+                  <dd style={{ margin: "0" }}>Main Entrance · Bharat Mandapam</dd>
                 </dl>
               </div>
               {v.passLocked ? (

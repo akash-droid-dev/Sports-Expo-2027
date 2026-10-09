@@ -21,9 +21,9 @@ import MobileMenu from '@/components/MobileMenu';
 import BrandLogo from '@/components/BrandLogo';
 
 export const metadata: Metadata = {
-  title: 'India Sports Expo 2027 · Yashobhoomi',
+  title: 'India Sports Expo 2027 · Bharat Mandapam',
   description:
-    'India Sports Expo 2027 at Exhibition Hall 2, Yashobhoomi (IICC), Dwarka, New Delhi. Explore the hall, exhibit, attend, connect and watch.',
+    'India Sports Expo 2027 at Bharat Mandapam, Pragati Maidan, New Delhi. Explore the venue, exhibit, attend, connect and watch.',
 };
 
 export const viewport: Viewport = { width: 'device-width', initialScale: 1 };

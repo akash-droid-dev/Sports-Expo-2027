@@ -8,7 +8,7 @@ import { Loading, Pill, fmtDate } from '../ui';
 
 export const PAGES = [
   ['/', 'Home'],
-  ['/explore', 'Explore Hall 2'],
+  ['/explore', 'Explore the venue'],
   ['/zones', 'Zones'],
   ['/exhibit', 'Exhibit'],
   ['/attend', 'Attend'],
