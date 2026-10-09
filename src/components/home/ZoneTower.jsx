@@ -5,15 +5,27 @@
 // zone's numbers, areas, plan, featured exhibitors and what is on now; then it pulls back and
 // turns to the next zone. The rail jumps to a zone. Styles: zone-tower.css.
 // Scroll work is done on refs (no React render per frame) and only while the section is near.
-import { useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { withBase } from '@/lib/base';
+import { trackElement } from '@/lib/geo';
+import { scrollTop, viewH } from '@/lib/viewport';
 import '@/data/ise';
 import './zone-tower.css';
 
 const ramp = (x, a, b) => Math.max(0, Math.min(1, (x - a) / (b - a)));
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
+// Each zone's figures, worked out once (the tower re-renders as it turns).
+const zoneCache = new Map();
 function zoneData(D, z) {
+  const hit = zoneCache.get(z);
+  if (hit) return hit;
+  const d = zoneFigures(D, z);
+  zoneCache.set(z, d);
+  return d;
+}
+
+function zoneFigures(D, z) {
   const cl = D.clusters.filter((c) => c.zone === z.id);
   const stalls = cl.filter((c) => c.kind === 'stalls').reduce((n, c) => n + c.n, 0);
   const pav = cl.filter((c) => c.kind === 'pav').reduce((n, c) => n + c.n, 0);
@@ -106,6 +118,33 @@ function Screen({ D, z, n, active }) {
   );
 }
 
+// The tower's four faces; they only change when the front face does.
+const Faces = memo(function Faces({ D, zone, go }) {
+  return (
+    <>
+      {D.zones.map((zz, i) => {
+        const d = zoneData(D, zz);
+        return (
+          <button type="button" key={zz.id} className={'zt-face' + (i === zone ? ' is-front' : '')} style={{ '--fc': zz.color, '--i': i }} onClick={() => go(i)} tabIndex={-1} aria-hidden="true">
+            <span className="zt-face-print">
+              <span className="zt-face-top">Zone</span>
+              <span className="zt-face-letter">{zz.id}</span>
+              <span className="zt-face-name">{zz.name}</span>
+              <span className="zt-face-meta">
+                {d.cl.length} areas{d.stalls ? ' · ' + d.stalls + ' stalls' : ''}
+                {d.pav ? ' · ' + d.pav + ' pavilions' : ''}
+              </span>
+              <span className="zt-face-foot">India Sports Expo 2027</span>
+            </span>
+            <span className="zt-face-led" />
+            <span className="zt-face-shade" />
+          </button>
+        );
+      })}
+    </>
+  );
+});
+
 export default function ZoneTower() {
   const D = typeof window !== 'undefined' ? window.ISE : null;
   const root = useRef(null);
@@ -125,43 +164,80 @@ export default function ZoneTower() {
   useEffect(() => {
     const el = root.current;
     if (!el || reduced || !D) return;
-    let raf = 0, near = false, lastZone = -1, lastShown = null;
+    let raf = 0, near = false, lastZone = -1, lastShown = null, dollyFace = null;
+    const shift = { x: 0, y: 0 };
+    // Writes a style only when its value changes, so an unchanged value never restyles anything.
+    const last = new Map();
+    const put = (node, key, value) => {
+      if (!node) return;
+      let m = last.get(node);
+      if (!m) last.set(node, (m = {}));
+      if (m[key] === value) return;
+      m[key] = value;
+      if (key[0] === '-') node.style.setProperty(key, value);
+      else node.style[key] = value;
+    };
     const frame = () => {
       raf = 0;
-      const r = el.getBoundingClientRect();
-      const span = el.offsetHeight - (innerHeight - 60);
-      const p = Math.max(0, Math.min(0.9999, (60 - r.top) / span));
+      const t = tower.current, sc = screen.current;
+      // Rects are read first, before this frame writes anything, so the browser never has to
+      // lay the page out again in the middle of the frame (the face's outline lags one frame).
+      const prevSeg = lastZone < 0 ? 0 : lastZone;
+      const face0 = t && t.children[prevSeg];
+      const opening = sc && last.get(sc) && last.get(sc).visibility === 'visible';
+      const fr = opening && face0 ? face0.getBoundingClientRect() : null;
+      const sr = fr ? sc.getBoundingClientRect() : null;
+      const sw = fr ? sc.offsetWidth : 0, sh = fr ? sc.offsetHeight : 0;
+      const span = geo.g.height - (viewH() - 60);
+      const top = geo.g.top - scrollTop();
+      const p = Math.max(0, Math.min(0.9999, (60 - top) / span));
       const seg = Math.min(3, Math.floor(p * 4));
       const s = p * 4 - seg;
       const turn = ease(ramp(s, 0, 0.2));
       const angle = seg === 0 ? -28 + 28 * turn : (seg - 1 + turn) * 90;
       const dolly = ease(ramp(s, 0.22, 0.42)) * (1 - ease(ramp(s, 0.8, 0.97)));
       const show = ramp(s, 0.36, 0.46) * (1 - ramp(s, 0.78, 0.86));
-      const t = tower.current;
       if (t) {
-        t.style.transform = `translateZ(calc(var(--tw) / -2)) rotateY(${-angle}deg)`;
-        t.style.setProperty('--dolly', dolly.toFixed(3));
+        put(t, 'transform', `translateZ(calc(var(--tw) / -2)) rotateY(${(-angle).toFixed(2)}deg)`);
+        // Only the front face fades its print as the camera closes in; setting this on the
+        // whole tower would restyle every face each frame.
+        const face = t.children[seg];
+        if (dollyFace && dollyFace !== face) put(dollyFace, '--dolly', '0');
+        dollyFace = face;
+        put(face, '--dolly', dolly.toFixed(3));
         // Light from the front: faces turned away get darker.
-        const faces = t.querySelectorAll('.zt-face-shade');
-        for (let i = 0; i < faces.length; i++) {
+        for (let i = 0; i < 4; i++) {
           const c = Math.cos(((i * 90 - angle) * Math.PI) / 180);
-          faces[i].style.opacity = Math.max(0, Math.min(0.85, (1 - c) * 0.95)).toFixed(3);
+          const shade = t.children[i] && t.children[i].children[2];
+          put(shade, 'opacity', Math.max(0, Math.min(0.85, (1 - c) * 0.95)).toFixed(3));
         }
       }
-      if (cam.current) cam.current.style.transform = `scale(${1 + dolly * 0.85})`;
-      const sc = screen.current;
+      put(cam.current, 'transform', `scale(${(1 + dolly * 0.85).toFixed(4)})`);
       if (sc) {
-        sc.style.visibility = show > 0.01 ? 'visible' : 'hidden';
-        sc.style.opacity = Math.min(1, show * 3).toFixed(3);
-        // The screen grows out of the face: clipped to the face's outline, opening to full size.
-        const face = t && t.children[seg];
-        if (face && show > 0.01 && show < 1) {
-          const fr = face.getBoundingClientRect(), sr = sc.getBoundingClientRect(), k = 1 - ease(show);
-          sc.style.clipPath = sc.style.webkitClipPath = `inset(${Math.max(0, fr.top - sr.top) * k}px ${Math.max(0, sr.right - fr.right) * k}px ${Math.max(0, sr.bottom - fr.bottom) * k}px ${Math.max(0, fr.left - sr.left) * k}px)`;
-        } else sc.style.clipPath = sc.style.webkitClipPath = show >= 1 ? 'none' : 'inset(50%)';
+        put(sc, 'visibility', show > 0.01 ? 'visible' : 'hidden');
+        put(sc, 'opacity', Math.min(1, show * 3).toFixed(3));
+        // The screen grows out of the face: it starts at the face's size and place and opens to
+        // full size. A transform (drawn on the GPU) rather than a clip, which repainted the whole
+        // screen every frame.
+        let tf = 'none';
+        if (show > 0.01 && show < 1) {
+          const k = 1 - ease(show);
+          if (fr && seg === prevSeg && sw && sh) {
+            // The screen's own centre, without the transform it has now.
+            const cx = (sr.left + sr.right) / 2 - shift.x, cy = (sr.top + sr.bottom) / 2 - shift.y;
+            shift.x = ((fr.left + fr.right) / 2 - cx) * k;
+            shift.y = ((fr.top + fr.bottom) / 2 - cy) * k;
+            const kx = 1 + (fr.width / sw - 1) * k, ky = 1 + (fr.height / sh - 1) * k;
+            tf = `translate3d(${shift.x.toFixed(1)}px,${shift.y.toFixed(1)}px,0) scale(${kx.toFixed(4)},${ky.toFixed(4)})`;
+          } else {
+            shift.x = shift.y = 0;
+            tf = `scale(${(1 - k * 0.6).toFixed(4)})`;
+          }
+        } else shift.x = shift.y = 0;
+        put(sc, 'transform', tf);
       }
-      if (glow.current) glow.current.style.opacity = 0.55 + dolly * 0.45;
-      if (bar.current) bar.current.style.transform = `scaleY(${p})`;
+      put(glow.current, 'opacity', (0.55 + dolly * 0.45).toFixed(3));
+      put(bar.current, 'transform', `scaleY(${p.toFixed(4)})`);
       if (seg !== lastZone) {
         lastZone = seg;
         setZone(seg);
@@ -175,6 +251,7 @@ export default function ZoneTower() {
     const onScroll = () => {
       if (near && !raf) raf = requestAnimationFrame(frame);
     };
+    const geo = trackElement(el, () => onScroll());
     const io = new IntersectionObserver(([e]) => {
       near = e.isIntersecting;
       if (near) onScroll();
@@ -184,6 +261,7 @@ export default function ZoneTower() {
     addEventListener('resize', onScroll);
     frame();
     return () => {
+      geo.stop();
       io.disconnect();
       removeEventListener('scroll', onScroll);
       removeEventListener('resize', onScroll);
@@ -207,16 +285,16 @@ export default function ZoneTower() {
     return () => cancelAnimationFrame(raf);
   }, [shown, zone]);
 
-  if (!D) return null;
-  const z = D.zones[zone];
-  const go = (i) => {
+  const go = useCallback((i) => {
     const el = root.current;
     if (!el) return;
     const span = el.offsetHeight - (innerHeight - 60);
     const top = el.getBoundingClientRect().top + scrollY - 60;
     scrollTo({ top: top + span * ((i + 0.6) / 4), behavior: 'smooth' });
-  };
+  }, []);
 
+  if (!D) return null;
+  const z = D.zones[zone];
   if (reduced) {
     return (
       <div data-anim="" className="zt zt-static">
@@ -243,23 +321,7 @@ export default function ZoneTower() {
         <div className="zt-scene">
           <div ref={cam} className="zt-cam">
             <div ref={tower} className="zt-tower">
-              {D.zones.map((zz, i) => {
-                const d = zoneData(D, zz);
-                return (
-                  <button type="button" key={zz.id} className={'zt-face' + (i === zone ? ' is-front' : '')} style={{ '--fc': zz.color, '--i': i }} onClick={() => go(i)} tabIndex={-1} aria-hidden="true">
-                    <span className="zt-face-led" />
-                    <span className="zt-face-shade" />
-                    <span className="zt-face-top">Zone</span>
-                    <span className="zt-face-letter">{zz.id}</span>
-                    <span className="zt-face-name">{zz.name}</span>
-                    <span className="zt-face-meta">
-                      {d.cl.length} areas{d.stalls ? ' · ' + d.stalls + ' stalls' : ''}
-                      {d.pav ? ' · ' + d.pav + ' pavilions' : ''}
-                    </span>
-                    <span className="zt-face-foot">India Sports Expo 2027</span>
-                  </button>
-                );
-              })}
+              <Faces D={D} zone={zone} go={go} />
               <span className="zt-cap" aria-hidden="true" />
             </div>
             <span className="zt-plinth" aria-hidden="true" />

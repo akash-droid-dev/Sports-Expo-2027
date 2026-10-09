@@ -1,4 +1,5 @@
 'use client';
+import { scrollTop, viewH } from './viewport';
 // Site-wide motion: page curtain and transitions, scroll reveals, heading wipes, number
 // count-ups and the scroll progress bar. Styles live in src/app/motion.css.
 // Everything here is skipped when the visitor prefers reduced motion.
@@ -90,10 +91,18 @@ function mark(el, delay, kind, root) {
 
 // Reveal what has scrolled into view. Uses geometry rather than IntersectionObserver,
 // which reports clipped (hidden) headings and items in overflow-clipped boxes as never visible.
+let pageH = 0, pageHAt = 0;
+// The page height, re-measured at most twice a second (only used to spot the very bottom).
+function pageHeight() {
+  const now = performance.now();
+  if (now - pageHAt > 500) { pageH = document.documentElement.scrollHeight; pageHAt = now; }
+  return pageH;
+}
+
 function check() {
-  const vh = innerHeight;
+  const vh = viewH();
   // At the very bottom nothing can scroll further up into view, so show what is on screen.
-  const atBottom = scrollY + vh >= document.documentElement.scrollHeight - 2;
+  const atBottom = scrollTop() + vh >= pageHeight() - 2;
   const line = atBottom ? vh : vh * 0.94;
   // One measurement per section: nothing inside a section still below the line can be revealed,
   // so its items are skipped without being measured (keeps scrolling light on phones).
@@ -162,7 +171,7 @@ function startReveals() {
   // Screens render tabs, filters and drawers on demand: animate what they add.
   let t = 0;
   // Ignore changes in parts that update continuously (the journey, Bucky, the progress bar).
-  const busy = (n) => n.nodeType === 1 && n.closest && n.closest('[data-screen-label="02 Earth journey"], #bucky-bot, #bucky-panel');
+  const busy = (n) => n.nodeType === 1 && n.closest && n.closest('[data-screen-label="02 Earth journey"], [data-anim], #bucky-bot, #bucky-panel');
   new MutationObserver((records) => {
     if (records.every((r) => busy(r.target))) return;
     clearTimeout(t);
@@ -208,15 +217,24 @@ function startProgress() {
   bar.className = 'scroll-progress';
   bar.setAttribute('aria-hidden', 'true');
   document.body.appendChild(bar);
-  let raf = 0;
+  let raf = 0, max = 0, lastK = -1;
+  // The page height is measured only when the page resizes, never while scrolling: reading
+  // it in a scroll frame makes the browser lay the page out again mid-frame.
+  const measure = () => {
+    max = document.documentElement.scrollHeight - innerHeight;
+    update();
+  };
   const update = () => {
     raf = 0;
-    const max = document.documentElement.scrollHeight - innerHeight;
-    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+    const k = max > 0 ? Math.min(1, scrollTop() / max) : 0;
+    if (Math.abs(k - lastK) < 0.0005) return;
+    lastK = k;
+    bar.style.transform = `scaleX(${k.toFixed(4)})`;
   };
   addEventListener('scroll', () => raf || (raf = requestAnimationFrame(update)), { passive: true });
-  addEventListener('resize', update);
-  update();
+  addEventListener('resize', measure);
+  if (typeof ResizeObserver !== 'undefined') new ResizeObserver(measure).observe(document.body);
+  measure();
 }
 
 /* ---------- Click pulse and hero parallax ---------- */

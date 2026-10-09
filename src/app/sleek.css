@@ -170,7 +170,7 @@ body {
   border-color: transparent !important;
   border-radius: var(--r-small) !important;
 }
-#dc-root div:has(> button[role='tab']) {
+#dc-root div[role='tablist'] {
   border-color: transparent !important;
   border-radius: var(--r-card) !important;
 }
@@ -178,7 +178,7 @@ body {
 #dc-root button[role='tab']:is([style*=' height: '], [style^='height: ']) {
   border-radius: 999px !important;
 }
-#dc-root div:has(> button[role='tab']:is([style*=' height: '], [style^='height: '])) {
+#dc-root div[role='tablist']:has(> button[role='tab']:is([style*=' height: '], [style^='height: '])) {
   border-radius: 999px !important;
 }
 

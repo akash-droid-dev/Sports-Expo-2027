@@ -9,6 +9,8 @@ import { useEffect, useRef } from 'react';
 import { withBase } from '@/lib/base';
 import { isLite, noGpu } from '@/lib/device';
 import { camAt } from '@/lib/journey-camera.mjs';
+import { trackElement } from '@/lib/geo';
+import { scrollTop, viewH } from '@/lib/viewport';
 import J from '@/data/journey.json';
 import M from '@/data/journey-frames.json';
 
@@ -62,6 +64,11 @@ export default function JourneyFrames({ getP, opacity, off }) {
     };
     const ready = (i) => { const c = cache.get(i); return !!(c && c.ready); };
 
+    // The box's size, kept up to date by an observer: reading clientWidth in the frame loop
+    // made the browser lay the page out again after the journey text had just changed.
+    const box_ = { w: el.clientWidth, h: el.clientHeight };
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(() => { box_.w = el.clientWidth; box_.h = el.clientHeight; kick(); }) : null;
+    if (ro) ro.observe(el);
     let cur = null, target = 0, raf = 0, near = false;
     const place = (slot, i, cam, op, vw, vh) => {
       if (i < 0) { if (slot.img.style.opacity !== '0') slot.img.style.opacity = '0'; return; }
@@ -84,7 +91,7 @@ export default function JourneyFrames({ getP, opacity, off }) {
       const q = Math.min(p, LAST);
       let k = 0; while (k < F.length - 2 && q > F[k + 1].p) k++;
       keep(k);
-      const vw = el.clientWidth || vw0, vh = el.clientHeight || vh0;
+      const vw = box_.w || vw0, vh = box_.h || vh0;
       const cam = camAt(K, q);
       const t = Math.max(0, Math.min(1, (q - F[k].p) / (F[k + 1].p - F[k].p)));
       // Base frame: this one, or the nearest loaded one before it while it is still on its way.
@@ -103,10 +110,11 @@ export default function JourneyFrames({ getP, opacity, off }) {
       if (cur !== target) raf = requestAnimationFrame(step);
     };
     const kick = () => { if (!raf && near) raf = requestAnimationFrame(step); };
-    const sec = el.closest('section');
+    // The section's position is measured when the layout changes, not on every scroll event.
+    const geo = trackElement(el.closest('section'), () => onScroll());
     const onScroll = () => {
-      const r = sec.getBoundingClientRect(), vh = innerHeight;
-      const n = r.top < vh * 3 && r.bottom > -vh;
+      const vh = viewH(), top = geo.g.top - scrollTop(), bottom = top + geo.g.height;
+      const n = top < vh * 3 && bottom > -vh;
       if (!n) {
         if (near) {
           // Well away from the journey: drop the frames and keep only the first one ready.
@@ -126,6 +134,8 @@ export default function JourneyFrames({ getP, opacity, off }) {
     onScroll();
     return () => {
       removeEventListener('scroll', onScroll); removeEventListener('resize', onScroll);
+      geo.stop();
+      if (ro) ro.disconnect();
       cancelAnimationFrame(raf);
       for (const c of cache.values()) c.im.src = '';
       slots.forEach((s) => s.img.remove());

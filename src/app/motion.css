@@ -176,6 +176,7 @@ html.m-on .m-h.m-in {
   background: linear-gradient(90deg, #f07c12, #ffb067);
   transform-origin: left;
   transform: scaleX(0);
+  will-change: transform;
   pointer-events: none;
 }
 

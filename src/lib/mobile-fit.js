@@ -126,14 +126,18 @@ function fitWide(root, vw) {
   return changed;
 }
 
-function fit() {
+// Fits the given parts of the page (all of it by default).
+function fit(parts) {
   const vw = document.documentElement.clientWidth;
   if (vw > MAX_WIDTH) return;
   const root = document.getElementById('dc-root');
   if (!root) return;
-  for (let pass = 0; pass < 4; pass++) {
-    const n = fitGrids(root, vw) + fitFlexRows(root) + fitWide(root, vw) + fitText(root);
-    if (!n) break;
+  const roots = parts && parts.length ? parts.filter((el) => el.isConnected) : [root];
+  for (const r of roots) {
+    for (let pass = 0; pass < 4; pass++) {
+      const n = fitGrids(r, vw) + fitFlexRows(r) + fitWide(r, vw) + fitText(r);
+      if (!n) break;
+    }
   }
 }
 
@@ -142,13 +146,30 @@ export function initMobileFit() {
   if (started || typeof window === 'undefined') return;
   started = true;
   let t = null;
-  const later = (ms = 250) => { clearTimeout(t); t = setTimeout(() => requestAnimationFrame(fit), ms); };
+  // Parts of the page waiting to be re-checked; null means all of it.
+  let dirty = new Set();
+  const run = () => {
+    const parts = dirty ? [...dirty] : null;
+    dirty = new Set();
+    fit(parts);
+  };
+  const later = (ms = 250) => { clearTimeout(t); t = setTimeout(() => requestAnimationFrame(run), ms); };
   // Screens render in the browser: fit as they appear, then whenever they change.
-  [300, 900, 2000].forEach((ms) => setTimeout(fit, ms));
-  // The Earth journey updates as you scroll; changes there don't need a re-check.
-  const busy = (n) => n.nodeType === 1 && n.closest('[data-screen-label="02 Earth journey"]');
+  [300, 900, 2000].forEach((ms) => setTimeout(() => fit(), ms));
+  // Parts that animate as you scroll and are laid out for phones already: the Earth journey
+  // and the Four Worlds standee. Changes there don't need a re-check.
+  const busy = (n) => n.closest('[data-screen-label="02 Earth journey"], .zt, #bucky-bot, #bucky-panel');
   const mo = new MutationObserver((list) => {
-    if (list.some((m) => m.addedNodes.length && !busy(m.target))) later();
+    let any = false;
+    for (const m of list) {
+      const target = m.target.nodeType === 1 ? m.target : m.target.parentElement;
+      if (!target || busy(target)) continue;
+      if (!m.addedNodes.length) continue;
+      // Re-check only the section that changed, not the whole page.
+      if (dirty) dirty.add(target.closest('section, [data-screen-label]') || target);
+      any = true;
+    }
+    if (any) later();
   });
   const watch = () => {
     const root = document.getElementById('dc-root');
@@ -160,7 +181,8 @@ export function initMobileFit() {
   addEventListener('resize', () => {
     if (innerWidth === lastW) return; // phones fire resize when the toolbar hides
     lastW = innerWidth;
+    dirty = null;
     later(300);
   });
-  window.__fit = fit;
+  window.__fit = () => fit();
 }

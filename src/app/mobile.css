@@ -330,14 +330,14 @@ html {
 /* Short pill tab tracks stay on one line on phones and slide sideways, rather than wrapping into
    a lopsided two-line pill. */
 @media (max-width: 600px) {
-  #dc-root div:has(> button[role='tab']:is([style*=' height: '], [style^='height: '])) {
+  #dc-root div[role='tablist']:has(> button[role='tab']:is([style*=' height: '], [style^='height: '])) {
     flex-wrap: nowrap !important;
     overflow-x: auto;
     max-width: 100%;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
-  #dc-root div:has(> button[role='tab']:is([style*=' height: '], [style^='height: ']))::-webkit-scrollbar {
+  #dc-root div[role='tablist']:has(> button[role='tab']:is([style*=' height: '], [style^='height: ']))::-webkit-scrollbar {
     display: none;
   }
   #dc-root button[role='tab']:is([style*=' height: '], [style^='height: ']) {
