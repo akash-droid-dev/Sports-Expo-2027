@@ -86,7 +86,6 @@ export default function VenueScene({ active, warm = false, visible = true }) {
           tabIndex={-1}
           onPlaying={() => setPlaying(true)}
         >
-          <source src={withBase(file.webm)} type='video/webm; codecs="vp9"' />
           <source src={withBase(file.src)} type="video/mp4" />
         </video>
       ) : null}
