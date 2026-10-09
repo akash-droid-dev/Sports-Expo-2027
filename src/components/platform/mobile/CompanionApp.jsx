@@ -261,7 +261,7 @@ function Home({ D, user, me, go, saved, toggle }) {
         <div className="ma-quick">
           {[
             ['pass', 'My pass', ICONS.pass],
-            ['map', 'Hall map', ICONS.map],
+            ['map', 'Venue map', ICONS.map],
             ['programme', 'Programme', ICONS.programme],
             ['exhibitors', 'Exhibitors', 'M4 6h16M4 12h16M4 18h10'],
           ].map(([id, t, d]) => (
