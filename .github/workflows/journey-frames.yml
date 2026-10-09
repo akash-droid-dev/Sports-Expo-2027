@@ -1,11 +1,13 @@
 # Renders the still frames phones use for the Home Earth journey (scripts/journey/render-frames.mjs)
 # and publishes them to the `journey-frames` branch. Run it from the Actions tab, or by pushing to
-# the `journey-frames-request` branch. Copy the result into public/journey.
+# the `journey-frames-request` branch; it also runs by itself when the camera path
+# (src/data/journey.json) or the renderer changes on a working branch. Copy the result into public/journey.
 name: Journey frames
 
 on:
   push:
-    branches: [journey-frames-request]
+    branches: [journey-frames-request, 'claude/**']
+    paths: [src/data/journey.json, 'scripts/journey/**', .github/workflows/journey-frames.yml]
   workflow_dispatch:
 
 permissions:
