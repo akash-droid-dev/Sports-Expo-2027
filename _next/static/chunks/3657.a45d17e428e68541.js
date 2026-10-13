@@ -1,0 +1,1 @@
+(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[3657],{3657:(e,r,l)=>{"use strict";l.r(r),l.d(r,{default:()=>k});var a=l(2146);l(3879);var s=l(6684);a.setWorkerUrl((0,s.c)("/vendor/maplibre/maplibre-gl-worker.mjs")),window.maplibregl=a;let k=a},3879:()=>{}}]);
